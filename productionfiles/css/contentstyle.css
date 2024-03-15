@@ -1,0 +1,21 @@
+/* Tool Bar styling */
+
+.toolbar {
+    background-color: black;
+}
+
+.toolbar {
+    color: white;
+}
+
+#logo {
+    width: 50px;
+    height: 50px;
+    border: 5px solid green;
+    
+}
+
+/* Navigation Bar styling */
+.navigationbar {
+    color:blueviolet;
+}

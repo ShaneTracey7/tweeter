@@ -1,0 +1,24 @@
+/* when making any changes, you will have to collectstatic after 
+and add html somewhere, to make them appear
+*/
+
+/* Tool Bar styling */
+
+.toolbar {
+    background-color: black;
+}
+
+.toolbar {
+    color: white;
+}
+
+#logo {
+    width: 50px;
+    height: 50px;
+    
+}
+
+/* Navigation Bar styling */
+.navigationbar {
+    color:blueviolet;
+}

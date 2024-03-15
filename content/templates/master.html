@@ -8,10 +8,14 @@
   {% load bootstrap5 %}
   {% bootstrap_css %}
   {% bootstrap_javascript %}
-  <link rel="stylesheet" href="{% block style %}{% endblock %}">
+  <link rel="stylesheet" href="{% static 'css/contentstyle.css' %}">
 </head>
 <body>
+
   {% block content %}
-  {% endblock %} 
+  {% endblock %}
+
+  {% include "navigationbar.html" %}
+
 </body>
 </html>

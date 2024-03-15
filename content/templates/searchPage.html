@@ -1,0 +1,24 @@
+{% extends "toolbar.html" %}
+
+{% load static %}
+
+{% block title %}
+<form class="d-flex">
+    <input class="form-control me-2" type="text" placeholder="Search">
+    <button class="btn btn-primary" type="button">Search</button>
+  </form>
+{% endblock %}
+
+{% block additional %}
+<p> For you</p>
+<p> Trending</p>
+<p> News</p>
+<p> Sports</p>
+<p> Entertainment</p>
+{% endblock %}
+
+{% block content2 %}
+
+<p> This is the search page!</p>
+
+{% endblock %}

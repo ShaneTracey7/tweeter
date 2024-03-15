@@ -1,10 +1,5 @@
 <!-- Tool bar for homepage, search page, notifications page, messages page-->
 {% extends "master.html" %}
-{% load static %}
-
-{% block style %}
-{% static 'css/toolbar.css' %}
-{% endblock %}
 
 {% block content %}
 <div class="toolbar">
@@ -18,7 +13,10 @@
      {% block additional %}
      {% endblock %}
     </div>
-
 </div>
+
+    {% block content2 %}
+    {% endblock %}
+
 {% endblock %}
 
