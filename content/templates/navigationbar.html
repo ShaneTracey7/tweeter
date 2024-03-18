@@ -1,18 +1,18 @@
 <!--Navigation bar for homepage, search page, notifications page, messages page-->
-
+{% load static %}
 <div class="navigationbar">
     <p>Words testing navigation bar</p>
     <a href="/content">
-        <img src="" alt="Home"/>
+        <img class="navbaricons" src="{% static 'images/house.svg' %}" alt="Home"/>
     </a>
     <a href="/search">
-        <img src="" alt="Search"/>
+        <img class="navbaricons" src="{% static 'images/magnifier.svg' %}" alt="Search"/>
     </a>
     <a href="/notifications">
-        <img src="" alt="Notifications"/>
+        <img class="navbaricons" src="{% static 'images/bell.svg' %}" alt="Notifications"/>
     </a>
     <a href="/messages">
-        <img src="" alt="Messages"/>
+        <img class="navbaricons" src="{% static 'images/envelope.svg' %}" alt="Messages"/>
     </a>
 </div>
 

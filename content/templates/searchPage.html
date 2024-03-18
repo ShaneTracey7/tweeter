@@ -2,6 +2,10 @@
 
 {% load static %}
 
+{% block style %}
+{% static 'css/searchPage.css' %}
+{% endblock %}
+
 {% block title %}
 <form class="d-flex">
     <input class="form-control me-2" type="text" placeholder="Search">
@@ -17,7 +21,7 @@
 <p> Entertainment</p>
 {% endblock %}
 
-{% block content2 %}
+{% block content %}
 
 <p> This is the search page!</p>
 

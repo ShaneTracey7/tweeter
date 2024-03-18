@@ -1,24 +1,45 @@
 <!-- only used within homePage.html-->
+{% load static %}
 
-<div class="heading">
-    <img src="{{ profile }}" alt="profile"/>
-    <p>{{ username }}</p>
-    <p>{{ acc_name }}</p>
-    <p>{{  e_time }} </p>
-</div>
+<div class="card" style="width: 40rem;">
+    <div class="card-body">
 
-<div class="content">
-    <p> {{ text }}</p>
-    <img src="{{ image }}" alt="image"/>
-</div>
+        <div class="postheading">
+            <img src="{{ profile }}" alt="profile"/>
+            <p>{{ username }}</p>
+            <p>{{ acc_name }}</p>
+            <p>{{  e_time }} </p>
+        </div>
 
-<div class="reactionbar">
-    <img src="" alt="comment"/>
-    <p> {{ comments }} </p>
-    <img src="" alt="retweet"/>
-    <p> {{ retweets }} </p>
-    <img src="" alt="like"/>
-    <p> {{ likes }} </p>
-    <img src="" alt="view"/>
-    <p> {{ views }} </p>
+        <div class="content">
+            <p> {{ text }}</p>
+            <img src="{{ image }}" alt="image"/>
+        </div>
+
+            <ul class="reactionbar">
+                <li class="reactiongroup">
+                    <img class="reactionbaricons" src="{% static 'images/chat-bubble.png' %}" alt="comment"/>
+                    <h3> {{ comments }} </p>
+                </li>
+                <li class="reactiongroup">
+                    <img class="reactionbaricons" src="{% static 'images/retweet.png' %}" alt="retweet"/>
+                    <h3> {{ retweets }} </p>
+                </li>
+                <li class="reactiongroup">
+                    <img class="reactionbaricons" src="{% static 'images/heart.png' %}" alt="like"/>
+                    <h3> {{ likes }} </p>
+                </li>
+                <li class="reactiongroup">
+                    <img class="reactionbaricons" src="{% static 'images/bar-graph.png' %}" alt="view"/>
+                    <h3> {{ views }} </p>
+                </li>
+                <li>
+                    <img class="reactionbaricons" src="{% static 'images/bookmark.png' %}" alt="bookmark"/>
+            
+                </li>
+                <li>
+                    <img class="reactionbaricons" src="{% static 'images/share.png' %}" alt="share"/>
+                </li>
+            </ul>
+    </div>
 </div>

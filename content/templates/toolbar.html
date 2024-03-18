@@ -1,13 +1,13 @@
 <!-- Tool bar for homepage, search page, notifications page, messages page-->
-{% extends "master.html" %}
-
+<!--{% extends "master.html" %}
+{% load static %}
 {% block content %}
 <div class="toolbar">
     <div class="upper-toolbar">
         <img src="" alt="profile"/>
         {% block title %}
         {% endblock %}
-        <img src="" alt="cog"/>
+        <img id="toolbar-icon" src="{% static 'images/cog.svg' %}" alt="cog"/>
     </div>
     <div class="lower-toolbar">
      {% block additional %}
@@ -19,4 +19,4 @@
     {% endblock %}
 
 {% endblock %}
-
+-->

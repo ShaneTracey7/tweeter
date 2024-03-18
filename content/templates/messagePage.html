@@ -2,6 +2,10 @@
 
 {% load static %}
 
+{% block style %}
+{% static 'css/messagePage.css' %}
+{% endblock %}
+
 {% block title %}
 <h1> Messages </h1>
 {% endblock %}
@@ -13,7 +17,7 @@
   </form>
 {% endblock %}
 
-{% block content2 %}
+{% block content %}
 
 <p> This is the message page!</p>
 

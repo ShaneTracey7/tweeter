@@ -8,10 +8,23 @@
   {% load bootstrap5 %}
   {% bootstrap_css %}
   {% bootstrap_javascript %}
-  <link rel="stylesheet" href="{% static 'css/contentstyle.css' %}">
+  <link rel="stylesheet" href="{% block style %}{% endblock %}">
 </head>
 <body>
 
+  <div class="toolbar">
+      <div class="upper-toolbar">
+          <img src="" alt="profile"/>
+          {% block title %}
+          {% endblock %}
+          <img id="toolbar-icon" src="{% static 'images/cog.svg' %}" alt="cog"/>
+      </div>
+      <div class="lower-toolbar">
+       {% block additional %}
+       {% endblock %}
+      </div>
+  </div>
+  
   {% block content %}
   {% endblock %}
 

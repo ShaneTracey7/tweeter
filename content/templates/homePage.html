@@ -1,10 +1,14 @@
 
-{% extends "toolbar.html" %}
+{% extends "master.html" %}
 
 {% load static %}
 
+{% block style %}
+{% static 'css/homePage.css' %}
+{% endblock %}
+
 {% block title %}
-<img id="logo" src="{% static 'images/tweeter_logo.png' %}" alt="logo"/>
+<img id="tweeter-logo" src="{% static 'images/tweeter-logo-blue.png' %}" alt="logo"/>
 {% endblock %}
 
 {% block additional %}
@@ -12,12 +16,14 @@
 <p> Following</p>
 {% endblock %}
 
-{% block content2 %}
+{% block content %}
 
 <p> This is the home page!</p>
 
+
+
 {% for post in feed %}
-    {% include "post.html" with profile="post.profile" username="post.username" acc_name="post.acc_name" e_time="post.e_time" text="post.text" image="post.image" comments="post.comments" retweets="post.retweets" likes="post.likes"  views="post.views" %}
+    {% include "post.html" with profile=post.profile username=post.username acc_name=post.acc_name e_time=post.e_time text=post.text image=post.image comments=post.comments retweets=post.retweets likes=post.likes  views=post.views %}
 {% endfor %}
 
 {% endblock %}
