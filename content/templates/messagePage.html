@@ -1,4 +1,4 @@
-{% extends "toolbar.html" %}
+{% extends "master.html" %}
 
 {% load static %}
 
@@ -19,6 +19,8 @@
 
 {% block content %}
 
-<p> This is the message page!</p>
+{% for message in messages %}
+    {% include "message.html" with obj=message  %}
+{% endfor %}
 
 {% endblock %}

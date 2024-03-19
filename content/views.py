@@ -20,16 +20,9 @@ def notifications(request):
 
 def messages(request):
     template = loader.get_template('messagePage.html')
-    return HttpResponse(template.render())
-
-"""
-  def testing(request):
-  mydata = Member.objects.filter(firstname__startswith='b').order_by('-firstname').values()
-  template = loader.get_template('template.html')
-  context = {
-    'mymembers': mydata,
-  }
-  return HttpResponse(template.render(context, request))
-"""
+    context = {
+        'messages': data.createMessages(),
+    }
+    return HttpResponse(template.render(context,request))
 
 

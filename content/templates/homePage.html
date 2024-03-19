@@ -8,19 +8,15 @@
 {% endblock %}
 
 {% block title %}
-<img id="tweeter-logo" src="{% static 'images/tweeter-logo-blue.png' %}" alt="logo"/>
-{% endblock %}
-
-{% block additional %}
 <p> For you</p>
 <p> Following</p>
 {% endblock %}
 
+{% block additional %}
+
+{% endblock %}
+
 {% block content %}
-
-<p> This is the home page!</p>
-
-
 
 {% for post in feed %}
     {% include "post.html" with profile=post.profile username=post.username acc_name=post.acc_name e_time=post.e_time text=post.text image=post.image comments=post.comments retweets=post.retweets likes=post.likes  views=post.views %}

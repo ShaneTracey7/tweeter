@@ -1,0 +1,20 @@
+<!-- only used within messagePage.html-->
+
+{% load static %}
+
+<div class="card" style="width: 40rem;">
+    <div class="card-body">
+
+        <div class="messageheading">
+            <img src="{{ obj.profile }}" alt="profile"/>
+            <p>{{ obj.username }}</p>
+            <p>{{ obj.acc_name }}</p>
+            <p>{{ obj.date }} </p>
+            <img id="ellipsis" src="{% static 'images/ellipsis.png' %}" alt="more"/>
+        </div>
+
+        <div class="content">
+            <p> {{ obj.text }}</p>
+        </div>
+    </div>
+</div>

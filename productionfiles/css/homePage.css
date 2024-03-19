@@ -4,9 +4,6 @@ and add html somewhere, to make them appear, try clicking another then come back
 
 /* Tool Bar styling */
 
-.toolbar {
-    /* background-color: black; */
-}
 
 #tweeter-logo {
     width: 50px;
@@ -19,13 +16,10 @@ and add html somewhere, to make them appear, try clicking another then come back
 }
 
 /* Navigation Bar styling */
-.navigationbar {
-    color:blueviolet;
-}
   
   img.navbaricons {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 
   img.reactionbaricons{
@@ -48,13 +42,12 @@ and add html somewhere, to make them appear, try clicking another then come back
   
   li {
     display: inline-flex;
-    margin: 20px; /* add spacing between items */
+    margin: 10px; /* add spacing between items */
     color: #808080;
     vertical-align: middle;
     align-items: center;
     /*border: 1px solid black;*/
     height: 50px;
-    
   }
 
   h3 {
@@ -65,4 +58,20 @@ and add html somewhere, to make them appear, try clicking another then come back
     vertical-align: middle;
     align-items: center;
     border: 1px solid black;
+  }
+
+  .all-content {
+    display: inline-block;
+    overflow: scroll;
+    height: 800px;
+  }
+
+  #navbar {
+    float: left;
+    width: 75px;
+  }
+
+  #write-tweet {
+    width: 50px;
+    height: 50px;
   }

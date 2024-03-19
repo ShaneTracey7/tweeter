@@ -12,7 +12,10 @@
 </head>
 <body>
 
-  <div class="toolbar">
+  {% include "navigationbar.html" %}
+
+  <div class="all-content">
+    <div class="toolbar">
       <div class="upper-toolbar">
           <img src="" alt="profile"/>
           {% block title %}
@@ -23,12 +26,12 @@
        {% block additional %}
        {% endblock %}
       </div>
-  </div>
+    </div>
   
   {% block content %}
   {% endblock %}
-
-  {% include "navigationbar.html" %}
+  </div>
+  
 
 </body>
 </html>
