@@ -1,0 +1,31 @@
+<!-- only used within notificationPage.html-->
+
+{% load static %}
+
+<div class="card" style="width: 40rem;">
+    <div class="card-body">
+
+        <div class="messageheading">
+            {% if obj.type == "Heart" %}
+                <img src="{% static 'images/pink-heart-fill.png' %}" alt="type"/>
+            {% elif obj.type == "News" %}
+                <img src="{% static 'images/purple-star.png' %}" alt="type"/>
+            {% elif obj.type == "Retweet" %}
+                <img src="{% static 'images/retweet.png' %}" alt="type"/>
+            {% endif %}
+            <img src="{{ obj.profile }}" alt="profile"/>
+            <img id="ellipsis" src="{% static 'images/ellipsis.png' %}" alt="more"/>
+        </div>
+
+        <div class="content">
+            {% if obj.type == "Heart" %}
+                <p>{{ obj.username }} liked your post! </p>
+            {% elif obj.type == "News" %}
+                <p>{{ obj.username }}</p>
+            {% elif obj.type == "Retweet" %}
+                <p>{{ obj.username }} retweeted your post! </p>
+            {% endif %}
+            <p> {{ obj.text }}</p>
+        </div>
+    </div>
+</div>

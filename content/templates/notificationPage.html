@@ -18,4 +18,8 @@
 
 {% block content %}
 
+{% for notification in notifications %}
+    {% include "notification.html" with obj=notification  %}
+{% endfor %}
+
 {% endblock %}

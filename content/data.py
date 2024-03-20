@@ -21,6 +21,13 @@ class Message:
     date: str # cuz its a number and measurement of time (min, hr, day)
     text: str
 
+@dataclass
+class Notification:
+    type: str #url
+    profile: str # url
+    username: str
+    text: str
+
 """
 class Post():
     def __init__(self, profile, username, acc_name, e_time, text, image, comments, retweets, likes, views):
@@ -50,7 +57,7 @@ def createFeed():
     return feed
 
 
-# function that creates data for the feed (homePage)
+# function that creates data for the MessagesPage 
 def createMessages():
     # creating list
     messages = []
@@ -63,3 +70,18 @@ def createMessages():
     messages.append(Message('url', 'bean', 'littlebean1', 'Mar. 10, 2022', 'Mewo mewoi, meow'))
 
     return messages
+
+# function that creates data for the notification page
+def createNotifications():
+    # creating list
+    notifications = []
+ 
+    # appending instances to list
+    notifications.append(Notification('Heart', 'url', 'shane', 'words words words'))
+    notifications.append(Notification('News', 'url', 'hanna', 'sentence setenc esnetence'))
+    notifications.append(Notification('Retweet', 'url', 'george', 'paragraph paragraph paragraph paragraph'))
+    notifications.append(Notification('Heart', 'url', 'barry', 'more words more words more words'))
+    notifications.append(Notification('News', 'url', 'windsor police', 'we caught the guy'))
+    
+    return notifications
+

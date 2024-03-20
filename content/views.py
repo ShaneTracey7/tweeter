@@ -16,7 +16,10 @@ def search(request):
 
 def notifications(request):
     template = loader.get_template('notificationPage.html')
-    return HttpResponse(template.render())
+    context = {
+        'notifications': data.createNotifications(),
+    }
+    return HttpResponse(template.render(context,request))
 
 def messages(request):
     template = loader.get_template('messagePage.html')
