@@ -9,38 +9,3 @@ input[type=text] {
     border: 1px solid #808080;
     border-radius: 25px;
   }
-
-  .all-content {
-    display: inline-block;
-    overflow: scroll;
-    height: 800px;
-  }
-
-  /* Navigation Bar */
-
-  #navbar {
-    float: left;
-    width: 75px;
-  }
-
-  img.navbaricons {
-    width: 30px;
-    height: 30px;
-  }
-
-  ul {
-    list-style: none;
-    align-items: center;
-  }
-
-  li {
-    margin: 10px;
-    vertical-align: middle;
-    align-items: center;
-    height: 50px;
-  }
-
-  #write-tweet {
-    width: 50px;
-    height: 50px;
-  }

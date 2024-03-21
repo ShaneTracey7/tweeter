@@ -1,0 +1,148 @@
+/* Styling used on all pages */
+
+.main-content {
+    display: inline-block;
+    overflow-y: scroll;
+    height: 800px;
+    width: 60%;
+    border: 1px solid purple;
+    overflow-x: hidden;
+  }
+
+.secondary-content {
+    display: block;
+    overflow: scroll;
+    height: 800px;
+    width: 30%;
+    border: 1px solid orange;
+    visibility: visible;
+    float:right;
+  }
+  
+@media only screen and (max-width: 975px) {
+    #navbar {
+      float: left;
+      width: 20%;
+      min-width: min-content;
+    }
+
+    .main-content {
+      display: inline-block;
+      overflow-y: scroll;
+      height: 800px;
+      width: 80%;
+      border: 1px solid yellow;
+      overflow-x: hidden;
+    }
+
+    .secondary-content {
+      float: right;
+      visibility: hidden;
+    }
+}
+
+@media only screen and (min-width: 1265px) {
+
+    .navbartext {
+        display: inline-block;
+        color: black;
+    }
+
+    #navbar {
+        width: 20%;
+        float: left;
+      }
+
+    .main-content {
+        display: inline-block;
+        overflow-y: scroll;
+        height: 800px;
+        width: 50%;
+        border: 1px solid purple;
+        overflow-x: hidden;
+      }
+
+    li {
+        margin: 10px;
+        vertical-align: middle;
+        align-items: left;
+        height: 50px;
+      }   
+}
+
+.navbartext {
+    /*visibility: hidden;*/
+   /* color: transparent;
+    user-select: none; */
+    display:none;
+}
+
+#toolbar-icon {
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+}
+
+body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+/* navigation bar */
+
+ul {
+    list-style: none;
+    align-items: center;
+  }
+  
+li {
+    margin: 10px;
+    vertical-align: middle;
+    align-items: center;
+    height: 50px;
+  }
+
+#write-tweet {
+    width: 50px;
+    height: 50px;
+  }
+
+#navbar {
+    float: left;
+    width: 10%;
+    min-width: min-content;
+  }
+
+img.navbaricons {
+    width: 30px;
+    height: 30px;
+  }
+
+  /* width */
+  .main-content::-webkit-scrollbar {
+    display: none;
+  }
+
+  .secondary-content::-webkit-scrollbar {
+    width: 10px;
+    border: 5px 5px;
+  }
+
+  /* Track */
+  .secondary-content::-webkit-scrollbar-track {
+    background: white; 
+  }
+  
+  /* Handle */
+  .secondary-content::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+  
+  /* Handle on hover */
+  .secondary-content::-webkit-scrollbar-thumb:hover{
+    background: #555; 
+  }
+
+  .toolbar {
+    width: 100%;
+  }

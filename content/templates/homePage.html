@@ -7,19 +7,52 @@
 {% static 'css/homePage.css' %}
 {% endblock %}
 
+
 {% block title %}
-<p> For you</p>
-<p> Following</p>
+    <a class="upt" href="">For you</a>
+    <a class="upt" href="">Following</a>
 {% endblock %}
 
 {% block additional %}
-
+<p> Nothing goes here for now</p>
 {% endblock %}
 
 {% block content %}
 
-{% for post in feed %}
-    {% include "post.html" with profile=post.profile username=post.username acc_name=post.acc_name e_time=post.e_time text=post.text image=post.image comments=post.comments retweets=post.retweets likes=post.likes  views=post.views %}
-{% endfor %}
+<div class="card">
+    <div class="card-body">
+        <p> Blank post ready to be made goes here</p>
+    </div>
+</div>
+
+<!-- <div class="p-column"> -->
+    {% for post in feed %}
+        {% include "post.html" with profile=post.profile username=post.username acc_name=post.acc_name e_time=post.e_time text=post.text image=post.image comments=post.comments retweets=post.retweets likes=post.likes  views=post.views %}
+    {% endfor %}
+
+<!-- </div> -->
+{% endblock %}
+
+{% block content2 %}
+
+  <form class="d-flex">
+    <input class="form-control me-2" type="text" placeholder="Search">
+    <button class="btn btn-primary" type="button">Search</button>
+  </form>
+
+  <div class="card">
+        <div class="card-body">
+            <p> Word to fill the space</p>
+            <p> More words</p>
+        </div>
+  </div>
+
+  <div class="card">
+        <div class="card-body">
+            <p> Other words to fill the space</p>
+            <p> More other words</p>
+        </div>
+  </div>
 
 {% endblock %}
+

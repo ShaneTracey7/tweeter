@@ -8,30 +8,37 @@
   {% load bootstrap5 %}
   {% bootstrap_css %}
   {% bootstrap_javascript %}
+  <link rel="stylesheet" href="{% static 'css/global.css' %}">
   <link rel="stylesheet" href="{% block style %}{% endblock %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 
   {% include "navigationbar.html" %}
-
-  <div class="all-content">
+  <div>
+  <div class="main-content">
     <div class="toolbar">
       <div class="upper-toolbar">
-          <img src="" alt="profile"/>
           {% block title %}
           {% endblock %}
-          <img id="toolbar-icon" src="{% static 'images/cog.svg' %}" alt="cog"/>
+          <div id="tbi">
+            <img id="toolbar-icon" src="{% static 'images/cog.svg' %}" alt="cog"/> 
+          </div>
       </div>
       <div class="lower-toolbar">
        {% block additional %}
        {% endblock %}
       </div>
     </div>
-  
-  {% block content %}
-  {% endblock %}
+
+    {% block content %}
+    {% endblock %}
+  </div>
+
+  <div class="secondary-content">
+    {% block content2 %}
+    {% endblock %} 
   </div>
   
-
 </body>
 </html>

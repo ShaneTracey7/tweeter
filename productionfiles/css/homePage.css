@@ -2,26 +2,8 @@
 and add html somewhere, to make them appear, try clicking another then come back and refresh
 */
 
-/* Tool Bar styling */
-
-
-#tweeter-logo {
-    width: 50px;
-    height: 50px;
-}
-
-#toolbar-icon {
-    width: 35px;
-    height: 35px;
-}
-
-/* Navigation Bar styling */
+/* post styling */
   
-  img.navbaricons {
-    width: 30px;
-    height: 30px;
-  }
-
   img.reactionbaricons{
     width: 15px;
     height: 15px;
@@ -60,18 +42,32 @@ and add html somewhere, to make them appear, try clicking another then come back
     border: 1px solid black;
   }
 
-  .all-content {
+  .post {
+    width: 100%;
+    border: 1px solid blue;
+  }
+
+  .upper-toolbar {
+    width:100%;
+    align-items: center;
     display: inline-block;
-    overflow: scroll;
-    height: 800px;
+    border: 1px solid black;
   }
 
-  #navbar {
-    float: left;
-    width: 75px;
+  .upt {
+    display: inline-block;
+    width: 45%;
+    text-align: center;
+    border: 1px solid black;
+    margin: 0px;
   }
 
-  #write-tweet {
-    width: 50px;
-    height: 50px;
+  #tbi {
+    width: 10%;
+    display: inline-block;
+    align-self: center;
+    border: 1px solid black;
+    margin: 0px;
   }
+
+

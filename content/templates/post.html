@@ -1,20 +1,20 @@
 <!-- only used within homePage.html-->
 {% load static %}
+<div class="post">
+    <div class="card">
+        <div class="card-body">
 
-<div class="card" style="width: 40rem;">
-    <div class="card-body">
+            <div class="postheading">
+                <img src="{{ profile }}" alt="profile"/>
+                <p>{{ username }}</p>
+                <p>{{ acc_name }}</p>
+                <p>{{  e_time }} </p>
+            </div>
 
-        <div class="postheading">
-            <img src="{{ profile }}" alt="profile"/>
-            <p>{{ username }}</p>
-            <p>{{ acc_name }}</p>
-            <p>{{  e_time }} </p>
-        </div>
-
-        <div class="content">
-            <p> {{ text }}</p>
-            <img src="{{ image }}" alt="image"/>
-        </div>
+            <div class="content">
+                <p> {{ text }}</p>
+                <img src="{{ image }}" alt="image"/>
+            </div>
 
             <ul class="reactionbar">
                 <li class="reactiongroup">
@@ -41,5 +41,6 @@
                     <img class="reactionbaricons" src="{% static 'images/share.png' %}" alt="share"/>
                 </li>
             </ul>
+        </div>
     </div>
 </div>
