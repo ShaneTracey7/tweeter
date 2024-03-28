@@ -6,11 +6,14 @@
 {% static 'css/searchPage.css' %}
 {% endblock %}
 
+{% block navbar %}
+  {% include "navigationbar.html" with page="search" %}
+{% endblock %}
+
 {% block title %}
-<form class="d-flex">
-    <input class="form-control me-2" type="text" placeholder="Search">
-    <button class="btn btn-primary" type="button">Search</button>
-  </form>
+<form id="search-searchbar">
+  <input type="text" placeholder="Search">
+</form>
 {% endblock %}
 
 {% block additional %}

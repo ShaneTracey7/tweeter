@@ -1,15 +1,4 @@
 
-input[type=text] {
-    width: 100%;
-    background-image: url('../images/magnifier-gray.png');
-    background-position: 10px 10px; 
-    background-size: 25px 25px;
-    padding: 12px 20px 12px 40px;
-    background-repeat: no-repeat;
-    border: 1px solid #808080;
-    border-radius: 25px;
-  }
-
   .searchCard {
     width: 100%;
     border: 1px solid blue;

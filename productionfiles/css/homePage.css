@@ -70,4 +70,11 @@ and add html somewhere, to make them appear, try clicking another then come back
     margin: 0px;
   }
 
+  #home-searchbar {
+    width: 85%;
+    margin-left: 7.5%;
+    margin-right: 7.5%;
+    margin-top: 20px;
+  }
+
 

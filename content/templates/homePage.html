@@ -7,6 +7,9 @@
 {% static 'css/homePage.css' %}
 {% endblock %}
 
+{% block navbar %}
+  {% include "navigationbar.html" with page="home" %}
+{% endblock %}
 
 {% block title %}
     <a class="upt" href="">For you</a>
@@ -33,9 +36,8 @@
 
 {% block content2 %}
 
-  <form class="d-flex">
-    <input class="form-control me-2" type="text" placeholder="Search">
-    <button class="btn btn-primary" type="button">Search</button>
+  <form id="home-searchbar">
+    <input type="text" placeholder="Search">
   </form>
 
   <div class="panes">

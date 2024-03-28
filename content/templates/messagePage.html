@@ -6,15 +6,18 @@
 {% static 'css/messagePage.css' %}
 {% endblock %}
 
+{% block navbar %}
+  {% include "navigationbar.html" with page="message" %}
+{% endblock %}
+
 {% block title %}
 <h1> Messages </h1>
 {% endblock %}
 
 {% block additional %}
-<form class="d-flex">
-    <input class="form-control me-2" type="text" placeholder="Search Direct Messages">
-    <button class="btn btn-primary" type="button">Search</button>
-  </form>
+<form id="message-searchbar">
+  <input type="text" placeholder="Search">
+</form>
 {% endblock %}
 
 {% block content %}
