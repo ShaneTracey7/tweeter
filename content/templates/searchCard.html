@@ -1,0 +1,18 @@
+<!-- only used within searchPage.html-->
+{% load static %}
+<div class="searchCard">
+
+            <div class="searchHeading">
+                <p>{{ obj.category }} . Trending </p>
+                <img class="elip" src="{% static 'images/ellipsis.png' %}" />
+            </div>
+
+            <div class="content">
+                <h3> {{ obj.topic }}</h3>
+            </div>
+
+            <div class="searchFooter">
+                <p> {{ obj.postNum }} posts</p>
+            </div>
+
+</div>

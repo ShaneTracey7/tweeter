@@ -146,3 +146,21 @@ img.navbaricons {
   .toolbar {
     width: 100%;
   }
+
+
+  .panes 
+  {
+    background-color: #f6f9f9;
+    border-radius: 25px;
+    width: 87.5%;
+    margin-left:7.5%;
+    margin-right:7.5%;
+    align-content: center;
+    margin-top: 20px;
+
+  }
+
+  .elip {
+    width: 20px;
+    height: 20px;
+  }

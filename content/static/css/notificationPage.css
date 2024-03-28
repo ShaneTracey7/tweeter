@@ -1,6 +1,7 @@
 
 
-.notification {
+/*changed from class to id */
+#notification {
   width: 100%;
   border: 1px solid blue;
 }

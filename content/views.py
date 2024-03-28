@@ -7,17 +7,25 @@ def content(request):
     template = loader.get_template('homePage.html')
     context = {
     'feed': data.createFeed(),
+    'topics': data.createSearchTopics(),
+    'profiles': data.createProfiles(),
   }
     return HttpResponse(template.render(context,request))
 
 def search(request):
     template = loader.get_template('searchPage.html')
-    return HttpResponse(template.render())
+    context = {
+    'topics': data.createSearchTopics(),
+    'profiles': data.createProfiles(),
+  }
+    return HttpResponse(template.render(context,request))
 
 def notifications(request):
     template = loader.get_template('notificationPage.html')
     context = {
         'notifications': data.createNotifications(),
+        'topics': data.createSearchTopics(),
+        'profiles': data.createProfiles(),
     }
     return HttpResponse(template.render(context,request))
 

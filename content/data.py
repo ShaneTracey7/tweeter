@@ -28,6 +28,19 @@ class Notification:
     username: str
     text: str
 
+@dataclass
+class SearchTopic:
+    category: str 
+    topic: str 
+    postNum: int
+
+@dataclass
+class Profile:
+    pic: str # url
+    username: str 
+    acc_name: str
+
+
 """
 class Post():
     def __init__(self, profile, username, acc_name, e_time, text, image, comments, retweets, likes, views):
@@ -84,4 +97,30 @@ def createNotifications():
     notifications.append(Notification('News', 'url', 'windsor police', 'we caught the guy'))
     
     return notifications
+
+# function that creates data for the search page
+def createSearchTopics():
+    # creating list
+    topics = []
+ 
+    # appending instances to list
+    topics.append(SearchTopic('Music', 'Big Sean', 12005))
+    topics.append(SearchTopic('Music', 'Lil Wayne', 100))
+    topics.append(SearchTopic('Food', 'Macoroni', 60000))
+    topics.append(SearchTopic('Sports', 'McJesus', 120550))
+    topics.append(SearchTopic('Art', 'Banksy', 7903))
+    
+    return topics
+
+# function that creates data for profiles
+def createProfiles():
+    # creating list
+    profiles = []
+ 
+    # appending instances to list
+    profiles.append(Profile('', 'Shane', 'sugarshay5'))
+    profiles.append(Profile('', 'Barry', 'cuddlyBar'))
+    profiles.append(Profile('', 'Hanna', 'hanbanana22'))
+    
+    return profiles
 

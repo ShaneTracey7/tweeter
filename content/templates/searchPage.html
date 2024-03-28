@@ -23,27 +23,22 @@
 
 {% block content %}
 
+  {% for topic in topics %}
+    {% include "searchCard.html" with obj=topic %}
+  {% endfor %}
+
 {% endblock %}
 
 {% block content2 %}
 
-  <form class="d-flex">
-    <input class="form-control me-2" type="text" placeholder="Search">
-    <button class="btn btn-primary" type="button">Search</button>
-  </form>
+<div class="panes">
+  <h3>Who to follow</h3>
 
-  <div class="card">
-        <div class="card-body">
-            <p> Word to fill the space</p>
-            <p> More words</p>
-        </div>
-  </div>
-
-  <div class="card">
-        <div class="card-body">
-            <p> Other words to fill the space</p>
-            <p> More other words</p>
-        </div>
-  </div>
+  {% for profile in profiles %}
+      {% include "shortProfile.html" with profile=profile %}
+  {% endfor %}
+  
+  <p>Show more</p>
+</div>
 
 {% endblock %}

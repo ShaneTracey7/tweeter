@@ -1,14 +1,13 @@
 <!-- only used within homePage.html-->
 {% load static %}
 <div class="post">
-    <div class="card">
-        <div class="card-body">
 
             <div class="postheading">
                 <img src="{{ profile }}" alt="profile"/>
                 <p>{{ username }}</p>
                 <p>{{ acc_name }}</p>
                 <p>{{  e_time }} </p>
+                <img class="elip" src="{% static 'images/ellipsis.png' %}" alt="more"/>
             </div>
 
             <div class="content">
@@ -41,6 +40,4 @@
                     <img class="reactionbaricons" src="{% static 'images/share.png' %}" alt="share"/>
                 </li>
             </ul>
-        </div>
-    </div>
 </div>
