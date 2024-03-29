@@ -12,14 +12,15 @@
   <link rel="stylesheet" href="{% block style %}{% endblock %}">
   <script src="{% static 'js/navigationBar.js' %}"></script>
   <script src="{% block script %}{% endblock %}"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width,height=device-height, initial-scale=1">
 </head>
-<body class="grid-container">
+<body>
 
   {% block navbar %}
   {% endblock %}
-
+  
   <div class="main-content">
+
     <div class="toolbar">
       <div class="upper-toolbar">
           {% block title %}

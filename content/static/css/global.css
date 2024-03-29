@@ -7,7 +7,9 @@
   float: left;
   width: 8%;
   min-width: min-content;
+  /*height: 100vh;*/
   border: 5px solid orange;
+  min-height: 575px;
   }
 
   .navbartext {
@@ -59,6 +61,10 @@
   }
   */
 
+  .nav-item {
+    margin: 5px;
+  }
+
   .nav-link {
     align-items: self-end;
     padding: 14px;
@@ -74,6 +80,47 @@
   .navbar-nav {
     width: 100%;
     align-items:self-end;
+    height: 100%;
+    min-height: 500px;
+    border: 1px solid green;
+  }
+
+  #profile-nav-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+
+  #profile-nav {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: auto;
+    margin-bottom: 10px;
+  }
+
+  #bottom-nav {
+    display: block;
+    height: 17%;
+    min-height: 75px;
+    border: 1px solid blue;
+    width: 100%;   
+    justify-content: right;
+  }
+
+  #profile-nav:hover {
+    background-color: lightgrey;
+  }
+
+  #profile-nav-elip {
+    display: none;
+  }
+
+  #profile-nav-text {
+    display: none;
   }
 
 
@@ -82,7 +129,7 @@
     overflow-y: scroll;
     height: 800px;
     width: 58%;
-    border: 1px solid purple;
+    border: 1px solid rgb(15, 216, 139);
     overflow-x: hidden;
     float:left;
   }
@@ -90,11 +137,12 @@
 .secondary-content {
     display: block;
     overflow: scroll;
-    height: 800px;
+    /*height: 800px;*/
+    height: 100vh;
     width: 34%;
-    border: 1px solid orange;
     visibility: visible;
     float:right;
+    border: 3px solid purple;
   }
 
 #toolbar-icon {
@@ -122,6 +170,8 @@ li {
     height: 50px;
    /* width: 100%; */
   }
+
+
 
   /* width */
   .main-content::-webkit-scrollbar {
@@ -230,7 +280,7 @@ li {
       vertical-align: middle;
       margin: unset;
       display:inline;
-      padding-left: 10px;
+      padding-left: 15px;
       width: fit-content;
     }
 
@@ -243,14 +293,74 @@ li {
       padding-left: 20px;
       padding-right: 20px;
       margin-left: 20px;
-      
-      /*align-items: center;
-      
-      
-      
-      padding: unset;
-      */
     }
+
+    #profile-nav-elip {
+      display:inline;
+      margin-left: auto;
+      margin-right: 5px;
+    }
+
+    #profile-nav-elip:hover {
+      background-color: transparent;
+    }
+
+
+    #profile-nav-text {
+      display:inline;
+      padding-left: 10px;
+      padding-right: 10px;
+      /*border: 1px solid green;*/
+    }
+
+    #profile-nav-username {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: bold;
+      margin-bottom: 0;
+      width: fit-content;
+    }
+    #profile-nav-accountname {
+      display: block;
+      font-size: 0.8rem;
+      margin: 0;
+      margin-block-start: 0px;
+      margin-block-end: 0px;
+      width: fit-content;
+    }
+    
+    #profile-nav-img {
+      vertical-align: middle;
+      margin: unset;
+      margin-left: 10px;
+      display:inline;
+      width: 40px;
+    }
+
+    #profile-nav {
+      /*height: 60px;*/
+      height: 100%;
+      /* border: 1px solid green; */
+      display: flex;
+      flex-direction: row;
+      vertical-align: middle;
+      border-radius: 30px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      margin-left: 20px;
+      width:fit-content;
+      border: 1px solid red;
+    }
+
+    #bottom-nav {
+        display: block; /* inline */
+        margin: 5px;
+        /*vertical-align: middle;*/
+        align-items: left;
+        /*height: 50px;*/
+        width: 100%;
+        /* border: 1px solid blue; */
+      }   
 
     #tweeter-navbar {
       align-items: self-end;
@@ -264,12 +374,16 @@ li {
       align-items: center;
     }
 
+    #tnb {
+      padding-left: 0px;
+    }
+
     .nav-item { /* changed from li */
       display: inline;
-      margin: 10px;
+      margin: 5px;
       vertical-align: middle;
       align-items: left;
-      height: 60px;
+      height: 50px;
       width: 100%;
       /* border: 1px solid blue; */
       }   
@@ -283,8 +397,7 @@ li {
     .navbartext {
         display: inline; /* inline-block */
         color: black;
-        font-size: 1.5rem;
-        font-weight: bold;
+        font-size: 1.25rem;
         vertical-align: middle;
         /* border: 1px solid red; */
         height: 100%;
@@ -326,6 +439,10 @@ li {
       border-radius: 25px;
       height: 50px;
       border: 0px;
+    }
+
+    #navbarpost:hover{
+      background-color: #1a8cd3;
     }
 
     #write-tweet {
