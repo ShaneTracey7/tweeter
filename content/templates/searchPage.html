@@ -38,7 +38,7 @@
   <h3>Who to follow</h3>
 
   {% for profile in profiles %}
-      {% include "shortProfile.html" with profile=profile %}
+      {% include "shortProfile.html" with profile=profile button="yes" %}
   {% endfor %}
   
   <p>Show more</p>

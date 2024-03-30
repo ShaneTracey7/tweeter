@@ -118,9 +118,9 @@ def createProfiles():
     profiles = []
  
     # appending instances to list
-    profiles.append(Profile('', 'Shane', 'sugarshay5'))
-    profiles.append(Profile('', 'Barry', 'cuddlyBar'))
-    profiles.append(Profile('', 'Hanna', 'hanbanana22'))
+    profiles.append(Profile('images/elon.jpeg', 'Shane', 'sugarshay5'))
+    profiles.append(Profile('images/elon.jpeg', 'Barry', 'cuddlyBar'))
+    profiles.append(Profile('images/elon.jpeg', 'Hanna', 'hanbanana22'))
     
     return profiles
 

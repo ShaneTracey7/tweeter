@@ -171,7 +171,77 @@ li {
    /* width: 100%; */
   }
 
+/* short profile */
 
+#shortProfile
+{
+  width:100%;
+  height: 60px;
+  border: 1px solid red;
+  display: flex;
+  flex-direction: row;
+  vertical-align: middle;
+  justify-content:left;
+  align-items:center;
+  /* margin-top: auto; *//* don't now if necessary */
+  padding: 10px;
+}
+
+#shortProfile:hover {
+  background-color: lightgrey;
+}
+
+#shortProfile-text{
+  display:inline;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+#shortProfile-username {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-bottom: 0;
+  width: fit-content;
+}
+#shortProfile-accountname {
+  display: block;
+  font-size: 0.8rem;
+  margin: 0;
+  margin-block-start: 0px;
+  margin-block-end: 0px;
+  width: fit-content;
+}
+#shortProfile-img{
+    vertical-align: middle;
+    margin: unset;
+    margin-left: 10px;
+    display:inline;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+#shortProfile-button {
+  background-color: black;
+  color: white;
+  height: 30px;
+  width: 75px;
+  border-radius: 25px;
+  padding: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-right: 10px;
+  margin-left: auto;
+  vertical-align: middle;
+  display:inline;
+  border: 0px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  align-items: center;
+}
+#shortProfile-button:hover {
+  background-color: rgba(0, 0, 0, 0.700);
+}
 
   /* width */
   .main-content::-webkit-scrollbar {
