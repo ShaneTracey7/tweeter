@@ -39,6 +39,10 @@ class Profile:
     pic: str # url
     username: str 
     acc_name: str
+    bio: str
+    follow_count: int
+    follower_count: int
+    
 
 
 """
@@ -118,9 +122,9 @@ def createProfiles():
     profiles = []
  
     # appending instances to list
-    profiles.append(Profile('images/elon.jpeg', 'Shane', 'sugarshay5'))
-    profiles.append(Profile('images/elon.jpeg', 'Barry', 'cuddlyBar'))
-    profiles.append(Profile('images/elon.jpeg', 'Hanna', 'hanbanana22'))
+    profiles.append(Profile('images/elon.jpeg', 'Shane', 'sugarshay5', 'Uwin | 2022 Grad | Mallards', 200, 150))
+    profiles.append(Profile('images/elon.jpeg', 'Barry', 'cuddlyBar', 'always be the best bear you can be!', 2305, 5000))
+    profiles.append(Profile('images/elon.jpeg', 'Hanna', 'hanbanana22', 'I am the best girlfriend in the world!', 150, 4500))
     
     return profiles
 

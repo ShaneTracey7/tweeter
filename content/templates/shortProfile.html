@@ -1,12 +1,13 @@
 <!-- Used when searching and for secondary content panes-->
 {% load static %}
 <div id="shortProfile">
-    <img id="shortProfile-img" src="{% static profile.pic %}" alt="profile"/>
+    <img id="spi-{{count}}" class="shortProfile-img" src="{% static profile.pic %}" alt="profile"/>
     <div id="shortProfile-text">
         <h3 id="shortProfile-username"> {{ profile.username }} </h3>
         <p id="shortProfile-accountname">@{{ profile.acc_name }}</p>
     </div>
     {% if button == "yes" %}
-    <button id="shortProfile-button">Follow</button>
+        <button id="shortProfile-button">Follow</button>
+        {% include 'profileModal.html' with profile=profile %}
     {% endif %}
 </div>

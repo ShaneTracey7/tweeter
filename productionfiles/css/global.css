@@ -1,6 +1,49 @@
 /* Styling used on all pages */
 
 
+
+/* profile modal */
+.modal-content {
+  z-index: 2;
+}
+
+.profileModal {
+  display: none;
+  flex-direction: column;
+  /*z-index: 2;*/
+  width: 300px;
+  height: fit-content;
+  background-color: white;
+}
+
+.pm-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.pm-header {
+  display: flex;
+  flex-direction: row;
+}
+
+.pm-footer {
+  display: flex;
+  flex-direction: row;
+}
+
+/*
+#shortProfile-img:hover + .profileModal {
+  display:flex;
+  border: 1px solid red;
+}
+
+.profileModal:hover {
+  display:block;
+}
+*/
+
+
+
 /* navigation bar */
 
   #navbar {
@@ -12,6 +55,7 @@
   height: 100vh;
   min-height: 585px;
   margin-right: 10px;
+  z-index: 1;
   }
 
   #navbar-top
@@ -116,6 +160,7 @@
     border: 1px solid rgb(15, 216, 139);
     overflow-x: hidden;
     float:left;
+    z-index: 1;
   }
 
 .secondary-content {
@@ -127,6 +172,7 @@
     visibility: visible;
     float:right;
     border: 3px solid purple;
+    z-index: 1;
   }
 
 #toolbar-icon {
@@ -196,7 +242,7 @@ li {
   width: fit-content;
 }
 
-#shortProfile-img{
+.shortProfile-img{
     vertical-align: middle;
     margin: unset;
     margin-left: 10px;
