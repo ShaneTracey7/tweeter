@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import decimal
 
 @dataclass
 class Post:
@@ -40,9 +41,21 @@ class Profile:
     username: str 
     acc_name: str
     bio: str
-    follow_count: int
-    follower_count: int
+    follow_count: str
+    follower_count: str
+
+def shortenNum(num):
+
+    if num < 1000:
+       return str(num)
+    elif num < 1000000:
+        return str(round(decimal.Decimal(num) / decimal.Decimal(1000),1)) + "K"
+    else:
+        return str(round(decimal.Decimal(num) / decimal.Decimal(1000000),1)) + "M"
     
+    
+
+
 
 
 """
@@ -122,9 +135,9 @@ def createProfiles():
     profiles = []
  
     # appending instances to list
-    profiles.append(Profile('images/elon.jpeg', 'Shane', 'sugarshay5', 'Uwin | 2022 Grad | Mallards', 200, 150))
-    profiles.append(Profile('images/elon.jpeg', 'Barry', 'cuddlyBar', 'always be the best bear you can be!', 2305, 5000))
-    profiles.append(Profile('images/elon.jpeg', 'Hanna', 'hanbanana22', 'I am the best girlfriend in the world!', 150, 4500))
+    profiles.append(Profile('images/elon.jpeg', 'Shane', 'sugarshay5', 'Uwin | 2022 Grad | Mallards', shortenNum(200), shortenNum(150)))
+    profiles.append(Profile('images/elon.jpeg', 'Barry', 'cuddlyBar', 'always be the best bear you can be!', shortenNum(2305), shortenNum(5000)))
+    profiles.append(Profile('images/elon.jpeg', 'Hanna', 'hanbanana22', 'I am the best girlfriend in the world!', shortenNum(150), shortenNum(4500)))
     
     return profiles
 
