@@ -32,7 +32,8 @@ and add html somewhere, to make them appear, try clicking another then come back
     height: 50px;
   }
 
-  h3 {
+  
+  .reactionbarvalues {
     display: inline-flex;
     height: 50px;
     margin: 5px;
@@ -41,6 +42,7 @@ and add html somewhere, to make them appear, try clicking another then come back
     align-items: center;
     border: 1px solid black;
   }
+
 
   .post {
     width: 100%;

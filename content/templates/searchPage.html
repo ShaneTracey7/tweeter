@@ -35,13 +35,15 @@
 {% block content2 %}
 
 <div class="panes">
-  <h3>Who to follow</h3>
-
+  <div class="pane-container">
+    <h3 class="pane-title">Who to follow</h3>
+  </div>
   {% for profile in profiles %}
     {% include "shortProfile.html" with profile=profile button="yes" count=forloop.counter %}
   {% endfor %}
-  
-  <p>Show more</p>
+  <div id="pane-more" class="pane-container">
+    <p class="pane-more">Show more</p>
+  </div>
 </div>
 
 {% endblock %}

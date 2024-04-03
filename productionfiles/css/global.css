@@ -1,7 +1,6 @@
 /* Styling used on all pages */
 
 
-
 /* profile modal */
 .modal-content {
   z-index: 2;
@@ -21,7 +20,6 @@
   box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.200);
   padding: 15px;
 }
-
 /*
 .profileModal:hover{
   display: flex;
@@ -120,18 +118,6 @@ margin-bottom: 0px;
 
 /* navigation bar */
 
-  #navbar {
-  display: flex;
-  flex-direction: column;
-  float: left;
-  width: 7%;
-  min-width: min-content;
-  height: 100vh;
-  min-height: 585px;
-  margin-right: 10px;
-  z-index: 1;
-  }
-
   #navbar-top
   {
     padding: 0px;
@@ -141,8 +127,15 @@ margin-bottom: 0px;
   }
 
   .navbartext {
-  display:none;
-  }
+    display: none;
+    color: black;
+    font-size: 1.25rem;
+    vertical-align: middle;
+    height: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    /* border: 1px solid red; */
+}
 
   #write-tweet {
     width: 50px;
@@ -152,15 +145,22 @@ margin-bottom: 0px;
 
   #navbarpost {
     display: none;
+    width: 80%;
+    background-color: #1DA1F2;
+    color: white;
+    border-radius: 25px;
+    height: 50px;
+    border: 0px;
+    font-weight: bold;
+  }
+
+  #navbarpost:hover{
+    background-color: #1a8cd3;
   }
 
   img.navbaricons {
     width: 22px;
     height: 22px;
-  }
-
-  .nav-link:hover {
-    background-color: rgba(0, 0, 0, 0.100);
   }
 
   .nav-item {
@@ -177,6 +177,10 @@ margin-bottom: 0px;
     justify-content: center;
     align-items: center;
     /* border: 1px solid green; */
+  }
+
+  .nav-link:hover {
+    background-color: rgba(0, 0, 0, 0.100);
   }
 
   .navbar-nav {
@@ -202,6 +206,43 @@ margin-bottom: 0px;
     align-items: center;
   }
 
+  #profile-nav:hover {
+    background-color: rgba(0, 0, 0, 0.100);
+  }
+
+  #profile-nav-elip {
+    display:none;
+    margin-left: auto;
+    margin-right: 10px;
+  }
+
+  #profile-nav-elip:hover {
+    background-color: transparent;
+  }
+
+  #profile-nav-text {
+    display:none;
+    padding-left: 10px;
+    padding-right: 10px;
+    /*border: 1px solid green;*/
+  }
+
+  #profile-nav-username {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-bottom: 0;
+    width: fit-content;
+  }
+  #profile-nav-accountname {
+    display: block;
+    font-size: 0.8rem;
+    margin: 0;
+    margin-block-start: 0px;
+    margin-block-end: 0px;
+    width: fit-content;
+  }
+  
   #bottom-nav {
     display: flex;
     min-height: 75px;
@@ -211,42 +252,6 @@ margin-bottom: 0px;
     justify-content: right;
     align-items: center;
     /*border: 1px solid blue;*/
-  }
-
-  #profile-nav:hover {
-    background-color: rgba(0, 0, 0, 0.100);
-  }
-
-  #profile-nav-elip {
-    display: none;
-  }
-
-  #profile-nav-text {
-    display: none;
-  }
-
-
-.main-content {
-    display: block;
-    overflow-y: scroll;
-    height: 800px;
-    width: 58%;
-    border-left: 1px solid lightgray;
-    border-right: 1px solid lightgray;
-    overflow-x: hidden;
-    float:left;
-    z-index: 1;
-  }
-
-.secondary-content {
-    display: block;
-    overflow: scroll;
-    /*height: 800px;*/
-    height: 100vh;
-    width: 34%;
-    visibility: visible;
-    float:right;
-    z-index: 1;
   }
 
 body {
@@ -275,7 +280,7 @@ li {
 {
   width:100%;
   height: 60px;
-  border: 1px solid red;
+  /*border: 1px solid red;*/
   display: flex;
   flex-direction: row;
   vertical-align: middle;
@@ -296,14 +301,20 @@ li {
 
 #shortProfile-username {
   display: block;
-  font-size: 0.8rem;
+  color:black;
+  font-size: 0.9rem;
   font-weight: bold;
   margin-bottom: 0;
   width: fit-content;
 }
+
+#shortProfile-username:hover {
+  text-decoration: underline;
+}
 #shortProfile-accountname {
   display: block;
-  font-size: 0.8rem;
+  color: rgb(97, 110, 124);
+  font-size: 0.9rem;
   margin: 0;
   margin-block-start: 0px;
   margin-block-end: 0px;
@@ -348,8 +359,9 @@ li {
   }
 
   .secondary-content::-webkit-scrollbar {
-    width: 10px;
-    border: 5px 5px;
+    display: none;
+    /*width: 10px;
+    border: 5px 5px;*/
   }
 
   /* Track */
@@ -375,15 +387,52 @@ li {
     background-color: white;
   }
 
+  /* panes */
   .panes 
   {
     background-color: #f6f9f9;
-    border-radius: 25px;
-    width: 85%;
-    margin-left:7.5%;
-    margin-right:7.5%;
+    border-radius: 17px;
+    width: 89%;
+    max-width: 350px; /*new */
+    margin-left:8%;
+    margin-right:0;
+    margin-right:auto;
     align-content: center;
     margin-top: 20px;
+  }
+
+  .pane-title {
+    display:inine;
+    width: fit-content;
+    height: fit-content;
+    font-weight: bold;
+    font-size: 1.25rem;
+    margin-left: 15px;
+    margin-bottom: 0px;
+  }
+
+  .pane-container {
+    display:flex;
+    flex-direction: row;
+    width: 100%;
+    height: 50px;
+    align-items: center;
+    justify-content: left;
+  }
+
+  .pane-more {
+    display:inline;
+    width: fit-content;
+    height: fit-content;
+    color:#1DA1F2;
+    font-size: 0.9rem;
+    margin-left: 15px;
+    margin-bottom: 0px;
+  }
+
+  #pane-more:hover {
+    background-color: rgba(0, 0, 0, 0.100);
+    border-radius: 0 0 17px 17px;
   }
 
   .elip {
@@ -411,41 +460,114 @@ li {
     border-radius: 25px;
   }
 
-  /* always keep media conditional css at bottom, otherwise, css won't work properly */
+  #navbar {
+    display: flex;
+    flex-direction: column;
+    float: left;
+    min-width: min-content;
+    height: 100vh;
+    min-height: 585px;
+    margin-right: 10px;
+    z-index: 1;
+    }
 
-  @media only screen and (max-width: 975px) {
+  .main-content {
+    display: block;
+    overflow-y: scroll;
+    height: 800px; /* will have to change eventually*/
+    min-width: 500px;
+    max-width: 600px;
+    border-left: 1px solid lightgray;
+    border-right: 1px solid lightgray;
+    overflow-x: hidden; /* maybe get rid of this */
+    float:left;
+    z-index: 1;
+  }
+
+.secondary-content {
+    display: inline; /* was block */
+    overflow: scroll;
+    height: 100vh;
+    float:left; /* used to be right */
+    z-index: 1;
+  }
+
+  /* always keep media conditional css at bottom, otherwise, css won't work properly */
+  @media only screen and (max-width: 700px) {
 
     #navbar {
-      /*float: left; */
-      width: 16%;
-      min-width: min-content;
+      width: 11%;
     }
 
     .main-content {
       display: block;
-      overflow-y: scroll;
-      height: 800px;
-      width: 80%;
-      overflow-x: hidden;
-      float:left;
+      width: 87%;
     }
 
     .secondary-content {
-      float: right;
-      visibility: hidden;
+      display:none;
+      /*visibility: hidden;*/
+
     }
+}
+
+  @media only screen and (min-width: 701px) and (max-width: 975px) {
+
+    #navbar {
+      width: 16%;
+    }
+
+    .main-content {
+      width: 82%;
+    }
+
+    .secondary-content {
+      display:none;
+      /*visibility: hidden;*/
+    }
+}
+
+@media only screen and (min-width: 976px) and (max-width: 1079px) {
+
+  #navbar {
+    width: 7%;
+    }
+
+  .main-content {
+    width: 59%;
+  }
+
+.secondary-content {
+    width: 32%;
+   /* float: left;*/
+    visibility: visible;
+  }
+}
+
+@media only screen and (min-width: 1080px) and (max-width: 1249px) {
+
+  #navbar {
+    width: 11%;
+    }
+
+  .main-content {
+    width: 59%;
+  }
+
+.secondary-content {
+    width: 32%;
+   /* float: left;*/
+    visibility: visible;
+  }
 }
 
 @media only screen and (min-width: 1250px) {
 
-
-    .nav-link:hover {
-      background-color: rgba(0, 0, 0, 0.100);
+    .panes{
+      margin-left:5%;
     }
 
-    img.navbaricons:hover {
-      background-color:unset;
-    }
+    /* navbar */
 
     img.navbaricons {
       vertical-align: middle;
@@ -456,7 +578,6 @@ li {
     }
 
     .nav-link {
-      height: 50px;
       display:inline;
       border-radius: 25px;
       padding-left: 20px;
@@ -465,68 +586,18 @@ li {
       justify-content: left;
     }
 
-    #profile-nav-elip {
-      display:inline;
-      margin-left: auto;
-      margin-right: 10px;
-    }
-
-    #profile-nav-elip:hover {
-      background-color: transparent;
-    }
-
-
-    #profile-nav-text {
-      display:inline;
-      padding-left: 10px;
-      padding-right: 10px;
-      /*border: 1px solid green;*/
-    }
-
-    #profile-nav-username {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: bold;
-      margin-bottom: 0;
-      width: fit-content;
-    }
-    #profile-nav-accountname {
-      display: block;
-      font-size: 0.8rem;
-      margin: 0;
-      margin-block-start: 0px;
-      margin-block-end: 0px;
-      width: fit-content;
-    }
-    
-    #profile-nav-img {
+    .nav-item { /* changed from li */
+      display: inline;
       vertical-align: middle;
-      margin: unset;
-      margin-left: 10px;
-      display:inline;
-      width: 40px;
-    }
+      align-items: left;
+      height: 50px;
+      width: 100%;
+      /* border: 1px solid blue; */
+      }   
 
-    #profile-nav {
-      height: 60px;
-      display: flex;
-      flex-direction: row;
-      vertical-align: middle;
-      border-radius: 40px;
-      padding-top: 5px;
-      padding-bottom: 5px;
-      margin-left: 20px;
-      min-width: fit-content;
-      width: 80%;
-      justify-content: center;
-      /*border: 1px solid red;*/
+    .navbar-nav {
+      align-items:center;
     }
-
-    #bottom-nav {
-        align-items: left;
-        justify-content: left;
-        width: 100%;
-      }
 
     #tweeter-navbar {
       align-items: self-end;
@@ -544,73 +615,60 @@ li {
       padding-left: 0px;
     }
 
-    .nav-item { /* changed from li */
-      display: inline;
-      margin: 5px;
-      vertical-align: middle;
-      align-items: left;
-      height: 50px;
-      width: 100%;
-      /* border: 1px solid blue; */
-      }   
-
-    .navbar-nav {
-      width: 100%;
-      align-items:center;
-      /* */
-    }
-
     .navbartext {
         display: inline; /* inline-block */
-        color: black;
-        font-size: 1.25rem;
-        vertical-align: middle;
-        height: 100%;
-        padding-left: 20px;
-        padding-right: 20px;
-        /* border: 1px solid red; */
     }
-
-    #navbar {
-        width: 21% !important;
-        float: left;
-      }
-
-    .main-content {
-        display: block; 
-        overflow-y: scroll;
-        height: 800px;
-        width: 48%;
-        overflow-x: hidden;
-        float:left;
-      }
-
-      .secondary-content {
-        display: block;
-        overflow: scroll;
-        height: 800px;
-        width: 30%;
-        visibility: visible;
-        float:right;
-      }
 
     #navbarpost {
       display: inline-block;
-      width: 80%;
-      background-color: #1DA1F2;
-      color: white;
-      border-radius: 25px;
-      height: 50px;
-      border: 0px;
-      font-weight: bold;
-    }
-
-    #navbarpost:hover{
-      background-color: #1a8cd3;
     }
 
     #write-tweet {
       display: none;
     }
 
+    #profile-nav-elip {
+      display:inline;
+    }
+
+    #profile-nav-text {
+      display:inline;
+    }
+    
+    #profile-nav-img {
+      vertical-align: middle;
+      margin: unset;
+      margin-left: 10px;
+      display:inline;
+    }
+
+    #profile-nav {
+      flex-direction: row;
+      vertical-align: middle;
+      border-radius: 40px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      margin-left: 20px;
+      min-width: fit-content;
+      width: 80%;
+      /*border: 1px solid red;*/
+    }
+
+    #bottom-nav {
+        align-items: left;
+        justify-content: left;
+    }
+
+    #navbar {
+        width: 21% !important;
+      }
+
+    .main-content {
+        width: 48%;
+      }
+
+    .secondary-content {
+        width: 30%;
+        visibility: visible;
+      }
 }
