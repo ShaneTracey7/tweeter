@@ -93,11 +93,16 @@ def createMessages():
     messages = []
  
     # appending instances to list
-    messages.append(Message('url', 'shane', 'shane17', 'Feb. 21, 2023', 'Yo, long time no see'))
-    messages.append(Message('url', 'hanna', 'hannaBanana4', 'Apr. 2, 2022', 'Its finally springtime'))
-    messages.append(Message('url', 'george', 'GLopez15', 'Apr. 26, 2023', 'ba ba ba ba ba ba buh, ba da da buh buh'))
-    messages.append(Message('url', 'miguel', 'oharaM', 'Dec. 25, 2021', 'Merry merry, to all!'))
-    messages.append(Message('url', 'bean', 'littlebean1', 'Mar. 10, 2022', 'Mewo mewoi, meow'))
+    messages.append(Message('images/elon.jpeg', 'shane', 'shane17', 'Feb 21, 2023', 'Yo, long time no see'))
+    messages.append(Message('images/elon.jpeg', 'hanna nurkic', 'hannaBanana4', 'Apr 2, 2022', 'Its finally springtime'))
+    messages.append(Message('images/elon.jpeg', 'george', 'GLopez15', 'Apr 26, 2023', 'ba ba ba ba ba ba buh, ba da da buh buh, ba ba ba ba ba ba buh, ba da da buh buh'))
+    messages.append(Message('images/elon.jpeg', 'miguel', 'oharaM', 'Dec 25, 2021', 'Merry merry, to all!'))
+    messages.append(Message('images/elon.jpeg', 'bean', 'littlebean1', 'Mar 10, 2022', 'Mewo mewoi, meow'))
+    messages.append(Message('images/elon.jpeg', 'shane', 'shane17', 'Feb 21, 2023', 'Yo, long time no see'))
+    messages.append(Message('images/elon.jpeg', 'hanna nurkic', 'hannaBanana4', 'Apr 2, 2022', 'Its finally springtime'))
+    messages.append(Message('images/elon.jpeg', 'george', 'GLopez15', 'Apr 26, 2023', 'ba ba ba ba ba ba buh, ba da da buh buh, ba ba ba ba ba ba buh, ba da da buh buh'))
+    messages.append(Message('images/elon.jpeg', 'miguel', 'oharaM', 'Dec 25, 2021', 'Merry merry, to all!'))
+    messages.append(Message('images/elon.jpeg', 'bean', 'littlebean1', 'Mar 10, 2022', 'Mewo mewoi, meow'))
 
     return messages
 

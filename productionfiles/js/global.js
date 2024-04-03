@@ -44,3 +44,7 @@ for (let i = 1; i < 4; i++) {
     document.getElementById("sc").addEventListener("scroll", function(){ document.getElementById(str_id2).style.display = "none";});
     // gonna use offset left and offset top to get coordinates of profile img and postion the modal to the center of the center of those coordinates
 }
+
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip(); 
+  });

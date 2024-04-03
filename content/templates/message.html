@@ -2,19 +2,22 @@
 
 {% load static %}
 
-<div class="card" style="width: 40rem;">
-    <div class="card-body">
+<div class="message">
+        
+    <img class="message-img" src="{% static obj.profile %}" alt="profile"/>
 
-        <div class="messageheading">
-            <img src="{{ obj.profile }}" alt="profile"/>
-            <p>{{ obj.username }}</p>
-            <p>{{ obj.acc_name }}</p>
-            <p>{{ obj.date }} </p>
-            <img class="elip" src="{% static 'images/ellipsis.png' %}" alt="more"/>
+    <div class="message-content">
+
+        <div class="message-heading">
+            <p class="message-username">{{ obj.username }}</p>
+            <p class="message-accountname">@{{ obj.acc_name }}</p>
+            <p class="message-date">{{ obj.date }} </p>
         </div>
 
-        <div class="content">
-            <p> {{ obj.text }}</p>
-        </div>
+        <p class="message-text"> {{ obj.text }}</p>
+
     </div>
+
+    <img id="message-elip" class="elip" data-toggle="tooltip" data-placement="bottom" title="More" src="{% static 'images/ellipsis.png' %}" alt="more"/>
+
 </div>

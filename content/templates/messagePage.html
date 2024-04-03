@@ -11,16 +11,18 @@
 {% endblock %}
 
 {% block title %}
-<h1> Messages </h1>
-{% endblock %}
-
-{% block additional %}
-<form id="message-searchbar">
-  <input type="text" placeholder="Search">
-</form>
+<h1 id="page-title"> Messages </h1>
+<div class="title-icons">
+  <img class="toolbar-icon" src="{% static 'images/cog.svg' %}" alt="cog"/>
+  <img id="eplus-icon" src="{% static 'images/envelope-plus.svg' %}" alt="plus"/>
+</div>
 {% endblock %}
 
 {% block content %}
+
+<form id="message-form">
+  <input id="message-searchbar" type="text" placeholder="Search Direct Messages">
+</form>
 
 {% for message in messages %}
     {% include "message.html" with obj=message  %}
@@ -30,10 +32,10 @@
 
 {% block content2 %}
 
-<div class="message-blurb">
-  <h2> Select a message</h2>
-  <p>Choose from your existing conversations, start a new one, or just keep swimming.</p>
-  <button> New Message</button>
+<div id="message-blurb">
+  <h2 id="messageb-title"> Select a message</h2>
+  <p id="messageb-text">Choose from your existing conversations, start a new one, or just keep swimming.</p>
+  <button id="messageb-button"> New message</button>
 </div>
 
 {% endblock %}

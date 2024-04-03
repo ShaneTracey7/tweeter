@@ -62,14 +62,6 @@ and add html somewhere, to make them appear, try clicking another then come back
     margin: 0px;
   }
 
-  #tbi {
-    width: 10%;
-    display: inline-block;
-    align-self: center;
-    border: 1px solid black;
-    margin: 0px;
-  }
-
   #home-searchbar {
     width: 85%;
     margin-left: 7.5%;

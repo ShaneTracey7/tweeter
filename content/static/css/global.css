@@ -231,7 +231,8 @@ margin-bottom: 0px;
     overflow-y: scroll;
     height: 800px;
     width: 58%;
-    border: 1px solid rgb(15, 216, 139);
+    border-left: 1px solid lightgray;
+    border-right: 1px solid lightgray;
     overflow-x: hidden;
     float:left;
     z-index: 1;
@@ -245,15 +246,8 @@ margin-bottom: 0px;
     width: 34%;
     visibility: visible;
     float:right;
-    border: 3px solid purple;
     z-index: 1;
   }
-
-#toolbar-icon {
-    width: 25px;
-    height: 25px;
-    display: inline-block;
-}
 
 body {
     width: 100%;
@@ -375,6 +369,10 @@ li {
 
   .toolbar {
     width: 100%;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    background-color: white;
   }
 
   .panes 
@@ -396,7 +394,7 @@ li {
   }
 
   .elip:hover {
-    background-color: lightblue;
+    background-color: #1da0f223;
   }
 
   /* for search bars */
@@ -428,7 +426,6 @@ li {
       overflow-y: scroll;
       height: 800px;
       width: 80%;
-      border: 1px solid yellow;
       overflow-x: hidden;
       float:left;
     }
@@ -575,7 +572,7 @@ li {
     }
 
     #navbar {
-        width: 21%;
+        width: 21% !important;
         float: left;
       }
 
@@ -584,7 +581,6 @@ li {
         overflow-y: scroll;
         height: 800px;
         width: 48%;
-        border: 1px solid purple;
         overflow-x: hidden;
         float:left;
       }
@@ -594,7 +590,6 @@ li {
         overflow: scroll;
         height: 800px;
         width: 30%;
-        border: 1px solid orange;
         visibility: visible;
         float:right;
       }
@@ -607,6 +602,7 @@ li {
       border-radius: 25px;
       height: 50px;
       border: 0px;
+      font-weight: bold;
     }
 
     #navbarpost:hover{
