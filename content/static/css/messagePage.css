@@ -181,9 +181,7 @@
     font-size: 0.9rem;
 }
 #message-searchbar:focus {
-    outline: 0px;
-	outline-offset: -2px;
-    border: 2px solid #1DA1F2;
+    border: 1px solid #1DA1F2;
     caret-color: #1DA1F2;
 }
 

@@ -1,7 +1,76 @@
 /* Styling used on all pages */
 
 
-/* profile modal */
+/* <----------------------------------------  search card  ----------------------------------------> */   
+
+.searchCard{
+  width:100%;
+  height:fit-content;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items:center;
+  padding: 5px;
+  vertical-align: middle;
+  padding-left: 15px;
+  /*border: 1px solid red;*/
+}
+
+.searchCard:hover {
+  background-color: rgba(0, 0, 0, 0.100);
+}
+
+.sc-content {
+  flex: flex;
+  flex-direction: column;
+}
+
+.sc-text {
+  display: block;
+  font-size: 0.9rem;
+  color: rgb(97, 110, 124);
+  width:fit-content;
+  height: fit-content;
+  margin-bottom: 0;
+}
+
+.sc-textgroup{
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  gap:0;
+}
+
+#sc-category::after {
+  content: ".";
+  margin-left: 4px;
+  margin-right: 4px;
+  vertical-align: super;
+}
+
+.sc-topic {
+  display: block;
+  font-weight: bold;
+  font-size: 1rem;
+  color: black;
+  width:fit-content;
+  height: fit-content;
+  margin-bottom: 0;
+}
+
+#sc-elip {  
+  width: 35px;
+  height: 35px;
+  padding: 8px;
+  margin-right: 0;
+  margin-left: auto;
+  margin-top: 0px;
+  margin-bottom: auto;
+  border-radius: 50%;
+}
+
+/* <----------------------------------------  profile modal  ----------------------------------------> */   
+
 .modal-content {
   z-index: 2;
   height: 100%;
@@ -116,7 +185,7 @@ margin-bottom: 0px;
 }
 */
 
-/* navigation bar */
+/* <----------------------------------------  navigation bar  ----------------------------------------> */   
 
   #navbar-top
   {
@@ -254,27 +323,7 @@ margin-bottom: 0px;
     /*border: 1px solid blue;*/
   }
 
-body {
-    width: 100%;
-    overflow-x: hidden;
-  }
-
-
-ul {
-    list-style: none;
-    align-items: center;
-   /* width: 100%; */
-  }
-  
-li {
-    margin: 10px;
-    vertical-align: middle;
-    align-items: center;
-    height: 50px;
-   /* width: 100%; */
-  }
-
-/* short profile */
+/* <----------------------------------------  short profile  ----------------------------------------> */   
 
 #shortProfile
 {
@@ -324,7 +373,7 @@ li {
 .shortProfile-img{
     vertical-align: middle;
     margin: unset;
-    margin-left: 10px;
+    margin-left: 5px;
     display:inline;
     width: 40px;
     height: 40px;
@@ -353,39 +402,7 @@ li {
   background-color: rgba(0, 0, 0, 0.700);
 }
 
-  /* width */
-  .main-content::-webkit-scrollbar {
-    display: none;
-  }
-
-  .secondary-content::-webkit-scrollbar {
-    display: none;
-    /*width: 10px;
-    border: 5px 5px;*/
-  }
-
-  /* Track */
-  .secondary-content::-webkit-scrollbar-track {
-    background: white; 
-  }
-  
-  /* Handle */
-  .secondary-content::-webkit-scrollbar-thumb {
-    background: #888; 
-  }
-  
-  /* Handle on hover */
-  .secondary-content::-webkit-scrollbar-thumb:hover{
-    background: #555; 
-  }
-
-  .toolbar {
-    width: 100%;
-    position: sticky;
-    position: -webkit-sticky;
-    top: 0;
-    background-color: white;
-  }
+/* <----------------------------------------  panes  ----------------------------------------> */   
 
   /* panes */
   .panes 
@@ -395,7 +412,6 @@ li {
     width: 89%;
     max-width: 350px; /*new */
     margin-left:8%;
-    margin-right:0;
     margin-right:auto;
     align-content: center;
     margin-top: 20px;
@@ -435,30 +451,96 @@ li {
     border-radius: 0 0 17px 17px;
   }
 
-  .elip {
-    width: 25px;
-    height: 25px;
-    padding: 5px;
-    border-radius: 15px;
-  }
+/* <----------------------------------------  random ----------------------------------------> */ 
 
-  .elip:hover {
-    background-color: #1da0f223;
-  }
+.elip {
+  width: 25px;
+  height: 25px;
+  padding: 5px;
+  border-radius: 15px;
+}
 
-  /* for search bars */
-  input[type=text] {
-    width: 100%;
-    background-image: url('../images/magnifier-gray.png');
-    background-position: 25px 16px;
-    background-size: 17px 17px;
-    padding: 12px 20px 12px 50px;
-    background-repeat: no-repeat;
-    background-color: #f6f9f9;
-    color: gray;
-    border: 0px solid #f6f9f9;
-    border-radius: 25px;
-  }
+.elip:hover {
+  background-color: #1da0f223;
+}
+
+/* for search bars */
+input[type=text] {
+  width: 100%;
+  background-image: url('../images/magnifier-gray.png');
+  background-position: 25px 16px;
+  background-size: 17px 17px;
+  padding: 12px 20px 12px 50px;
+  background-repeat: no-repeat;
+  background-color: #eff3f4 ;
+  color: gray;
+  border: 0px;
+  border-radius: 25px;
+}
+
+input[type=text]:focus {
+  outline: 0px;
+  outline-offset: -1px;
+  border: 1px solid #1DA1F2;
+  background-color: white;
+  caret-color: #1DA1F2;
+}
+
+ul {
+  list-style: none;
+  align-items: center;
+ /* width: 100%; */
+}
+
+li {
+  margin: 10px;
+  vertical-align: middle;
+  align-items: center;
+  height: 50px;
+ /* width: 100%; */
+}
+
+/* <----------------------------------------  layout ----------------------------------------> */   
+
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* width */
+.main-content::-webkit-scrollbar {
+  display: none;
+}
+
+.secondary-content::-webkit-scrollbar {
+  display: none;
+  /*width: 10px;
+  border: 5px 5px;*/
+}
+
+/* Track */
+.secondary-content::-webkit-scrollbar-track {
+  background: white; 
+}
+
+/* Handle */
+.secondary-content::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+.secondary-content::-webkit-scrollbar-thumb:hover{
+  background: #555; 
+}
+
+.toolbar {
+  width: 100%;
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  background-color: white;
+  border-bottom: 1px solid lightgray;
+}
 
   #navbar {
     display: flex;

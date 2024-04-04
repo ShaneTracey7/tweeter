@@ -2,30 +2,26 @@
 
 {% load static %}
 
-<div id="notification" class="card">
-    <div class="card-body">
+<div class="notification">
 
-        <div class="messageheading">
+        <div class="notification-header">
             {% if obj.type == "Heart" %}
-                <img src="{% static 'images/pink-heart-fill.png' %}" alt="type"/>
+                <img class="notification-icon" src="{% static 'images/pink-heart-fill.png' %}" alt="type"/>
             {% elif obj.type == "News" %}
-                <img src="{% static 'images/purple-star.png' %}" alt="type"/>
+                <img class="notification-icon" src="{% static 'images/purple-star.png' %}" alt="type"/>
             {% elif obj.type == "Retweet" %}
-                <img src="{% static 'images/retweet.png' %}" alt="type"/>
+                <img class="notification-icon" src="{% static 'images/retweet.png' %}" alt="type"/>
             {% endif %}
-            <img src="{{ obj.profile }}" alt="profile"/>
-            <img class="elip" src="{% static 'images/ellipsis.png' %}" alt="more"/>
+            <img class="notification-profile" src="{% static obj.profile %}" alt="profile"/>
+            <img id="notification-elip" class="elip" src="{% static 'images/ellipsis.png' %}" alt="more"/>
         </div>
 
-        <div class="content">
-            {% if obj.type == "Heart" %}
-                <p>{{ obj.username }} liked your post! </p>
-            {% elif obj.type == "News" %}
-                <p>{{ obj.username }}</p>
-            {% elif obj.type == "Retweet" %}
-                <p>{{ obj.username }} retweeted your post! </p>
-            {% endif %}
-            <p> {{ obj.text }}</p>
-        </div>
-    </div>
+    {% if obj.type == "Heart" %}
+        <p class="notification-title">{{ obj.username }} liked your post! </p>
+    {% elif obj.type == "News" %}
+        <p class="notification-title">{{ obj.username }}</p>
+    {% elif obj.type == "Retweet" %}
+        <p class="notification-title">{{ obj.username }} retweeted your post! </p>
+    {% endif %}
+        <p class="notification-text"> {{ obj.text }}</p>
 </div>

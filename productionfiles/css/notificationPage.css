@@ -1,7 +1,119 @@
 
+/*
 
-/*changed from class to id */
-#notification {
+<div class="notification">
+
+        <div class="notification-header">
+            {% if obj.type == "Heart" %}
+                <img class="notification-icon" src="{% static 'images/pink-heart-fill.png' %}" alt="type"/>
+            {% elif obj.type == "News" %}
+                <img class="notification-icon" src="{% static 'images/purple-star.png' %}" alt="type"/>
+            {% elif obj.type == "Retweet" %}
+                <img class="notification-icon" src="{% static 'images/retweet.png' %}" alt="type"/>
+            {% endif %}
+            <img class="notification-profile" src="{{ obj.profile }}" alt="profile"/>
+            <img id="notification-elip" class="elip" src="{% static 'images/ellipsis.png' %}" alt="more"/>
+        </div>
+
+    {% if obj.type == "Heart" %}
+        <p class="notification-title">{{ obj.username }} liked your post! </p>
+    {% elif obj.type == "News" %}
+        <p class="notification-title">{{ obj.username }}</p>
+    {% elif obj.type == "Retweet" %}
+        <p class="notification-title">{{ obj.username }} retweeted your post! </p>
+    {% endif %}
+        <p class="notification-text"> {{ obj.text }}</p>
+</div>
+
+*/
+.notification {
   width: 100%;
-  border: 1px solid blue;
+  border-bottom: 1px solid lightgray;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  background-color: white;
+  padding-left: 20px;
+  padding-bottom: 15px;
+  padding-top: 5px;
+  padding-right:10px;
+}
+
+.notification:hover{
+  background-color: rgba(0, 0, 0, 0.100);
+}
+
+.notification-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+}
+
+.notification-icon {
+  display:inline;
+  margin-left:0;
+  width: 30px;
+  height: 30px;
+}
+
+.notification-profile{
+  display:inline;
+  margin-left:10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.notification-profile:hover {
+  /*overlay*/
+  background-color: rgba(0, 0, 0, 0.100);
+}
+
+
+.notification-elip{
+  display:inline;
+  margin-left:auto;
+  margin-right:0px;
+}
+
+.notification-title{
+  display: block;
+  width: fit-content;
+  font-size: 1rem;
+  color: black;
+  margin-bottom: 0;
+  margin-left: 45px;
+}
+
+.notification-text{
+  display: block;
+  height: fit-content;
+  font-size: 1rem;
+  color:rgb(97, 110, 124);
+  margin-bottom: 0;
+  margin-left: 45px;
+}
+
+#notification-searchbar{
+  width: 89%;
+  max-width: 350px; /*new */
+  margin-left:8%;
+  margin-right:auto;
+  font-size: 0.95rem;
+}
+#notification-form {
+  height: 50px;
+  margin-top: 4px;
+  position:sticky;
+  position: -webkit-sticky;
+  top: 0;
+  background-color: white;
+}
+
+@media only screen and (min-width: 1250px) {
+
+  #notification-searchbar{
+    margin-left:5%;
+  }
 }

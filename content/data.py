@@ -112,11 +112,11 @@ def createNotifications():
     notifications = []
  
     # appending instances to list
-    notifications.append(Notification('Heart', 'url', 'shane', 'words words words'))
-    notifications.append(Notification('News', 'url', 'hanna', 'sentence setenc esnetence'))
-    notifications.append(Notification('Retweet', 'url', 'george', 'paragraph paragraph paragraph paragraph'))
-    notifications.append(Notification('Heart', 'url', 'barry', 'more words more words more words'))
-    notifications.append(Notification('News', 'url', 'windsor police', 'we caught the guy'))
+    notifications.append(Notification('Heart', 'images/elon.jpeg', 'shane', 'words words words'))
+    notifications.append(Notification('News', 'images/elon.jpeg', 'hanna', 'sentence setenc esnetence'))
+    notifications.append(Notification('Retweet', 'images/elon.jpeg', 'george', 'paragraph paragraph paragraph paragraph'))
+    notifications.append(Notification('Heart', 'images/elon.jpeg', 'barry', 'more words more words more words'))
+    notifications.append(Notification('News', 'images/elon.jpeg', 'windsor police', 'we caught the guy'))
     
     return notifications
 
