@@ -32,7 +32,6 @@ and add html somewhere, to make them appear, try clicking another then come back
     height: 50px;
   }
 
-  
   .reactionbarvalues {
     display: inline-flex;
     height: 50px;
@@ -43,25 +42,9 @@ and add html somewhere, to make them appear, try clicking another then come back
     border: 1px solid black;
   }
 
-
   .post {
     width: 100%;
     border: 1px solid blue;
-  }
-
-  .upper-toolbar {
-    width:100%;
-    align-items: center;
-    display: inline-block;
-    border: 1px solid black;
-  }
-
-  .upt {
-    display: inline-block;
-    width: 45%;
-    text-align: center;
-    border: 1px solid black;
-    margin: 0px;
   }
 
   #home-searchbar{
@@ -79,6 +62,20 @@ and add html somewhere, to make them appear, try clicking another then come back
     position: -webkit-sticky;
     top: 0;
     background-color: white;
+  }
+
+  #home-tab1, #home-tab2{
+    width:50%;
+  }
+  
+  .lower-toolbar {
+    display: none;
+  }
+
+  .toolbar-icon {
+
+    margin-left: 10px;
+    margin-bottom: 0px;
   }
 
   @media only screen and (min-width: 1250px) {

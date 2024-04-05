@@ -1,36 +1,10 @@
 
-/*
-
-<div class="notification">
-
-        <div class="notification-header">
-            {% if obj.type == "Heart" %}
-                <img class="notification-icon" src="{% static 'images/pink-heart-fill.png' %}" alt="type"/>
-            {% elif obj.type == "News" %}
-                <img class="notification-icon" src="{% static 'images/purple-star.png' %}" alt="type"/>
-            {% elif obj.type == "Retweet" %}
-                <img class="notification-icon" src="{% static 'images/retweet.png' %}" alt="type"/>
-            {% endif %}
-            <img class="notification-profile" src="{{ obj.profile }}" alt="profile"/>
-            <img id="notification-elip" class="elip" src="{% static 'images/ellipsis.png' %}" alt="more"/>
-        </div>
-
-    {% if obj.type == "Heart" %}
-        <p class="notification-title">{{ obj.username }} liked your post! </p>
-    {% elif obj.type == "News" %}
-        <p class="notification-title">{{ obj.username }}</p>
-    {% elif obj.type == "Retweet" %}
-        <p class="notification-title">{{ obj.username }} retweeted your post! </p>
-    {% endif %}
-        <p class="notification-text"> {{ obj.text }}</p>
-</div>
-
-*/
 .notification {
   width: 100%;
   border-bottom: 1px solid lightgray;
   display: flex;
   flex-direction: column;
+  gap: 8px;
   align-items: start;
   background-color: white;
   padding-left: 20px;
@@ -48,20 +22,21 @@
   flex-direction: row;
   align-items: center;
   justify-content: left;
+  width: 100%;
 }
 
 .notification-icon {
   display:inline;
   margin-left:0;
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
 }
 
 .notification-profile{
   display:inline;
   margin-left:10px;
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
 }
 
@@ -71,10 +46,14 @@
 }
 
 
-.notification-elip{
+#notification-elip{
   display:inline;
   margin-left:auto;
   margin-right:0px;
+  width: 35px;
+  height: 35px;
+  padding: 8px;
+  border-radius: 50%;
 }
 
 .notification-title{
@@ -109,6 +88,10 @@
   position: -webkit-sticky;
   top: 0;
   background-color: white;
+}
+
+#notification-tab1, #notification-tab2, #notification-tab3{
+  width: 33.3%;
 }
 
 @media only screen and (min-width: 1250px) {

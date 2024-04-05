@@ -1,5 +1,9 @@
 
-for (let i = 1; i < 4; i++) { 
+
+//json parsing error (looking into json parsing a CLASS list)
+//var my_list = JSON.parse('{{ profilesj|escapejs }}');
+
+for (let i = 1; i < 4/*window.my_list.length*/; i++) { 
 
     let str_id1= "spi-" + i;
     let str_id2= "pm-" + i;

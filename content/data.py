@@ -73,13 +73,34 @@ class Post():
         self.views = views
 """
 
-# function that creates data for the feed (homePage)
-def createFeed():
+# function that creates data for the for you feed (homePage)
+def createForYouFeed():
     # creating list
     feed = []
  
     # appending instances to list
-    feed.append(Post('url', 'shane', 'shane17', '4h', 'Yo, this is my first tweet', 'image_url', 3, 7, 35, 201))
+    feed.append(Post('url', 'shane', 'shane17', '4h', 'Yo, this is the for you feed', 'image_url', 3, 7, 35, 201))
+    feed.append(Post('url', 'barry', 'sanders22', '20m', "I'm the best to ever do it", 'image_url', 15, 50, 120, 1034))
+    feed.append(Post('url', 'jon', 'therealbonjovi', '2d', "Livin' on a prayer", 'image_url', 120, 1000, 12000, 300000))
+    feed.append(Post('url', 'emmy', 'thedogemmy', '2h', 'Ruff ruff ruff', 'image_url', 1, 2, 7, 51))
+    feed.append(Post('url', 'shane', 'shane17', '4h', 'Yo, this is the for you feed', 'image_url', 3, 7, 35, 201))
+    feed.append(Post('url', 'barry', 'sanders22', '20m', "I'm the best to ever do it", 'image_url', 15, 50, 120, 1034))
+    feed.append(Post('url', 'jon', 'therealbonjovi', '2d', "Livin' on a prayer", 'image_url', 120, 1000, 12000, 300000))
+    feed.append(Post('url', 'emmy', 'thedogemmy', '2h', 'Ruff ruff ruff', 'image_url', 1, 2, 7, 51))
+
+    return feed
+
+# function that creates data for the following feed (homePage)
+def createFollowingFeed():
+    # creating list
+    feed = []
+ 
+    # appending instances to list
+    feed.append(Post('url', 'shane', 'shane17', '4h', 'Yo, this is the following feed', 'image_url', 3, 7, 35, 201))
+    feed.append(Post('url', 'barry', 'sanders22', '20m', "I'm the best to ever do it", 'image_url', 15, 50, 120, 1034))
+    feed.append(Post('url', 'jon', 'therealbonjovi', '2d', "Livin' on a prayer", 'image_url', 120, 1000, 12000, 300000))
+    feed.append(Post('url', 'emmy', 'thedogemmy', '2h', 'Ruff ruff ruff', 'image_url', 1, 2, 7, 51))
+    feed.append(Post('url', 'shane', 'shane17', '4h', 'Yo, this is the following feed', 'image_url', 3, 7, 35, 201))
     feed.append(Post('url', 'barry', 'sanders22', '20m', "I'm the best to ever do it", 'image_url', 15, 50, 120, 1034))
     feed.append(Post('url', 'jon', 'therealbonjovi', '2d', "Livin' on a prayer", 'image_url', 120, 1000, 12000, 300000))
     feed.append(Post('url', 'emmy', 'thedogemmy', '2h', 'Ruff ruff ruff', 'image_url', 1, 2, 7, 51))
@@ -117,6 +138,11 @@ def createNotifications():
     notifications.append(Notification('Retweet', 'images/elon.jpeg', 'george', 'paragraph paragraph paragraph paragraph'))
     notifications.append(Notification('Heart', 'images/elon.jpeg', 'barry', 'more words more words more words'))
     notifications.append(Notification('News', 'images/elon.jpeg', 'windsor police', 'we caught the guy'))
+    notifications.append(Notification('Heart', 'images/elon.jpeg', 'shane', 'words words words'))
+    notifications.append(Notification('News', 'images/elon.jpeg', 'hanna', 'sentence setenc esnetence'))
+    notifications.append(Notification('Retweet', 'images/elon.jpeg', 'george', 'paragraph paragraph paragraph paragraph'))
+    notifications.append(Notification('Heart', 'images/elon.jpeg', 'barry', 'more words more words more words'))
+    notifications.append(Notification('News', 'images/elon.jpeg', 'windsor police', 'we caught the guy'))
     
     return notifications
 
@@ -140,6 +166,9 @@ def createProfiles():
     profiles = []
  
     # appending instances to list
+    profiles.append(Profile('images/elon.jpeg', 'Shane', 'sugarshay5', 'Uwin | 2022 Grad | Mallards', shortenNum(200), shortenNum(150)))
+    profiles.append(Profile('images/elon.jpeg', 'Barry', 'cuddlyBar', 'always be the best bear you can be!', shortenNum(2305), shortenNum(5000)))
+    profiles.append(Profile('images/elon.jpeg', 'Hanna', 'hanbanana22', 'I am the best girlfriend in the world!', shortenNum(150), shortenNum(4500)))
     profiles.append(Profile('images/elon.jpeg', 'Shane', 'sugarshay5', 'Uwin | 2022 Grad | Mallards', shortenNum(200), shortenNum(150)))
     profiles.append(Profile('images/elon.jpeg', 'Barry', 'cuddlyBar', 'always be the best bear you can be!', shortenNum(2305), shortenNum(5000)))
     profiles.append(Profile('images/elon.jpeg', 'Hanna', 'hanbanana22', 'I am the best girlfriend in the world!', shortenNum(150), shortenNum(4500)))

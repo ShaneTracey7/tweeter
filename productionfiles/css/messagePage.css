@@ -185,21 +185,6 @@
     caret-color: #1DA1F2;
 }
 
-#page-title {
-    display: inline;
-    font-weight: bold;
-    font-size: 1.25rem;
-    margin-left: 15px;
-    margin-bottom: 0;
-}
-
-.title-icons {
-    display: inline;
-    margin-left: auto;
-    margin-right: 10px;
-    width:fit-content;
-}
-
 #eplus-icon {
     display: inline;
     width: 33px;
@@ -208,32 +193,9 @@
     border-radius: 50%;
     margin: 0px;
 }
-
-.toolbar-icon {
-    display: inline;
-    width: 33px;
-    height: 33px;
-    padding: 8px;
-    border-radius: 50%;
-    margin: 0px;
-}
-
-.toolbar-icon:hover{
-    background-color: rgba(0, 0, 0, 0.100);
-}
-
 #eplus-icon:hover{
     background-color: rgba(0, 0, 0, 0.100);
 }
-
-.upper-toolbar {
-    display:flex;
-    flex-direction: row;
-    width:100%;
-    align-items: center;
-    /*border: 1px solid black;*/
-    height: 50px;
-  }
 
   .elip + .tooltip > .tooltip-inner {
     background-color: darkslategray;

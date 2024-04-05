@@ -12,21 +12,27 @@
 {% endblock %}
 
 {% block title %}
-<ul>
-  <li>
-    <a class="upt" href="">For you</a>
-    <div id="marker"></div>
-  </li>
-  <li>
-    <a class="upt" href="">Following</a>
-    <div id="marker">hello</div>
-  </li>
-</ul>
+<div id="home-tab1" class="toolbar-tabs">
+  <div class="tab-container">
+    <a class="tab-item" id="tab-text" href="#home-tab1"> For you</a>
+    <div class="tab-item" id="marker"></div>
+  </div>
+</div>
+
+<div id="home-tab2" class="toolbar-tabs">
+  <div class="tab-container">
+    <a class="tab-item" id="tab-text" href="#home-tab2"> Following</a>
+    <div class="tab-item" id="marker"></div>
+  </div>
+</div>
+
+<div class="title-icons">
+  <img class="toolbar-icon" src="{% static 'images/cog.svg' %}" alt="cog"/>
+</div>
 
 {% endblock %}
 
 {% block additional %}
-<p> Nothing goes here for now</p>
 {% endblock %}
 
 {% block content %}
@@ -36,7 +42,7 @@
 </div>
 
 <!-- <div class="p-column"> -->
-    {% for post in feed %}
+    {% for post in forYouFeed %}
         {% include "post.html" with profile=post.profile username=post.username acc_name=post.acc_name e_time=post.e_time text=post.text image=post.image comments=post.comments retweets=post.retweets likes=post.likes  views=post.views %}
     {% endfor %}
 

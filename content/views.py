@@ -2,11 +2,13 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 from . import data
+import json
 
 def content(request):
     template = loader.get_template('homePage.html')
     context = {
-    'feed': data.createFeed(),
+    'forYouFeed': data.createForYouFeed(),
+    'followingFeed': data.createFollowingFeed(),
     'topics': data.createSearchTopics(),
     'profiles': data.createProfiles(),
   }
@@ -17,6 +19,7 @@ def search(request):
     context = {
     'topics': data.createSearchTopics(),
     'profiles': data.createProfiles(),
+    #'profilesj': json.dumps(data.createProfiles()),
   }
     return HttpResponse(template.render(context,request))
 
