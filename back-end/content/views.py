@@ -4,7 +4,7 @@ from django.template import loader
 from . import data
 import json
 
-# for angular 
+# for angular (not being used at all atm )
 def home(request):
     template = loader.get_template('angular_index.html')
     context = {

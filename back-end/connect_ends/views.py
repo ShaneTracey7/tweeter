@@ -14,3 +14,4 @@ def get_data(request):
 	if request.method == 'GET':
 		serializer = ExampleModelSerializer(data, many=True)
 		return JsonResponse(serializer.data, safe=False)
+	

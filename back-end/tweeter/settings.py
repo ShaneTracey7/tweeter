@@ -15,9 +15,14 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+#old
 #BASE_DIR = Path(__file__).resolve().parent.parent
+
+#new
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -55,18 +60,31 @@ INSTALLED_APPS = [
     'connect_ends',
     'rest_framework',
     'bootstrap5',
-    'whitenoise.runserver_nostatic'
+    'whitenoise.runserver_nostatic',
+    'corsheaders',
+    'base',
+    'api'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    
+]
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_ALL_HEADERS=True
+
+CORS_ALLOWED_ORIGINS = [
+"http://localhost:4200",
+#"http://127.0.0.1:8000"
 ]
 
 ROOT_URLCONF = 'tweeter.urls'
@@ -136,13 +154,20 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
+
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
 
 # Extra places for collectstatic to find static files.
-STATICFILES_DIRS = [
-    os.path.join(PROJECT_ROOT, 'static'),
-]
+#STATICFILES_DIRS = [
+#    os.path.join(PROJECT_ROOT, 'static'),
+#]
+
+# old set up
+#BASE_DIR = Path(__file__).resolve().parent.parent
+#STATIC_ROOT = BASE_DIR / 'productionfiles'
+#STATIC_URL = 'static/'
+
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/

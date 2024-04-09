@@ -22,14 +22,26 @@ Including another URLconf
 #   path('admin/', admin.site.urls),
 #]
 
-from django.urls import include, re_path
+from django.urls import include, path, re_path
 from django.contrib import admin
 from django.views.generic.base import TemplateView
 from connect_ends.views import *
+from api import views
 
 urlpatterns = [
     
-    re_path(r'^admin/', admin.site.urls),
-    re_path(r'^getData/', get_data),
-    re_path(r'^.*', TemplateView.as_view(template_name="home.html"), name="home")
+    #re_path(r'^admin/', admin.site.urls),
+    #re_path(r'^getData/', get_data),
+    #re_path(r'^.*', TemplateView.as_view(template_name="home.html"), name="home")
+    #path('', include('content.urls')),
+    path('admin/', admin.site.urls),
+    #path('getData/', get_data),
+    #path('.*', TemplateView.as_view(template_name="home.html"), name="home")
+    #path('', TemplateView.as_view(template_name="home.html"), name="home"),
+    #path('', include('connect_ends.urls')),
+
+    re_path(r'^student$',views.studentApi),
+    re_path(r'^student$',views.studentApi),
+    re_path(r'^student/([0-9]+)$',views.studentApi),
+    #path('', include('api.urls')),
 ]
