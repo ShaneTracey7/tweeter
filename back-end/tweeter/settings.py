@@ -57,19 +57,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'content',
-    'connect_ends',
+    'corsheaders',
     'rest_framework',
     'bootstrap5',
     'whitenoise.runserver_nostatic',
-    'corsheaders',
-    'base',
-    'api'
+    
+    'api.apps.ApiConfig'
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware', 
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -84,7 +83,6 @@ CORS_ALLOW_ALL_HEADERS=True
 
 CORS_ALLOWED_ORIGINS = [
 "http://localhost:4200",
-#"http://127.0.0.1:8000"
 ]
 
 ROOT_URLCONF = 'tweeter.urls'

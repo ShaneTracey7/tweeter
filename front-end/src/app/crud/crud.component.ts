@@ -47,6 +47,9 @@ export class CrudComponent {
     {
         console.log(resultData);
         this.StudentArray = resultData;
+        this.name = '';
+        this.address = '';
+        this.fee  = 0;
     });
   }
  
