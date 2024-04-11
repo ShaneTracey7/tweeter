@@ -1,3 +1,22 @@
-<app-crud></app-crud>
+<!--<app-crud></app-crud>-->
+<!-- just for testing the toolbar template-->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Master</title> <!-- should change dyanimcally based on where in app you're in ex. Home, Notification-->
 
-<router-outlet />
+  <!-- add bootstrap_css,bootstrap_javascript, global.js, global.css to app.component.ts-->
+
+  <meta name="viewport" content="width=device-width,height=device-height, initial-scale=1">
+</head>
+<body>
+
+<!-- navbar add here-->
+<app-navigation-bar></app-navigation-bar>
+  
+<router-outlet></router-outlet>
+  
+</body>
+
+</html>
+

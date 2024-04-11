@@ -33,6 +33,7 @@ urlpatterns = [
     re_path(r'^student$',views.studentApi),
     re_path(r'^student/([0-9]+)$',views.studentApi),
     path('admin/', admin.site.urls),
+    path('', include('content.urls')),
 ]
 
     #re_path(r'^admin/', admin.site.urls),
