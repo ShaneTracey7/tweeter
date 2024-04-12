@@ -1,0 +1,27 @@
+<p>This is the for you feed</p>
+<!--
+  {% for post in forYouFeed %}
+  {% include "post.html" with profile=post.profile username=post.username acc_name=post.acc_name e_time=post.e_time text=post.text image=post.image comments=post.comments retweets=post.retweets likes=post.likes  views=post.views %}
+  {% endfor %}
+-->
+
+<!--
+      {% for topic in topics %}
+        {% include "searchCard.html" with obj=topic %}
+      {% endfor %}
+-->
+
+<!--
+      {% for profile in profiles %}
+      {% include "shortProfile.html" with profile=profile button="yes" count=forloop.counter %}
+      {% endfor %}
+-->
+
+<!-- modal content add here-->
+
+    <!--
+    {% for profile in profiles %}
+    {% include "profileModal.html" with profile=profile count=forloop.counter %}
+    {% endfor %}
+      -->
+

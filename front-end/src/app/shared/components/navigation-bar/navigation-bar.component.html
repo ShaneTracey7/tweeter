@@ -6,12 +6,12 @@
     <!-- Links -->
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a id="tweeter-navbar" class="nav-link" routerLink="/Home" routerLinkActive="active">
+        <a id="tweeter-navbar" class="nav-link" routerLink="/Home">
             <img id="tnb" class="navbaricons" src="../../../../assets/images/tweeter-logo-blue.png" alt="Logo"/>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/Home" routerLinkActive="active">
+        <a class="nav-link" routerLink="/Home">
           <!--{% if page == "home" %}
           <img class="navbaricons" src="../../../../assets/images/house-fill.svg" alt="Home"/>
           <p class="navbartext" style="font-weight: bold;"> Home </p>
@@ -23,7 +23,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/Explore" routerLinkActive="active">
+        <a class="nav-link" routerLink="/Explore">
             <!--{% if page == "search" %}
             <img class="navbaricons" src="../../../../assets/images/magnifier-bold.svg" alt="Search"/>
             <p class="navbartext" style="font-weight: bold;"> Explore </p>
@@ -34,7 +34,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/Notification" routerLinkActive="active">
+        <a class="nav-link" routerLink="/Notification">
            <!-- {% if page == "notification" %}
             <img class="navbaricons"  src="../../../../assets/images/bell-fill.svg" alt="Notifications"/>
             <p class="navbartext" style="font-weight: bold;"> Notifications </p>
@@ -45,7 +45,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/Message" routerLinkActive="active">
+        <a class="nav-link" routerLink="/Message">
         <!--  {% if page == "message" %}
           <img class="navbaricons" src="../../../../assets/images/envelope-fill.svg" alt="Messages"/>
             <p class="navbartext" style="font-weight: bold;"> Messages </p>
@@ -56,7 +56,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="">
+        <a class="nav-link" routerLink="/">
         <!--  {% if page == "user" %}
           <img class="navbaricons" src="../../../../assets/images/user-fill.svg" alt="User"/>
           <p class="navbartext" style="font-weight: bold;"> Profile </p>
@@ -67,13 +67,13 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="">
+        <a class="nav-link" routerLink="/">
             <img class="navbaricons" src="../../../../assets/images/more.svg" alt="More"/>
             <p class="navbartext"> More </p>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="">
+        <a class="nav-link" routerLink="/">
             <img id="write-tweet" src="../../../../assets/images/write-tweet.png" alt="Post"/>
             <button id="navbarpost"> Post </button>
         </a>
