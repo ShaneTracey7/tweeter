@@ -17,36 +17,36 @@
 
         <div id="search-tab1" class="toolbar-tabs">
             <div class="tab-container">
-                <a class="tab-item" id="tab-text" [routerLink]="['Explore/']" fragment="search-tab1"> For you</a>
-                <div class="tab-item" id="marker"></div>
+                <button (click)="routeToChild('foryou')" class="tab-item" id="tab-text" [style]="getMarkerStyles(1)"> For you</button>
+                <div class="tab-item" id="marker" [style]="displayMarker(1)"></div>
                 </div>
         </div>
   
         <div id="search-tab2" class="toolbar-tabs">
             <div class="tab-container">
-                <a class="tab-item" id="tab-text" href="#search-tab2"> Trending</a>
-                <div class="tab-item" id="marker"></div>
+                <button (click)="routeToChild('trending')" class="tab-item" id="tab-text" [style]="getMarkerStyles(2)"> Trending</button>
+                <div class="tab-item" id="marker" [style]="displayMarker(2)"></div>
             </div>
         </div>
   
         <div id="search-tab3" class="toolbar-tabs">
             <div class="tab-container">
-                <a class="tab-item" id="tab-text" href="#search-tab3"> News</a>
-                <div class="tab-item" id="marker"></div>
+                <button (click)="routeToChild('news')" class="tab-item" id="tab-text" [style]="getMarkerStyles(3)"> News</button>
+                <div class="tab-item" id="marker" [style]="displayMarker(3)"></div>
             </div>
         </div>
   
         <div id="search-tab4" class="toolbar-tabs">
             <div class="tab-container">
-                <a class="tab-item" id="tab-text" href="#search-tab4"> Sports</a>
-                <div class="tab-item" id="marker"></div>
+                <button (click)="routeToChild('sports')" class="tab-item" id="tab-text" [style]="getMarkerStyles(4)"> Sports</button>
+                <div class="tab-item" id="marker" [style]="displayMarker(4)"></div>
             </div>
         </div>
   
         <div id="search-tab5" class="toolbar-tabs">
             <div class="tab-container">
-                <a class="tab-item" id="tab-text" href="#search-tab5"> Entertainment</a>
-                <div class="tab-item" id="marker"></div>
+                <button (click)="routeToChild('entertainment')" class="tab-item" id="tab-text" [style]="getMarkerStyles(5)"> Entertainment</button>
+                <div class="tab-item" id="marker" [style]="displayMarker(5)"></div>
             </div>
         </div>
 

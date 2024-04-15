@@ -17,7 +17,6 @@ const routes: Routes = [
     redirectTo: 'h',
     pathMatch: 'full',
   },
-
   {
     path: 'Home',
     component: HomePageComponent,
@@ -26,17 +25,17 @@ const routes: Routes = [
       {
         path: '',
         component: ForYouComponent,
-        outlet: 'forYouFeed'
-      },
-      {
-        path: '',
-        component: FollowingComponent,
-        outlet: 'followingFeed'
+        //outlet: 'forYouFeed'
       },
       {
         path: 'following',
         component: FollowingComponent,
-        outlet: 'followingFeed'
+        //outlet: 'followingFeed'
+      },
+      {
+        path: 'foryou',
+        component: ForYouComponent,
+        //outlet: 'forYouFeed'
       },
     ]
   },
@@ -45,20 +44,64 @@ const routes: Routes = [
     path: 'Explore',
     component: ExplorePageComponent,
     title: 'Explore',
+    children: [
+      {
+        path: '',
+        component: ForYouComponent,
+      },
+      {
+        path: 'foryou',
+        component: ForYouComponent,
+      },
+      {
+        path: 'trending',
+        component: ForYouComponent,
+      },
+      {
+        path: 'news',
+        component: ForYouComponent,
+      },
+      {
+        path: 'sports',
+        component: ForYouComponent,
+      },
+      {
+        path: 'entertainment',
+        component: ForYouComponent,
+
+      },
+    ]
 
   },
 
   {
     path: 'Notification',
     component: NotificationPageComponent,
-    title: 'Notification'
+    title: 'Notification',
+    children: [
+      {
+        path: '',
+        component: ForYouComponent,
+      },
+      {
+        path: 'all',
+        component: ForYouComponent,
+      },
+      {
+        path: 'mentions',
+        component: ForYouComponent,
+      },
+      {
+        path: 'verified',
+        component: ForYouComponent,
+      },
+    ]
   },
   {
     path: 'Message',
     component: MessagePageComponent,
     title: 'Message'
   },
-
   {
     path: '**',
     component: PageNotFoundComponent,

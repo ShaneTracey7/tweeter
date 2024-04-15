@@ -1,0 +1,239 @@
+/* <----------------------------------------  navigation bar  ----------------------------------------> */   
+  
+#navbar-top
+{
+  padding: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  background-color: white;
+}
+
+.navbartext {
+  display: none;
+  color: black;
+  font-size: 1.25rem;
+  vertical-align: middle;
+  height: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+  /* border: 1px solid red; */
+}
+
+#write-tweet {
+  width: 50px;
+  height: 50px;
+  text-align: center;
+}
+
+#navbarpost {
+  display: none;
+  width: 80%;
+  background-color: #1DA1F2;
+  color: white;
+  border-radius: 25px;
+  height: 50px;
+  border: 0px;
+  font-weight: bold;
+}
+
+#navbarpost:hover{
+  background-color: #1a8cd3;
+}
+
+img.navbaricons {
+  width: 22px;
+  height: 22px;
+}
+
+.nav-item {
+  margin: 5px;
+}
+
+.nav-link {
+  align-items: self-end;
+  padding: 14px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid green; */
+}
+
+.nav-link:hover {
+  background-color: rgba(0, 0, 0, 0.100);
+}
+
+
+.navbar-nav {
+  width: 100%;
+  align-items:self-end;
+  height: 100%;
+  min-height: 500px;
+  /*border: 1px solid green;*/
+}
+
+#profile-nav-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+#profile-nav {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#profile-nav:hover {
+  background-color: rgba(0, 0, 0, 0.100);
+}
+
+#profile-nav-elip {
+  display:none;
+  margin-left: auto;
+  margin-right: 10px;
+}
+
+#profile-nav-elip:hover {
+  background-color: transparent;
+}
+
+#profile-nav-text {
+  display:none;
+  padding-left: 10px;
+  padding-right: 10px;
+  /*border: 1px solid green;*/
+}
+
+#profile-nav-username {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-bottom: 0;
+  width: fit-content;
+}
+#profile-nav-accountname {
+  display: block;
+  font-size: 0.8rem;
+  margin: 0;
+  margin-block-start: 0px;
+  margin-block-end: 0px;
+  width: fit-content;
+}
+
+#bottom-nav {
+  display: flex;
+  min-height: 75px;
+  margin-top: auto;
+  margin-bottom: 10px;
+  width: 100%;   
+  justify-content: right;
+  align-items: center;
+  /*border: 1px solid blue;*/
+}
+
+@media only screen and (min-width: 1250px) {
+  
+    /* navbar */
+
+    img.navbaricons {
+      vertical-align: middle;
+      margin: unset;
+      display:inline;
+      padding-left: 15px;
+      width: fit-content;
+    }
+
+    .nav-link {
+      display:inline;
+      border-radius: 25px;
+      padding-left: 0;
+      padding-right: 0;
+      margin-left: 20px;
+      justify-content: left;
+    }
+
+    .nav-item { /* changed from li */
+      display: inline;
+      vertical-align: middle;
+      align-items: left;
+      height: 50px;
+      width: 100%;
+      /* border: 1px solid blue; */
+      }   
+
+    .navbar-nav {
+      align-items:center;
+    }
+
+    #tweeter-navbar {
+      align-items: self-end;
+      padding: 14px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      /* border: 1px solid green; */
+    }
+
+    #tnb {
+      padding-left: 0px;
+    }
+
+    .navbartext {
+        display: inline; /* inline-block */
+    }
+
+    #navbarpost {
+      display: inline-block;
+    }
+
+    #write-tweet {
+      display: none;
+    }
+
+    #post-navlink:hover {
+      background-color: transparent;
+    }
+
+    #profile-nav-elip {
+      display:inline;
+    }
+
+    #profile-nav-text {
+      display:inline;
+    }
+    
+    #profile-nav-img {
+      vertical-align: middle;
+      margin: unset;
+      margin-left: 10px;
+      display:inline;
+    }
+
+    #profile-nav {
+      flex-direction: row;
+      vertical-align: middle;
+      border-radius: 40px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      margin-left: 20px;
+      min-width: fit-content;
+      width: 80%;
+      /*border: 1px solid red;*/
+    }
+
+    #bottom-nav {
+        align-items: left;
+        justify-content: left;
+    }
+
+
+}
