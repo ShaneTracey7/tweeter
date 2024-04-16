@@ -20,7 +20,9 @@ export class AppComponent implements OnInit{
   marker4= false;//sports
   marker5= false;//entertainment
 
+  current_tab = "";
   current_page = "Home";
+  
 
   constructor(private route: ActivatedRoute, private router: Router) { }
   ngOnInit(): void {
@@ -29,6 +31,25 @@ export class AppComponent implements OnInit{
     setCurrentPage(str: string)
     {
       this.current_page = str;
+    }
+
+    boldNavbarIcon(str: string) {
+      var check;
+
+      switch(str)
+      {
+        case "house": check="Home";break;
+        case "magnifier": check="Explore";break;
+        case "envelope": check="Messages";break;
+        case "bell": check="Notifications";break;
+      }
+
+      if (this.current_page == check) {
+        return "../../../../assets/images/" + str + "-fill.svg";
+      }
+      else{
+        return "../../../../assets/images/" + str + ".svg";
+      }
     }
 
     boldNavbarItem(str: string) {
@@ -43,12 +64,10 @@ export class AppComponent implements OnInit{
         }
       }
     }
-
-
-
   
   routeToChild(str: string){
       this.router.navigate([str], {relativeTo:this.route});
+      this.current_tab = str;
       if (str == "foryou" || str == "all")
         {
           this.marker1= true; 

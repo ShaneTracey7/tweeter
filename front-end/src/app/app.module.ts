@@ -13,22 +13,25 @@ import { MessagePageComponent } from './message-page/message-page.component';
 import { NotificationPageComponent } from './notification-page/notification-page.component';
 import { NavigationBarComponent } from './shared/components/navigation-bar/navigation-bar.component';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
-import { ForYouComponent } from './home-page/components/foryou.component';
-import { FollowingComponent } from './home-page/components/following.component';
+import { MainContentComponent } from './shared/components/main-content/main-content.component';
+import { PostComponent } from './home-page/components/post.component';
+import { MessageComponent } from './message-page/components/message.component';
+
 
 
 @NgModule({
   declarations: [
-
-    ForYouComponent,
-    FollowingComponent,
+    
     AppComponent,
     NavigationBarComponent,
+    MainContentComponent,
     HomePageComponent,
     CrudComponent,
     ExplorePageComponent,
     MessagePageComponent,
     NotificationPageComponent,
+    PostComponent,
+    MessageComponent
     
   ],
   imports: [

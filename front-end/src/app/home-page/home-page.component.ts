@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppComponent } from '../app.component';
 
@@ -11,6 +11,8 @@ import { AppComponent } from '../app.component';
 /* HOPING the scope of this is just within home-page module, but it could be global */
 })
 export class HomePageComponent extends AppComponent{
+
+ 
 
 
 }

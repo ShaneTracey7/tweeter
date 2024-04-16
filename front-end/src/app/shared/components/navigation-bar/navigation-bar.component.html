@@ -16,7 +16,7 @@
           <img class="navbaricons" src="../../../../assets/images/house-fill.svg" alt="Home"/>
           <p class="navbartext" style="font-weight: bold;"> Home </p>
           {% else %} -->
-          <img class="navbaricons" src="../../../../assets/images/house.svg" alt="Home"/>
+          <img class="navbaricons" [src]="boldNavbarIcon('house')" alt="Home"/>
           <p class="navbartext" [style]="boldNavbarItem('Home')"> Home </p>
           <!-- {% endif %} -->
           
@@ -28,7 +28,7 @@
             <img class="navbaricons" src="../../../../assets/images/magnifier-bold.svg" alt="Search"/>
             <p class="navbartext" style="font-weight: bold;"> Explore </p>
            {% else %}-->
-            <img class="navbaricons" src="../../../../assets/images/magnifier.svg" alt="Search"/>
+            <img class="navbaricons" [src]="boldNavbarIcon('magnifier')" alt="Search"/>
             <p class="navbartext" [style]="boldNavbarItem('Explore')"> Explore </p>
            <!-- {% endif %}-->
         </a>
@@ -39,7 +39,7 @@
             <img class="navbaricons"  src="../../../../assets/images/bell-fill.svg" alt="Notifications"/>
             <p class="navbartext" style="font-weight: bold;"> Notifications </p>
             {% else %}-->
-            <img class="navbaricons"  src="../../../../assets/images/bell.svg" alt="Notifications"/>
+            <img class="navbaricons"  [src]="boldNavbarIcon('bell')" alt="Notifications"/>
             <p class="navbartext" [style]="boldNavbarItem('Notifications')"> Notifications </p>
            <!-- {% endif %}-->
         </a>
@@ -50,7 +50,7 @@
           <img class="navbaricons" src="../../../../assets/images/envelope-fill.svg" alt="Messages"/>
             <p class="navbartext" style="font-weight: bold;"> Messages </p>
          {% else %}-->
-            <img class="navbaricons" src="../../../../assets/images/envelope.svg" alt="Messages"/>
+            <img class="navbaricons" [src]="boldNavbarIcon('envelope')" alt="Messages"/>
             <p class="navbartext" [style]="boldNavbarItem('Messages')"> Messages </p>
         <!--  {% endif %}-->
         </a>

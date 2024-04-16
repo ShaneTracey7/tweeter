@@ -1,0 +1,47 @@
+
+
+
+
+<div *ngIf="tab == 'following'"> <!-- ; else elseBlock-->
+  This is the following feed
+
+<app-post
+  *ngFor="let post of posts"
+  [post]="post">
+</app-post>
+
+  <!--
+  {% for post in followingFeed %}
+  {% include "post.html" with profile=post.profile username=post.username acc_name=post.acc_name e_time=post.e_time text=post.text image=post.image comments=post.comments retweets=post.retweets likes=post.likes  views=post.views %}
+  {% endfor %}
+-->
+</div>
+<!--
+<ng-template #elseBlock>
+  This is not the following feed
+  
+  {% for post in forYouFeed %}
+  {% include "post.html" with profile=post.profile username=post.username acc_name=post.acc_name e_time=post.e_time text=post.text image=post.image comments=post.comments retweets=post.retweets likes=post.likes  views=post.views %}
+  {% endfor %}
+</ng-template>
+-->
+<div *ngIf="page == 'Home'"> <!-- should be page == messages, but somthing isn't working-->
+ 
+<app-message
+  *ngFor="let message of messages"
+  [message]="message">
+</app-message>
+
+  <!--
+  {% for post in followingFeed %}
+  {% include "post.html" with profile=post.profile username=post.username acc_name=post.acc_name e_time=post.e_time text=post.text image=post.image comments=post.comments retweets=post.retweets likes=post.likes  views=post.views %}
+  {% endfor %}
+-->
+</div>
+
+
+
+
+
+
+

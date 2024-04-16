@@ -4,8 +4,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { ExplorePageComponent } from './explore-page/explore-page.component';
 import { NotificationPageComponent } from './notification-page/notification-page.component';
 import { MessagePageComponent } from './message-page/message-page.component';
-import { ForYouComponent } from './home-page/components/foryou.component';
-import { FollowingComponent } from './home-page/components/following.component';
+import { MainContentComponent } from './shared/components/main-content/main-content.component';
 import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
 import { NavigationBarComponent } from './shared/components/navigation-bar/navigation-bar.component';
 
@@ -24,17 +23,17 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: ForYouComponent,
+        component: HomePageComponent,
         //outlet: 'forYouFeed'
       },
       {
         path: 'following',
-        component: FollowingComponent,
+        component: HomePageComponent,
         //outlet: 'followingFeed'
       },
       {
         path: 'foryou',
-        component: ForYouComponent,
+        component: HomePageComponent,
         //outlet: 'forYouFeed'
       },
     ]
@@ -47,27 +46,27 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: ForYouComponent,
+        component: MainContentComponent,
       },
       {
         path: 'foryou',
-        component: ForYouComponent,
+        component: MainContentComponent,
       },
       {
         path: 'trending',
-        component: ForYouComponent,
+        component: MainContentComponent,
       },
       {
         path: 'news',
-        component: ForYouComponent,
+        component: MainContentComponent,
       },
       {
         path: 'sports',
-        component: ForYouComponent,
+        component: MainContentComponent,
       },
       {
         path: 'entertainment',
-        component: ForYouComponent,
+        component: MainContentComponent,
 
       },
     ]
@@ -81,26 +80,32 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: ForYouComponent,
+        component: MainContentComponent,
       },
       {
         path: 'all',
-        component: ForYouComponent,
+        component: MainContentComponent,
       },
       {
         path: 'mentions',
-        component: ForYouComponent,
+        component: MainContentComponent,
       },
       {
         path: 'verified',
-        component: ForYouComponent,
+        component: MainContentComponent,
       },
     ]
   },
   {
     path: 'Message',
     component: MessagePageComponent,
-    title: 'Message'
+    title: 'Message',
+    children: [
+      {
+        path: '',
+        component: MainContentComponent,
+      },
+    ]
   },
   {
     path: '**',
