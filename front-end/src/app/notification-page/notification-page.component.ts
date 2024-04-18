@@ -7,5 +7,5 @@ import { AppComponent } from '../app.component';
   styleUrl: './notification-page.component.scss'
 })
 export class NotificationPageComponent extends AppComponent{
-
+  
 }

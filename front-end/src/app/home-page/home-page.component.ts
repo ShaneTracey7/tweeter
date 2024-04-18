@@ -12,7 +12,4 @@ import { AppComponent } from '../app.component';
 })
 export class HomePageComponent extends AppComponent{
 
- 
-
-
 }

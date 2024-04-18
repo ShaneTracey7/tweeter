@@ -8,4 +8,5 @@ import { AppComponent } from '../app.component';
 })
 export class MessagePageComponent extends AppComponent{
 
+  
 }

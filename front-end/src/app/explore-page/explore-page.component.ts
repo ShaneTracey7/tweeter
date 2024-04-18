@@ -7,5 +7,5 @@ import { AppComponent } from '../app.component';
   styleUrl: './explore-page.component.scss'
 })
 export class ExplorePageComponent extends AppComponent{
-
+  
 }

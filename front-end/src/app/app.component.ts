@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { HomePageComponent } from './home-page/home-page.component';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NavigationBarComponent } from './shared/components/navigation-bar/navigation-bar.component';
@@ -14,23 +14,32 @@ export class AppComponent implements OnInit{
   title = 'front-end';
 
   //used for toolbar tabs
-  marker1= false; //foryou/all
+  marker1= true; //foryou/all
   marker2= false; //following/trending/verified
   marker3= false;//mentions/news
   marker4= false;//sports
   marker5= false;//entertainment
 
-  current_tab = "";
-  current_page = "Home";
-  
+  current_tab: string = "";
+  current_page: string =  "";
+  cp_style: string = "";
 
-  constructor(private route: ActivatedRoute, private router: Router) { }
-  ngOnInit(): void {
-    }
+  constructor(public route: ActivatedRoute, private router: Router) { }
 
+  ngOnInit(): void
+  {
+    this.current_page = this.route.snapshot.url.toString();
+    //console.log(this.current_page);
+    //console.log(this.router.routerState.snapshot.url);
+  }
+
+    
+    
     setCurrentPage(str: string)
     {
-      this.current_page = str;
+      const tmp = str;
+      this.cp_style = tmp;
+      //console.log("logging page: " + this.current_page);
     }
 
     boldNavbarIcon(str: string) {
@@ -43,8 +52,9 @@ export class AppComponent implements OnInit{
         case "envelope": check="Messages";break;
         case "bell": check="Notifications";break;
       }
-
-      if (this.current_page == check) {
+      //console.log("cp: " + this.current_page + " check: " + check);
+      console.log("cp: " + this.cp_style);
+      if (this.cp_style == check) {
         return "../../../../assets/images/" + str + "-fill.svg";
       }
       else{
@@ -53,7 +63,7 @@ export class AppComponent implements OnInit{
     }
 
     boldNavbarItem(str: string) {
-      if (this.current_page == str) {
+      if (this.cp_style == str) {
         return {
           fontWeight: 'bold',
         };
@@ -64,9 +74,16 @@ export class AppComponent implements OnInit{
         }
       }
     }
-  
+    
   routeToChild(str: string){
-      this.router.navigate([str], {relativeTo:this.route});
+    
+    /*
+      if(str != "foryou" && str != "all")
+        {
+          this.router.navigate([str], {relativeTo:this.route});
+        }
+      */
+      console.log(this.router.routerState.snapshot.url);
       this.current_tab = str;
       if (str == "foryou" || str == "all")
         {
@@ -116,6 +133,7 @@ export class AppComponent implements OnInit{
           this.marker4= false; 
           this.marker5= false; 
         }
+        
     }
 
 

@@ -11,4 +11,5 @@ import { AppComponent } from '../../../app.component';
 })
 export class NavigationBarComponent extends AppComponent{
 
+
 }

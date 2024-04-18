@@ -121,6 +121,22 @@ def shortenNum(num):
 
     return feed;
  }
+ export function createFollowingFeed(){
+    //creating list
+    var feed = new Array<Post>;
+ 
+    //appending instances to list
+    feed.push(new Post('url', 'shane', 'shane17', '4h', 'Yo, this is the following feed', 'image_url', 3, 7, 35, 201));
+    feed.push(new Post('url', 'barry', 'sanders22', '20m', "I'm the best to ever do it", 'image_url', 15, 50, 120, 1034));
+    feed.push(new Post('url', 'jon', 'therealbonjovi', '2d', "Livin' on a prayer", 'image_url', 120, 1000, 12000, 300000));
+    feed.push(new Post('url', 'emmy', 'thedogemmy', '2h', 'Ruff ruff ruff', 'image_url', 1, 2, 7, 51));
+    feed.push(new Post('url', 'shane', 'shane17', '4h', 'Yo, this is the for you feed', 'image_url', 3, 7, 35, 201));
+    feed.push(new Post('url', 'barry', 'sanders22', '20m', "I'm the best to ever do it", 'image_url', 15, 50, 120, 1034));
+    feed.push(new Post('url', 'jon', 'therealbonjovi', '2d', "Livin' on a prayer", 'image_url', 120, 1000, 12000, 300000));
+    feed.push(new Post('url', 'emmy', 'thedogemmy', '2h', 'Ruff ruff ruff', 'image_url', 1, 2, 7, 51));
+
+    return feed;
+ }
  /*
 //function that creates data for the following feed (homePage)
 def createFollowingFeed():

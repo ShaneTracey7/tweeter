@@ -1,15 +1,19 @@
-import { Component, Input } from '@angular/core';
-import { createForYouFeed, createMessages } from '../../../data';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { createFollowingFeed, createForYouFeed, createMessages } from '../../../data';
+import { AppComponent } from '../../../app.component';
 @Component({
   /*standalone: true,*/
   selector: 'main-content',
   templateUrl: './main-content.component.html',
 })
 export class MainContentComponent {
-  @Input() tab = ''; // decorate the property with @Input()
-  @Input() page = ''; // decorate the property with @Input()
 
-  posts = createForYouFeed();
+  @Input() tab: string = ""; //what tab is being displayed
+  @Input() page: string = ""; //what current_page is being displayed
+
+  followingFeed = createFollowingFeed();
+
+  forYouFeed = createForYouFeed();
 
   messages = createMessages();
 

@@ -13,13 +13,14 @@ const routes: Routes = [
 
   {
     path: '',
-    redirectTo: 'h',
+    redirectTo: 'Home',
     pathMatch: 'full',
   },
   {
     path: 'Home',
     component: HomePageComponent,
     title: 'Home',
+    /*
     children: [
       {
         path: '',
@@ -31,61 +32,68 @@ const routes: Routes = [
         component: HomePageComponent,
         //outlet: 'followingFeed'
       },
+      //
       {
         path: 'foryou',
         component: HomePageComponent,
         //outlet: 'forYouFeed'
-      },
-    ]
+      },//
+    ]*/
   },
 
   {
     path: 'Explore',
     component: ExplorePageComponent,
     title: 'Explore',
+    /*
     children: [
       {
         path: '',
-        component: MainContentComponent,
+        component: ExplorePageComponent,
       },
+      //
       {
         path: 'foryou',
-        component: MainContentComponent,
+        component: ExplorePageComponent,
       },
+      //
       {
         path: 'trending',
-        component: MainContentComponent,
+        component: ExplorePageComponent,
       },
       {
         path: 'news',
-        component: MainContentComponent,
+        component: ExplorePageComponent,
       },
       {
         path: 'sports',
-        component: MainContentComponent,
+        component: ExplorePageComponent,
       },
       {
         path: 'entertainment',
-        component: MainContentComponent,
+        component: ExplorePageComponent,
 
       },
-    ]
+    ]*/
 
   },
 
   {
-    path: 'Notification',
+    path: 'Notifications',
     component: NotificationPageComponent,
-    title: 'Notification',
+    title: 'Notifications',
+    /*
     children: [
       {
         path: '',
         component: MainContentComponent,
       },
+      //
       {
         path: 'all',
         component: MainContentComponent,
       },
+      //
       {
         path: 'mentions',
         component: MainContentComponent,
@@ -95,17 +103,19 @@ const routes: Routes = [
         component: MainContentComponent,
       },
     ]
+    */
   },
   {
-    path: 'Message',
+    path: 'Messages',
     component: MessagePageComponent,
-    title: 'Message',
+    title: 'Messages',
+    /*
     children: [
       {
         path: '',
-        component: MainContentComponent,
+        component: MessagePageComponent,
       },
-    ]
+    ]*/
   },
   {
     path: '**',

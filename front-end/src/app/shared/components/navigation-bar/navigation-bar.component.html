@@ -12,58 +12,32 @@
       </li>
       <li class="nav-item">
         <a (click)="setCurrentPage('Home')" class="nav-link" routerLink="/Home">
-          <!--{% if page == "home" %}
-          <img class="navbaricons" src="../../../../assets/images/house-fill.svg" alt="Home"/>
-          <p class="navbartext" style="font-weight: bold;"> Home </p>
-          {% else %} -->
           <img class="navbaricons" [src]="boldNavbarIcon('house')" alt="Home"/>
-          <p class="navbartext" [style]="boldNavbarItem('Home')"> Home </p>
-          <!-- {% endif %} -->
-          
+          <p class="navbartext" [style]="boldNavbarItem('Home')"> Home </p>          
         </a>
       </li>
       <li class="nav-item">
-        <a (click)="setCurrentPage('Explore')" class="nav-link" routerLink="/Explore">
-            <!--{% if page == "search" %}
-            <img class="navbaricons" src="../../../../assets/images/magnifier-bold.svg" alt="Search"/>
-            <p class="navbartext" style="font-weight: bold;"> Explore </p>
-           {% else %}-->
+        <a (click)="setCurrentPage('Explore')" class="nav-link" routerLink="/Explore"> 
             <img class="navbaricons" [src]="boldNavbarIcon('magnifier')" alt="Search"/>
             <p class="navbartext" [style]="boldNavbarItem('Explore')"> Explore </p>
-           <!-- {% endif %}-->
         </a>
       </li>
       <li class="nav-item">
-        <a (click)="setCurrentPage('Notifications')" class="nav-link" routerLink="/Notification">
-           <!-- {% if page == "notification" %}
-            <img class="navbaricons"  src="../../../../assets/images/bell-fill.svg" alt="Notifications"/>
-            <p class="navbartext" style="font-weight: bold;"> Notifications </p>
-            {% else %}-->
+        <a (click)="setCurrentPage('Notifications')" class="nav-link" routerLink="/Notifications">
             <img class="navbaricons"  [src]="boldNavbarIcon('bell')" alt="Notifications"/>
             <p class="navbartext" [style]="boldNavbarItem('Notifications')"> Notifications </p>
-           <!-- {% endif %}-->
         </a>
       </li>
       <li class="nav-item">
-        <a (click)="setCurrentPage('Messages')" class="nav-link" routerLink="/Message">
-        <!--  {% if page == "message" %}
-          <img class="navbaricons" src="../../../../assets/images/envelope-fill.svg" alt="Messages"/>
-            <p class="navbartext" style="font-weight: bold;"> Messages </p>
-         {% else %}-->
+        <a (click)="setCurrentPage('Messages')" class="nav-link" routerLink="/Messages">
             <img class="navbaricons" [src]="boldNavbarIcon('envelope')" alt="Messages"/>
             <p class="navbartext" [style]="boldNavbarItem('Messages')"> Messages </p>
-        <!--  {% endif %}-->
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="/">
-        <!--  {% if page == "user" %}
-          <img class="navbaricons" src="../../../../assets/images/user-fill.svg" alt="User"/>
-          <p class="navbartext" style="font-weight: bold;"> Profile </p>
-          {% else %}-->
           <img class="navbaricons" src="../../../../assets/images/user.svg" alt="User"/>
           <p class="navbartext" style="font-weight: normal;"> Profile </p>
-        <!--  {% endif %}-->
         </a>
       </li>
       <li class="nav-item">
