@@ -1,0 +1,49 @@
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { CrudComponent } from './crud/crud.component';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+
+import { HomePageComponent } from './home-page/home-page.component';
+import { ExplorePageComponent } from './explore-page/explore-page.component';
+import { MessagePageComponent } from './message-page/message-page.component';
+import { NotificationPageComponent } from './notification-page/notification-page.component';
+import { NavigationBarComponent } from './shared/components/navigation-bar/navigation-bar.component';
+import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
+import { MainContentComponent } from './shared/components/main-content/main-content.component';
+import { PostComponent } from './home-page/components/post.component';
+import { MessageComponent } from './message-page/components/message.component';
+
+
+
+@NgModule({
+  declarations: [
+    
+    AppComponent,
+    NavigationBarComponent,
+    MainContentComponent,
+    HomePageComponent,
+    CrudComponent,
+    ExplorePageComponent,
+    MessagePageComponent,
+    NotificationPageComponent,
+    PostComponent,
+    MessageComponent
+    
+  ],
+  imports: [
+    RouterModule,
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
+    RouterLink, 
+    RouterLinkActive,
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule {}

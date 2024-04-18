@@ -1,0 +1,52 @@
+
+<div class="main-content">
+
+    <div class="toolbar">
+      <div class="upper-toolbar">
+      <!-- upper toolbar add here-->
+
+      <h1 class="page-title"> Messages </h1>
+      <div class="title-icons">
+        <img class="toolbar-icon" src="../../assets/images/cog.svg" alt="cog"/>
+        <img id="eplus-icon" src="../../assets/images/envelope-plus.svg" alt="plus"/>
+      </div>
+        
+      </div>
+      <div class="lower-toolbar">
+<!-- lower toolbar add here-->
+      </div>
+    </div>
+
+<!-- main content add here-->
+  
+    <form id="message-form">
+        <input id="message-searchbar" type="text" placeholder="Search Direct Messages">
+    </form>
+
+    <!-- inspect element in browser, it says reflect home page-->
+    <main-content [page]=current_page></main-content>
+<!--
+    {% for message in messages %}
+        {% include "message.html" with obj=message  %}
+    {% endfor %}
+-->
+</div>
+
+<div id="sc" class="secondary-content">
+    <!-- secondary content add here-->
+    
+    <div id="message-blurb">
+        <h2 id="messageb-title"> Select a message</h2>
+        <p id="messageb-text">Choose from your existing conversations, start a new one, or just keep swimming.</p>
+        <button id="messageb-button"> New message</button>
+    </div>
+
+</div>
+
+<div class="modal-content">
+<!-- modal content add here-->
+</div>
+
+
+
+

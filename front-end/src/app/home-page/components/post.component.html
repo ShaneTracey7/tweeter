@@ -1,0 +1,43 @@
+
+<!-- only used within homePage.html-->
+<div class="post">
+
+            <div class="postheading">
+                <img src="{{ post.profile }}" alt="profile"/>
+                <p>{{ post.username }}</p>
+                <p>{{ post.acc_name }}</p>
+                <p>{{ post.e_time }} </p>
+                <img class="elip" src="../../../assets/images/ellipsis.png" alt="more"/>
+            </div>
+
+            <div class="content">
+                <p> {{ post.text }}</p>
+                <img src="{{ post.image }}" alt="image"/>
+            </div>
+
+            <ul class="reactionbar">
+                <li class="reactiongroup">
+                    <img class="reactionbaricons" src="../../../assets/images/chat-bubble.png" alt="comment"/>
+                    <h3 class="reactionbarvalues"> {{ post.comments }} </h3>
+                </li>
+                <li class="reactiongroup">
+                    <img class="reactionbaricons" src="../../../assets/images/retweet.png" alt="retweet"/>
+                    <h3 class="reactionbarvalues"> {{ post.retweets }} </h3>
+                </li>
+                <li class="reactiongroup">
+                    <img class="reactionbaricons" src="../../../assets/images/heart.png" alt="like"/>
+                    <h3 class="reactionbarvalues" > {{ post.likes }} </h3>
+                </li>
+                <li class="reactiongroup">
+                    <img class="reactionbaricons" src="../../../assets/images/bar-graph.png" alt="view"/>
+                    <h3 class="reactionbarvalues"> {{ post.views }} </h3>
+                </li>
+                <li>
+                    <img class="reactionbaricons" src="../../../assets/images/bookmark.png" alt="bookmark"/>
+            
+                </li>
+                <li>
+                    <img class="reactionbaricons" src="../../../assets/images/share.png" alt="share"/>
+                </li>
+            </ul>
+</div>

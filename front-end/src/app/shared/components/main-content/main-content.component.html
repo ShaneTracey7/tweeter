@@ -1,0 +1,68 @@
+
+<div *ngIf="page == 'Home'">
+  <div [ngSwitch]="tab">
+    <div *ngSwitchCase="'following'">
+      <p> this is following feed</p>
+      <app-post
+      *ngFor="let post of followingFeed"
+      [post]="post">
+      </app-post>
+    </div>
+    <div *ngSwitchDefault> 
+      <p> default case</p>
+      <p> this is for you feed</p>
+      <app-post
+      *ngFor="let post of forYouFeed"
+      [post]="post">
+      </app-post>
+    </div>
+  </div>
+</div>
+<!--
+<div *ngIf="tab == 'following'" <; else elseBlock
+  This is the following feed
+
+<app-post
+  *ngFor="let post of posts"
+  [post]="post">
+</app-post>
+
+</div>
+-->
+<!--
+<ng-template #elseBlock>
+  This is not the following feed
+  
+  {% for post in forYouFeed %}
+  {% include "post.html" with profile=post.profile username=post.username acc_name=post.acc_name e_time=post.e_time text=post.text image=post.image comments=post.comments retweets=post.retweets likes=post.likes  views=post.views %}
+  {% endfor %}
+</ng-template>
+-->
+
+<div *ngIf="page == 'Explore'">
+  <app-message
+    *ngFor="let message of messages"
+    [message]="message">
+  </app-message>
+</div>
+
+<div *ngIf="page == 'Notifications'">
+  <app-message
+    *ngFor="let message of messages"
+    [message]="message">
+  </app-message>
+</div>
+
+<div *ngIf="page == 'Messages'">
+  <app-message
+    *ngFor="let message of messages"
+    [message]="message">
+  </app-message>
+</div>
+
+
+
+
+
+
+
