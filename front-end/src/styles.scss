@@ -91,8 +91,8 @@ $twitter-blue: #1DA1F2;
   */
   .profileModal {
     //display: none;
-    top: 100px; //test
-    left: 100px; //test
+    //top: 100px; //test
+    //left: 100px; //test
     position:fixed;
     display: flex;
     flex-direction: column;
@@ -514,7 +514,7 @@ $twitter-blue: #1DA1F2;
   }
   
   .secondary-content::-webkit-scrollbar {
-    display: none;
+  display: none;
     /*width: 10px;
     border: 5px 5px;*/
   }

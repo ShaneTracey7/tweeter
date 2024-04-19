@@ -162,7 +162,6 @@ export class Profile {
     return feed;
  }
 
-
 //function that creates data for the MessagesPage 
 export function createMessages(){
     //creating list
@@ -352,3 +351,28 @@ export function createProfiles(){
     return profiles;
 }
 
+export function createAllProfiles(){
+    //creating list
+    var profiles = new Array<Profile>;
+ 
+    //appending instances to list
+    profiles.push(new Profile(elon, 'Shane', 'sugarshay5', 'Uwin | 2022 Grad | Mallards', 200, 150));
+    profiles.push(new Profile(elon, 'barry', 'cuddlyBar', 'always be the best bear you can be!', 2305, 5000));
+    profiles.push(new Profile(elon, 'Hanna', 'hanbanana22', 'I am the best girlfriend in the world!', 150, 4500));
+    profiles.push(new Profile(elon, 'shane', 'sugarshay5', 'Uwin | 2022 Grad | Mallards', 200, 150));
+    profiles.push(new Profile(elon, 'jon', 'jonbon', 'half way there!', 2305, 5000));
+    profiles.push(new Profile(elon, 'emmy', 'emmy345', 'Life is ruff!', 150, 4500));
+    
+    return profiles;
+}
+
+export function getProfile(username: string, profiles: Profile[]){
+    
+    for (var profile of profiles) {
+       if(username == profile.username)
+        {
+            return profile;
+        }
+   }
+    return new Profile('','','','',0,0);
+ }

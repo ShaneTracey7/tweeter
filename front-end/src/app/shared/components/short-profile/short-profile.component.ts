@@ -1,33 +1,31 @@
-import { Component, Input} from '@angular/core';
+import { Component, EventEmitter, Input, Output} from '@angular/core';
 import { Profile, Show} from '../../../data';
 import { AppComponent } from '../../../app.component';
+import { HomePageComponent } from '../../../home-page/home-page.component';
+import { ProfileModalComponent } from '../profile-modal/profile-modal.component';
 
 @Component({
 
   selector: 'short-profile',
   templateUrl: './short-profile.component.html',
 })
-export class ShortProfileComponent extends AppComponent{
+export class ShortProfileComponent{
 
   @Input() profile = new Profile('','','','',0,0);
 
+  show_modal: boolean = false;
+  modal_profile = this.profile;
 
-  showModal()
-    {
-      this.modal_profile = {...this.profile};
-      this.show_modal  = { ...this.show_modal , show:true};
-      
-      //this.show_modal = true;
-      console.log("mouse over " + this.show_modal);
-      console.log("username" + this.profile.username);
+
+  showModal(profile: Profile)
+    {     
+     this.modal_profile = this.profile;
+     this.show_modal = true;
     }
 
   hideModal()
     {
-      //this.show_modal = new Show(false);
-      //this.show_modal = false;
-      this.show_modal  = { ...this.show_modal , show:false};
-      console.log("mouse out " + this.show_modal);
+      this.show_modal = false;
     }
   
 }

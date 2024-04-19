@@ -1,5 +1,5 @@
 import { Component, Input} from '@angular/core';
-import { Post } from '../../data';
+import { Post, Profile, createAllProfiles, createForYouFeed, createProfiles, getProfile } from '../../data';
 
 
 @Component({
@@ -11,5 +11,21 @@ import { Post } from '../../data';
 })
 export class PostComponent {
 @Input () post = new Post('','','','','','',0,0,0,0);
+
+show_modal: boolean = false;
+modal_profile = new Profile('','','','',0,0);
+
+
+showModal(username: string)
+  {
+
+   this.modal_profile = getProfile(username, createAllProfiles());
+   this.show_modal = true;
+  }
+
+hideModal()
+  {
+    this.show_modal = false;
+  }
  
 }

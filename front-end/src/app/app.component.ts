@@ -25,21 +25,23 @@ export class AppComponent implements OnInit{
   current_page: string =  "";
   cp_style: string = "";
 
-  show_modal = new Show(false);
-  //show_modal = false;
+  //show_modal = new Show(false);
+  show_modal = false;
   modal_profile = new Profile('','','','',0,0);
+  //static modal_profile: Profile;
 
   constructor(public route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void
   {
     this.current_page = this.route.snapshot.url.toString();
-    //this.show_modal = false;
-    this.show_modal  = { ...this.show_modal , show: false};
+    this.show_modal = true;
+    //this.show_modal  = { ...this.show_modal , show: false};
     //console.log(this.current_page);
     //console.log(this.router.routerState.snapshot.url);
   }
     
+  
     setCurrentPage(str: string)
     {
       const tmp = str;
