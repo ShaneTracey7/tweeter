@@ -3,12 +3,14 @@
 <div class="post">
 
             <div class="postheading">
-                <img src="{{ post.profile }}" alt="profile"/>
+                <img id="post-img" (mouseover)="showModal(post.username)" (mouseout)="hideModal()" class="post-profile" src="{{ post.profile }}" alt="profile"/>
                 <p>{{ post.username }}</p>
                 <p>{{ post.acc_name }}</p>
                 <p>{{ post.e_time }} </p>
                 <img class="elip" src="../../../assets/images/ellipsis.png" alt="more"/>
             </div>
+
+            <profile-modal [inMain]="true" [show]='show_modal' [profile]='modal_profile'></profile-modal>
 
             <div class="content">
                 <p> {{ post.text }}</p>
@@ -41,3 +43,5 @@
                 </li>
             </ul>
 </div>
+
+

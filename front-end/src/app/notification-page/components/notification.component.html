@@ -1,0 +1,35 @@
+<!-- only used within notificationPage.html-->
+
+<div class="notification">
+
+        <div [ngSwitch]="notification.type" class="notification-header" >
+            <div *ngSwitchCase="'Heart'">
+                <img class="notification-icon" src="../../../assets/images/pink-heart-fill.png" alt="type"/>
+            </div>
+            <div *ngSwitchCase="'News'">
+                <img class="notification-icon" src="../../../assets/images/purple-star.png" alt="type"/>
+            </div>
+            <div *ngSwitchCase="'Retweet'">
+                <img class="notification-icon" src="../../../assets/images/retweet.png" alt="type"/>
+            </div>
+
+            <img class="notification-profile" src={{notification.profile}} alt="profile"/>
+
+            <div *ngIf="notification.type == 'News'">
+                <img id="notification-elip" class="elip" data-toggle="tooltip" data-placement="bottom" title="More" src="../../../assets/images/ellipsis.png" alt="more"/>
+            </div>
+        </div>
+
+        <div [ngSwitch]="notification.type">
+            <div *ngSwitchCase="'Heart'">
+                <p class="notification-title"> <b>{{ notification.username }}</b> liked your post! </p>
+            </div>
+            <div *ngSwitchCase="'News'">
+                <p class="notification-title"><b>{{ notification.username }}</b></p>
+            </div>
+            <div *ngSwitchCase="'Retweet'">
+                <p class="notification-title"><b>{{ notification.username }}</b> retweeted your post! </p>
+            </div>
+        </div>
+        <p class="notification-text"> {{ notification.text }}</p>
+</div>

@@ -1,4 +1,8 @@
 
+$bg-color-hover-main: rgba(0, 0, 0, 0.030);
+$bg-color-hover-nav-tool-bar: rgba(0, 0, 0, 0.090);
+$twitter-blue: #1DA1F2;
+
 .notification {
     width: 100%;
     border-bottom: 1px solid lightgray;
@@ -14,7 +18,7 @@
   }
   
   .notification:hover{
-    background-color: rgba(0, 0, 0, 0.100);
+    background-color: $bg-color-hover-main;
   }
   
   .notification-header {

@@ -1,21 +1,21 @@
 
 <div *ngIf="page == 'Home'">
   <div [ngSwitch]="tab">
+    
     <div *ngSwitchCase="'following'">
-      <p> this is following feed</p>
       <app-post
       *ngFor="let post of followingFeed"
       [post]="post">
       </app-post>
     </div>
+
     <div *ngSwitchDefault> 
-      <p> default case</p>
-      <p> this is for you feed</p>
       <app-post
       *ngFor="let post of forYouFeed"
       [post]="post">
       </app-post>
     </div>
+
   </div>
 </div>
 <!--
@@ -40,17 +40,68 @@
 -->
 
 <div *ngIf="page == 'Explore'">
-  <app-message
-    *ngFor="let message of messages"
-    [message]="message">
-  </app-message>
-</div>
+  <div [ngSwitch]="tab">
+    <div *ngSwitchCase="'trending'">
+      <app-search-card
+        *ngFor="let searchTopic of trendingSearchTopics"
+        [searchTopic]="searchTopic">
+      </app-search-card>
+    </div>
 
+    <div *ngSwitchCase="'news'">
+      <app-search-card
+        *ngFor="let searchTopic of newsSearchTopics"
+        [searchTopic]="searchTopic">
+      </app-search-card>
+    </div>
+
+    <div *ngSwitchCase="'sports'">
+      <app-search-card
+        *ngFor="let searchTopic of sportsSearchTopics"
+        [searchTopic]="searchTopic">
+      </app-search-card>
+    </div>
+
+    <div *ngSwitchCase="'entertainment'">
+      <app-search-card
+        *ngFor="let searchTopic of entertainmentSearchTopics"
+        [searchTopic]="searchTopic">
+      </app-search-card>
+    </div>
+
+    <div *ngSwitchDefault> <!-- foryou -->
+      <app-search-card
+        *ngFor="let searchTopic of forYouSearchTopics"
+        [searchTopic]="searchTopic">
+      </app-search-card>
+    </div>
+  </div>
+</div>
 <div *ngIf="page == 'Notifications'">
-  <app-message
-    *ngFor="let message of messages"
-    [message]="message">
-  </app-message>
+  <div [ngSwitch]="tab">
+
+    <div *ngSwitchCase="'verified'">
+      <app-notification
+      *ngFor="let notification of verifiedNotifications"
+      [notification]="notification">
+      </app-notification>
+    </div>
+
+    <div *ngSwitchCase="'mentions'">
+      <app-notification
+      *ngFor="let notification of mentionsNotifications"
+      [notification]="notification">
+      </app-notification>
+    </div>
+    
+    <div *ngSwitchDefault> <!-- 'all'-->
+      <app-notification
+      *ngFor="let notification of allNotifications"
+      [notification]="notification">
+    </app-notification>
+    </div>
+
+  </div>
 </div>
 
 <div *ngIf="page == 'Messages'">

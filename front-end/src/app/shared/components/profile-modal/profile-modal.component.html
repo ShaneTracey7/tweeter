@@ -1,0 +1,20 @@
+<!-- Used onHover for any profile pic outside of a search bar modal or the navigaiton bar-->
+<div *ngIf="show">
+    <div id="p-modal"[style]="setModalPosition()"class="profileModal">
+
+        <div class="pm-header">
+            <img id="p-img"src={{profile.pic}} class="pm-img" alt="profile">
+            <button class="pm-button">Follow</button>
+        </div>
+
+        <h3 class="pm-username">{{profile.username}}</h3>
+        <h3 class="pm-accountname">&commat;{{profile.acc_name}}</h3>
+        <p class="pm-bio"> {{profile.bio}}</p>
+
+        <div class="pm-footer">
+            <p class="pm-following"> <b class="pm-num">{{profile.follow_count}}</b> Following</p>
+            <p class="pm-followers"> <b class="pm-num">{{profile.follower_count}}</b> Followers</p>
+        </div>
+
+    </div>
+</div>

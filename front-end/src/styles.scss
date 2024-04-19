@@ -1,5 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
+
+$bg-color-hover-main: rgba(0, 0, 0, 0.030);
+$bg-color-hover-nav-tool-bar: rgba(0, 0, 0, 0.090);
+$twitter-blue: #1DA1F2;
 /* <----------------------------------------  search card  ----------------------------------------> */   
 
 .searchCard{
@@ -16,7 +20,7 @@
   }
   
   .searchCard:hover {
-    background-color: rgba(0, 0, 0, 0.100);
+    background-color: $bg-color-hover-main;
   }
   
   .sc-content {
@@ -26,7 +30,7 @@
   
   .sc-text {
     display: block;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: rgb(97, 110, 124);
     width:fit-content;
     height: fit-content;
@@ -50,7 +54,7 @@
   .sc-topic {
     display: block;
     font-weight: bold;
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: black;
     width:fit-content;
     height: fit-content;
@@ -75,9 +79,22 @@
     height: 100%;
     width: 100%;
   }
-  
+/*
+  #test-modal{
+    width: 500px;
+    height: 500px;
+    background-color: green;
+    position: fixed;
+    top: 100px;
+    left: 100px;
+  }
+  */
   .profileModal {
-    display: none;
+    //display: none;
+    //top: 100px; //test
+    //left: 100px; //test
+    position:fixed;
+    display: flex;
     flex-direction: column;
     gap: 0px;
     /*z-index: 2;*/
@@ -88,11 +105,11 @@
     box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.200);
     padding: 15px;
   }
-  /*
+  
   .profileModal:hover{
     display: flex;
   }
-  */
+  
   
   .pm-img {
     width: 60px;
@@ -200,7 +217,7 @@
   }
   
   #shortProfile:hover {
-    background-color: rgba(0, 0, 0, 0.100);
+    background-color: $bg-color-hover-main;
   }
   
   #shortProfile-text{
@@ -301,14 +318,19 @@
       display:inline;
       width: fit-content;
       height: fit-content;
-      color:#1DA1F2;
+      color: $twitter-blue;
       font-size: 0.9rem;
       margin-left: 15px;
       margin-bottom: 0px;
+      text-decoration: none;
+    }
+
+    .pane-more:hover {
+      color: $twitter-blue; //doesn't change
     }
   
     #pane-more:hover {
-      background-color: rgba(0, 0, 0, 0.100);
+      background-color: $bg-color-hover-main;
       border-radius: 0 0 17px 17px;
     }
   
@@ -342,9 +364,9 @@
   input[type=text]:focus {
     outline: 0px;
     outline-offset: -1px;
-    border: 1px solid #1DA1F2;
+    border: 1px solid $twitter-blue;
     background-color: white;
-    caret-color: #1DA1F2;
+    caret-color: $twitter-blue;
   }
   
   ul {
@@ -397,7 +419,7 @@
   }
   
   .toolbar-icon:hover{
-    background-color: rgba(0, 0, 0, 0.100);
+    background-color: $bg-color-hover-nav-tool-bar;
   }
   
   .upper-toolbar {
@@ -476,7 +498,7 @@
   }
   
   .toolbar-tabs:hover {
-    background-color: rgba(0, 0, 0, 0.100);
+    background-color: $bg-color-hover-nav-tool-bar;
   }
   
   /* <----------------------------------------  layout ----------------------------------------> */   
@@ -492,7 +514,7 @@
   }
   
   .secondary-content::-webkit-scrollbar {
-    display: none;
+  display: none;
     /*width: 10px;
     border: 5px 5px;*/
   }

@@ -1,3 +1,7 @@
+
+$bg-color-hover-main: rgba(0, 0, 0, 0.030);
+$bg-color-hover-nav-tool-bar: rgba(0, 0, 0, 0.090);
+$twitter-blue: #1DA1F2;
 /* message card */
 
 .message {
@@ -143,7 +147,7 @@
 
 #messageb-button {
     display: block;
-    background-color: #1DA1F2;
+    background-color: $twitter-blue;
     color: white;
     padding-left: 30px;
     padding-right: 30px;
@@ -179,8 +183,8 @@
     font-size: 0.9rem;
 }
 #message-searchbar:focus {
-    border: 1px solid #1DA1F2;
-    caret-color: #1DA1F2;
+    border: 1px solid $twitter-blue;
+    caret-color: $twitter-blue;
 }
 
 #eplus-icon {
@@ -192,7 +196,7 @@
     margin: 0px;
 }
 #eplus-icon:hover{
-    background-color: rgba(0, 0, 0, 0.100);
+    background-color: $bg-color-hover-nav-tool-bar;
 }
 
   .elip + .tooltip > .tooltip-inner {
