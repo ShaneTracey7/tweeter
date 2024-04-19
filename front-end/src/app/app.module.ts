@@ -16,6 +16,12 @@ import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { MainContentComponent } from './shared/components/main-content/main-content.component';
 import { PostComponent } from './home-page/components/post.component';
 import { MessageComponent } from './message-page/components/message.component';
+import { CommonModule } from '@angular/common';
+import { NotificationComponent } from './notification-page/components/notification.component';
+import { SearchCardComponent } from './explore-page/components/search-card.component';
+import { SecondaryContentComponent } from './shared/components/secondary-content/secondary-content.component';
+import { ShortProfileComponent } from './shared/components/short-profile/short-profile.component';
+import { ProfileModalComponent } from './shared/components/profile-modal/profile-modal.component';
 
 
 
@@ -31,7 +37,12 @@ import { MessageComponent } from './message-page/components/message.component';
     MessagePageComponent,
     NotificationPageComponent,
     PostComponent,
-    MessageComponent
+    MessageComponent,
+    NotificationComponent,
+    SearchCardComponent,
+    SecondaryContentComponent,
+    ShortProfileComponent,
+    ProfileModalComponent
     
   ],
   imports: [
@@ -42,6 +53,7 @@ import { MessageComponent } from './message-page/components/message.component';
     HttpClientModule,
     RouterLink, 
     RouterLinkActive,
+    CommonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

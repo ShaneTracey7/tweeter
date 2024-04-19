@@ -1,0 +1,23 @@
+
+<div *ngIf="pane == 1"> <!-- what's happening -->
+  <app-search-card
+  *ngFor="let topic of topics"
+  [searchTopic]="topic">
+</app-search-card>
+</div>
+
+<div *ngIf="pane == 2"> <!-- who to follow-->
+  
+  <short-profile
+  *ngFor="let profile of profiles"
+  [profile]="profile">
+  </short-profile>
+
+</div> 
+
+
+
+
+
+
+

@@ -54,7 +54,7 @@
     </div>
 
 <!-- main content add here-->
-<main-content [page]=current_page></main-content>
+<main-content [page]=current_page [tab]=current_tab></main-content>
 <!--
     {% for topic in topics %}
     {% include "searchCard.html" with obj=topic %}
@@ -68,11 +68,9 @@
         <div class="pane-container">
           <h3 class="pane-title">Who to follow</h3>
         </div>
-    <!--
-        {% for profile in profiles %}
-          {% include "shortProfile.html" with profile=profile button="yes" count=forloop.counter %}
-        {% endfor %}
-    -->
+
+        <secondary-content [pane]='2' [page]=current_page [tab]=current_tab></secondary-content>
+
         <div id="pane-more" class="pane-container">
           <p class="pane-more">Show more</p>
         </div>

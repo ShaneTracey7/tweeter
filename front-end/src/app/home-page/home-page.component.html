@@ -54,13 +54,15 @@
     <div class="pane-container">
       <h3 class="pane-title">What's Happening</h3>
     </div>
+
+    <secondary-content [pane]='1' [page]=current_page [tab]=current_tab></secondary-content>
 <!--
     {% for topic in topics %}
       {% include "searchCard.html" with obj=topic %}
     {% endfor %}
 -->
     <div id="pane-more" class="pane-container">
-      <p class="pane-more">Show more</p>
+      <a (click)="setCurrentPage('Explore')" routerLink="/Explore" class="pane-more">Show more</a>
     </div>
   </div>
 
@@ -69,13 +71,14 @@
       <h3 class="pane-title">Who to follow</h3>
     </div>
 
+    <secondary-content [pane]='2' [page]=current_page [tab]=current_tab></secondary-content>
 <!--
     {% for profile in profiles %}
     {% include "shortProfile.html" with profile=profile button="yes" count=forloop.counter %}
     {% endfor %}
 -->
     <div id="pane-more" class="pane-container">
-      <p class="pane-more">Show more</p>
+      <a class="pane-more">Show more</a>
     </div>
   </div>
 
@@ -83,7 +86,8 @@
 
 <div class="modal-content">
 <!-- modal content add here-->
-
+  <div id="test-modal"></div>
+<profile-modal [show]='show_modal' [profile]='modal_profile'></profile-modal>
   <!--
   {% for profile in profiles %}
   {% include "profileModal.html" with profile=profile count=forloop.counter %}

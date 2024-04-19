@@ -1,7 +1,9 @@
 /* when making any changes, you will have to collectstatic after 
 and add html somewhere, to make them appear, try clicking another then come back and refresh
 */
-
+$bg-color-hover-main: rgba(0, 0, 0, 0.030);
+$bg-color-hover-nav-tool-bar: rgba(0, 0, 0, 0.090);
+$twitter-blue: #1DA1F2;
 /* post styling */
   
 img.reactionbaricons{
@@ -16,6 +18,18 @@ img.reactionbaricons{
   .postheading{
     display:inline-flex;
   }
+
+  .post-profile{
+    display:inline;
+    margin-left:10px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+  }
+  .post:hover {
+    background-color: $bg-color-hover-main;
+  }
+
 
   ul {
     list-style: none;

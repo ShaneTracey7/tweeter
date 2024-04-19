@@ -2,6 +2,7 @@ import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { HomePageComponent } from './home-page/home-page.component';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NavigationBarComponent } from './shared/components/navigation-bar/navigation-bar.component';
+import { Profile, Show} from './data';
 
 @Component({
   /*standalone: true,*/
@@ -24,22 +25,27 @@ export class AppComponent implements OnInit{
   current_page: string =  "";
   cp_style: string = "";
 
+  show_modal = new Show(false);
+  //show_modal = false;
+  modal_profile = new Profile('','','','',0,0);
+
   constructor(public route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void
   {
     this.current_page = this.route.snapshot.url.toString();
+    //this.show_modal = false;
+    this.show_modal  = { ...this.show_modal , show: false};
     //console.log(this.current_page);
     //console.log(this.router.routerState.snapshot.url);
   }
-
-    
     
     setCurrentPage(str: string)
     {
       const tmp = str;
       this.cp_style = tmp;
-      //console.log("logging page: " + this.current_page);
+
+      console.log("logging page: " + this.cp_style);
     }
 
     boldNavbarIcon(str: string) {
@@ -52,8 +58,7 @@ export class AppComponent implements OnInit{
         case "envelope": check="Messages";break;
         case "bell": check="Notifications";break;
       }
-      //console.log("cp: " + this.current_page + " check: " + check);
-      console.log("cp: " + this.cp_style);
+
       if (this.cp_style == check) {
         return "../../../../assets/images/" + str + "-fill.svg";
       }
