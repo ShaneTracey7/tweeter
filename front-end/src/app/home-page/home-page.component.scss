@@ -4,46 +4,123 @@ and add html somewhere, to make them appear, try clicking another then come back
 $bg-color-hover-main: rgba(0, 0, 0, 0.030);
 $bg-color-hover-nav-tool-bar: rgba(0, 0, 0, 0.090);
 $twitter-blue: #1DA1F2;
+$gray-font: rgb(97, 110, 124);
+
 /* post styling */
-  
+.reactionbar{
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 img.reactionbaricons{
-    width: 15px;
-    height: 15px;
+    width: 18px;
+    height: 18px;
   }
 
-  .reactionbar{
-    display:inline;
+  #post-profile-img{
+    margin: 0;
+  }
+.post-text{
+
+}
+.post-image{
+  margin-right: 15px;
+  max-height: 500px;
+  height:fit-content;
+  width: fit-content;
+  max-width: 98%;
+  border-radius: 15px;
+
+}
+  
+
+  .post-content-container{
+    display: inline;
+    width: 100%;
+    border: 1px solid green;
+    margin-left: 7px;
+    margin-right: 7px;
   }
 
-  .postheading{
-    display:inline-flex;
+  .post-profile-container{
+    margin-top: 12px;
+    margin-left: 17px;
+    display: inline;
+    width: fit-content;
+    height: fit-content;
+    border: 1px solid red;
+   
+  }
+
+  .post-heading{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid red;
+
+      #post-username{
+        font-weight: bold;
+        color: black;
+        font-size: 1rem;
+      }
+      p{
+        margin-bottom: 0;
+      }
+
+      #post-accountname{
+        color: $gray-font;
+        font-size: 0.95rem;
+        margin-left: 5px;
+      }
+
+      #post-etime::before {
+        content: ".";
+        margin-left: 4px;
+        margin-right: 4px;
+        //vertical-align: super;
+      }
+
+      #post-etime{
+        color: $gray-font;
+        font-size: 0.95rem;
+      }
+
+      #post-elip{
+        margin-right: 0;
+        margin-left: auto;
+        width: 32px;
+        height: 32px;
+        padding: 7px;
+        border-radius: 20px;
+      }
+
   }
 
   .post-profile{
     display:inline;
     margin-left:10px;
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
   }
   .post:hover {
     background-color: $bg-color-hover-main;
   }
-
-
-  ul {
-    list-style: none;
-    align-items: center;
-  }
   
-  li {
-    display: inline-flex;
-    margin: 10px; /* add spacing between items */
-    color: #808080;
-    vertical-align: middle;
+  .reactiongroup {
+    display: flex;
+    flex-direction: row;
     align-items: center;
-    /*border: 1px solid black;*/
+    justify-content: left;
+    border: 1px solid black;
     height: 50px;
+    width: 23%;
+  }
+
+  #last-rc {
+    width: 8%;
+    justify-content: center;
   }
 
   .reactionbarvalues {
@@ -54,12 +131,17 @@ img.reactionbaricons{
     vertical-align: middle;
     align-items: center;
     border: 1px solid black;
+    color: #808080;
   }
 
   .post {
     width: 100%;
+    display: inline-flex;
     border: 1px solid blue;
+    height: fit-content;
   }
+
+
 
   #home-searchbar{
     width: 89%;

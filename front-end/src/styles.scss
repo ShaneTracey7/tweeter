@@ -369,19 +369,21 @@ $twitter-blue: #1DA1F2;
     caret-color: $twitter-blue;
   }
   
+  /*
   ul {
     list-style: none;
     align-items: center;
-   /* width: 100%; */
-  }
+   // width: 100%; 
+  }*/
   
+  /*
   li {
     margin: 10px;
     vertical-align: middle;
     align-items: center;
     height: 50px;
-   /* width: 100%; */
-  }
+   //width: 100%; 
+  }*/
   
   /* <----------------------------------------  toolbar ----------------------------------------> */   
   
@@ -390,7 +392,7 @@ $twitter-blue: #1DA1F2;
     position: sticky;
     position: -webkit-sticky;
     top: 0;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.985);
     border-bottom: 1px solid lightgray;
   }
   

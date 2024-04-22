@@ -1,5 +1,5 @@
 import { Component, Input} from '@angular/core';
-import { Notification } from '../../data';
+import { Notification, Profile, createAllProfiles, getProfile } from '../../data';
 
 
 @Component({
@@ -11,5 +11,21 @@ import { Notification } from '../../data';
 })
 export class NotificationComponent {
 @Input () notification = new Notification('','','','');
+
+show_modal: boolean = false;
+modal_profile = new Profile('','','','',0,0);
+
+
+showModal(username: string)
+  {
+
+   this.modal_profile = getProfile(username, createAllProfiles());
+   this.show_modal = true;
+  }
+
+hideModal()
+  {
+    this.show_modal = false;
+  }
  
 }

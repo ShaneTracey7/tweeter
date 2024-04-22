@@ -13,12 +13,14 @@
                 <img class="notification-icon" src="../../../assets/images/retweet.png" alt="type"/>
             </div>
 
-            <img class="notification-profile" src={{notification.profile}} alt="profile"/>
+            <img (mouseover)="showModal(notification.username)" (mouseout)="hideModal()" class="notification-profile" src={{notification.profile}} alt="profile"/>
 
             <div *ngIf="notification.type == 'News'">
                 <img id="notification-elip" class="elip" data-toggle="tooltip" data-placement="bottom" title="More" src="../../../assets/images/ellipsis.png" alt="more"/>
             </div>
         </div>
+
+        <profile-modal [inMain]="true" [show]='show_modal' [profile]='modal_profile'></profile-modal>
 
         <div [ngSwitch]="notification.type">
             <div *ngSwitchCase="'Heart'">
@@ -33,3 +35,5 @@
         </div>
         <p class="notification-text"> {{ notification.text }}</p>
 </div>
+
+
