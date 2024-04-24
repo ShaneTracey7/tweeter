@@ -26,8 +26,8 @@ export class AppComponent implements OnInit{
   cp_style: string = "";
 
   //show_modal = new Show(false);
-  show_modal = false;
-  modal_profile = new Profile('','','','',0,0);
+  //show_modal = false;
+  //modal_profile = new Profile('','','','',0,0);
   //static modal_profile: Profile;
 
   constructor(public route: ActivatedRoute, private router: Router) { }
@@ -35,12 +35,12 @@ export class AppComponent implements OnInit{
   ngOnInit(): void
   {
     this.current_page = this.route.snapshot.url.toString();
-    this.show_modal = true;
+    //this.show_modal = true;
+
     //this.show_modal  = { ...this.show_modal , show: false};
     //console.log(this.current_page);
     //console.log(this.router.routerState.snapshot.url);
   }
-    
   
     setCurrentPage(str: string)
     {
@@ -68,6 +68,7 @@ export class AppComponent implements OnInit{
         return "../../../../assets/images/" + str + ".svg";
       }
     }
+
 
     boldNavbarItem(str: string) {
       if (this.cp_style == str) {

@@ -1,5 +1,6 @@
 import { Component, Input} from '@angular/core';
 import { Post, Profile, createAllProfiles, createForYouFeed, createProfiles, getProfile } from '../../data';
+import { HomePageComponent } from '../home-page.component';
 
 
 @Component({
@@ -9,7 +10,7 @@ import { Post, Profile, createAllProfiles, createForYouFeed, createProfiles, get
   styleUrl: '../home-page.component.scss',
 
 })
-export class PostComponent {
+export class PostComponent extends HomePageComponent{
 @Input () post = new Post('','','','','','',0,0,0,0);
 
 show_modal: boolean = false;
@@ -26,6 +27,16 @@ showModal(username: string)
 hideModal()
   {
     this.show_modal = false;
+  }
+
+colorReaction(str: string)
+  {
+   this.reaction = str;
+  }
+
+grayReaction()
+  {
+    this.reaction = "";
   }
  
 }

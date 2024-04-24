@@ -136,14 +136,14 @@ export class Profile {
     var feed = new Array<Post>;
  
     //appending instances to list
-    feed.push(new Post(elon, 'shane', 'shane17', '4h', 'Yo, this is the for you feed', 'image_url', 3, 7, 35, 201));
-    feed.push(new Post(elon, 'barry', 'sanders22', '20m', "I'm the best to ever do it", 'image_url', 15, 50, 120, 1034));
-    feed.push(new Post(elon, 'jon', 'therealbonjovi', '2d', "Livin' on a prayer", 'image_url', 120, 1000, 12000, 300000));
-    feed.push(new Post(elon, 'emmy', 'thedogemmy', '2h', 'Ruff ruff ruff', 'image_url', 1, 2, 7, 51));
-    feed.push(new Post(elon, 'shane', 'shane17', '4h', 'Yo, this is the for you feed', 'image_url', 3, 7, 35, 201));
-    feed.push(new Post(elon, 'barry', 'sanders22', '20m', "I'm the best to ever do it", 'image_url', 15, 50, 120, 1034));
-    feed.push(new Post(elon, 'jon', 'therealbonjovi', '2d', "Livin' on a prayer", 'image_url', 120, 1000, 12000, 300000));
-    feed.push(new Post(elon, 'emmy', 'thedogemmy', '2h', 'Ruff ruff ruff', 'image_url', 1, 2, 7, 51));
+    feed.push(new Post(elon, 'shane', 'shane17', '4h', 'Yo, this is the for you feed', elon, 3, 7, 35, 201));
+    feed.push(new Post(elon, 'barry', 'sanders22', '20m', "I'm the best to ever do it", '', 15, 50, 120, 1034));
+    feed.push(new Post(elon, 'jon', 'therealbonjovi', '2d', "Livin' on a prayer", '', 120, 1000, 12000, 300000));
+    feed.push(new Post(elon, 'emmy', 'thedogemmy', '2h', 'Ruff ruff ruff', elon, 1, 2, 7, 51));
+    feed.push(new Post(elon, 'shane', 'shane17', '4h', 'Yo, this is the for you feed', elon, 3, 7, 35, 201));
+    feed.push(new Post(elon, 'barry', 'sanders22', '20m', "I'm the best to ever do it", '', 15, 50, 120, 1034));
+    feed.push(new Post(elon, 'jon', 'therealbonjovi', '2d', "Livin' on a prayer", '', 120, 1000, 12000, 300000));
+    feed.push(new Post(elon, 'emmy', 'thedogemmy', '2h', 'Ruff ruff ruff', '', 1, 2, 7, 51));
 
     return feed;
  }

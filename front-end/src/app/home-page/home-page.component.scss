@@ -11,6 +11,17 @@ $gray-font: rgb(97, 110, 124);
   display:flex;
   flex-direction: row;
   align-items: center;
+  height: 45px;
+}
+
+.reaction-button{
+  height:35px;
+  width: fit-content;
+  min-width: 35px;
+  border: 0;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
 }
 
 img.reactionbaricons{
@@ -18,27 +29,38 @@ img.reactionbaricons{
     height: 18px;
   }
 
-  #post-profile-img{
+.icon-container{
+  display: inline;
+  align-items: center;
+  justify-content: center;
+  padding: 7px;
+  background-color: transparent;
+  border-radius: 50%;
+  height: fit-content;
+}
+
+#post-profile-img{
     margin: 0;
   }
 .post-text{
-
+  margin-bottom: 5px;
+  margin-left: 7px;
 }
 .post-image{
   margin-right: 15px;
+  margin-left: 7px;
   max-height: 500px;
   height:fit-content;
   width: fit-content;
   max-width: 98%;
   border-radius: 15px;
+  border: 1px solid lightgray;
 
 }
-  
 
   .post-content-container{
     display: inline;
     width: 100%;
-    border: 1px solid green;
     margin-left: 7px;
     margin-right: 7px;
   }
@@ -48,16 +70,14 @@ img.reactionbaricons{
     margin-left: 17px;
     display: inline;
     width: fit-content;
-    height: fit-content;
-    border: 1px solid red;
-   
+    height: fit-content;  
   }
 
   .post-heading{
     display:flex;
     flex-direction: row;
     align-items: center;
-    border: 1px solid red;
+    margin-left: 7px;
 
       #post-username{
         font-weight: bold;
@@ -113,32 +133,102 @@ img.reactionbaricons{
     flex-direction: row;
     align-items: center;
     justify-content: left;
-    border: 1px solid black;
-    height: 50px;
-    width: 23%;
+    height: 40px;
+    width: 21%;
   }
 
   #last-rc {
-    width: 8%;
+    width: 14%;
     justify-content: center;
+    align-items: center;
+    //gap: 5px;
+    margin-right: 5px;
   }
 
   .reactionbarvalues {
     display: inline-flex;
-    height: 50px;
-    margin: 5px;
-    font-size: 12px;
+    margin: 0px;
+    font-size: 0.85rem;
     vertical-align: middle;
     align-items: center;
-    border: 1px solid black;
-    color: #808080;
   }
 
   .post {
     width: 100%;
     display: inline-flex;
-    border: 1px solid blue;
+    border-top: 1px solid lightgray;
     height: fit-content;
+  }
+
+  .empty-post{
+    padding-top: 5px;
+    display: inline-flex;
+    height: fit-content;
+    width: 100%;
+
+    #e-post-input{
+      margin-left: 5px;
+      margin-top: 15px;
+      font-size: 1.25rem;
+      color: black;
+      border: 0;
+      margin-bottom: 20px;
+    }
+    #e-post-input::placeholder{
+      color: $gray-font;
+    }
+    #e-post-input:focus{
+      outline: 0;
+      background-color: transparent;
+    }
+
+    .selection-bar{
+      padding: 5px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 7px;
+      width: 96%;
+      height: 55px;
+      border-top: 1px solid lightgray;
+      //margin: 5px;
+    }
+
+    #e-post-button{
+      margin-left: auto;
+      margin-right: 0;
+      background-color: #1DA1F2;
+      color: white;
+      font-size: 0.95rem;
+      font-weight: bold;
+      border-radius: 25px;
+      width: fit-content;
+      padding: 7px 15px;
+      border: 0;
+    }
+    #e-post-button:hover{
+      background-color: #1a8cd3;;
+    }
+
+    .selection-bar-icons{
+      height: 18px;
+      width: 18px;
+    }
+
+    .e-icon-container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 7px;
+        background-color: transparent;
+        border-radius: 50%;
+        height: 35px;
+        width: 35px;
+    }
+    .e-icon-container:hover{
+      background-color: #1da0f22f;
+    }
   }
 
 

@@ -25,24 +25,49 @@
 
             <div class="reactionbar">
                 <div class="reactiongroup">
-                    <img class="reactionbaricons" src="../../../assets/images/chat-bubble.png" alt="comment"/>
-                    <h3 class="reactionbarvalues"> {{ post.comments }} </h3>
+                    <button class="reaction-button" (mouseover)="colorReaction('chat-bubble')" (mouseout)="grayReaction()">
+                        <div class="icon-container" [style]="colorReactionBarBG('chat-bubble')">
+                            <img class="reactionbaricons" [src]="colorReactionBarIcon('chat-bubble')" alt="comment"/>
+                        </div>
+                        <h3 class="reactionbarvalues" [style]="colorReactionBarText('chat-bubble')"> {{ post.comments }} </h3>
+                    </button>
                 </div>
                 <div class="reactiongroup">
-                    <img class="reactionbaricons" src="../../../assets/images/retweet.png" alt="retweet"/>
-                    <h3 class="reactionbarvalues"> {{ post.retweets }} </h3>
+                    <button class="reaction-button" (mouseover)="colorReaction('retweet')" (mouseout)="grayReaction()">
+                        <div class="icon-container" [style]="colorReactionBarBG('retweet')">
+                            <img class="reactionbaricons" [src]="colorReactionBarIcon('retweet')" alt="retweet"/>
+                        </div>
+                        <h3 class="reactionbarvalues" [style]="colorReactionBarText('retweet')"> {{ post.retweets }} </h3>
+                    </button>
                 </div>
                 <div class="reactiongroup">
-                    <img class="reactionbaricons" src="../../../assets/images/heart.png" alt="like"/>
-                    <h3 class="reactionbarvalues" > {{ post.likes }} </h3>
+                    <button class="reaction-button" (mouseover)="colorReaction('heart')" (mouseout)="grayReaction()">
+                        <div class="icon-container" [style]="colorReactionBarBG('heart')">
+                            <img class="reactionbaricons" [src]="colorReactionBarIcon('heart')" alt="like"/>
+                        </div>
+                        <h3 class="reactionbarvalues" [style]="colorReactionBarText('heart')"> {{ post.likes }} </h3>
+                    </button>
                 </div>
                 <div class="reactiongroup">
-                    <img class="reactionbaricons" src="../../../assets/images/bar-graph.png" alt="view"/>
-                    <h3 class="reactionbarvalues"> {{ post.views }} </h3>
+                    <button class="reaction-button" (mouseover)="colorReaction('bar-graph')" (mouseout)="grayReaction()">
+                        <div class="icon-container" [style]="colorReactionBarBG('bar-graph')">
+                            <img class="reactionbaricons" [src]="colorReactionBarIcon('bar-graph')" alt="view"/>
+                        </div>
+                        <h3 class="reactionbarvalues" [style]="colorReactionBarText('bar-graph')"> {{ post.views }} </h3>
+                    </button>
                 </div>
                 <div id="last-rc" class="reactiongroup">
-                    <img class="reactionbaricons" src="../../../assets/images/bookmark.png" alt="bookmark"/>
-                    <img class="reactionbaricons" src="../../../assets/images/share.png" alt="share"/>
+                    <button class="reaction-button" (mouseover)="colorReaction('bookmark')" (mouseout)="grayReaction()">
+                        <div class="icon-container" [style]="colorReactionBarBG('bookmark')">
+                            <img class="reactionbaricons" [src]="colorReactionBarIcon('bookmark')" alt="bookmark"/>
+                        </div>
+                    </button>
+                    
+                    <button class="reaction-button" (mouseover)="colorReaction('share')" (mouseout)="grayReaction()">
+                        <div class="icon-container" [style]="colorReactionBarBG('share')">
+                            <img class="reactionbaricons" [src]="colorReactionBarIcon('share')" alt="share"/>
+                        </div>
+                    </button> 
                 </div>
             
             </div>
