@@ -3,15 +3,6 @@
 //Global variables (for test data)
 var elon: string = '../../../../assets/images/elon.jpeg';
 
-
-export class Show{
-    show: boolean;
-    constructor(s: boolean) {
-        this.show = s;
-    }
-}
-
-
 export class Post {
     profile: string; //url
     username: string;

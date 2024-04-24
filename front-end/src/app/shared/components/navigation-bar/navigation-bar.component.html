@@ -6,30 +6,30 @@
     <!-- Links -->
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a (click)="setCurrentPage('Home')" id="tweeter-navbar" class="nav-link" routerLink="/Home">
+        <a (click)="setCurrentPage('Home')" id="tweeter-navbar" class="nav-link" routerLink="/tweeter/Home">
             <img id="tnb" class="navbaricons" src="../../../../assets/images/tweeter-logo-blue.png" alt="Logo"/>
         </a>
       </li>
       <li class="nav-item">
-        <a (click)="setCurrentPage('Home')" class="nav-link" routerLink="/Home">
+        <a (click)="setCurrentPage('Home')" class="nav-link" routerLink="/tweeter/Home">
           <img class="navbaricons" [src]="boldNavbarIcon('house')" alt="Home"/>
           <p class="navbartext" [style]="boldNavbarItem('Home')"> Home </p>          
         </a>
       </li>
       <li class="nav-item">
-        <a (click)="setCurrentPage('Explore')" class="nav-link" routerLink="/Explore"> 
+        <a (click)="setCurrentPage('Explore')" class="nav-link" routerLink="/tweeter/Explore"> 
             <img class="navbaricons" [src]="boldNavbarIcon('magnifier')" alt="Search"/>
             <p class="navbartext" [style]="boldNavbarItem('Explore')"> Explore </p>
         </a>
       </li>
       <li class="nav-item">
-        <a (click)="setCurrentPage('Notifications')" class="nav-link" routerLink="/Notifications">
+        <a (click)="setCurrentPage('Notifications')" class="nav-link" routerLink="/tweeter/Notifications">
             <img class="navbaricons"  [src]="boldNavbarIcon('bell')" alt="Notifications"/>
             <p class="navbartext" [style]="boldNavbarItem('Notifications')"> Notifications </p>
         </a>
       </li>
       <li class="nav-item">
-        <a (click)="setCurrentPage('Messages')" class="nav-link" routerLink="/Messages">
+        <a (click)="setCurrentPage('Messages')" class="nav-link" routerLink="/tweeter/Messages">
             <img class="navbaricons" [src]="boldNavbarIcon('envelope')" alt="Messages"/>
             <p class="navbartext" [style]="boldNavbarItem('Messages')"> Messages </p>
         </a>

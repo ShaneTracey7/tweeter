@@ -1,6 +1,6 @@
 import { Component, Input} from '@angular/core';
-import { Post, Profile, createAllProfiles, createForYouFeed, createProfiles, getProfile } from '../../data';
 import { HomePageComponent } from '../home-page.component';
+import { Post, Profile, createAllProfiles, getProfile } from '../../../core/data';
 
 
 @Component({

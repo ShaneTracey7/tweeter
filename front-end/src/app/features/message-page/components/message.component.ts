@@ -1,5 +1,6 @@
 import { Component, Input} from '@angular/core';
-import { Message } from '../../data';
+import { Message } from '../../../core/data';
+
 
 
 @Component({

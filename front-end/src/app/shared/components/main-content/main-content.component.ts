@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { createAllNotifications, createEntertainmentSearchTopics, createFollowingFeed, createForYouFeed, createForYouSearchTopics, createMentionsNotifications, createMessages, createNewsSearchTopics, createSportsSearchTopics, createTrendingSearchTopics, createVerifiedNotifications } from '../../../data';
 import { AppComponent } from '../../../app.component';
+import { createAllNotifications, createEntertainmentSearchTopics, createFollowingFeed, createForYouFeed, createForYouSearchTopics, createMentionsNotifications, createMessages, createNewsSearchTopics, createSportsSearchTopics, createTrendingSearchTopics, createVerifiedNotifications } from '../../../core/data';
 @Component({
   /*standalone: true,*/
   selector: 'main-content',

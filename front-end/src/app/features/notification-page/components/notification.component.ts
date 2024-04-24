@@ -1,5 +1,5 @@
 import { Component, Input} from '@angular/core';
-import { Notification, Profile, createAllProfiles, getProfile } from '../../data';
+import { Notification, Profile, createAllProfiles, getProfile } from '../../../core/data';
 
 
 @Component({

@@ -1,6 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild} from '@angular/core';
-import { Profile, Show } from '../../../data';
 import { ShortProfileComponent } from '../short-profile/short-profile.component';
+import { Profile } from '../../../core/data';
 
 @Component({
 

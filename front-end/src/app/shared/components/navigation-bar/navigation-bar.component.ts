@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
-import { AppComponent } from '../../../app.component';
+import { CoreComponent } from '../../../core/core.component';
 
 @Component({
 
@@ -9,7 +9,7 @@ import { AppComponent } from '../../../app.component';
   styleUrl: './navigation-bar.component.scss',
 
 })
-export class NavigationBarComponent extends AppComponent{
+export class NavigationBarComponent extends CoreComponent{
 
 
 }

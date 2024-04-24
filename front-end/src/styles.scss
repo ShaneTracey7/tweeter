@@ -550,7 +550,7 @@ $twitter-blue: #1DA1F2;
     .main-content {
       display: block;
       overflow-y: scroll;
-      height: 800px; /* will have to change eventually*/
+      height: 100vh; 
       min-width: 500px;
       max-width: 600px;
       border-left: 1px solid lightgray;

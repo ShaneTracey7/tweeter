@@ -1,5 +1,6 @@
 import { Component, Input} from '@angular/core';
-import { SearchTopic } from '../../data';
+import { SearchTopic } from '../../../core/data';
+
 
 
 @Component({
