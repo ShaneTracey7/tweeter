@@ -1,7 +1,7 @@
 
 
 //Global variables (for test data)
-var elon: string = '../../../../assets/images/elon.jpeg';
+var elon: string = './../../../assets/images/elon.jpeg';
 
 export class Post {
     profile: string; //url
