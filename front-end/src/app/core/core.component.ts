@@ -60,10 +60,10 @@ export class CoreComponent implements OnInit{
       }
 
       if (this.cp_style == check) {
-        return "./../../../assets/images/" + str + "-fill.svg";
+        return "/tweeter/assets/images/" + str + "-fill.svg";
       }
       else{
-        return "./../../../assets/images/" + str + ".svg";
+        return "/tweeter/assets/images/" + str + ".svg";
       }
     }
 
