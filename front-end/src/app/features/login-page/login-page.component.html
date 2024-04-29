@@ -15,7 +15,10 @@
             </div>
             <button id="create-account-button"class="login-buttons"> Create account</button>
             <p id="question"> Already have an account?</p>
-            <button id="sign-in-button"class="login-buttons"> Sign in</button>
+            <button (click)="showLoginModal()" id="sign-in-button"class="login-buttons"> Sign in</button>
+            
+            <login-modal [(show)]="show_login_modal"></login-modal>
+            
         </div>
     </div>
 

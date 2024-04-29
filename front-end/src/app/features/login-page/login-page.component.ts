@@ -11,5 +11,27 @@ import { AppComponent } from '../../app.component';
 })
 export class LoginPageComponent {
 
+show_login_modal: boolean = false;
+show_signup_modal: boolean = false;
+
+showLoginModal()
+  {
+   this.show_login_modal = true;
+  }
+
+hideLoginModal()
+  {
+    this.show_login_modal = false;
+  }
+
+showSignupModal()
+  {
+   this.show_signup_modal = true;
+  }
+
+hideSignupModal()
+  {
+    this.show_signup_modal = false;
+  }
   
 }

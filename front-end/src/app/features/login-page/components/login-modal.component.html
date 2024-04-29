@@ -1,0 +1,37 @@
+<div *ngIf="show">
+
+    <div id="login-modal-container" class="modal-content">
+
+        <form id="login-modal">
+            <div id="modal-header">
+                <div class="close-button-container">
+                    <img (click)="hideModal()" id="close-button" src="../../../../assets/images/cross.svg" alt="close">
+                </div>
+                <img id="modal-logo" src="../../../../assets/images/tweeter-logo-blue.png">
+            </div>
+
+            <div id="modal-content">
+                <h1 id="modal-title"> Enter your login information</h1>
+                <input type="text" id="username-input" placeholder="Username">
+                <div id="password-input-container">
+                    <input [type]="getPValue()" id="password-input" placeholder="Password">
+                    <div class="close-button-container">
+                        <img (click)="updatePValue()" id="show-p-button" src="../../../../assets/images/eye.svg" alt="show">
+                    </div>
+                    <p>test</p>
+                </div>
+                
+            </div>
+
+            <div id="modal-footer">
+                <button id="modal-login-button">Login</button>
+                <div id="footer-blurb">
+                    <p>Don't have an account?</p>
+                    <a href="">Sign up</a>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+</div>
