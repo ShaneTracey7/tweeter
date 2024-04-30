@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppComponent } from '../../app.component';
+import { getImgUrl } from '../../core/data';
 
 @Component({
 
@@ -13,6 +14,12 @@ export class LoginPageComponent {
 
 show_login_modal: boolean = false;
 show_signup_modal: boolean = false;
+
+setUrl(str: string)
+{
+  return getImgUrl(str);
+}
+
 
 showLoginModal()
   {

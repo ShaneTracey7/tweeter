@@ -19,7 +19,7 @@
       </div>
 
       <div class="title-icons">
-        <img class="toolbar-icon" src="/tweeter/assets/images/cog.svg" alt="cog"/>
+        <img class="toolbar-icon" [src]="setUrl('/assets/images/cog.svg')" alt="cog"/>
       </div>
 
     </div>
@@ -31,25 +31,25 @@
 <!-- main content add here-->
 <div class="empty-post">
   <div class="post-profile-container">
-    <img id="post-profile-img" class="post-profile" src="/tweeter/assets/images/elon.jpeg" alt="profile"/>
+    <img id="post-profile-img" class="post-profile" [src]="setUrl('/assets/images/elon.jpeg')" alt="profile"/>
   </div>
   <div class="post-content-container">
     <input id="e-post-input" placeholder="What is happening?!">
     <div class="selection-bar">
       <div class="e-icon-container"> 
-        <img src="/tweeter/assets/images/landscape.png" class="selection-bar-icons" alt="Media"/>
+        <img [src]= "setUrl('/assets/images/landscape.png')" class="selection-bar-icons" alt="Media"/>
       </div>
       <div class="e-icon-container"> 
-        <img src="/tweeter/assets/images/poll.png" class="selection-bar-icons" alt="GIF"/>
+        <img [src]="setUrl('/assets/images/poll.png')" class="selection-bar-icons" alt="GIF"/>
       </div>
       <div class="e-icon-container">
-        <img src="/tweeter/assets/images/emoji.png" class="selection-bar-icons" alt="Poll"/>
+        <img [src]="setUrl('/assets/images/emoji.png')" class="selection-bar-icons" alt="Poll"/>
       </div>
       <div class="e-icon-container">
-        <img src="/tweeter/assets/images/schedule.png" class="selection-bar-icons" alt="Emoji"/>
+        <img [src]="setUrl('/assets/images/schedule.png')" class="selection-bar-icons" alt="Emoji"/>
       </div>
       <div class="e-icon-container">
-        <img src="/tweeter/assets/images/location.png" class="selection-bar-icons" alt="Schedule"/>
+        <img [src]="setUrl('/assets/images/location.png')" class="selection-bar-icons" alt="Schedule"/>
       </div>
       <button id="e-post-button">Post</button>
     </div>

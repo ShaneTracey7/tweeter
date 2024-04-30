@@ -1,7 +1,45 @@
 
 
+
+
+//only for switching from publishing to github pages to development
+export function getImgUrl(str:string)
+{
+    let inDev = true;
+    
+    if(inDev == true)
+        {
+            if(str == "")
+            {
+                return "../../../..";
+            }
+            else
+            {
+                return "../../../.." + str;
+            }
+            
+        }
+    else
+        {
+        if(str == "")
+            {
+                return "/tweeter";   
+            }                
+        else
+            {
+                return "/tweeter" + str;
+            }
+            
+        }
+}
+
 //Global variables (for test data)
-var elon: string = '/tweeter/assets/images/elon.jpeg';
+var elon: string = getImgUrl("") + '/assets/images/elon.jpeg';
+
+
+
+
+
 
 export class Post {
     profile: string; //url

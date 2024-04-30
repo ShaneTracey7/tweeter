@@ -1,5 +1,6 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { getImgUrl } from './data';
 
 
 @Component({
@@ -23,12 +24,15 @@ export class CoreComponent implements OnInit{
   current_page: string =  "";
   cp_style: string = "";
 
+
   //show_modal = new Show(false);
   //show_modal = false;
   //modal_profile = new Profile('','','','',0,0);
   //static modal_profile: Profile;
 
   constructor(public route: ActivatedRoute, private router: Router) { }
+
+  
 
   ngOnInit(): void
   {
@@ -39,6 +43,10 @@ export class CoreComponent implements OnInit{
     //console.log(this.current_page);
     //console.log(this.router.routerState.snapshot.url);
   }
+    setUrl(str: string)
+    {
+      return getImgUrl(str);
+    }
   
     setCurrentPage(str: string)
     {
@@ -60,10 +68,10 @@ export class CoreComponent implements OnInit{
       }
 
       if (this.cp_style == check) {
-        return "/tweeter/assets/images/" + str + "-fill.svg";
+        return "/assets/images/" + str + "-fill.svg";
       }
       else{
-        return "/tweeter/assets/images/" + str + ".svg";
+        return "/assets/images/" + str + ".svg";
       }
     }
 

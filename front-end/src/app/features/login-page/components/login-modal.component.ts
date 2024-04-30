@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter} from '@angular/core';
+import { getImgUrl } from '../../../core/data';
 
 
 @Component({
@@ -18,6 +19,12 @@ p_value = "password";
     this.newItemEvent.emit(value);
   }
 */
+
+setUrl(str: string)
+{
+  return getImgUrl(str);
+}
+
   hideModal()
   {
     //this.show = false;

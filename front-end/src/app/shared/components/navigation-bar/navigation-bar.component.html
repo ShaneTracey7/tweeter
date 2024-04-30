@@ -7,48 +7,48 @@
     <ul class="navbar-nav">
       <li class="nav-item">
         <a (click)="setCurrentPage('Home')" id="tweeter-navbar" class="nav-link" routerLink="/tweeter/Home">
-            <img id="tnb" class="navbaricons" src="/tweeter/assets/images/tweeter-logo-blue.png" alt="Logo"/>
+            <img id="tnb" class="navbaricons" [src]="setUrl('/assets/images/tweeter-logo-blue.png')" alt="Logo"/>
         </a>
       </li>
       <li class="nav-item">
         <a (click)="setCurrentPage('Home')" class="nav-link" routerLink="/tweeter/Home">
-          <img class="navbaricons" [src]="boldNavbarIcon('house')" alt="Home"/>
+          <img class="navbaricons" [src]="setUrl(boldNavbarIcon('house'))" alt="Home"/>
           <p class="navbartext" [style]="boldNavbarItem('Home')"> Home </p>          
         </a>
       </li>
       <li class="nav-item">
         <a (click)="setCurrentPage('Explore')" class="nav-link" routerLink="/tweeter/Explore"> 
-            <img class="navbaricons" [src]="boldNavbarIcon('magnifier')" alt="Search"/>
+            <img class="navbaricons" [src]="setUrl(boldNavbarIcon('magnifier'))" alt="Search"/>
             <p class="navbartext" [style]="boldNavbarItem('Explore')"> Explore </p>
         </a>
       </li>
       <li class="nav-item">
         <a (click)="setCurrentPage('Notifications')" class="nav-link" routerLink="/tweeter/Notifications">
-            <img class="navbaricons"  [src]="boldNavbarIcon('bell')" alt="Notifications"/>
+            <img class="navbaricons"  [src]="setUrl(boldNavbarIcon('bell'))" alt="Notifications"/>
             <p class="navbartext" [style]="boldNavbarItem('Notifications')"> Notifications </p>
         </a>
       </li>
       <li class="nav-item">
         <a (click)="setCurrentPage('Messages')" class="nav-link" routerLink="/tweeter/Messages">
-            <img class="navbaricons" [src]="boldNavbarIcon('envelope')" alt="Messages"/>
+            <img class="navbaricons" [src]="setUrl(boldNavbarIcon('envelope'))" alt="Messages"/>
             <p class="navbartext" [style]="boldNavbarItem('Messages')"> Messages </p>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="/">
-          <img class="navbaricons" src="/tweeter/assets/images/user.svg" alt="User"/>
+          <img class="navbaricons" [src]="setUrl('/assets/images/user.svg')" alt="User"/>
           <p class="navbartext" style="font-weight: normal;"> Profile </p>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="/">
-            <img class="navbaricons" src="/tweeter/assets/images/more.svg" alt="More"/>
+            <img class="navbaricons" [src]="setUrl('/assets/images/more.svg')"  alt="More"/>
             <p class="navbartext"> More </p>
         </a>
       </li>
       <li class="nav-item">
         <a id="post-navlink" class="nav-link" routerLink="/">
-            <img id="write-tweet" src="/tweeter/assets/images/write-tweet.png" alt="Post"/>
+            <img id="write-tweet" [src]="setUrl('/assets/images/write-tweet.png')" alt="Post"/>
             <button id="navbarpost"> Post </button>
         </a>
       </li>
@@ -58,12 +58,12 @@
 
       <div id="bottom-nav"> 
         <div id="profile-nav" >
-          <img id="profile-nav-img" src="/tweeter/assets/images/elon.jpeg" alt="elon"/>
+          <img id="profile-nav-img" [src]="setUrl('/assets/images/elon.jpeg')" alt="elon"/>
           <div id="profile-nav-text">
             <p id="profile-nav-username"> Username </p>
             <p id="profile-nav-accountname"> &#64;accountName </p>
           </div>
-          <img id="profile-nav-elip" class="elip" src="/tweeter/assets/images/ellipsis.png" alt="more"/>
+          <img id="profile-nav-elip" class="elip" [src]="setUrl('/assets/images/ellipsis.png')" alt="more"/>
         </div>
       </div> 
 
