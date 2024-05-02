@@ -1,6 +1,6 @@
 <div id="login">
     <div id="logo-container">
-        <img [src]="setUrl('/assets/images/tweeter-logo-blue.png')">
+        <img [src]="setUrl('tweeter-logo-blue.png')">
     </div>
 
     <div id="content-container">
@@ -13,11 +13,13 @@
                 <p id="or"> or </p>
                 <hr id="hr2">
             </div>
-            <button id="create-account-button"class="login-buttons"> Create account</button>
+            <button (click)="showSignupModal()" id="create-account-button"class="login-buttons"> Create account</button>
+            <signup-modal [(show)]="show_signup_modal"></signup-modal>
             <p id="question"> Already have an account?</p>
             <button (click)="showLoginModal()" id="sign-in-button"class="login-buttons"> Sign in</button>
             
             <login-modal [(show)]="show_login_modal"></login-modal>
+            
             
         </div>
     </div>

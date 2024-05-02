@@ -17,10 +17,10 @@ export class HomePageComponent extends CoreComponent{
   colorReactionBarIcon(str: string) {
 
     if (this.reaction == str) {
-      return "/tweeter/assets/images/" + str + "-color.png";
+      return this.setUrl(str + "-color.png");
     }
     else{
-      return "/tweeter/assets/images/" + str + ".png";
+      return this.setUrl(str + ".png");
     }
   }
 

@@ -1,5 +1,6 @@
 import { Component, Input} from '@angular/core';
 import { SearchTopic } from '../../../core/data';
+import { ExplorePageComponent } from '../explore-page.component';
 
 
 
@@ -10,7 +11,7 @@ import { SearchTopic } from '../../../core/data';
   styleUrl: '../explore-page.component.scss',
 
 })
-export class SearchCardComponent {
+export class SearchCardComponent extends ExplorePageComponent{
 @Input () searchTopic = new SearchTopic('','',0);
  
 }

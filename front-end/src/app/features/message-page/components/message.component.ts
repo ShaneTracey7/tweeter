@@ -1,5 +1,6 @@
 import { Component, Input} from '@angular/core';
 import { Message } from '../../../core/data';
+import { MessagePageComponent } from '../message-page.component';
 
 
 
@@ -10,7 +11,7 @@ import { Message } from '../../../core/data';
   styleUrl: '../message-page.component.scss',
 
 })
-export class MessageComponent {
+export class MessageComponent extends MessagePageComponent{
 @Input () message = new Message('','','','','');
  
 }

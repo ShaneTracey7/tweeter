@@ -9,32 +9,17 @@ export function getImgUrl(str:string)
     
     if(inDev == true)
         {
-            if(str == "")
-            {
-                return "../../../..";
-            }
-            else
-            {
-                return "../../../.." + str;
-            }
-            
+            return "../../../../assets/images/" + str;
         }
-    else
-        {
-        if(str == "")
-            {
-                return "/tweeter";   
-            }                
-        else
-            {
-                return "/tweeter" + str;
-            }
             
+    else
+        {    
+            return "/tweeter/assets/images/" + str; 
         }
 }
 
 //Global variables (for test data)
-var elon: string = getImgUrl("") + '/assets/images/elon.jpeg';
+var elon: string = getImgUrl('elon.jpeg');
 
 
 

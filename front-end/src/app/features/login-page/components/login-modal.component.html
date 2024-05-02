@@ -2,15 +2,15 @@
 
     <div id="login-modal-container" class="modal-content">
 
-        <form id="login-modal">
+        <form id="login-page-modal">
             <div id="modal-header">
                 <div class="close-button-container">
-                    <img (click)="hideModal()" id="close-button" [src]="setUrl('/assets/images/cross.svg')" alt="close">
+                    <img (click)="hideModal()" id="close-button" [src]="setUrl('cross.svg')" alt="close">
                 </div>
-                <img id="modal-logo" [src]="setUrl('/assets/images/tweeter-logo-blue.png')">
+                <img id="modal-logo" [src]="setUrl('tweeter-logo-blue.png')">
             </div>
 
-            <div id="modal-content">
+            <div class="modal-content-area">
 
                 <h1 id="modal-title"> Enter your login information</h1>
                 <input type="text" id="username-input" placeholder="Username">
@@ -18,7 +18,7 @@
                 <div id="password-input-container">
                     <input [type]="getPValue()" id="password-input" placeholder="Password">
                     <div class="show-button-container">
-                        <img (click)="updatePValue()" id="show-p-button" [src]="setUrl('/assets/images/eye.svg')" alt="show">
+                        <img (click)="updatePValue()" id="show-p-button" [src]="setUrl('eye.svg')" alt="show">
                     </div>
                 </div>
                 

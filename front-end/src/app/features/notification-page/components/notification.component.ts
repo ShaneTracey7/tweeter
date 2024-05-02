@@ -1,5 +1,6 @@
 import { Component, Input} from '@angular/core';
 import { Notification, Profile, createAllProfiles, getProfile } from '../../../core/data';
+import { NotificationPageComponent } from '../notification-page.component';
 
 
 @Component({
@@ -9,7 +10,7 @@ import { Notification, Profile, createAllProfiles, getProfile } from '../../../c
   styleUrl: '../notification-page.component.scss',
 
 })
-export class NotificationComponent {
+export class NotificationComponent extends NotificationPageComponent{
 @Input () notification = new Notification('','','','');
 
 show_modal: boolean = false;

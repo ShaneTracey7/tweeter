@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 import { CoreModule } from './core/core.module';
 import { LoginPageComponent } from './features/login-page/login-page.component';
 import { LoginModalComponent } from './features/login-page/components/login-modal.component';
+import { SignupModalComponent } from './features/login-page/components/signup-modal.component';
 
 
 
@@ -20,7 +21,8 @@ import { LoginModalComponent } from './features/login-page/components/login-moda
     
     AppComponent,   
     LoginPageComponent,
-    LoginModalComponent
+    LoginModalComponent,
+    SignupModalComponent
   ],
   imports: [
     RouterModule,

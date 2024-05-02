@@ -68,10 +68,10 @@ export class CoreComponent implements OnInit{
       }
 
       if (this.cp_style == check) {
-        return "/assets/images/" + str + "-fill.svg";
+        return this.setUrl(str + "-fill.svg");
       }
       else{
-        return "/assets/images/" + str + ".svg";
+        return this.setUrl(str + ".svg");
       }
     }
 

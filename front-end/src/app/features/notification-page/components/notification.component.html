@@ -4,19 +4,19 @@
 
         <div [ngSwitch]="notification.type" class="notification-header" >
             <div *ngSwitchCase="'Heart'">
-                <img class="notification-icon" src="/tweeter/assets/images/pink-heart-fill.png" alt="type"/>
+                <img class="notification-icon" [src]="setUrl('pink-heart-fill.png')" alt="type"/>
             </div>
             <div *ngSwitchCase="'News'">
-                <img class="notification-icon" src="/tweeter/assets/images/purple-star.png" alt="type"/>
+                <img class="notification-icon" [src]="setUrl('purple-star.png')" alt="type"/>
             </div>
             <div *ngSwitchCase="'Retweet'">
-                <img class="notification-icon" src="/tweeter/assets/images/retweet.png" alt="type"/>
+                <img class="notification-icon" [src]="setUrl('retweet.png')" alt="type"/>
             </div>
 
             <img (mouseover)="showModal(notification.username)" (mouseout)="hideModal()" class="notification-profile" src={{notification.profile}} alt="profile"/>
 
             <div *ngIf="notification.type == 'News'">
-                <img id="notification-elip" class="elip" data-toggle="tooltip" data-placement="bottom" title="More" src="/tweeter/assets/images/ellipsis.png" alt="more"/>
+                <img id="notification-elip" class="elip" data-toggle="tooltip" data-placement="bottom" title="More" [src]="setUrl('ellipsis.png')" alt="more"/>
             </div>
         </div>
 
