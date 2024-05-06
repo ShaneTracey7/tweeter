@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CrudComponent } from './crud/crud.component';
-import { FormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
@@ -22,7 +22,7 @@ import { SignupModalComponent } from './features/login-page/components/signup-mo
     AppComponent,   
     LoginPageComponent,
     LoginModalComponent,
-    SignupModalComponent
+    SignupModalComponent,
   ],
   imports: [
     RouterModule,
@@ -34,6 +34,8 @@ import { SignupModalComponent } from './features/login-page/components/signup-mo
     RouterLinkActive,
     CommonModule,
     CoreModule,
+    ReactiveFormsModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

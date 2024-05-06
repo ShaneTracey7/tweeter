@@ -13,6 +13,9 @@ export class LoginModalComponent {
 @Input () show: boolean = false;
 @Output() showChange = new EventEmitter<Boolean>();
 
+@Input () show2: boolean = false;
+@Output() show2Change = new EventEmitter<Boolean>();
+
 p_value = "password";
 /*
   chan(value: string) {
@@ -29,6 +32,12 @@ setUrl(str: string)
   {
     //this.show = false;
     this.showChange.emit(false);
+  }
+
+  closeAndOpen()
+  {
+    this.showChange.emit(false);
+    this.show2Change.emit(true);
   }
 
   updatePValue()

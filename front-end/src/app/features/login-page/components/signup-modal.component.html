@@ -2,7 +2,7 @@
 
     <div id="login-modal-container" class="modal-content">
 
-        <form id="login-page-modal">
+        <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" id="login-page-modal" >
             <div id="modal-header">
                 <div class="close-button-container">
                     <img (click)="hideModal()" id="close-button" [src]="setUrl('cross.svg')" alt="close">
@@ -13,13 +13,20 @@
             <div class="modal-content-area" id="signup-modal-content">
 
                 <h1 id="modal-title">  Create your account</h1>
-                <input type="text" id="name-input" placeholder="Name">
-                <input type="email" id="email-input" placeholder="Email">
-                
+                <input type="text" id="name-input" placeholder="Name" formControlName="name" [style]="isValidInput(!this.signupForm.controls['name'].errors?.['required'])" required>
+                <div *ngIf="this.signupForm.controls['name'].errors?.['required']">Name is required.</div> 
+
+                <input type="email" id="email-input" placeholder="Email" formControlName="email" [style]="isValidInput(!this.signupForm.controls['email'].errors?.['required'])" required>
+                <div *ngIf="this.signupForm.controls['email'].errors?.['required']">Email is required.</div> 
+
+                <div id="dob-blurb">
+                    <h1 id="dob-title">Date of birth</h1>
+                    <p id="dob-text">This will not be shown publicly. Confirm your own age, even if this account is for a business, a pet, or something else.</p>
+                </div>
+
                 <div id="dob-selectors">
                     <div class="label-wrapper">
-                    <label>Month</label>
-                        <select name="months" id="month-input">
+                        <select name="months" id="month-input" formControlName="month" [style]="isValidInput(!this.signupForm.controls['month'].errors?.['required'])" required>
                             <option value=""></option>
                             <option value="1">January</option>
                             <option value="2">February</option>
@@ -34,55 +41,53 @@
                             <option value="11">November</option>
                             <option value="12">December</option>
                         </select>
+                        <label>Month</label>
                     </div>
                     <div class="label-wrapper">
-                        <label>Day</label>
-                        <select name="days" id="day-input">
+                        <select name="days" id="day-input" formControlName="day" [style]="isValidInput(!this.signupForm.controls['day'].errors?.['required'])" required>
                             <option value=""></option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <!-- all the way to 31-->
+                            <option *ngFor="let o of dayPlaceholderArray; let i = index;" value="{{i + 1}}">{{i + 1}}</option>  
                         </select>
+                        <label>Day</label>
                     </div>
                     <div class="label-wrapper">
-                        <label>Year</label>
-                        <select name="years" id="year-input" *ngFor="let o of placeholderArray; let i = index; first as isFirst" >
-                            <div *ngIf="isFirst" >
-                                <option value=""></option>
-                            </div>
-                            <option value={{2024 - i}}> {{2024 - i}} </option>
+                        <select name="years" id="year-input" formControlName="year" [style]="isValidInput(!this.signupForm.controls['year'].errors?.['required'])" required>
+                            <option value=""></option>
+                            <option *ngFor="let o of yearPlaceholderArray; let i = index;" value="{{2024 - i}}">{{2024 - i}}</option>   
                         </select>
+                        <label>Year</label>
                     </div>
                 
                 </div>
-                <input type="text" id="username-input" placeholder="Username">
+                <div *ngIf="this.signupForm.controls['day'].errors?.['required'] || this.signupForm.controls['month'].errors?.['required'] || this.signupForm.controls['year'].errors?.['required']">Date of Birth is required.</div> 
+                
+                <input type="text" id="username-input" placeholder="Username" formControlName="username" [style]="isValidInput(!this.signupForm.controls['username'].errors?.['required'])" required>
+                <div *ngIf="this.signupForm.controls['username'].errors?.['required']">Username is required.</div> 
 
                 <div id="password-input-container">
-                    <input [type]="getPValue()" id="password-input" placeholder="Password">
+                    <input [type]="getPValue()" id="password-input" placeholder="Password" formControlName="password1" [style]="isValidInput(!this.signupForm.controls['password1'].errors?.['required'])" required>
                     <div class="show-button-container">
                         <img (click)="updatePValue()" id="show-p-button" [src]="setUrl('eye.svg')" alt="show">
                     </div>
                 </div>
+                <div *ngIf="this.signupForm.controls['username'].errors?.['required']">Password is required.</div> 
 
                 <div id="password-input-container">
-                    <input [type]="getPValue()" id="password-input" placeholder="Password">
+                    <input [type]="getPValue()" id="password-input" placeholder="Re-enter Password" formControlName="password2" [style]="isValidInput(!this.signupForm.controls['password2'].errors?.['required'])" required>
                     <div class="show-button-container">
                         <img (click)="updatePValue()" id="show-p-button" [src]="setUrl('eye.svg')" alt="show">
                     </div>
                 </div>
+                <div *ngIf="this.signupForm.controls['username'].errors?.['required']">Re-enter password.</div> 
                 
+                <p> {{ signupForm.value| json }}</p>
             </div>
 
             <div id="modal-footer">
-                <button id="modal-login-button">Login</button>
+                <button type="submit" [disabled]="!signupForm.valid" class="modal-footer-button" id="modal-signup-button">Create Account</button>
                 <div id="footer-blurb">
-                    <p>Don't have an account?</p>
-                    <a href="">Sign up</a>
+                    <p>Already have an account?</p>
+                    <button class="open-modal-button" (click)="closeAndOpen()">Login</button>
                 </div>
             </div>
         </form>
