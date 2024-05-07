@@ -13,11 +13,18 @@
             <div class="modal-content-area" id="signup-modal-content">
 
                 <h1 id="modal-title">  Create your account</h1>
-                <input type="text" id="name-input" placeholder="Name" formControlName="name" [style]="isValidInput(!this.signupForm.controls['name'].errors?.['required'])" required>
-                <div *ngIf="this.signupForm.controls['name'].errors?.['required']">Name is required.</div> 
-
-                <input type="email" id="email-input" placeholder="Email" formControlName="email" [style]="isValidInput(!this.signupForm.controls['email'].errors?.['required'])" required>
-                <div *ngIf="this.signupForm.controls['email'].errors?.['required']">Email is required.</div> 
+                <input type="text" id="name-input" placeholder="Name" formControlName="name" [style]="isValidInput(this.signupForm.controls['name'].errors == null)" minlength="3" maxlength="32" pattern="[a-zA-Z ]*" required>
+                <div class="error-message" *ngIf="this.signupForm.controls['name'].errors?.['required'];else second">Name is required!</div>
+                <ng-template #second> 
+                    <div class="error-message" *ngIf="this.signupForm.controls['name'].errors?.['pattern'];else third">Only Letters Allowed!</div> 
+                </ng-template>
+                <ng-template #third>
+                    <div class="error-message" *ngIf="this.signupForm.controls['name'].errors?.['minlength'] || this.signupForm.controls['name'].errors?.['maxlength']"> Name must be within 3 - 32 characters!</div>
+                </ng-template>
+                
+                <input type="email" id="email-input" placeholder="Email" formControlName="email" [style]="isValidInput(this.signupForm.controls['email'].errors == null)" required>
+                <div class="error-message" *ngIf="this.signupForm.controls['email'].errors?.['required']">Email is required!</div>
+                <div class="error-message" *ngIf="this.signupForm.controls['email'].errors?.['email']">Input must be a valid email!</div>
 
                 <div id="dob-blurb">
                     <h1 id="dob-title">Date of birth</h1>
@@ -26,7 +33,7 @@
 
                 <div id="dob-selectors">
                     <div class="label-wrapper">
-                        <select name="months" id="month-input" formControlName="month" [style]="isValidInput(!this.signupForm.controls['month'].errors?.['required'])" required>
+                        <select name="months" id="month-input" formControlName="month" [style]="isValidInput(this.signupForm.controls['month'].errors == null)" required>
                             <option value=""></option>
                             <option value="1">January</option>
                             <option value="2">February</option>
@@ -44,43 +51,46 @@
                         <label>Month</label>
                     </div>
                     <div class="label-wrapper">
-                        <select name="days" id="day-input" formControlName="day" [style]="isValidInput(!this.signupForm.controls['day'].errors?.['required'])" required>
+                        <select name="days" id="day-input" formControlName="day" [style]="isValidInput(this.signupForm.controls['day'].errors == null)" required>
                             <option value=""></option>
                             <option *ngFor="let o of dayPlaceholderArray; let i = index;" value="{{i + 1}}">{{i + 1}}</option>  
                         </select>
                         <label>Day</label>
                     </div>
                     <div class="label-wrapper">
-                        <select name="years" id="year-input" formControlName="year" [style]="isValidInput(!this.signupForm.controls['year'].errors?.['required'])" required>
-                            <option value=""></option>
+                        <select name="years" id="year-input" formControlName="year" [style]="isValidInput(this.signupForm.controls['year'].errors == null)" age required>
+                            <option value=0></option>
                             <option *ngFor="let o of yearPlaceholderArray; let i = index;" value="{{2024 - i}}">{{2024 - i}}</option>   
                         </select>
                         <label>Year</label>
                     </div>
                 
                 </div>
-                <div *ngIf="this.signupForm.controls['day'].errors?.['required'] || this.signupForm.controls['month'].errors?.['required'] || this.signupForm.controls['year'].errors?.['required']">Date of Birth is required.</div> 
+                <div class="error-message" *ngIf="this.signupForm.controls['day'].errors?.['required'] || this.signupForm.controls['month'].errors?.['required'] || this.signupForm.controls['year'].errors?.['required']">Date of Birth is required!</div> 
+                <div class="error-message" *ngIf="this.signupForm.controls['year'].errors?.['age']">Must be at least 16 to sign up!</div> 
                 
-                <input type="text" id="username-input" placeholder="Username" formControlName="username" [style]="isValidInput(!this.signupForm.controls['username'].errors?.['required'])" required>
-                <div *ngIf="this.signupForm.controls['username'].errors?.['required']">Username is required.</div> 
+                <input type="text" id="username-input" placeholder="Username" formControlName="username" [style]="isValidInput(this.signupForm.controls['username'].errors == null)" minlength="5" maxlength="25" required>
+                <div class="error-message" *ngIf="this.signupForm.controls['username'].errors?.['required']">Username is required!</div> 
+                <div class="error-message" *ngIf="this.signupForm.controls['username'].errors?.['minlength'] || this.signupForm.controls['username'].errors?.['maxlength'] "> Username must be within 5 - 25 characters!</div>
 
                 <div id="password-input-container">
-                    <input [type]="getPValue()" id="password-input" placeholder="Password" formControlName="password1" [style]="isValidInput(!this.signupForm.controls['password1'].errors?.['required'])" required>
+                    <input [type]="getPValue()" id="password-input" placeholder="Password" formControlName="password1" [style]="isValidInput(this.signupForm.controls['password1'].errors == null)" minlength="8" maxlength="25" required>
                     <div class="show-button-container">
                         <img (click)="updatePValue()" id="show-p-button" [src]="setUrl('eye.svg')" alt="show">
                     </div>
                 </div>
-                <div *ngIf="this.signupForm.controls['username'].errors?.['required']">Password is required.</div> 
+                <div class="error-message" *ngIf="this.signupForm.controls['password1'].errors?.['required']">Password is required!</div>
+                <div class="error-message" *ngIf="this.signupForm.controls['password1'].errors?.['minlength'] || this.signupForm.controls['password1'].errors?.['maxlength'] "> Password must be within 8 - 25 characters!</div>
 
                 <div id="password-input-container">
-                    <input [type]="getPValue()" id="password-input" placeholder="Re-enter Password" formControlName="password2" [style]="isValidInput(!this.signupForm.controls['password2'].errors?.['required'])" required>
+                    <input [type]="getPValue()" id="password-input" placeholder="Re-enter Password" formControlName="password2" [style]="isValidInput(this.signupForm.controls['password2'].errors == null)" required>
                     <div class="show-button-container">
                         <img (click)="updatePValue()" id="show-p-button" [src]="setUrl('eye.svg')" alt="show">
                     </div>
                 </div>
-                <div *ngIf="this.signupForm.controls['username'].errors?.['required']">Re-enter password.</div> 
+                <div class="error-message" *ngIf="this.signupForm.controls['password2'].errors?.['required']">Re-enter password!</div> 
                 
-                <p> {{ signupForm.value| json }}</p>
+                <p> {{ signupForm.value| json }} valid: {{ signupForm.valid}}</p>
             </div>
 
             <div id="modal-footer">

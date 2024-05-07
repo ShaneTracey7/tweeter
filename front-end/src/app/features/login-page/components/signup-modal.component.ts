@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter} from '@angular/core';
 import { getImgUrl } from '../../../core/data';
-import { FormControl, FormGroup, FormBuilder, Validators} from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl, ValidationErrors} from '@angular/forms';
 
 
 @Component({
@@ -22,16 +22,32 @@ p_value = "password";
 constructor(private formBuilder: FormBuilder) {}
 
 signupForm = this.formBuilder.group({
-  name: ['', Validators.required],
-  email: ['', Validators.required],
-  month: ['', Validators.required],
-  day: ['', Validators.required],
-  year: ['', Validators.required],
-  username: ['', Validators.required],
-  password1: ['', Validators.required],
-  password2: ['',Validators.required],
+  name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(32), Validators.pattern('[a-zA-Z ]*')]],
+  email: ['', [Validators.required,Validators.email]],
+  month: [0, Validators.required],
+  day: [0, Validators.required],
+  year: [0, [Validators.required, this.ageValidator]],
+  username: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(25)]],
+  password1: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(25)]],
+  password2: ['', {validators: [Validators.required], updateOn: 'submit'}], 
+  //make sure both passwords match (the submit works but idk if i want to go that route)
+  //i have to find a way to not run only the required validation until it's submitted, the min/max length is find to go on default (onchangre)
+  
   });
 
+ageValidator(): ValidatorFn {
+    return (control:AbstractControl) : ValidationErrors | null => {
+
+        const value = control.value;
+
+        if (!value) {
+            return null;
+        }
+
+        return +value > 2008 ? {age: true}: null;
+    }
+}
+  
 isValidInput(check: boolean)
 {
   if (check)
@@ -47,6 +63,24 @@ isValidInput(check: boolean)
       };
     }
 }
+/*
+oldEnough(){
+  
+      if(+this.signupForm.controls['year'].value < 2009)
+        {
+          return true;
+        }
+      else
+        {
+          return false;
+        }
+    }
+  else
+  {
+    return false;
+  }
+}
+*/
 
 /*
 signupForm = new FormGroup({

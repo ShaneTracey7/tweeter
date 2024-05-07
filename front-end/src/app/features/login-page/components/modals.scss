@@ -141,6 +141,11 @@ $gray-font: rgb(97, 110, 124);
   }
 }
 
+.error-message{
+  color: red;
+  font-size: 0.8rem;
+  margin: 0;
+}
 
 .modal-content-area{
   overflow-y: scroll;
