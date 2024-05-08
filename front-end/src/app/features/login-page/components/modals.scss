@@ -34,9 +34,9 @@ $gray-font: rgb(97, 110, 124);
   position: -webkit-sticky;
   //top: 0;
   display: flex;
-  flex-direction: row;
-  min-height: 60px;
-  height: 60px;
+  flex-direction: column;
+  min-height: fit-content;
+  height: fit-content;
   width: 100%;
   align-items: center;
   //border: 1px solid red;
@@ -48,8 +48,31 @@ $gray-font: rgb(97, 110, 124);
       width: 45px;
       height: 45px;
       margin-left: 37%;
+      margin-top: 5px;
     }
 
+  }
+  #modal-header-top{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0;
+    width: 100%;
+  }
+
+  #form-status-message-good{
+    color: white;
+    background-color: rgba(0, 128, 0, 0.6);
+    padding: 3px;
+    border-radius: 5px;
+    margin: 2px;
+  }
+  #form-status-message-bad{
+    color: white;
+    background-color: rgba(255, 0, 0, 0.6);
+    padding: 3px;
+    border-radius: 5px;
+    margin: 2px;
   }
 
   .close-button-container{
@@ -140,6 +163,29 @@ $gray-font: rgb(97, 110, 124);
     color: $twitter-blue;
   }
 }
+
+
+.form-input-container{
+  display: flex;
+  flex-direction: column;
+  //justify-content: center;
+  align-items: center;
+}
+/*
+.ng-pristine.ng-untouched.ng-invalid {
+  border: 1px solid lightgray;
+}
+.ng-valid{
+  border: 1px solid lightgray;
+}
+
+.ng-invalid.ng-touched.ng-pristine{
+  border: 2px solid red;
+}
+.ng-invalid.ng-touched.ng-dirty{
+  border: 2px solid red;
+}
+*/
 
 .error-message{
   color: red;
