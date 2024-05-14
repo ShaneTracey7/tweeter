@@ -69,7 +69,7 @@
                         </div>
                         <div class="label-wrapper">                     <!-- [style]="isValidInput(this.signupForm.controls['year'].errors == null)" -->
                             <select name="years" id="year-input" formControlName="year" [style]="isValidInput(this.signupForm.controls['year'])" required>
-                                <option value=0></option>
+                                <option value=""></option>
                                 <option *ngFor="let o of yearPlaceholderArray; let i = index;" value="{{2024 - i}}">{{2024 - i}}</option>   
                             </select>
                             <label>Year</label>
@@ -111,6 +111,10 @@
 
 
                 <p> {{ signupForm.value| json }} valid: {{ signupForm.valid}}</p>
+                <div *ngFor="let userItem of UserArray">
+                    <p>{{userItem.name}} {{userItem.email}} {{userItem.username}} {{userItem.password}}</p>
+                </div>
+
             </div>
 
             <div id="modal-footer">             <!-- [disabled]="!signupForm.valid" -->

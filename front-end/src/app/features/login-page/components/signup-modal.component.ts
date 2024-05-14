@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter} from '@angular/core';
 import { getImgUrl } from '../../../core/data';
 import { FormControl, FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl, ValidationErrors, NgForm} from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -11,6 +12,26 @@ import { FormControl, FormGroup, FormBuilder, Validators, ValidatorFn, AbstractC
   
 })
 export class SignupModalComponent {
+
+  UserArray: any[] = [];
+  
+
+  StudentArray : any[] = [];
+ 
+  name: string ="";
+  address: string ="";
+  fee: Number =0;
+ 
+  currentStudentID = "";
+ 
+  /*constructor(private http: HttpClient )
+  {
+    this.getAllStudent();
+ 
+  }
+*/
+
+
 @Input () show: boolean = false;
 @Output() showChange = new EventEmitter<Boolean>();
 
@@ -21,7 +42,7 @@ p_value = "password";
 
 submit_flag: number  = 0; // 0: not pressed, 1: pressed but not submitted, 2: pressed and submitted
 
-constructor(private formBuilder: FormBuilder) {}
+constructor(private formBuilder: FormBuilder, private http: HttpClient ) { this.getAllUser();  }
 
 signupForm = this.formBuilder.group({
   name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(32), Validators.pattern('[a-zA-Z ]*')]],
@@ -36,6 +57,50 @@ signupForm = this.formBuilder.group({
   //i have to find a way to not run only the required validation until it's submitted, the min/max length is find to go on default (onchangre)
   
   });
+
+
+  getAllStudent()
+  {
+    this.http.get("http://127.0.0.1:8000/student")
+    .subscribe((resultData: any)=>
+    {
+        console.log(resultData);
+        this.StudentArray = resultData;
+        this.name = '';
+        this.address = '';
+        this.fee  = 0;
+    });
+  }
+  getAllUser()
+  {
+    this.http.get("http://127.0.0.1:8000/user")
+    .subscribe((resultData: any)=>
+    {
+        console.log(resultData);
+        this.UserArray = resultData;
+        //this.name = '';
+        //this.address = '';
+        //this.fee  = 0;
+    });
+  }
+
+  //need to implement
+  addUser()
+  {
+  
+    let bodyData = {
+      "name" : this.name,
+      "address" : this.address,
+      "fee" : this.fee
+    };
+ 
+    this.http.post("http://127.0.0.1:8000/student",bodyData).subscribe((resultData: any)=>
+    {
+        console.log(resultData);
+        alert("Student Registered Successfully");
+        this.getAllStudent();
+    });
+  }
 
 ageValidator(): ValidatorFn {
     return (control:AbstractControl) : ValidationErrors | null => {
