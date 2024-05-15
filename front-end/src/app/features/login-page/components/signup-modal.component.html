@@ -2,7 +2,7 @@
 
     <div id="login-modal-container" class="modal-content">
 
-        <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" id="login-page-modal" >
+        <form [formGroup]="signupForm" (ngSubmit)="onSubmit(this.signupForm)" id="login-page-modal" >
             <div id="modal-header">
                 <div id="modal-header-top">
                     <div class="close-button-container">
@@ -110,9 +110,10 @@
                 </div>
 
 
-                <p> {{ signupForm.value| json }} valid: {{ signupForm.valid}}</p>
+                <p> {{ this.signupForm.value | json}} valid: {{ signupForm.valid}}</p>
+
                 <div *ngFor="let userItem of UserArray">
-                    <p>{{userItem.name}} {{userItem.email}} {{userItem.username}} {{userItem.password}}</p>
+                    <p>{{userItem.name}} {{userItem.email}} {{userItem.acc_name}} {{userItem.username}} {{userItem.password}}</p>
                 </div>
 
             </div>

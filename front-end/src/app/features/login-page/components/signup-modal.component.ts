@@ -42,8 +42,6 @@ p_value = "password";
 
 submit_flag: number  = 0; // 0: not pressed, 1: pressed but not submitted, 2: pressed and submitted
 
-constructor(private formBuilder: FormBuilder, private http: HttpClient ) { this.getAllUser();  }
-
 signupForm = this.formBuilder.group({
   name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(32), Validators.pattern('[a-zA-Z ]*')]],
   email: ['', [Validators.required,Validators.email]],
@@ -57,6 +55,13 @@ signupForm = this.formBuilder.group({
   //i have to find a way to not run only the required validation until it's submitted, the min/max length is find to go on default (onchangre)
   
   });
+
+constructor(private formBuilder: FormBuilder, private http: HttpClient ) { 
+  
+  this.getAllUser();  
+}
+
+
 
 
   getAllStudent()
@@ -85,20 +90,33 @@ signupForm = this.formBuilder.group({
   }
 
   //need to implement
-  addUser()
+  addUser(fg: any)
   {
+
+    
+
+    let userData = {
+      
+      "name" : fg.name,
+      //"email" : JSON.stringify(this.signupForm.value.email),
+      "acc_name" : 'acc_name',
+      "username" : fg.username,
+      "password" : fg.password1,
+
+      "email" : fg.email,
+      //"acc_name" : 'test',
+      //"username" : 'test',
+      //"password" : 'test',
+
   
-    let bodyData = {
-      "name" : this.name,
-      "address" : this.address,
-      "fee" : this.fee
     };
+    console.log('userData' + JSON.stringify(userData));
  
-    this.http.post("http://127.0.0.1:8000/student",bodyData).subscribe((resultData: any)=>
+    this.http.post("http://127.0.0.1:8000/user",userData).subscribe((resultData: any)=>
     {
-        console.log(resultData);
-        alert("Student Registered Successfully");
-        this.getAllStudent();
+        console.log('this is the result data: ' + resultData);
+        alert("User Added Successfully");
+        this.getAllUser();
     });
   }
 
@@ -237,13 +255,20 @@ yearPlaceholderArray = new Array(100);
   }
 */
 
-onSubmit(){
+onSubmit(fg: any){
 
   if(this.signupForm.valid)
     {
       console.log("form submitted");
+      console.log(this.signupForm.value);
+      console.log("name: " + this.signupForm.value.name + " email: " + this.signupForm.value.email);
       this.submit_flag = 2;
       this.signupForm.reset();
+      this.addUser(this.signupForm.value);
+      //this.getAllUser();
+
+
+      //add user function not being called
     }
   else
   {
