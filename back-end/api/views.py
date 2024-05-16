@@ -23,7 +23,7 @@ from api.models import Student, User
 @csrf_exempt
 def userApi(request,id=id):
     if request.method =='GET':
-        user = User.objects.all()
+        user = User.objects.all() #raw("SELECT * FROM api_user WHERE username = 'Shane'")
         user_serializer = UserSerializer(user,many=True)
         return JsonResponse(user_serializer.data,safe=False)
     

@@ -61,21 +61,7 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) {
   this.getAllUser();  
 }
 
-
-
-
-  getAllStudent()
-  {
-    this.http.get("http://127.0.0.1:8000/student")
-    .subscribe((resultData: any)=>
-    {
-        console.log(resultData);
-        this.StudentArray = resultData;
-        this.name = '';
-        this.address = '';
-        this.fee  = 0;
-    });
-  }
+  //gets all users from database
   getAllUser()
   {
     this.http.get("http://127.0.0.1:8000/user")
@@ -89,33 +75,21 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) {
     });
   }
 
-  //need to implement
-  addUser(fg: any)
+  //called upon successful submit of create account form
+  addUser()
   {
-
-    
-
     let userData = {
       
-      "name" : fg.name,
-      //"email" : JSON.stringify(this.signupForm.value.email),
+      "name" : this.signupForm.value.name,
+      "email" : this.signupForm.value.email,
       "acc_name" : 'acc_name',
-      "username" : fg.username,
-      "password" : fg.password1,
-
-      "email" : fg.email,
-      //"acc_name" : 'test',
-      //"username" : 'test',
-      //"password" : 'test',
-
-  
+      "username" : this.signupForm.value.username,
+      "password" : this.signupForm.value.password1,
     };
-    console.log('userData' + JSON.stringify(userData));
- 
+
     this.http.post("http://127.0.0.1:8000/user",userData).subscribe((resultData: any)=>
     {
-        console.log('this is the result data: ' + resultData);
-        alert("User Added Successfully");
+        console.log(resultData);
         this.getAllUser();
     });
   }
@@ -255,28 +229,20 @@ yearPlaceholderArray = new Array(100);
   }
 */
 
-onSubmit(fg: any){
+onSubmit(){
 
   if(this.signupForm.valid)
     {
       console.log("form submitted");
-      console.log(this.signupForm.value);
-      console.log("name: " + this.signupForm.value.name + " email: " + this.signupForm.value.email);
       this.submit_flag = 2;
+      this.addUser();
       this.signupForm.reset();
-      this.addUser(this.signupForm.value);
-      //this.getAllUser();
-
-
-      //add user function not being called
     }
   else
-  {
-    console.log("not submitted");
-    this.submit_flag = 1;
-  }
-
-  
+    {
+      console.log("not submitted");
+      this.submit_flag = 1;
+    }
 }
 
 
