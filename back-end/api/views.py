@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
 from api.serializers import StudentSerializer, UserSerializer
 from api.models import Student, User
+from rest_framework.renderers import JSONRenderer
 
 #@api_view(['GET'])
 #def getData(request):
@@ -22,18 +23,37 @@ from api.models import Student, User
 
 @csrf_exempt
 def userApi(request,id=id):
+
     if request.method =='GET':
         user = User.objects.all() #raw("SELECT * FROM api_user WHERE username = 'Shane'")
         user_serializer = UserSerializer(user,many=True)
         return JsonResponse(user_serializer.data,safe=False)
     
     elif request.method =='POST':
+
+        #retrieve username from front end
         user_data = JSONParser().parse(request)
+        # serialize username
         user_serializer = UserSerializer(data=user_data)
+        # compare to all usernames in db
         if user_serializer.is_valid():
-            user_serializer.save()
-            return JsonResponse("Added Successfully",safe=False)
-        return JsonResponse("Failed to Add",safe=False)
+            name_input = user_serializer.data['name']
+            username_input = user_serializer.data['username']
+
+            if name_input == 'check':  #check uniqueness of username
+                result = User.objects.filter(username=username_input)
+                if result.exists():
+                    return JsonResponse("Not Unique",safe=False)
+                else:
+                    return JsonResponse("Unique",safe=False)
+            else:
+                user_serializer.save() #if user_serializer.is_valid():
+                return JsonResponse("Added Successfully",safe=False)
+             #return JsonResponse("Failed to Add",safe=False)
+        else: 
+            return JsonResponse("Failed to Add",safe=False)
+
+        
     
     elif request.method =='PUT':
         user_data = JSONParser().parse(request)
@@ -78,3 +98,31 @@ def studentApi(request,id=id):
         student = Student.objects.get(id=id)
         student.delete()
         return JsonResponse("Deleted Successfully",safe=False)
+
+"""
+elif request.method =='POST':
+
+        #retrieve username from front end
+        user_data = JSONParser().parse(request)
+        # serialize username
+        user_serializer = UserSerializer(data=user_data)
+        # compare to all usernames in db
+        if user_serializer.is_valid():
+            name_input = user_serializer.data['name']
+            username_input = user_serializer.data['username']
+        else: 
+            return JsonResponse("Failed to Add",safe=False)
+
+        if name_input == 'check':  #check uniqueness of username
+            result = User.objects.filter(username=username_input)
+
+            if result.exists():
+                return JsonResponse("Not Unique",safe=False)
+            else:
+                return JsonResponse("Unique",safe=False)
+        else:
+            user_serializer.save() #if user_serializer.is_valid():
+            return JsonResponse("Added Successfully",safe=False)
+            #return JsonResponse("Failed to Add",safe=False)
+    
+"""

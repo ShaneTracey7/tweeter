@@ -15,6 +15,10 @@ export class SignupModalComponent {
 
   UserArray: any[] = [];
   
+  uniqueUser: boolean = false;
+
+  setPromise1: boolean = false;
+  setPromise2: boolean = false;
 
   StudentArray : any[] = [];
  
@@ -41,6 +45,7 @@ export class SignupModalComponent {
 p_value = "password";
 
 submit_flag: number  = 0; // 0: not pressed, 1: pressed but not submitted, 2: pressed and submitted
+unique_flag: number = 0; // 0: not pressed, 1: pressed but not submitted, 2: pressed and submitted
 
 signupForm = this.formBuilder.group({
   name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(32), Validators.pattern('[a-zA-Z ]*')]],
@@ -74,25 +79,162 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) {
         //this.fee  = 0;
     });
   }
-
-  //called upon successful submit of create account form
-  addUser()
+  getAllUser2(obj: any)
   {
-    let userData = {
-      
-      "name" : this.signupForm.value.name,
-      "email" : this.signupForm.value.email,
-      "acc_name" : 'acc_name',
-      "username" : this.signupForm.value.username,
-      "password" : this.signupForm.value.password1,
-    };
-
-    this.http.post("http://127.0.0.1:8000/user",userData).subscribe((resultData: any)=>
+    obj.http.get("http://127.0.0.1:8000/user")
+    .subscribe((resultData: any)=>
     {
         console.log(resultData);
-        this.getAllUser();
+        obj.UserArray = resultData;
+        //this.name = '';
+        //this.address = '';
+        //this.fee  = 0;
     });
   }
+
+   //called upon successful submit of create account form
+   addUser(obj: any)
+   {
+    console.log('inside add user');
+
+     let userData = {
+       
+       "name" : obj.signupForm.value.name,
+       "email" : obj.signupForm.value.email,
+       "acc_name" : 'acc_name',
+       "username" : obj.signupForm.value.username,
+       "password" : obj.signupForm.value.password1,
+     };
+     console.log('username inside of addUser(): ' + obj.signupForm.value.username);
+     obj.http.post("http://127.0.0.1:8000/user",userData).subscribe((resultData: any)=>
+     {
+        console.log('inside add user post');
+         console.log(resultData);
+         obj.getAllUser2(obj);
+         console.log('outside add user post');
+     });
+     console.log('outside add user');
+   }
+
+  usernameUnique(obj: any): void
+  {
+
+    console.log("inside UU");
+    let requestBody =
+    {
+      "name" : 'check',
+      "email" : 'e',
+      "acc_name" : 'a',
+      "username" : obj.signupForm.value.username,
+      "password" : 'p',
+    };
+
+    obj.http.post("http://127.0.0.1:8000/user",requestBody).subscribe((resultData: any)=>
+    {
+        console.log(resultData);
+        console.log("inside post");
+
+    if(resultData == "Unique")
+      {
+        obj.uniqueUser = true;
+      }
+    else
+      {
+        obj.uniqueUser = false;
+      }
+      console.log("outside post");
+    });
+    console.log("outside UU");
+  }
+
+uniquenessProcessing(obj: any)
+{
+  console.log('inside processing');
+  //console.log('uniqueUser: ' + this.uniqueUser);
+  if(obj.uniqueUser)
+    {
+      console.log("username is unique");
+      obj.submit_flag = 2;
+      obj.unique_flag = 2;
+      obj.addUser(obj);
+      obj.signupForm.reset();
+      console.log("form submitted");
+    }
+    else //username is not unique
+    {
+      console.log("username is not unique");
+      console.log("not submitted");
+      obj.submit_flag = 1;
+      obj.unique_flag = 1;
+    }
+}
+
+  onSubmit(){
+
+    if(this.signupForm.valid)
+      {
+        console.log("username: " + this.signupForm.value.username);
+
+        let globalObj = this;
+
+        const postPromise = new Promise<any>(function (resolve, reject) {
+          setTimeout(() => {
+            console.log('first function');
+            globalObj.usernameUnique(globalObj);
+              resolve('we got a response');
+          }, 500) // resolves after 10 secs
+          reject("We didn't get a response")
+        })
+
+        const checkPromise = new Promise<any>(function (resolve, reject) {
+          setTimeout(() => {
+            console.log('second function');
+            globalObj.uniquenessProcessing(globalObj);
+              resolve('we checked')
+          }, 1000) // resolves after 10 secs
+
+          reject("We didn't check")
+        })
+       /* 
+        postPromise
+        .then(() => checkPromise.then(res => console.log(res)))
+        //.catch(error => console.log(error))
+*/
+        
+        async function myAsync(){
+          console.log("inside myAsync");
+          try{
+            console.log("start try");
+            await postPromise;
+            await checkPromise;
+            console.log("end try");
+          }
+          catch (error) {
+            console.error('Promise rejected with error: ' + error);
+          }
+          console.log("end of myAsync");
+        }
+        /*
+        const myAsync = async (): Promise<string> => {
+          console.log("inside myAsync");
+          await postPromise;
+          const response = await checkPromise;
+
+          return response;
+        }*/
+
+        myAsync();
+
+        //postPromise.then(function(value) {globalfunc2(value);});
+      }
+    else
+      {
+        console.log("not submitted");
+        this.submit_flag = 1;
+      }
+  }
+
+ 
 
 ageValidator(): ValidatorFn {
     return (control:AbstractControl) : ValidationErrors | null => {
@@ -229,21 +371,7 @@ yearPlaceholderArray = new Array(100);
   }
 */
 
-onSubmit(){
 
-  if(this.signupForm.valid)
-    {
-      console.log("form submitted");
-      this.submit_flag = 2;
-      this.addUser();
-      this.signupForm.reset();
-    }
-  else
-    {
-      console.log("not submitted");
-      this.submit_flag = 1;
-    }
-}
 
 
 setUrl(str: string)

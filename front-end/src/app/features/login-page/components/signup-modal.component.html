@@ -86,6 +86,7 @@
                     <input type="text" id="username-input" placeholder="Username" formControlName="username" [style]="isValidInput(this.signupForm.controls['username'])" minlength="5" maxlength="25" required>
                     <div class="error-message" *ngIf="this.signupForm.controls['username'].errors?.['required'] && this.signupForm.controls['username'].touched || this.signupForm.controls['username'].errors?.['required'] && submit_flag == 1">Username is required!</div> 
                     <div class="error-message" *ngIf="this.signupForm.controls['username'].errors?.['minlength'] || this.signupForm.controls['username'].errors?.['maxlength'] "> Username must be within 5 - 25 characters!</div>
+                    <div class="error-message" *ngIf="submit_flag == 1 && unique_flag == 1"> Username already taken! Please change.</div>
                 </div>
 
                 <div class="form-input-container">
