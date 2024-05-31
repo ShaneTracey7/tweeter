@@ -37,33 +37,37 @@ def userApi(request,id=id):
         user_serializer = UserSerializer(data=user_data)
         # compare to all usernames in db
         if user_serializer.is_valid():
+            user_serializer.save() #if user_serializer.is_valid():
+            return JsonResponse("Added Successfully",safe=False)
+        else: 
+            return JsonResponse("Failed to Add",safe=False)
+
+    elif request.method =='PUT':
+        user_data = JSONParser().parse(request)
+        user_serializer = UserSerializer(data=user_data)
+        if user_serializer.is_valid():
             name_input = user_serializer.data['name']
             username_input = user_serializer.data['username']
-
+            password_input = user_serializer.data['password']   
             if name_input == 'check':  #check uniqueness of username
                 result = User.objects.filter(username=username_input)
                 if result.exists():
                     return JsonResponse("Not Unique",safe=False)
                 else:
                     return JsonResponse("Unique",safe=False)
-            else:
-                user_serializer.save() #if user_serializer.is_valid():
-                return JsonResponse("Added Successfully",safe=False)
-             #return JsonResponse("Failed to Add",safe=False)
+            elif name_input == 'credentialsCheck':
+                result = User.objects.filter(username=username_input)
+                if result.exists():
+                    user = User.objects.get(username=username_input)
+                    if user.password == password_input:
+                        return JsonResponse("username exists, password correct",safe=False)
+                    else:
+                        return JsonResponse("username exists, password incorrect",safe=False)
+                else:
+                    return JsonResponse("username doesn't exist",safe=False)
         else: 
             return JsonResponse("Failed to Add",safe=False)
-
-        
-    
-    elif request.method =='PUT':
-        user_data = JSONParser().parse(request)
-        user = User.objects.get(id=id)
-        user_serializer = UserSerializer(user,data=user_data)
-        if user_serializer.is_valid():
-            user_serializer.save()
-            return JsonResponse("Updated Successfully",safe=False)
-        return JsonResponse("Failed to Update")
-    
+            
     elif request.method =='DELETE':
         user = User.objects.get(id=id)
         user.delete()

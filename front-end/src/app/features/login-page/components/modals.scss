@@ -193,6 +193,10 @@ $gray-font: rgb(97, 110, 124);
   margin: 0;
 }
 
+#login-modal-content{
+  min-height: 200px;
+}
+
 .modal-content-area{
   overflow-y: scroll;
   height: 250px;
@@ -227,7 +231,7 @@ $gray-font: rgb(97, 110, 124);
       }
   }
   
-  #password-input-container{
+  .password-input-container{
     position: relative; 
     display: inline-block;
     //display: flex;
@@ -276,7 +280,10 @@ $gray-font: rgb(97, 110, 124);
     padding-right: 20px;
   }
 
-  #password-input{
+  #password-input1{
+    padding-right: 40px;
+  }
+  #password-input2{
     padding-right: 40px;
   }
 }

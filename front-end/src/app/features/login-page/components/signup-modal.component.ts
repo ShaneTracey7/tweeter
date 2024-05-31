@@ -17,25 +17,6 @@ export class SignupModalComponent {
   
   uniqueUser: boolean = false;
 
-  setPromise1: boolean = false;
-  setPromise2: boolean = false;
-
-  StudentArray : any[] = [];
- 
-  name: string ="";
-  address: string ="";
-  fee: Number =0;
- 
-  currentStudentID = "";
- 
-  /*constructor(private http: HttpClient )
-  {
-    this.getAllStudent();
- 
-  }
-*/
-
-
 @Input () show: boolean = false;
 @Output() showChange = new EventEmitter<Boolean>();
 
@@ -46,6 +27,7 @@ p_value = "password";
 
 submit_flag: number  = 0; // 0: not pressed, 1: pressed but not submitted, 2: pressed and submitted
 unique_flag: number = 0; // 0: not pressed, 1: pressed but not submitted, 2: pressed and submitted
+password_flag: number = 0; // 0: not pressed, 1: pressed but not submitted, 2: pressed and submitted
 
 signupForm = this.formBuilder.group({
   name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(32), Validators.pattern('[a-zA-Z ]*')]],
@@ -74,9 +56,6 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) {
     {
         console.log(resultData);
         this.UserArray = resultData;
-        //this.name = '';
-        //this.address = '';
-        //this.fee  = 0;
     });
   }
   getAllUser2(obj: any)
@@ -86,17 +65,12 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) {
     {
         console.log(resultData);
         obj.UserArray = resultData;
-        //this.name = '';
-        //this.address = '';
-        //this.fee  = 0;
     });
   }
 
    //called upon successful submit of create account form
    addUser(obj: any)
    {
-    console.log('inside add user');
-
      let userData = {
        
        "name" : obj.signupForm.value.name,
@@ -105,21 +79,16 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) {
        "username" : obj.signupForm.value.username,
        "password" : obj.signupForm.value.password1,
      };
-     console.log('username inside of addUser(): ' + obj.signupForm.value.username);
      obj.http.post("http://127.0.0.1:8000/user",userData).subscribe((resultData: any)=>
      {
-        console.log('inside add user post');
          console.log(resultData);
          obj.getAllUser2(obj);
-         console.log('outside add user post');
      });
-     console.log('outside add user');
    }
 
+   //checks db to makes sure username is unique
   usernameUnique(obj: any): void
   {
-
-    console.log("inside UU");
     let requestBody =
     {
       "name" : 'check',
@@ -129,10 +98,9 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) {
       "password" : 'p',
     };
 
-    obj.http.post("http://127.0.0.1:8000/user",requestBody).subscribe((resultData: any)=>
+    obj.http.put("http://127.0.0.1:8000/user",requestBody).subscribe((resultData: any)=>
     {
         console.log(resultData);
-        console.log("inside post");
 
     if(resultData == "Unique")
       {
@@ -142,15 +110,11 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) {
       {
         obj.uniqueUser = false;
       }
-      console.log("outside post");
     });
-    console.log("outside UU");
   }
 
 uniquenessProcessing(obj: any)
 {
-  console.log('inside processing');
-  //console.log('uniqueUser: ' + this.uniqueUser);
   if(obj.uniqueUser)
     {
       console.log("username is unique");
@@ -173,59 +137,56 @@ uniquenessProcessing(obj: any)
 
     if(this.signupForm.valid)
       {
-        console.log("username: " + this.signupForm.value.username);
+        if (this.signupForm.value.password1 != this.signupForm.value.password2)
+          {
+            this.submit_flag = 1;
+            this.password_flag = 1;
+            console.log("passwords are not the same");
+            return;
+          }
+          else
+          {
+            this.password_flag = 2;
+          }
 
         let globalObj = this;
 
         const postPromise = new Promise<any>(function (resolve, reject) {
           setTimeout(() => {
-            console.log('first function');
+            reject("We didn't get a response")
+          }, 5000) // 5 secs
+
+          setTimeout(() => {
             globalObj.usernameUnique(globalObj);
-              resolve('we got a response');
-          }, 500) // resolves after 10 secs
-          reject("We didn't get a response")
+            resolve('we got a response');
+          }, 0) // 0 secs
+
         })
 
         const checkPromise = new Promise<any>(function (resolve, reject) {
           setTimeout(() => {
-            console.log('second function');
-            globalObj.uniquenessProcessing(globalObj);
-              resolve('we checked')
-          }, 1000) // resolves after 10 secs
+            reject("We didn't check")
+          }, 8000) //8 secs
 
-          reject("We didn't check")
+          setTimeout(() => {
+            globalObj.uniquenessProcessing(globalObj);
+            resolve('we checked');
+          }, 1000) // 1 sec
+
         })
-       /* 
-        postPromise
-        .then(() => checkPromise.then(res => console.log(res)))
-        //.catch(error => console.log(error))
-*/
         
         async function myAsync(){
-          console.log("inside myAsync");
+          //console.log("inside myAsync");
           try{
-            console.log("start try");
             await postPromise;
             await checkPromise;
-            console.log("end try");
           }
           catch (error) {
             console.error('Promise rejected with error: ' + error);
           }
-          console.log("end of myAsync");
+          //console.log("end of myAsync");
         }
-        /*
-        const myAsync = async (): Promise<string> => {
-          console.log("inside myAsync");
-          await postPromise;
-          const response = await checkPromise;
-
-          return response;
-        }*/
-
         myAsync();
-
-        //postPromise.then(function(value) {globalfunc2(value);});
       }
     else
       {
@@ -253,9 +214,24 @@ isValidInput(fc: FormControl<any | null>)
 {
   if (fc.valid)
     {
+      if(fc == this.signupForm.controls['username'] && this.unique_flag == 1)
+        {
+          return {
+            border: '2px solid red',
+          };
+        }
+      else if (fc == this.signupForm.controls['password2'] && this.password_flag == 1)
+        {
+          return {
+            border: '2px solid red',
+          };
+        }
+      else
+      {
       return {
         border: '1px solid lightgray',
       };
+    }
     }
   else // fc is invalid
   {

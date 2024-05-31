@@ -10,31 +10,29 @@
                     </div>
                     <img id="modal-logo" [src]="setUrl('tweeter-logo-blue.png')">
                 </div>
-                <div id="form-status-message-bad" *ngIf="this.loginForm.invalid && submit_flag == 1">Incorrect username or password!</div>
-                <div id="form-status-message-good" *ngIf="this.loginForm.controls['username'].untouched && submit_flag == 2"> Login successful!</div>
+                <div id="form-status-message-bad" *ngIf="this.submit_flag == 1">Incorrect username or password!</div>
+                <div id="form-status-message-good" *ngIf="this.loginForm.controls['username'].untouched && this.submit_flag == 2"> Login successful!</div>
             </div>
 
-            <div class="modal-content-area">
+            <div class="modal-content-area" id="login-modal-content">
 
                 <h1 id="modal-title"> Enter your login information</h1>
                 <div class="form-input-container">
                     <input type="text" id="username-input" placeholder="Username" formControlName="username" [style]="isValidInput(this.loginForm.controls['username'])" required>
                     <div class="error-message" *ngIf="this.loginForm.controls['username'].errors?.['required'] && this.loginForm.controls['username'].touched || this.loginForm.controls['username'].errors?.['required'] && submit_flag == 1">Username is required!</div> 
-                    <div class="error-message" *ngIf="this.loginForm.controls['username'].errors?.['minlength'] || this.loginForm.controls['username'].errors?.['maxlength'] "> Username must be within 5 - 25 characters!</div>
                 
                 </div>
 
                 <div class="form-input-container">
-                    <div id="password-input-container">
-                        <input [type]="getPValue()" id="password-input" placeholder="Password" formControlName="password" [style]="isValidInput(this.loginForm.controls['password'])" required>
+                    <div class="password-input-container">
+                        <input [type]="getPValue()" id="password-input1" placeholder="Password" formControlName="password" [style]="isValidInput(this.loginForm.controls['password'])" required>
                         <div class="show-button-container">
                             <img (click)="updatePValue()" id="show-p-button" [src]="setUrl('eye.svg')" alt="show">
                         </div>
                     </div>
                     <div class="error-message" *ngIf="this.loginForm.controls['password'].errors?.['required'] && this.loginForm.controls['password'].touched || this.loginForm.controls['password'].errors?.['required'] && submit_flag == 1">Password is required!</div>
-                    <div class="error-message" *ngIf="this.loginForm.controls['password'].errors?.['minlength'] || this.loginForm.controls['password'].errors?.['maxlength'] "> Password must be within 8 - 25 characters!</div>
                 </div>
-                <p> {{ loginForm.value| json }} valid: {{ loginForm.valid}}</p>
+                <!-- <p> {{ loginForm.value| json }} valid: {{ loginForm.valid}}</p> -->
             </div>
 
             <div id="modal-footer">

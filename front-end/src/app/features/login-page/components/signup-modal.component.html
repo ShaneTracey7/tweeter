@@ -90,8 +90,8 @@
                 </div>
 
                 <div class="form-input-container">
-                    <div id="password-input-container">                                                     <!-- [style]="isValidInput(this.signupForm.controls['password1'].errors == null)" -->
-                        <input [type]="getPValue()" id="password-input" placeholder="Password" formControlName="password1" [style]="isValidInput(this.signupForm.controls['password1'])" minlength="8" maxlength="25" required>
+                    <div class="password-input-container">                                                     <!-- [style]="isValidInput(this.signupForm.controls['password1'].errors == null)" -->
+                        <input [type]="getPValue()" id="password-input1" placeholder="Password" formControlName="password1" [style]="isValidInput(this.signupForm.controls['password1'])" minlength="8" maxlength="25" required>
                         <div class="show-button-container">
                             <img (click)="updatePValue()" id="show-p-button" [src]="setUrl('eye.svg')" alt="show">
                         </div>
@@ -101,13 +101,14 @@
                 </div>
 
                 <div class="form-input-container">
-                    <div id="password-input-container">                                                 <!-- [style]="isValidInput(this.signupForm.controls['password2'].errors == null)" -->
-                        <input [type]="getPValue()" id="password-input" placeholder="Re-enter Password" formControlName="password2" [style]="isValidInput(this.signupForm.controls['password2'])" required>
+                    <div class="password-input-container">                                                 <!-- [style]="isValidInput(this.signupForm.controls['password2'].errors == null)" -->
+                        <input [type]="getPValue()" id="password-input2" placeholder="Re-enter Password" formControlName="password2" [style]="isValidInput(this.signupForm.controls['password2'])" required>
                         <div class="show-button-container">
                             <img (click)="updatePValue()" id="show-p-button" [src]="setUrl('eye.svg')" alt="show">
                         </div>
                     </div>
-                    <div class="error-message" *ngIf="this.signupForm.controls['password2'].errors?.['required'] && this.signupForm.controls['password2'].touched || this.signupForm.controls['password2'].errors?.['required'] && submit_flag == 1">Re-enter password!</div> 
+                    <div class="error-message" *ngIf="this.signupForm.controls['password2'].errors?.['required'] && this.signupForm.controls['password2'].touched || this.signupForm.controls['password2'].errors?.['required'] && submit_flag == 1">Re-enter password!</div>
+                    <div class="error-message" *ngIf="submit_flag == 1 && password_flag ==1">Passwords do not match!</div> 
                 </div>
 
 
