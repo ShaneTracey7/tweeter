@@ -6,20 +6,20 @@
     <!-- upper toolbar add here-->
       <div id="home-tab1" class="toolbar-tabs">
           <div class="tab-container">
-            <button (click)="routeToChild('foryou')" class="tab-item" id="tab-text" [style]="getMarkerStyles(1)"> For you</button>
-            <div class="tab-item" id="marker" [style]="displayMarker(1)"></div>
+            <button (click)="service.routeToChild('foryou')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(1)"> For you</button>
+            <div class="tab-item" id="marker" [style]="service.displayMarker(1)"></div>
           </div>
       </div>
 
       <div id="home-tab2" class="toolbar-tabs">
         <div class="tab-container">
-          <button (click)="routeToChild('following')" class="tab-item" id="tab-text" [style]="getMarkerStyles(2)"> Following</button>
-          <div class="tab-item" id="marker" [style]="displayMarker(2)"></div>
+          <button (click)="service.routeToChild('following')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(2)"> Following</button>
+          <div class="tab-item" id="marker" [style]="service.displayMarker(2)"></div>
         </div>
       </div>
 
       <div class="title-icons">
-        <img class="toolbar-icon" [src]="setUrl('cog.svg')" alt="cog"/>
+        <img class="toolbar-icon" [src]="service.setUrl('cog.svg')" alt="cog"/>
       </div>
 
     </div>
@@ -31,25 +31,25 @@
 <!-- main content add here-->
 <div class="empty-post">
   <div class="post-profile-container">
-    <img id="post-profile-img" class="post-profile" [src]="setUrl('elon.jpeg')" alt="profile"/>
+    <img id="post-profile-img" class="post-profile" [src]="service.setUrl('elon.jpeg')" alt="profile"/>
   </div>
   <div class="post-content-container">
     <input id="e-post-input" placeholder="What is happening?!">
     <div class="selection-bar">
       <div class="e-icon-container"> 
-        <img [src]="setUrl('landscape.png')" class="selection-bar-icons" alt="Media"/>
+        <img [src]="service.setUrl('landscape.png')" class="selection-bar-icons" alt="Media"/>
       </div>
       <div class="e-icon-container"> 
-        <img [src]="setUrl('poll.png')" class="selection-bar-icons" alt="GIF"/>
+        <img [src]="service.setUrl('poll.png')" class="selection-bar-icons" alt="GIF"/>
       </div>
       <div class="e-icon-container">
-        <img [src]="setUrl('emoji.png')" class="selection-bar-icons" alt="Poll"/>
+        <img [src]="service.setUrl('emoji.png')" class="selection-bar-icons" alt="Poll"/>
       </div>
       <div class="e-icon-container">
-        <img [src]="setUrl('schedule.png')" class="selection-bar-icons" alt="Emoji"/>
+        <img [src]="service.setUrl('schedule.png')" class="selection-bar-icons" alt="Emoji"/>
       </div>
       <div class="e-icon-container">
-        <img [src]="setUrl('location.png')" class="selection-bar-icons" alt="Schedule"/>
+        <img [src]="service.setUrl('location.png')" class="selection-bar-icons" alt="Schedule"/>
       </div>
       <button id="e-post-button">Post</button>
     </div>
@@ -59,7 +59,7 @@
 <!--<router-outlet name="followingFeed"></router-outlet>
 <router-outlet name="forYouFeed"></router-outlet>-->
 <!--<router-outlet ></router-outlet>-->
-<main-content [page]=current_page [tab]=current_tab></main-content>
+<main-content [page]=service.current_page [tab]=service.current_tab></main-content>
 <!--
 {% for post in forYouFeed %}
 {% include "post.html" with profile=post.profile username=post.username acc_name=post.acc_name e_time=post.e_time text=post.text image=post.image comments=post.comments retweets=post.retweets likes=post.likes  views=post.views %}
@@ -78,14 +78,14 @@
       <h3 class="pane-title">What's Happening</h3>
     </div>
 
-    <secondary-content [pane]='1' [page]=current_page [tab]=current_tab></secondary-content>
+    <secondary-content [pane]='1' [page]=service.current_page [tab]=service.current_tab></secondary-content>
 <!--
     {% for topic in topics %}
       {% include "searchCard.html" with obj=topic %}
     {% endfor %}
 -->
     <div id="pane-more" class="pane-container">
-      <button (click)="setCurrentPage('Explore')" routerLink="/tweeter/Explore" class="pane-more">Show more</button>
+      <button (click)="service.setCurrentPage('Explore')" routerLink="/tweeter/Explore" class="pane-more">Show more</button>
     </div>
   </div>
 
@@ -94,7 +94,7 @@
       <h3 class="pane-title">Who to follow</h3>
     </div>
 
-    <secondary-content [pane]='2' [page]=current_page [tab]=current_tab></secondary-content>
+    <secondary-content [pane]='2' [page]=service.current_page [tab]=service.current_tab></secondary-content>
 <!--
     {% for profile in profiles %}
     {% include "shortProfile.html" with profile=profile button="yes" count=forloop.counter %}
@@ -119,4 +119,3 @@
 
 </div>
 
-this is switchint state to service branch

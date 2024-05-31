@@ -8,7 +8,7 @@
             <input id="search-searchbar" type="text" placeholder="Search">
         </form>
         <div class="title-icons">
-            <img class="toolbar-icon" [src]="setUrl('cog.svg')" alt="cog"/>
+            <img class="toolbar-icon" [src]="service.setUrl('cog.svg')" alt="cog"/>
         </div>
 
       </div>
@@ -17,36 +17,36 @@
 
         <div id="search-tab1" class="toolbar-tabs">
             <div class="tab-container">
-                <button (click)="routeToChild('foryou')" class="tab-item" id="tab-text" [style]="getMarkerStyles(1)"> For you</button>
-                <div class="tab-item" id="marker" [style]="displayMarker(1)"></div>
+                <button (click)="service.routeToChild('foryou')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(1)"> For you</button>
+                <div class="tab-item" id="marker" [style]="service.displayMarker(1)"></div>
                 </div>
         </div>
   
         <div id="search-tab2" class="toolbar-tabs">
             <div class="tab-container">
-                <button (click)="routeToChild('trending')" class="tab-item" id="tab-text" [style]="getMarkerStyles(2)"> Trending</button>
-                <div class="tab-item" id="marker" [style]="displayMarker(2)"></div>
+                <button (click)="service.routeToChild('trending')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(2)"> Trending</button>
+                <div class="tab-item" id="marker" [style]="service.displayMarker(2)"></div>
             </div>
         </div>
   
         <div id="search-tab3" class="toolbar-tabs">
             <div class="tab-container">
-                <button (click)="routeToChild('news')" class="tab-item" id="tab-text" [style]="getMarkerStyles(3)"> News</button>
-                <div class="tab-item" id="marker" [style]="displayMarker(3)"></div>
+                <button (click)="service.routeToChild('news')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(3)"> News</button>
+                <div class="tab-item" id="marker" [style]="service.displayMarker(3)"></div>
             </div>
         </div>
   
         <div id="search-tab4" class="toolbar-tabs">
             <div class="tab-container">
-                <button (click)="routeToChild('sports')" class="tab-item" id="tab-text" [style]="getMarkerStyles(4)"> Sports</button>
-                <div class="tab-item" id="marker" [style]="displayMarker(4)"></div>
+                <button (click)="service.routeToChild('sports')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(4)"> Sports</button>
+                <div class="tab-item" id="marker" [style]="service.displayMarker(4)"></div>
             </div>
         </div>
   
         <div id="search-tab5" class="toolbar-tabs">
             <div class="tab-container">
-                <button (click)="routeToChild('entertainment')" class="tab-item" id="tab-text" [style]="getMarkerStyles(5)"> Entertainment</button>
-                <div class="tab-item" id="marker" [style]="displayMarker(5)"></div>
+                <button (click)="service.routeToChild('entertainment')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(5)"> Entertainment</button>
+                <div class="tab-item" id="marker" [style]="service.displayMarker(5)"></div>
             </div>
         </div>
 
@@ -54,7 +54,7 @@
     </div>
 
 <!-- main content add here-->
-<main-content [page]=current_page [tab]=current_tab></main-content>
+<main-content [page]=service.current_page [tab]=service.current_tab></main-content>
 <!--
     {% for topic in topics %}
     {% include "searchCard.html" with obj=topic %}
@@ -69,7 +69,7 @@
           <h3 class="pane-title">Who to follow</h3>
         </div>
 
-        <secondary-content [pane]='2' [page]=current_page [tab]=current_tab></secondary-content>
+        <secondary-content [pane]='2' [page]=service.current_page [tab]=service.current_tab></secondary-content>
 
         <div id="pane-more" class="pane-container">
           <p class="pane-more">Show more</p>

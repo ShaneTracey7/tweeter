@@ -6,49 +6,49 @@
     <!-- Links -->
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a (click)="setCurrentPage('Home')" id="tweeter-navbar" class="nav-link" routerLink="/tweeter/Home">
-            <img id="tnb" class="navbaricons" [src]="setUrl('tweeter-logo-blue.png')" alt="Logo"/>
+        <a (click)="service.setCurrentPage('Home')" id="tweeter-navbar" class="nav-link" routerLink="/tweeter/Home">
+            <img id="tnb" class="navbaricons" [src]="service.setUrl('tweeter-logo-blue.png')" alt="Logo"/>
         </a>
       </li>
       <li class="nav-item">
-        <a (click)="setCurrentPage('Home')" class="nav-link" routerLink="/tweeter/Home">
-          <img class="navbaricons" [src]="setUrl(boldNavbarIcon('house'))" alt="Home"/>
-          <p class="navbartext" [style]="boldNavbarItem('Home')"> Home </p>          
+        <a (click)="service.setCurrentPage('Home')" class="nav-link" routerLink="/tweeter/Home">
+          <img class="navbaricons" [src]="service.setUrl(service.boldNavbarIcon('house'))" alt="Home"/>
+          <p class="navbartext" [style]="service.boldNavbarItem('Home')"> Home </p>          
         </a>
       </li>
       <li class="nav-item">
-        <a (click)="setCurrentPage('Explore')" class="nav-link" routerLink="/tweeter/Explore"> 
-            <img class="navbaricons" [src]="setUrl(boldNavbarIcon('magnifier'))" alt="Search"/>
-            <p class="navbartext" [style]="boldNavbarItem('Explore')"> Explore </p>
+        <a (click)="service.setCurrentPage('Explore')" class="nav-link" routerLink="/tweeter/Explore"> 
+            <img class="navbaricons" [src]="service.setUrl(service.boldNavbarIcon('magnifier'))" alt="Search"/>
+            <p class="navbartext" [style]="service.boldNavbarItem('Explore')"> Explore </p>
         </a>
       </li>
       <li class="nav-item">
-        <a (click)="setCurrentPage('Notifications')" class="nav-link" routerLink="/tweeter/Notifications">
-            <img class="navbaricons"  [src]="setUrl(boldNavbarIcon('bell'))" alt="Notifications"/>
-            <p class="navbartext" [style]="boldNavbarItem('Notifications')"> Notifications </p>
+        <a (click)="service.setCurrentPage('Notifications')" class="nav-link" routerLink="/tweeter/Notifications">
+            <img class="navbaricons"  [src]="service.setUrl(service.boldNavbarIcon('bell'))" alt="Notifications"/>
+            <p class="navbartext" [style]="service.boldNavbarItem('Notifications')"> Notifications </p>
         </a>
       </li>
       <li class="nav-item">
-        <a (click)="setCurrentPage('Messages')" class="nav-link" routerLink="/tweeter/Messages">
-            <img class="navbaricons" [src]="setUrl(boldNavbarIcon('envelope'))" alt="Messages"/>
-            <p class="navbartext" [style]="boldNavbarItem('Messages')"> Messages </p>
+        <a (click)="service.setCurrentPage('Messages')" class="nav-link" routerLink="/tweeter/Messages">
+            <img class="navbaricons" [src]="service.setUrl(service.boldNavbarIcon('envelope'))" alt="Messages"/>
+            <p class="navbartext" [style]="service.boldNavbarItem('Messages')"> Messages </p>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="/">
-          <img class="navbaricons" [src]="setUrl('user.svg')" alt="User"/>
+          <img class="navbaricons" [src]="service.setUrl('user.svg')" alt="User"/>
           <p class="navbartext" style="font-weight: normal;"> Profile </p>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="/">
-            <img class="navbaricons" [src]="setUrl('more.svg')"  alt="More"/>
+            <img class="navbaricons" [src]="service.setUrl('more.svg')"  alt="More"/>
             <p class="navbartext"> More </p>
         </a>
       </li>
       <li class="nav-item">
         <a id="post-navlink" class="nav-link" routerLink="/">
-            <img id="write-tweet" [src]="setUrl('write-tweet.png')" alt="Post"/>
+            <img id="write-tweet" [src]="service.setUrl('write-tweet.png')" alt="Post"/>
             <button id="navbarpost"> Post </button>
         </a>
       </li>
@@ -58,12 +58,12 @@
 
       <div id="bottom-nav"> 
         <div id="profile-nav" >
-          <img id="profile-nav-img" [src]="setUrl('elon.jpeg')" alt="elon"/>
+          <img id="profile-nav-img" [src]="service.setUrl('elon.jpeg')" alt="elon"/>
           <div id="profile-nav-text">
             <p id="profile-nav-username"> Username </p>
             <p id="profile-nav-accountname"> &#64;accountName </p>
           </div>
-          <img id="profile-nav-elip" class="elip" [src]="setUrl('ellipsis.png')" alt="more"/>
+          <img id="profile-nav-elip" class="elip" [src]="service.setUrl('ellipsis.png')" alt="more"/>
         </div>
       </div> 
 

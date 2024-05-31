@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { CoreComponent } from '../../../core/core.component';
 import { getImgUrl } from '../../../core/data';
+import { CoreService } from '../../../core/core-service.service';
 @Component({
 
   selector: 'app-navigation-bar',
@@ -9,7 +10,7 @@ import { getImgUrl } from '../../../core/data';
   styleUrl: './navigation-bar.component.scss',
 
 })
-export class NavigationBarComponent extends CoreComponent{
+export class NavigationBarComponent{
 
-
+  constructor(public service: CoreService) { }
 }

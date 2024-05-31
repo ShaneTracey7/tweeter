@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { getImgUrl } from "./data";
 
 @Injectable()
-export class CoreService {
+export class CoreService{
 
      //used for toolbar tabs
   marker1= true; //foryou/all
