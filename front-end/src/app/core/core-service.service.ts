@@ -1,8 +1,9 @@
-import { Injectable } from "@angular/core";
+import { Injectable, OnInit } from "@angular/core";
 import { getImgUrl } from "./data";
+import { ActivatedRoute} from "@angular/router";
 
 @Injectable()
-export class CoreService{
+export class CoreService {
 
      //used for toolbar tabs
   marker1= true; //foryou/all
@@ -15,6 +16,9 @@ export class CoreService{
   current_page: string =  "";
   cp_style: string = "";
 
+  constructor(public route: ActivatedRoute) { 
+    this.current_page = this.route.snapshot.url.toString();
+  }
  
   setUrl(str: string)
   {
@@ -24,7 +28,13 @@ export class CoreService{
   setCurrentPage(str: string)
   {
     const tmp = str;
+    this.current_page = tmp;//new
     this.cp_style = tmp;
+    this.marker1= true; 
+    this.marker2= false;
+    this.marker3= false; 
+    this.marker4= false; 
+    this.marker5= false; 
 
     console.log("logging page: " + this.cp_style);
   }

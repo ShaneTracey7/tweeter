@@ -11,13 +11,12 @@ import { CoreService } from './core-service.service';
   styleUrl: './core.component.scss',
   /*imports: [HomePageComponent, NavigationBarComponent, RouterModule]*/
 })
-export class CoreComponent implements OnInit{
+export class CoreComponent{
   title = 'front-end';
 
-  constructor(public route: ActivatedRoute, private router: Router, public service: CoreService) { }
-
-  ngOnInit(): void
-  {
+  constructor(public route: ActivatedRoute, public service: CoreService) { 
+    this.service.current_page = this.route.snapshot.url.toString();
+    this.service.cp_style = this.route.snapshot.url.toString();
   }
   
 }

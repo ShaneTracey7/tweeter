@@ -11,9 +11,7 @@ import { CoreService } from '../../core/core-service.service';
   //encapsulation: ViewEncapsulation.None
 /* HOPING the scope of this is just within home-page module, but it could be global */
 })
-export class HomePageComponent{
-
-  constructor(public service: CoreService) { }
+export class HomePageComponent extends CoreComponent{
   
   reaction: string = "";
 
