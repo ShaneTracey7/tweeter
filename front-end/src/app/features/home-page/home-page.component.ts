@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CoreComponent } from '../../core/core.component';
+import { CoreService } from '../../core/core-service.service';
 
 @Component({
 
@@ -11,18 +12,16 @@ import { CoreComponent } from '../../core/core.component';
 /* HOPING the scope of this is just within home-page module, but it could be global */
 })
 export class HomePageComponent extends CoreComponent{
-
-
   
   reaction: string = "";
 
   colorReactionBarIcon(str: string) {
 
     if (this.reaction == str) {
-      return this.setUrl(str + "-color.png");
+      return this.service.setUrl(str + "-color.png");
     }
     else{
-      return this.setUrl(str + ".png");
+      return this.service.setUrl(str + ".png");
     }
   }
 

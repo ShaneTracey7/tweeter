@@ -11,6 +11,7 @@ import { Post, Profile, createAllProfiles, getProfile } from '../../../core/data
 
 })
 export class PostComponent extends HomePageComponent{
+
 @Input () post = new Post('','','','','','',0,0,0,0);
 
 show_modal: boolean = false;
