@@ -12,6 +12,8 @@ import { CoreComponent } from '../../core/core.component';
 })
 export class HomePageComponent extends CoreComponent{
 
+
+  
   reaction: string = "";
 
   colorReactionBarIcon(str: string) {

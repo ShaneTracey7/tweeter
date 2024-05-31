@@ -24,6 +24,7 @@ import { SearchCardComponent } from '../features/explore-page/components/search-
 import { SecondaryContentComponent } from '../shared/components/secondary-content/secondary-content.component';
 import { ShortProfileComponent } from '../shared/components/short-profile/short-profile.component';
 import { ProfileModalComponent } from '../shared/components/profile-modal/profile-modal.component';
+import { CoreService } from './core-service.service';
 
 
 
@@ -58,7 +59,7 @@ import { ProfileModalComponent } from '../shared/components/profile-modal/profil
     RouterLinkActive,
     CommonModule
   ],
-  providers: [],
+  providers: [CoreService], //new
   bootstrap: [CoreComponent]
 })
 export class CoreModule {}

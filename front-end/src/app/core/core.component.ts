@@ -1,6 +1,7 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { getImgUrl } from './data';
+import { CoreService } from './core-service.service';
 
 
 @Component({
@@ -30,7 +31,7 @@ export class CoreComponent implements OnInit{
   //modal_profile = new Profile('','','','',0,0);
   //static modal_profile: Profile;
 
-  constructor(public route: ActivatedRoute, private router: Router) { }
+  constructor(public route: ActivatedRoute, private router: Router, public service: CoreService) { }
 
   
 
@@ -43,6 +44,8 @@ export class CoreComponent implements OnInit{
     //console.log(this.current_page);
     //console.log(this.router.routerState.snapshot.url);
   }
+
+/*
     setUrl(str: string)
     {
       return getImgUrl(str);
@@ -91,12 +94,12 @@ export class CoreComponent implements OnInit{
     
   routeToChild(str: string){
     
-    /*
-      if(str != "foryou" && str != "all")
-        {
-          this.router.navigate([str], {relativeTo:this.route});
-        }
-      */
+    
+     // if(str != "foryou" && str != "all")
+     //   {
+      //    this.router.navigate([str], {relativeTo:this.route});
+      //  }
+      
       console.log(this.router.routerState.snapshot.url);
       this.current_tab = str;
       if (str == "foryou" || str == "all")
@@ -203,6 +206,7 @@ export class CoreComponent implements OnInit{
         }
       }
     }
+    */
 
   
 }
