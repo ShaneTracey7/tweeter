@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
+import { getImgUrl } from '../../../core/data';
 
 @Component({
   selector: 'page-not-found',
@@ -8,4 +9,8 @@ import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 })
 export class PageNotFoundComponent {
 
+  setUrl(str: string)
+{
+  return getImgUrl(str);
+}
 }

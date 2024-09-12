@@ -16,6 +16,7 @@ import { SignupModalComponent } from './features/login-page/components/signup-mo
 
 
 
+
 @NgModule({
   declarations: [
     
@@ -23,6 +24,7 @@ import { SignupModalComponent } from './features/login-page/components/signup-mo
     LoginPageComponent,
     LoginModalComponent,
     SignupModalComponent,
+    
   ],
   imports: [
     RouterModule,
@@ -30,13 +32,13 @@ import { SignupModalComponent } from './features/login-page/components/signup-mo
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    RouterLink, 
+    RouterLink,
     RouterLinkActive,
     CommonModule,
     CoreModule,
     ReactiveFormsModule,
     
-  ],
+],
   providers: [],
   bootstrap: [AppComponent]
 })
