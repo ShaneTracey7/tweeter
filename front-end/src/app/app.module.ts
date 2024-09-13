@@ -14,7 +14,7 @@ import { LoginPageComponent } from './features/login-page/login-page.component';
 import { LoginModalComponent } from './features/login-page/components/login-modal.component';
 import { SignupModalComponent } from './features/login-page/components/signup-modal.component';
 
-
+import { PermissionsService } from './core/auth.guard'
 
 
 @NgModule({
@@ -39,7 +39,7 @@ import { SignupModalComponent } from './features/login-page/components/signup-mo
     ReactiveFormsModule,
     
 ],
-  providers: [],
+  providers: [PermissionsService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

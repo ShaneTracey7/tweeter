@@ -6,6 +6,7 @@ import { NotificationPageComponent } from '../features/notification-page/notific
 import { MessagePageComponent } from '../features/message-page/message-page.component';
 import { PageNotFoundComponent } from '../shared/components/page-not-found/page-not-found.component';
 import { CoreComponent } from './core.component';
+import { PermissionsService } from './auth.guard';
 
 
 
@@ -20,25 +21,30 @@ const routes: Routes = [
   {
     path: '',
     component: CoreComponent,
+    //canActivate : [PermissionsService],
     children: [
       {
         path: 'Home',
         component: HomePageComponent,
+        canActivate : [PermissionsService],
         title: 'Home',
       },
       {
         path: 'Explore',
         component: ExplorePageComponent,
+        canActivate : [PermissionsService],
         title: 'Explore',
       },
       {
         path: 'Notifications',
         component: NotificationPageComponent,
+        canActivate : [PermissionsService],
         title: 'Notifications',
       },
       {
         path: 'Messages',
         component: MessagePageComponent,
+        canActivate : [PermissionsService],
         title: 'Messages',
       },
 

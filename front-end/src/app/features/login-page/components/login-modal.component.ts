@@ -3,6 +3,8 @@ import { getImgUrl } from '../../../core/data';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+//import { ILogin } from 'src/app/interfaces/login';  
+import { AuthService } from '../../../core/auth.service'
 
 @Component({
 
@@ -19,6 +21,7 @@ export class LoginModalComponent {
 @Output() show2Change = new EventEmitter<Boolean>();
 
 p_value = "password";
+
 
 submit_flag: number  = 0; // 0: not pressed, 1: pressed but not submitted, 2: pressed and submitted
 goodLogin: boolean = false; 
@@ -74,15 +77,39 @@ loginForm = this.formBuilder.group({
     }
   }
 
+  //gets a users from database by us
+  getUser(username: string, password: string)
+  {
+
+    var acc_name = "";
+
+    let requestBody =
+    {
+      "acc_name": 'getUser',
+      "email" : 'e',
+      "username" : username,
+      "password" : password,
+    };
+
+    this.http.post("http://127.0.0.1:8000/user", requestBody)
+    .subscribe((resultData: any)=>
+    {
+        console.log(resultData);
+        acc_name = resultData;
+    });
+
+    return acc_name;
+  }
+
   credentialsCheck(obj: any)
   {
   {
     let requestBody =
     {
-      "name" : 'credentialsCheck',
-      "email" : 'e',
-      "acc_name" : 'a',
+      //"name" : 'credentialsCheck',
       "username" : obj.loginForm.value.username,
+      "email" : 'e',
+      "acc_name" : 'credentialsCheck',
       "password" : obj.loginForm.value.password,
     };
 
@@ -99,7 +126,9 @@ loginForm = this.formBuilder.group({
         obj.goodlogin = false;
       }
     });
-  }
+
+    console.log('went thru credentials check')//testing
+    }
   }
 
 
@@ -116,14 +145,22 @@ loginForm = this.formBuilder.group({
               {
                 console.log("form submitted");
                 globalObj.submit_flag = 2;
+                
+                //get user with username
+                
+
+                localStorage.setItem('isLoggedIn', "true");  
+                localStorage.setItem('username', globalObj.loginForm.value.username ?? 'badToken');
+                localStorage.setItem('acc_name', globalObj.getUser(globalObj.loginForm.value.username!, globalObj.loginForm.value.password!) ?? 'badToken'); 
                 globalObj.loginForm.reset();
+                //this.router.navigate([this.returnUrl]);
                 setTimeout(() => {
                 globalObj.router.navigate(['/tweeter']); //this is just (need to figure out a secure login)
                 }, 2000) // 0.5 secs
               }
             else
               {
-                console.log("form not submitted");
+                console.log("form not submitted"); //error message recieved 
                 globalObj.submit_flag = 1;
               }
             reject("We didn't get a response")

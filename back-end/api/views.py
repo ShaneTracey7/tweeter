@@ -37,8 +37,18 @@ def userApi(request,id=id):
         user_serializer = UserSerializer(data=user_data)
         # compare to all usernames in db
         if user_serializer.is_valid():
-            user_serializer.save() #if user_serializer.is_valid():
-            return JsonResponse("Added Successfully",safe=False)
+
+           username_input = user_serializer.data['username']
+           acc_name_input = user_serializer.data['acc_name']
+           password_input = user_serializer.data['password']
+            if acc_name_input == 'getUser':
+                #insert query
+                user = User.objects.raw("SELECT acc_name FROM api_user WHERE username ='" + username_input + "' AND password ='" + password_input + "'")
+                user_serializer = UserSerializer(user,many=False)
+                return JsonResponse(user_serializer.data,safe=False)
+            else:
+                user_serializer.save() #if user_serializer.is_valid():
+                return JsonResponse("Added Successfully",safe=False)
         else: 
             return JsonResponse("Failed to Add",safe=False)
 
@@ -46,16 +56,16 @@ def userApi(request,id=id):
         user_data = JSONParser().parse(request)
         user_serializer = UserSerializer(data=user_data)
         if user_serializer.is_valid():
-            name_input = user_serializer.data['name']
             username_input = user_serializer.data['username']
+            acc_name_input = user_serializer.data['acc_name']
             password_input = user_serializer.data['password']   
-            if name_input == 'check':  #check uniqueness of username
-                result = User.objects.filter(username=username_input)
+            if username_input == 'check':  #check uniqueness of acc_name
+                result = User.objects.filter(acc_name=acc_name_input)
                 if result.exists():
                     return JsonResponse("Not Unique",safe=False)
                 else:
                     return JsonResponse("Unique",safe=False)
-            elif name_input == 'credentialsCheck':
+            elif acc_name_input == 'credentialsCheck':
                 result = User.objects.filter(username=username_input)
                 if result.exists():
                     user = User.objects.get(username=username_input)

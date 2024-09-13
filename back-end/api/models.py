@@ -9,13 +9,13 @@ class Student(models.Model):
         return f"{self.name} {self.address} {self.fee}"
     
 class User(models.Model):
-    name = models.CharField(max_length = 35)
+    #name = models.CharField(max_length = 35)
+    username = models.CharField(max_length = 35)
     email= models.CharField(max_length = 35)
     acc_name = models.CharField(max_length = 35)
-    username = models.CharField(max_length = 35)
     password = models.CharField(max_length = 35)
 
     def __str__(self):
-        return f"{self.name} {self.email} {self.acc_name} {self.username} {self.password}"
+        return f"{self.username} {self.email} {self.acc_name} {self.password}"
     
 

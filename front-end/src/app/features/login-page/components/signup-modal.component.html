@@ -11,13 +11,21 @@
                     <img id="modal-logo" [src]="setUrl('tweeter-logo-blue.png')">
                 </div>
                 <div id="form-status-message-bad" *ngIf="this.signupForm.invalid && submit_flag == 1"> Account not created. Please fix incorrect inputs!</div>
-                <div id="form-status-message-good" *ngIf="this.signupForm.controls['name'].untouched && submit_flag == 2"> Account created successfully!</div>
+                <div id="form-status-message-good" *ngIf="this.signupForm.controls['username'].untouched && submit_flag == 2"> Account created successfully!</div>
             </div>
 
             <div class="modal-content-area" id="signup-modal-content">
 
                 <h1 id="modal-title">  Create your account</h1>  
                 
+                <div class="form-input-container">
+                    <input type="text" id="username-input" placeholder="Username" formControlName="username" [style]="isValidInput(this.signupForm.controls['username'])" minlength="3" maxlength="25" required>
+                    <div class="error-message" *ngIf="this.signupForm.controls['username'].errors?.['required'] && this.signupForm.controls['username'].touched || this.signupForm.controls['username'].errors?.['required'] && submit_flag == 1">Username is required!</div> 
+                    <div class="error-message" *ngIf="this.signupForm.controls['username'].errors?.['minlength'] || this.signupForm.controls['username'].errors?.['maxlength'] "> Username must be within 3 - 25 characters!</div>
+                    <!-- <div class="error-message" *ngIf="submit_flag == 1 && unique_flag == 1"> Username already taken! Please change.</div> -->
+                </div>
+
+                <!--
                 <div class="form-input-container">
                     <input type="text" id="name-input" placeholder="Name" formControlName="name" [style]="isValidInput(this.signupForm.controls['name'])" minlength="3" maxlength="32" pattern="[a-zA-Z ]*" required>
                     <div class="error-message" *ngIf="this.signupForm.controls['name'].errors?.['required'] && this.signupForm.controls['name'].touched || this.signupForm.controls['name'].errors?.['required'] && submit_flag == 1;else second">Name is required!</div>
@@ -28,6 +36,7 @@
                         <div class="error-message" *ngIf="this.signupForm.controls['name'].errors?.['minlength'] || this.signupForm.controls['name'].errors?.['maxlength']"> Name must be within 3 - 32 characters!</div>
                     </ng-template>
                 </div>
+            -->
 
                 <div class="form-input-container">                                                          
                     <input type="email" id="email-input" placeholder="Email" formControlName="email" [style]="isValidInput(this.signupForm.controls['email'])" required>
@@ -83,11 +92,20 @@
                 </div>
 
                 <div class="form-input-container">
+                    <input type="text" id="name-input" placeholder="Account name" formControlName="acc_name" [style]="isValidInput(this.signupForm.controls['acc_name'])" minlength="5" maxlength="25" required>
+                    <div class="error-message" *ngIf="this.signupForm.controls['acc_name'].errors?.['required'] && this.signupForm.controls['acc_name'].touched || this.signupForm.controls['acc_name'].errors?.['required'] && submit_flag == 1;else second"> Account Name is required!</div>
+                    <ng-template #second>
+                        <div class="error-message" *ngIf="this.signupForm.controls['acc_name'].errors?.['minlength'] || this.signupForm.controls['acc_name'].errors?.['maxlength']"> Name must be within 5 - 25 characters!</div>
+                    </ng-template>
+                </div>
+<!--
+                <div class="form-input-container">
                     <input type="text" id="username-input" placeholder="Username" formControlName="username" [style]="isValidInput(this.signupForm.controls['username'])" minlength="5" maxlength="25" required>
                     <div class="error-message" *ngIf="this.signupForm.controls['username'].errors?.['required'] && this.signupForm.controls['username'].touched || this.signupForm.controls['username'].errors?.['required'] && submit_flag == 1">Username is required!</div> 
                     <div class="error-message" *ngIf="this.signupForm.controls['username'].errors?.['minlength'] || this.signupForm.controls['username'].errors?.['maxlength'] "> Username must be within 5 - 25 characters!</div>
                     <div class="error-message" *ngIf="submit_flag == 1 && unique_flag == 1"> Username already taken! Please change.</div>
                 </div>
+            -->
 
                 <div class="form-input-container">
                     <div class="password-input-container">                                                     <!-- [style]="isValidInput(this.signupForm.controls['password1'].errors == null)" -->
