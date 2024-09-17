@@ -34,7 +34,15 @@
     <img id="post-profile-img" class="post-profile" [src]="service.setUrl('elon.jpeg')" alt="profile"/>
   </div>
   <div class="post-content-container">
-    <input id="e-post-input" placeholder="What is happening?!">
+
+
+    <div id="test-block">
+      <input id="e-post-input" placeholder="What is happening?!">
+       <p> Welcome, {{username}} </p>
+      <button (click)="logout()"> Logout</button>
+    </div>
+
+
     <div class="selection-bar">
       <div class="e-icon-container"> 
         <img [src]="service.setUrl('landscape.png')" class="selection-bar-icons" alt="Media"/>
@@ -118,4 +126,3 @@
     -->
 
 </div>
-

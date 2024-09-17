@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { CoreComponent } from '../../../core/core.component';
 import { getImgUrl } from '../../../core/data';
 import { CoreService } from '../../../core/core-service.service';
+import { AuthService } from '../../../core/auth.service';
 @Component({
 
   selector: 'app-navigation-bar',
@@ -12,5 +13,24 @@ import { CoreService } from '../../../core/core-service.service';
 })
 export class NavigationBarComponent{
 
-  constructor(public service: CoreService) { }
+  username: string;
+  acc_name: string;
+
+  constructor(private router: Router, private authService: AuthService,public service: CoreService) {
+    
+    this.username = "";
+    this.acc_name = "";
+    }
+
+  ngOnInit() {  
+    this.username = localStorage.getItem('username') ?? "badToken";
+    this.acc_name = localStorage.getItem('acc_name') ?? "badToken";  
+    console.log(this.username);  
+  } 
+
+  logout() {  
+    console.log('logout');  
+    this.authService.logout();  
+    this.router.navigate(['/Login']);  
+  } 
 }
