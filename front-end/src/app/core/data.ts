@@ -161,6 +161,7 @@ export class Profile {
 
     return feed;
  }
+
  export function createFollowingFeed(){
     //creating list
     var feed = new Array<Post>;

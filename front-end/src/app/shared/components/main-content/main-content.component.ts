@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { AppComponent } from '../../../app.component';
-import { createAllNotifications, createEntertainmentSearchTopics, createFollowingFeed, createForYouFeed, createForYouSearchTopics, createMentionsNotifications, createMessages, createNewsSearchTopics, createSportsSearchTopics, createTrendingSearchTopics, createVerifiedNotifications } from '../../../core/data';
+import { createAllNotifications, createEntertainmentSearchTopics, createFollowingFeed, createForYouSearchTopics, createMentionsNotifications, createMessages, createNewsSearchTopics, createSportsSearchTopics, createTrendingSearchTopics, createVerifiedNotifications } from '../../../core/data';
+import { TweetService } from '../../../core/tweet-service';
 @Component({
   /*standalone: true,*/
   selector: 'main-content',
@@ -11,9 +12,17 @@ export class MainContentComponent {
   @Input() tab: string = ""; //what tab is being displayed
   @Input() page: string = ""; //what current_page is being displayed
 
+  forYouFeed: any [] = []
+
+  constructor(private tweetService: TweetService){
+    console.log('myService', tweetService);
+
+    this.forYouFeed = tweetService.createForYouFeed()
+}
+
   //home page data
-  followingFeed = createFollowingFeed();
-  forYouFeed = createForYouFeed();
+  followingFeed = createFollowingFeed(); //only posts from following
+  //forYouFeed = this.createForYouFeed(); //any posts
 
   //message page data
   messages = createMessages();

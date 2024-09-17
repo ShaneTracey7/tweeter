@@ -25,6 +25,7 @@ import { SecondaryContentComponent } from '../shared/components/secondary-conten
 import { ShortProfileComponent } from '../shared/components/short-profile/short-profile.component';
 import { ProfileModalComponent } from '../shared/components/profile-modal/profile-modal.component';
 import { CoreService } from './core-service.service';
+import { TweetService } from './tweet-service';
 
 
 
@@ -59,7 +60,7 @@ import { CoreService } from './core-service.service';
     RouterLinkActive,
     CommonModule
   ],
-  providers: [CoreService], //new
+  providers: [CoreService,TweetService], //new
   bootstrap: [CoreComponent]
 })
 export class CoreModule {}
