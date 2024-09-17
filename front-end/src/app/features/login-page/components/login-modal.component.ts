@@ -21,7 +21,7 @@ export class LoginModalComponent {
 @Output() show2Change = new EventEmitter<Boolean>();
 
 p_value = "password";
-
+u_value = "username";
 
 submit_flag: number  = 0; // 0: not pressed, 1: pressed but not submitted, 2: pressed and submitted
 goodLogin: boolean = false; 
@@ -30,7 +30,7 @@ goodLogin: boolean = false;
 constructor(private formBuilder: FormBuilder, private http: HttpClient,private router:Router ) {}
 
 loginForm = this.formBuilder.group({
-  username: ['', [Validators.required]],
+  acc_name: ['', [Validators.required]],
   password: ['', [Validators.required]],
   });
 
@@ -77,39 +77,15 @@ loginForm = this.formBuilder.group({
     }
   }
 
-  //gets a users from database by us
-  getUser(username: string, password: string)
-  {
-
-    var acc_name = "";
-
-    let requestBody =
-    {
-      "acc_name": 'getUser',
-      "email" : 'e',
-      "username" : username,
-      "password" : password,
-    };
-
-    this.http.post("http://127.0.0.1:8000/user", requestBody)
-    .subscribe((resultData: any)=>
-    {
-        console.log(resultData);
-        acc_name = resultData;
-    });
-
-    return acc_name;
-  }
-
   credentialsCheck(obj: any)
   {
   {
     let requestBody =
     {
       //"name" : 'credentialsCheck',
-      "username" : obj.loginForm.value.username,
+      "username" : 'credentialsCheck',
       "email" : 'e',
-      "acc_name" : 'credentialsCheck',
+      "acc_name" : obj.loginForm.value.acc_name,
       "password" : obj.loginForm.value.password,
     };
 
@@ -117,14 +93,15 @@ loginForm = this.formBuilder.group({
     {
         console.log(resultData);
     
-    if(resultData == "username exists, password correct")
-      {
-        obj.goodLogin = true;
-      }
-    else
-      {
-        obj.goodlogin = false;
-      }
+        if(resultData == "AC doesn't exist" || resultData == "AC exists, P incorrect" || resultData == "Failed to Add")
+        {
+          this.goodLogin = false;
+        }
+      else
+        {
+          obj.goodLogin = true;
+          obj.u_value = resultData
+        }
     });
 
     console.log('went thru credentials check')//testing
@@ -150,8 +127,8 @@ loginForm = this.formBuilder.group({
                 
 
                 localStorage.setItem('isLoggedIn', "true");  
-                localStorage.setItem('username', globalObj.loginForm.value.username ?? 'badToken');
-                localStorage.setItem('acc_name', globalObj.getUser(globalObj.loginForm.value.username!, globalObj.loginForm.value.password!) ?? 'badToken'); 
+                localStorage.setItem('username', globalObj.u_value ?? 'badToken');
+                localStorage.setItem('acc_name', globalObj.loginForm.value.acc_name ?? 'badToken'); 
                 globalObj.loginForm.reset();
                 //this.router.navigate([this.returnUrl]);
                 setTimeout(() => {

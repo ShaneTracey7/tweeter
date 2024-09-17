@@ -95,7 +95,10 @@
                     <input type="text" id="name-input" placeholder="Account name" formControlName="acc_name" [style]="isValidInput(this.signupForm.controls['acc_name'])" minlength="5" maxlength="25" required>
                     <div class="error-message" *ngIf="this.signupForm.controls['acc_name'].errors?.['required'] && this.signupForm.controls['acc_name'].touched || this.signupForm.controls['acc_name'].errors?.['required'] && submit_flag == 1;else second"> Account Name is required!</div>
                     <ng-template #second>
-                        <div class="error-message" *ngIf="this.signupForm.controls['acc_name'].errors?.['minlength'] || this.signupForm.controls['acc_name'].errors?.['maxlength']"> Name must be within 5 - 25 characters!</div>
+                        <div class="error-message" *ngIf="this.signupForm.controls['acc_name'].errors?.['minlength'] || this.signupForm.controls['acc_name'].errors?.['maxlength']; else third"> Name must be within 5 - 25 characters!</div>
+                    </ng-template>
+                    <ng-template #third>
+                        <div class="error-message" *ngIf="submit_flag == 1 && unique_flag == 1"> Username already taken! Please change.</div>
                     </ng-template>
                 </div>
 <!--

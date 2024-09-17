@@ -10,16 +10,16 @@
                     </div>
                     <img id="modal-logo" [src]="setUrl('tweeter-logo-blue.png')">
                 </div>
-                <div id="form-status-message-bad" *ngIf="this.submit_flag == 1">Incorrect username or password!</div>
-                <div id="form-status-message-good" *ngIf="this.loginForm.controls['username'].untouched && this.submit_flag == 2"> Login successful!</div>
+                <div id="form-status-message-bad" *ngIf="this.submit_flag == 1">Incorrect account name or password!</div>
+                <div id="form-status-message-good" *ngIf="this.loginForm.controls['acc_name'].untouched && this.submit_flag == 2"> Login successful!</div>
             </div>
 
             <div class="modal-content-area" id="login-modal-content">
 
                 <h1 id="modal-title"> Enter your login information</h1>
                 <div class="form-input-container">
-                    <input type="text" id="username-input" placeholder="Username" formControlName="username" [style]="isValidInput(this.loginForm.controls['username'])" required>
-                    <div class="error-message" *ngIf="this.loginForm.controls['username'].errors?.['required'] && this.loginForm.controls['username'].touched || this.loginForm.controls['username'].errors?.['required'] && submit_flag == 1">Username is required!</div> 
+                    <input type="text" id="username-input" placeholder="Account Name" formControlName="acc_name" [style]="isValidInput(this.loginForm.controls['acc_name'])" required>
+                    <div class="error-message" *ngIf="this.loginForm.controls['acc_name'].errors?.['required'] && this.loginForm.controls['acc_name'].touched || this.loginForm.controls['acc_name'].errors?.['required'] && submit_flag == 1">Account Name is required!</div> 
                 
                 </div>
 
