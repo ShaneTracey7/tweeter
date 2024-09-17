@@ -20,6 +20,35 @@ from rest_framework.renderers import JSONRenderer
 #       serializer.save()
 #       return JsonResponse("Added Successfully",safe=False)
 #    return JsonResponse("Failed to Add",safe=False)
+@csrf_exempt
+def tweetApi(request,id=id):
+
+    if request.method =='GET':
+        tweet = Tweet.objects.all() #raw("SELECT * FROM api_user WHERE username = 'Shane'")
+        tweet_serializer = TweetSerializer(user,many=True)
+        return JsonResponse(tweet_serializer.data,safe=False)
+    
+    elif request.method =='POST':
+
+        #retrieve tweet from front end
+        tweet_data = JSONParser().parse(request)
+        # serialize tweet
+        tweet_serializer = TweetSerializer(data=tweet_data)
+        # compare to all tweet in db
+        if tweet_serializer.is_valid():
+            tweet_serializer.save() #if user_serializer.is_valid():
+            return JsonResponse("Added Successfully",safe=False)
+        else: 
+            return JsonResponse("Failed to Add",safe=False)
+
+    #elif request.method =='PUT':
+        
+    elif request.method =='DELETE':
+        tweet = Tweet.objects.get(id=id)
+        tweet.delete()
+        return JsonResponse("Deleted Successfully",safe=False)
+
+
 
 @csrf_exempt
 def userApi(request,id=id):
@@ -37,6 +66,16 @@ def userApi(request,id=id):
         user_serializer = UserSerializer(data=user_data)
         # compare to all usernames in db
         if user_serializer.is_valid():
+
+           #username_input = user_serializer.data['username']
+           #acc_name_input = user_serializer.data['acc_name']
+           #password_input = user_serializer.data['password']
+           # if acc_name_input == 'getUser':
+                #insert query
+               # user = User.objects.raw("SELECT acc_name FROM api_user WHERE username ='" + username_input + "' AND password ='" + password_input + "'")
+                #user_serializer = UserSerializer(user,many=False)
+                #return JsonResponse(user_serializer.data,safe=False)
+            #else:
             user_serializer.save() #if user_serializer.is_valid():
             return JsonResponse("Added Successfully",safe=False)
         else: 
@@ -46,25 +85,25 @@ def userApi(request,id=id):
         user_data = JSONParser().parse(request)
         user_serializer = UserSerializer(data=user_data)
         if user_serializer.is_valid():
-            name_input = user_serializer.data['name']
             username_input = user_serializer.data['username']
+            acc_name_input = user_serializer.data['acc_name']
             password_input = user_serializer.data['password']   
-            if name_input == 'check':  #check uniqueness of username
-                result = User.objects.filter(username=username_input)
+            if username_input == 'check':  #check uniqueness of acc_name
+                result = User.objects.filter(acc_name=acc_name_input)
                 if result.exists():
                     return JsonResponse("Not Unique",safe=False)
                 else:
                     return JsonResponse("Unique",safe=False)
-            elif name_input == 'credentialsCheck':
-                result = User.objects.filter(username=username_input)
+            elif username_input == 'credentialsCheck':
+                result = User.objects.filter(acc_name=acc_name_input)
                 if result.exists():
-                    user = User.objects.get(username=username_input)
+                    user = User.objects.get(acc_name=acc_name_input)
                     if user.password == password_input:
-                        return JsonResponse("username exists, password correct",safe=False)
+                        return JsonResponse(user.username,safe=False) # ()password and account name correct
                     else:
-                        return JsonResponse("username exists, password incorrect",safe=False)
+                        return JsonResponse("AC exists, P incorrect",safe=False)
                 else:
-                    return JsonResponse("username doesn't exist",safe=False)
+                    return JsonResponse("AC doesn't exist",safe=False)
         else: 
             return JsonResponse("Failed to Add",safe=False)
             

@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CoreComponent } from '../../core/core.component';
 import { CoreService } from '../../core/core-service.service';
+import { AuthService } from '../../core/auth.service'; 
 
 @Component({
 
@@ -14,6 +15,24 @@ import { CoreService } from '../../core/core-service.service';
 export class HomePageComponent extends CoreComponent{
   
   reaction: string = "";
+/*
+  id: string;  
+  constructor(private router: Router, private authService: AuthService, public override route: ActivatedRoute, public override service: CoreService) {
+    super(route, service);
+
+    this.id = "";
+  }  
+  ngOnInit() {  
+    this.id = localStorage.getItem('token') ?? "badToken";  
+    console.log(this.id);  
+  } 
+
+  logout() {  
+    console.log('logout');  
+    this.authService.logout();  
+    this.router.navigate(['/Login']);  
+  } 
+  */
 
   colorReactionBarIcon(str: string) {
 
@@ -24,6 +43,8 @@ export class HomePageComponent extends CoreComponent{
       return this.service.setUrl(str + ".png");
     }
   }
+
+  
 
   colorReactionBarText(str:string)
   {

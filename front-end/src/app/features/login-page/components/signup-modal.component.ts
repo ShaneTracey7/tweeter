@@ -30,12 +30,12 @@ unique_flag: number = 0; // 0: not pressed, 1: pressed but not submitted, 2: pre
 password_flag: number = 0; // 0: not pressed, 1: pressed but not submitted, 2: pressed and submitted
 
 signupForm = this.formBuilder.group({
-  name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(32), Validators.pattern('[a-zA-Z ]*')]],
+  username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
   email: ['', [Validators.required,Validators.email]],
   month: ['', Validators.required],
   day: ['', Validators.required],
   year: ['', [Validators.required, /*this.ageValidator*/]],
-  username: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(25)]],
+  acc_name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(25)]],
   password1: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(25)]],
   password2: ['', [Validators.required],], 
   //make sure both passwords match (the submit works but idk if i want to go that route)
@@ -73,10 +73,10 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) {
    {
      let userData = {
        
-       "name" : obj.signupForm.value.name,
-       "email" : obj.signupForm.value.email,
-       "acc_name" : 'acc_name',
+      // "name" : obj.signupForm.value.name,
        "username" : obj.signupForm.value.username,
+       "email" : obj.signupForm.value.email,
+       "acc_name" : obj.signupForm.value.acc_name,
        "password" : obj.signupForm.value.password1,
      };
      obj.http.post("http://127.0.0.1:8000/user",userData).subscribe((resultData: any)=>
@@ -91,16 +91,17 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) {
   {
     let requestBody =
     {
-      "name" : 'check',
+      "username" : 'check',
+      //"name" : 'check',
       "email" : 'e',
-      "acc_name" : 'a',
-      "username" : obj.signupForm.value.username,
+      "acc_name" : obj.signupForm.value.acc_name,
+      
       "password" : 'p',
     };
 
     obj.http.put("http://127.0.0.1:8000/user",requestBody).subscribe((resultData: any)=>
     {
-        console.log(resultData);
+        console.log(resultData); //returns failed to add
 
     if(resultData == "Unique")
       {
@@ -117,7 +118,7 @@ uniquenessProcessing(obj: any)
 {
   if(obj.uniqueUser)
     {
-      console.log("username is unique");
+      console.log("acc_name is unique");
       obj.submit_flag = 2;
       obj.unique_flag = 2;
       obj.addUser(obj);
@@ -126,7 +127,7 @@ uniquenessProcessing(obj: any)
     }
     else //username is not unique
     {
-      console.log("username is not unique");
+      console.log("acc_name is not unique");
       console.log("not submitted");
       obj.submit_flag = 1;
       obj.unique_flag = 1;
@@ -214,7 +215,7 @@ isValidInput(fc: FormControl<any | null>)
 {
   if (fc.valid)
     {
-      if(fc == this.signupForm.controls['username'] && this.unique_flag == 1)
+      if(fc == this.signupForm.controls['acc_name'] && this.unique_flag == 1)
         {
           return {
             border: '2px solid red',

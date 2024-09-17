@@ -3,6 +3,8 @@ import { getImgUrl } from '../../../core/data';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+//import { ILogin } from 'src/app/interfaces/login';  
+import { AuthService } from '../../../core/auth.service'
 
 @Component({
 
@@ -19,6 +21,7 @@ export class LoginModalComponent {
 @Output() show2Change = new EventEmitter<Boolean>();
 
 p_value = "password";
+u_value = "username";
 
 submit_flag: number  = 0; // 0: not pressed, 1: pressed but not submitted, 2: pressed and submitted
 goodLogin: boolean = false; 
@@ -27,7 +30,7 @@ goodLogin: boolean = false;
 constructor(private formBuilder: FormBuilder, private http: HttpClient,private router:Router ) {}
 
 loginForm = this.formBuilder.group({
-  username: ['', [Validators.required]],
+  acc_name: ['', [Validators.required]],
   password: ['', [Validators.required]],
   });
 
@@ -79,10 +82,10 @@ loginForm = this.formBuilder.group({
   {
     let requestBody =
     {
-      "name" : 'credentialsCheck',
+      //"name" : 'credentialsCheck',
+      "username" : 'credentialsCheck',
       "email" : 'e',
-      "acc_name" : 'a',
-      "username" : obj.loginForm.value.username,
+      "acc_name" : obj.loginForm.value.acc_name,
       "password" : obj.loginForm.value.password,
     };
 
@@ -90,16 +93,19 @@ loginForm = this.formBuilder.group({
     {
         console.log(resultData);
     
-    if(resultData == "username exists, password correct")
-      {
-        obj.goodLogin = true;
-      }
-    else
-      {
-        obj.goodlogin = false;
-      }
+        if(resultData == "AC doesn't exist" || resultData == "AC exists, P incorrect" || resultData == "Failed to Add")
+        {
+          this.goodLogin = false;
+        }
+      else
+        {
+          obj.goodLogin = true;
+          obj.u_value = resultData
+        }
     });
-  }
+
+    console.log('went thru credentials check')//testing
+    }
   }
 
 
@@ -116,14 +122,22 @@ loginForm = this.formBuilder.group({
               {
                 console.log("form submitted");
                 globalObj.submit_flag = 2;
+                
+                //get user with username
+                
+
+                localStorage.setItem('isLoggedIn', "true");  
+                localStorage.setItem('username', globalObj.u_value ?? 'badToken');
+                localStorage.setItem('acc_name', globalObj.loginForm.value.acc_name ?? 'badToken'); 
                 globalObj.loginForm.reset();
+                //this.router.navigate([this.returnUrl]);
                 setTimeout(() => {
                 globalObj.router.navigate(['/tweeter']); //this is just (need to figure out a secure login)
                 }, 2000) // 0.5 secs
               }
             else
               {
-                console.log("form not submitted");
+                console.log("form not submitted"); //error message recieved 
                 globalObj.submit_flag = 1;
               }
             reject("We didn't get a response")
