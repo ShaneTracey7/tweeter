@@ -2,8 +2,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
-from api.serializers import StudentSerializer, UserSerializer
-from api.models import Student, User
+from api.serializers import StudentSerializer, UserSerializer, TweetSerializer
+from api.models import Student, User, Tweet
 from rest_framework.renderers import JSONRenderer
 
 #@api_view(['GET'])
@@ -25,24 +25,23 @@ def tweetApi(request,id=id):
 
     if request.method =='GET':
         tweet = Tweet.objects.all() #raw("SELECT * FROM api_user WHERE username = 'Shane'")
-        tweet_serializer = TweetSerializer(user,many=True)
+        tweet_serializer = TweetSerializer(tweet,many=True)
         return JsonResponse(tweet_serializer.data,safe=False)
-    
+
     elif request.method =='POST':
 
         #retrieve tweet from front end
-        tweet_data = JSONParser().parse(request)
+       tweet_data = JSONParser().parse(request)
         # serialize tweet
-        tweet_serializer = TweetSerializer(data=tweet_data)
+       tweet_serializer = TweetSerializer(data=tweet_data)
         # compare to all tweet in db
-        if tweet_serializer.is_valid():
+       if tweet_serializer.is_valid():
             tweet_serializer.save() #if user_serializer.is_valid():
             return JsonResponse("Added Successfully",safe=False)
-        else: 
+       else: 
             return JsonResponse("Failed to Add",safe=False)
 
-    #elif request.method =='PUT':
-        
+    #elif request.method =='PUT': 
     elif request.method =='DELETE':
         tweet = Tweet.objects.get(id=id)
         tweet.delete()
@@ -87,14 +86,14 @@ def userApi(request,id=id):
         if user_serializer.is_valid():
             username_input = user_serializer.data['username']
             acc_name_input = user_serializer.data['acc_name']
-            password_input = user_serializer.data['password']   
+            password_input = user_serializer.data['password']
             if username_input == 'check':  #check uniqueness of acc_name
                 result = User.objects.filter(acc_name=acc_name_input)
                 if result.exists():
                     return JsonResponse("Not Unique",safe=False)
                 else:
                     return JsonResponse("Unique",safe=False)
-            elif username_input == 'credentialsCheck':
+            elif username_input == 'credentialsCheck': # check if password and account name correct
                 result = User.objects.filter(acc_name=acc_name_input)
                 if result.exists():
                     user = User.objects.get(acc_name=acc_name_input)
@@ -104,6 +103,14 @@ def userApi(request,id=id):
                         return JsonResponse("AC exists, P incorrect",safe=False)
                 else:
                     return JsonResponse("AC doesn't exist",safe=False)
+            elif username_input == 'getUser': # check if password and account name correct
+                id_input = user_serializer.data['id']  
+                result = User.objects.filter(id=id_input)
+                if result.exists():
+                    user = User.objects.get(id=id_input)
+                    return JsonResponse(user,safe=False)
+                else:
+                    return JsonResponse("ID doesn't exist",safe=False)
         else: 
             return JsonResponse("Failed to Add",safe=False)
             

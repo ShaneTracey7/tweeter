@@ -17,9 +17,12 @@ export class MainContentComponent {
   constructor(private tweetService: TweetService){
     console.log('myService', tweetService);
 
-    this.forYouFeed = tweetService.createForYouFeed()
-}
+    this.forYouFeed = this.tweetService.FEfeed
+    console.log(this.forYouFeed)
+  }
 
+  
+  
   //home page data
   followingFeed = createFollowingFeed(); //only posts from following
   //forYouFeed = this.createForYouFeed(); //any posts

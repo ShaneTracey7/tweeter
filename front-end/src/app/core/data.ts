@@ -51,7 +51,12 @@ export class Post {
         this.views = shortenNum(v);
       }
     
-
+      toString(): string
+      {
+        
+        return " " + this.profile + " "+ this.username + " " + this.acc_name + " " +this.e_time + " " +this.text + " " +this.image + " " + this.comments + " " +this.retweets + " "+this.likes + " "+this.views + " ";
+      
+    }
 }
 
 export class Message{

@@ -29,8 +29,9 @@ class Tweet(models.Model):
     comments = models.IntegerField() # may not need this one
     retweets = models.IntegerField()
     engagements = models.IntegerField()
+    
     def __str__(self):
-        return f"{self.user} {self.date_created} {self.text_content} {self.image_content} {self.likes}{self.comments}{self.retweets}{self.engagements}"
+        return f"{self.user} {self.date_created} {self.text_content} {self.image_content} {self.likes} {self.comments} {self.retweets} {self.engagements}"
 
 #class TweetReactions(models.Model):
     #may separate these and connect through keys
