@@ -1,6 +1,6 @@
 <!-- Used when searching and for secondary content panes-->
 <div id="shortProfile">
-    <img id="spi" (mouseover)="showModal(profile)" (mouseout)="hideModal()" class="shortProfile-img" src={{profile.pic}} alt="profile"/>
+    <img id="spi" (mouseenter)="showModal(profile)" class="shortProfile-img" src={{profile.pic}} alt="profile"/>
     <div id="shortProfile-text">
         <h3 id="shortProfile-username"> {{ profile.username }} </h3>
         <p id="shortProfile-accountname">&commat;{{ profile.acc_name }}</p>
@@ -10,6 +10,4 @@
     <!--{% endif %} -->
 </div>
 
-<profile-modal [inMain]="false" [show]='show_modal' [profile]='modal_profile'></profile-modal>
-
-
+<profile-modal id="pm-instance" [inMain]="false" [(show)]='show_modal' [scc]='scc'[profile]='modal_profile'></profile-modal>

@@ -8,10 +8,9 @@
 
 <div *ngIf="pane == 2"> <!-- who to follow-->
   
-  <short-profile
+  <short-profile [scc] = 'scc'
   *ngFor="let profile of profiles"
   [profile]="profile">
-  <!-- [show]="false" -->
   </short-profile>
 
 </div> 

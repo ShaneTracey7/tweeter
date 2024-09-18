@@ -106,10 +106,27 @@ $twitter-blue: #1DA1F2;
     padding: 15px;
   }
   
-  .profileModal:hover{
+  /*.profileModal:hover{
     display: flex;
-  }
-  
+  }*//*
+  #pm-buffer{
+    background-color: black; //switch to transparent
+    position:fixed;
+    width: 350px;
+    height: 250px;
+    border-radius: 15px;
+    //box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.200);
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+  }*/
+  /*#pm-buffer:hover{
+    display: flex;
+    //flex-direction: column;
+  }*/
+  /*#pm-instance:hover{
+    display: flex;
+  }*/
   
   .pm-img {
     width: 60px;
