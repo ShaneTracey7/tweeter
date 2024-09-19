@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { getImgUrl } from './data';
 import { CoreService } from './core-service.service';
 import { AuthService } from './auth.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   /*standalone: true,*/
@@ -24,7 +25,7 @@ export class CoreComponent{
 */
   username: string;  
   acc_name: string; 
-  constructor(private router: Router, private authService: AuthService, public route: ActivatedRoute, public service: CoreService) {
+  constructor(private router: Router, private authService: AuthService, public route: ActivatedRoute, public service: CoreService ) {
     
     this.service.current_page = this.route.snapshot.url.toString();
     this.service.cp_style = this.route.snapshot.url.toString();
@@ -37,11 +38,11 @@ export class CoreComponent{
     this.acc_name = localStorage.getItem('acc_name') ?? "badToken";  
     console.log(this.username);  
   } 
-
+/*
   logout() {  
     console.log('logout');  
     this.authService.logout();  
     this.router.navigate(['/Login']);  
   } 
-  
+  */
 }

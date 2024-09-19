@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CoreComponent } from '../../core/core.component';
 import { CoreService } from '../../core/core-service.service';
 import { AuthService } from '../../core/auth.service'; 
+import { HttpClient } from '@angular/common/http';
 
 @Component({
 
@@ -14,7 +15,37 @@ import { AuthService } from '../../core/auth.service';
 })
 export class HomePageComponent extends CoreComponent{
   
+constructor(router: Router, authService: AuthService, route: ActivatedRoute, service: CoreService,private http: HttpClient)
+{
+  super(router,authService,route,service);
+}
+
   reaction: string = "";
+
+  //called upon successful submit of create account form
+  addPost()
+  {
+    //get id value for user using acc_name
+    let text_input = (<HTMLInputElement>document.getElementById("e-post-input")).value;
+
+    if (text_input != "")
+    {  
+      let postData = {
+      "user": 20, //fake value
+      "date_created": new Date(),
+      "text_content": text_input,
+      "image_content": 'url',
+      "likes": 0,
+      "comments": 0,
+      "retweets": 0,
+      "engagements": 0,
+      };
+      this.http.post("http://127.0.0.1:8000/tweet",postData).subscribe((resultData: any)=>
+      {
+          console.log(resultData);
+      });
+    }
+  }
 /*
   id: string;  
   constructor(private router: Router, private authService: AuthService, public override route: ActivatedRoute, public override service: CoreService) {
