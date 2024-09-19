@@ -13,10 +13,11 @@ import { AuthService } from '../../../core/auth.service';
 })
 export class NavigationBarComponent{
 
+  show:boolean = false;
   username: string;
   acc_name: string;
 
-  constructor(private router: Router, private authService: AuthService,public service: CoreService) {
+  constructor(private router: Router, private authService: AuthService, public service: CoreService) {
     
     this.username = "";
     this.acc_name = "";
@@ -27,6 +28,11 @@ export class NavigationBarComponent{
     this.acc_name = localStorage.getItem('acc_name') ?? "badToken";  
     console.log(this.username);  
   } 
+
+  showModal()
+  {
+    this.show = true;
+  }
 
   logout() {  
     console.log('logout');  

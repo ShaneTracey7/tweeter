@@ -57,7 +57,7 @@
   </nav>
 
       <div id="bottom-nav"> 
-        <div id="profile-nav" >
+        <div id="profile-nav" (click)="showModal()">
           <img id="profile-nav-img" [src]="service.setUrl('elon.jpeg')" alt="elon"/>
           <div id="profile-nav-text">
             <p id="profile-nav-username"> {{username}} </p>
@@ -66,5 +66,8 @@
           <img id="profile-nav-elip" class="elip" [src]="service.setUrl('ellipsis.png')" alt="more"/>
         </div>
       </div> 
-
+      
 </div>
+<!-- <logout-modal id="logout-modal" [(show)]='show_modal' [acc_name]="acc_name"></logout-modal> -->
+<logout-modal id="logout-modal" [(show)]='show' ></logout-modal>
+

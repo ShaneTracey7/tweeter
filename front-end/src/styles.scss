@@ -71,7 +71,34 @@ $twitter-blue: #1DA1F2;
     margin-bottom: auto;
     border-radius: 50%;
   }
+  /* <----------------------------------------  Logout modal  ----------------------------------------> */   
   
+
+  #logout-modal{
+    //position: fixed;
+    width: fit-content;
+    min-width: 200;
+  }
+
+  #logout-button-container{
+    display: flex;
+    margin:0;
+    //margin-left: 0
+    //background-color: black;
+    height: fit-content;
+    border-radius: 15px;
+    
+  }
+  #logout-button-container:hover{
+    background-color: $bg-color-hover-nav-tool-bar;
+  }
+  #logout-button{
+    display: flex;
+    margin:0;
+    padding: 10px;
+    text-align: center;
+  }
+
   /* <----------------------------------------  profile modal  ----------------------------------------> */   
   
   .modal-content {

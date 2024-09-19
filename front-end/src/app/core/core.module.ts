@@ -26,6 +26,7 @@ import { ShortProfileComponent } from '../shared/components/short-profile/short-
 import { ProfileModalComponent } from '../shared/components/profile-modal/profile-modal.component';
 import { CoreService } from './core-service.service';
 import { TweetService } from './tweet-service';
+import { LogoutModalComponent } from '../shared/components/navigation-bar/logout-modal.component';
 
 
 
@@ -47,7 +48,8 @@ import { TweetService } from './tweet-service';
     SearchCardComponent,
     SecondaryContentComponent,
     ShortProfileComponent,
-    ProfileModalComponent
+    ProfileModalComponent,
+    LogoutModalComponent,
     
   ],
   imports: [
