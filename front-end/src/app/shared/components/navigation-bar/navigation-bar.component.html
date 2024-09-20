@@ -47,7 +47,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a id="post-navlink" class="nav-link" routerLink="/">
+        <a (click)="service.setCurrentPage('Home')" id="post-navlink" class="nav-link" routerLink="/tweeter/Home">
             <img id="write-tweet" [src]="service.setUrl('write-tweet.png')" alt="Post"/>
             <button id="navbarpost"> Post </button>
         </a>
