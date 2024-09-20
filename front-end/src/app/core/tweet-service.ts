@@ -28,10 +28,23 @@ getDBForYouFeed()
     });
 }
 
+// Presets UserFeed (needed to make sure profiles are added at the proper index)
+presetUserFeed()
+{
+  this.DBfeed.forEach(() => {
+    var u = new Profile("", "", "", "", 0, 0);
+    this.UserFeed.push(u)
+  });
+}
+
 //gets all users from tweets(from DB) and creates a Profile object with them and adds them to UserFeed array
 getDBForYouFeedUsers()
 {
-  this.DBfeed.forEach((tweet) => {
+  //let arr: Profile []= Array<Profile>(this.DBfeed.length);
+  //this.UserFeed = arr;
+  this.presetUserFeed();
+  //this goes in any order
+  this.DBfeed.forEach((tweet,index) => {
 
     console.log(tweet.user)
     
@@ -40,22 +53,45 @@ getDBForYouFeedUsers()
       "num": tweet.user,
       "word": 'w',
     };
-
+    console.log("BEFORE tweet-id:" + tweet.id);
     this.http.put("http://127.0.0.1:8000/tweet",requestBody).subscribe((resultData: any)=>
     {
-        console.log("this is recieved user data: " + resultData);
+        var u = new Profile(this.elon, resultData.username, resultData.acc_name, "bio", 100, 200);
+        this.UserFeed.splice(index, 1, u);
+        console.log("AFTER tweet-id:" + tweet.id + " recieved user data: " + resultData.username + "index: " + (index+ 1));
+        //this.UserFeed.push(u) //this is the issue, being added to array out of order(because loop completed b4 http requests are processed)
+
+    });
+    //req.unsubscribe();
+    
+});
+}
+/*
+getDBForYouFeedUsers1(tweet:any)
+{
+  //this goes in any order
+  
+
+    console.log(tweet.user)
+    
+    let requestBody =
+    {
+      "num": tweet.user,
+      "word": 'w',
+    };
+    this.http.put("http://127.0.0.1:8000/tweet",requestBody).subscribe((resultData: any)=>
+    {
+        console.log("AFTER tweet-id:" + tweet.id + " recieved user data: " + resultData.username );
         var u = new Profile(this.elon, resultData.username, resultData.acc_name, "bio", 100, 200);
         this.UserFeed.push(u)
     });        
 });
 }
-
+*/
 //creates Post objects using data from DBFeed and UserFeed arrays and adds them to FEfeed array
 convertForYouFeed()
 {   
     //UserFeed is all out of whack 
-    console.log("DBfeed count: " +this.DBfeed.length)
-    console.log("DBfeed: " +this.DBfeed[0].id)
     console.log("Userfeed: " +this.UserFeed[0].username)
     this.DBfeed.forEach((tweet,index) => {
             
