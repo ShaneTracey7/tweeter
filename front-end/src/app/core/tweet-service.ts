@@ -18,7 +18,7 @@ export class TweetService {
 //Global variables (for test data)
 elon: string = getImgUrl('elon.jpeg');
 
-//function that creates data for the for you feed (homePage)
+//gets all tweets(from DB) and adds them to DBfeed array
 getDBForYouFeed()
 {
     this.http.get("http://127.0.0.1:8000/tweet").subscribe((resultData: any)=>
@@ -26,81 +26,49 @@ getDBForYouFeed()
         console.log(resultData);
         this.DBfeed = resultData;
     });
-    
 }
 
-
-//this creates a 500 internal service error, and i dont know why
+//gets all users from tweets(from DB) and creates a Profile object with them and adds them to UserFeed array
 getDBForYouFeedUsers()
 {
-  //this.DBfeed.forEach((tweet) => {
-    //have to do another api call to get the user (implement later)
-    console.log(this.DBfeed[0].user)
+  this.DBfeed.forEach((tweet) => {
+
+    console.log(tweet.user)
+    
     let requestBody =
     {
-      
-      //"name" : 'credentialsCheck',
-      "id" : this.DBfeed[0].user,
-      "username" : 'getUser',
-      "email" : 'e',
-      "acc_name" : 'ac',
-      "password" : 'p',
+      "num": tweet.user,
+      "word": 'w',
     };
 
-    this.http.put("http://127.0.0.1:8000/user",requestBody).subscribe((resultData: any)=>
+    this.http.put("http://127.0.0.1:8000/tweet",requestBody).subscribe((resultData: any)=>
     {
         console.log("this is recieved user data: " + resultData);
-        //var u = new Profile(this.elon, resultData.username, resultData.acc_name, "bio", 100, 200);
-        //this.UserFeed.push(u)
+        var u = new Profile(this.elon, resultData.username, resultData.acc_name, "bio", 100, 200);
+        this.UserFeed.push(u)
     });        
-//});
+});
 }
 
+//creates Post objects using data from DBFeed and UserFeed arrays and adds them to FEfeed array
 convertForYouFeed()
-{
-  
-    //creating list
-    //var feed = new Array<Post>;
-
+{   
+    //UserFeed is all out of whack 
+    console.log("DBfeed count: " +this.DBfeed.length)
+    console.log("DBfeed: " +this.DBfeed[0].id)
+    console.log("Userfeed: " +this.UserFeed[0].username)
     this.DBfeed.forEach((tweet,index) => {
-            //have to do another api call to get the user (implement later)
-
-            /*var User: any = [];
-
-            let requestBody =
-            {
-              //"name" : 'credentialsCheck',
-              "id" : tweet.user,
-              "username" : 'getUser',
-              "email" : 'e',
-              "acc_name" : 'ac',
-              "password" : 'p',
-            };
-        
-            this.http.put("http://127.0.0.1:8000/user",requestBody).subscribe((resultData: any)=>
-            {
-                console.log(resultData);
-                User = resultData
-                //var u = new Profile(this.elon, resultData.username, resultData.acc_name, "bio", 100, 200);
-                //this.UserFeed.push(u)
-            });*/
-
-
-
-
-        //var p = new Post(this.UserFeed[0].pic, this.UserFeed[0].username, this.UserFeed[0].acc_name,tweet.date_created, tweet.text_content, this.elon, tweet.comments.toString(), tweet.retweets.toString(), tweet.likes.toString(), tweet.engagements.toString());
-       var p = new Post(this.elon, 'username', 'acc_name',tweet.date_created, tweet.text_content, this.elon, tweet.comments.toString(), tweet.retweets.toString(), tweet.likes.toString(), tweet.engagements.toString());
-        //var p = new Post(this.elon, User[0], User[1],tweet.date_created, tweet.text_content, this.elon, tweet.comments.toString(), tweet.retweets.toString(), tweet.likes.toString(), tweet.engagements.toString());
-        
+            
+        var p = new Post(this.UserFeed[index].pic, this.UserFeed[index].username, this.UserFeed[index].acc_name,this.DBfeed[index].date_created, this.DBfeed[index].text_content, this.elon, this.DBfeed[index].comments.toString(), this.DBfeed[index].retweets.toString(), this.DBfeed[index].likes.toString(), this.DBfeed[index].engagements.toString()); 
         this.FEfeed.push(p);
         console.log(p.toString())        
     });
-
-    //return feed;
 }
 
+
+//gets data for 'ForYou'feed, calls the 3 above functions using delays to ensure all the data is available, when accessed
 createForYouFeed()
-{
+  {
     let globalObj = this;
 
         const postPromise = new Promise<any>(function (resolve, reject) {
@@ -114,7 +82,7 @@ createForYouFeed()
           }, 0) // 0 secs
 
         })
-/*
+
         const postPromise2 = new Promise<any>(function (resolve, reject) {
           setTimeout(() => {
             reject("We didn't get a response")
@@ -126,7 +94,7 @@ createForYouFeed()
           }, 2000) // 0 secs
 
         })
-*/
+
         const checkPromise = new Promise<any>(function (resolve, reject) {
           setTimeout(() => {
             reject("We didn't check")
@@ -135,15 +103,15 @@ createForYouFeed()
           setTimeout(() => {
             globalObj.convertForYouFeed();
             resolve('we checked');
-          }, 1000) // 1 sec
+          }, 3000) // 1 sec
 
         })
         
         async function myAsync(){
           //console.log("inside myAsync");
           try{
-            await postPromise;
-            //await postPromise2;
+            postPromise;
+            postPromise2;
             await checkPromise;
           }
           catch (error) {
@@ -151,10 +119,8 @@ createForYouFeed()
           }
           //console.log("end of myAsync");
         }
+        
         myAsync();
+  }
 
 }
-
-
-    
- }

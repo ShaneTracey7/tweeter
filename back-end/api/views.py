@@ -2,8 +2,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
-from api.serializers import StudentSerializer, UserSerializer, TweetSerializer
-from api.models import Student, User, Tweet
+from api.serializers import StudentSerializer, UserSerializer, TweetSerializer, MessageSerializer
+from api.models import Student, User, Tweet, Message
 from rest_framework.renderers import JSONRenderer
 
 #@api_view(['GET'])
@@ -24,7 +24,16 @@ from rest_framework.renderers import JSONRenderer
 def tweetApi(request,id=id):
 
     if request.method =='GET':
-        tweet = Tweet.objects.all() #raw("SELECT * FROM api_user WHERE username = 'Shane'")
+        tweet = Tweet.objects.all()
+
+       # tweet = Tweet.objects.get(id=1)
+        #tweet_user = tweet.user
+
+
+        #tweet = Tweet.objects.get(id=1) #raw("SELECT * FROM api_user WHERE username = 'Shane'")
+        #user = User.objects.get(acc_name=acc_name_input)
+        #tweet_user = tweet.user_set.all()
+        #user_serializer = UserSerializer(tweet_user,many=False)
         tweet_serializer = TweetSerializer(tweet,many=True)
         return JsonResponse(tweet_serializer.data,safe=False)
 
@@ -41,7 +50,35 @@ def tweetApi(request,id=id):
        else: 
             return JsonResponse("Failed to Add",safe=False)
 
+    elif request.method =='PUT': 
+        message_data = JSONParser().parse(request)
+
+        message_serializer = MessageSerializer(data=message_data)
+        if message_serializer.is_valid():
+            #return JsonResponse("ok",safe=False)
+            user_id = message_serializer.data['num']
+            user = User.objects.get(id=user_id)
+            #tweet = Tweet.objects.get(id=user_id)
+            #tweet_user = tweet.user
+            user_serializer = UserSerializer(user,many=False)
+            return JsonResponse(user_serializer.data,safe=False)
+        else:
+            return JsonResponse("Failed to Add",safe=False)
+
     #elif request.method =='PUT': 
+        #tweet_data = JSONParser().parse(request)
+        
+        #tweet_serializer = TweetSerializer(data=tweet_data)
+        #if tweet_serializer.is_valid():
+            #return JsonResponse("ok",safe=False)
+            #likes_input = tweet_serializer.data['likes']
+            #tweet = Tweet.objects.get(id=likes_input)
+            #tweet_user = tweet.user
+            #user_serializer = UserSerializer(tweet_user,many=False)
+            #return JsonResponse(user_serializer.data,safe=False)
+        #else:
+            #return JsonResponse("Failed to Add",safe=False)
+
     elif request.method =='DELETE':
         tweet = Tweet.objects.get(id=id)
         tweet.delete()
@@ -104,13 +141,13 @@ def userApi(request,id=id):
                 else:
                     return JsonResponse("AC doesn't exist",safe=False)
             elif username_input == 'getUser': # check if password and account name correct
-                id_input = user_serializer.data['id']  
-                result = User.objects.filter(id=id_input)
-                if result.exists():
-                    user = User.objects.get(id=id_input)
-                    return JsonResponse(user,safe=False)
-                else:
-                    return JsonResponse("ID doesn't exist",safe=False)
+                #id_input = user_serializer.data['id']  
+                #result = User.objects.filter(id=id_input)
+                #if result.exists():
+                    #user = User.objects.get(id=id_input)
+                return JsonResponse("its ok",safe=False)
+                #else:
+                 #   return JsonResponse("ID doesn't exist",safe=False)
         else: 
             return JsonResponse("Failed to Add",safe=False)
             

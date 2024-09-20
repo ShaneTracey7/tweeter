@@ -11,7 +11,7 @@ class UserAdmin(admin.ModelAdmin):
 admin.site.register(User, UserAdmin)
 
 class TweetAdmin(admin.ModelAdmin):
-  list_display = ("user", "date_created", "text_content", "image_content", "likes", "comments", "retweets", "engagements")
+  list_display = ("id", "user", "date_created", "text_content", "image_content", "likes", "comments", "retweets", "engagements")
 
 admin.site.register(Tweet, TweetAdmin)
 

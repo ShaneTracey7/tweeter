@@ -16,6 +16,9 @@ class TweetSerializer(serializers.ModelSerializer):
         model = Tweet
         fields = '__all__'
 
+class MessageSerializer(serializers.Serializer):
+    num = serializers.IntegerField(required=False)
+    word = serializers.CharField(max_length=30)
 #class TweetReactionsSerializer(serializers.ModelSerializer):
  #   class Meta:
   #      model = TweetReactions
