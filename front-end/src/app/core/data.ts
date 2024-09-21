@@ -19,7 +19,7 @@ export function getImgUrl(str:string)
 }
 
 //Global variables (for test data)
-var elon: string = getImgUrl('elon.jpeg');
+export var elon: string = getImgUrl('elon.jpeg');
 
 
 

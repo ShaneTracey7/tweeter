@@ -48,6 +48,7 @@ export class CoreService {
       case "magnifier": check="Explore";break;
       case "envelope": check="Messages";break;
       case "bell": check="Notifications";break;
+      case "user": check="Profile";break;
     }
 
     if (this.cp_style == check) {
@@ -82,7 +83,7 @@ routeToChild(str: string){
     */
   
     this.current_tab = str;
-    if (str == "foryou" || str == "all")
+    if (str == "foryou" || str == "all" || str == "posts")
       {
         this.marker1= true; 
         this.marker2= false;
@@ -90,7 +91,7 @@ routeToChild(str: string){
         this.marker4= false; 
         this.marker5= false; 
       }
-    else if(str == "following" || str == "trending" || str == "verified")
+    else if(str == "following" || str == "trending" || str == "verified" || str == "replies")
       {
         this.marker1= false; 
         this.marker2= true;
@@ -98,7 +99,7 @@ routeToChild(str: string){
         this.marker4= false; 
         this.marker5= false; 
       }
-    else if(str == "mentions" || str == "news")
+    else if(str == "mentions" || str == "news" || str == "media")
       {
         this.marker1= false; 
         this.marker2= false;
@@ -106,7 +107,7 @@ routeToChild(str: string){
         this.marker4= false; 
         this.marker5= false; 
       }
-    else if(str == "sports")
+    else if(str == "sports" || str == "likes")
       {
         this.marker1= false; 
         this.marker2= false;

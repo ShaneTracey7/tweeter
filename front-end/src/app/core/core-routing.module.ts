@@ -4,6 +4,7 @@ import { HomePageComponent } from '../features/home-page/home-page.component';
 import { ExplorePageComponent } from '../features/explore-page/explore-page.component';
 import { NotificationPageComponent } from '../features/notification-page/notification-page.component';
 import { MessagePageComponent } from '../features/message-page/message-page.component';
+import { ProfilePageComponent } from '../features/profile-page/profile-page.component';
 import { PageNotFoundComponent } from '../shared/components/page-not-found/page-not-found.component';
 import { CoreComponent } from './core.component';
 import { PermissionsService } from './auth.guard';
@@ -46,6 +47,12 @@ const routes: Routes = [
         component: MessagePageComponent,
         canActivate : [PermissionsService],
         title: 'Messages',
+      },
+      {
+        path: 'Profile',
+        component: ProfilePageComponent,
+        canActivate : [PermissionsService],
+        title: 'Profile',
       },
 
 

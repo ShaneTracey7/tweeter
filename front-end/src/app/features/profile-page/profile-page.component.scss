@@ -1,0 +1,95 @@
+
+$bg-color-hover-main: rgba(0, 0, 0, 0.030);
+$bg-color-hover-nav-tool-bar: rgba(0, 0, 0, 0.090);
+$twitter-blue: #1DA1F2;
+
+#profile-ut{
+    margin-right: auto;
+    gap: 20px;
+}
+#profile-t{
+    margin-right: auto;
+    gap: 20px;
+    z-index: 3; //
+}
+#profile-arrow-container{
+    //margin-right: auto;
+    margin-left: 15px;
+}
+#profile-arrow{
+    //margin-right: auto;
+    height: 40px;
+    width: 40px;
+}
+#profile-tab1, #profile-tab2, #profile-tab3, #profile-tab4{
+    width: 25%;
+  }
+
+#profile-bg-image{
+    height: 200px;
+    width: 100%;
+    object-fit: cover; //keeps aspect ratio and cut off any parts of image that doesnt fit
+}
+
+#profile-row1
+{
+    display: flex;
+    flex-direction: row;
+
+    #profile-p-image{
+        position: relative; 
+        top: -70px;
+        height: 140px;
+        width: 140px;
+        border-radius: 50%;
+        border: 4px solid white;
+        margin-left: 20px;
+        z-index: 2;
+        object-fit: cover; //keeps aspect ratio and cut off any parts of image that doesnt fit
+    }
+    #profile-p-image:hover{
+        filter: brightness(92%);
+    }
+
+    #edit-profile-button{
+        margin-top: 15px;
+        margin-left: auto;
+        margin-right: 20px;
+        border-radius: 25px;
+        width: fit-content;
+        height: 38px;
+        color: black;
+        background-color: white;
+        border: 1px solid rgb(97, 110, 124);
+        font-weight: bold;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    #edit-profile-button:hover{
+        background-color: $bg-color-hover-nav-tool-bar;
+    }
+}
+  
+  #profile-searchbar{
+    width: 89%;
+    max-width: 350px; /*new */
+    margin-left:8%;
+    margin-right:auto;
+    font-size: 0.95rem;
+  }
+
+  #profile-form {
+    height: 50px;
+    margin-top: 4px;
+    position:sticky;
+    position: -webkit-sticky;
+    top: 0;
+    background-color: white;
+  }
+
+  @media only screen and (min-width: 1250px) {
+  
+    #profile-searchbar{
+      margin-left:5%;
+    }
+  }

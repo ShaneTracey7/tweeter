@@ -111,6 +111,40 @@
   </app-message>
 </div>
 
+<div *ngIf="page == 'Profile'">
+  <div [ngSwitch]="tab">
+    
+    <div *ngSwitchCase="'replies'">
+      <app-post
+      *ngFor="let post of followingFeed"
+      [post]="post">
+      </app-post>
+    </div>
+
+    <div *ngSwitchCase="'media'">
+      <app-post
+      *ngFor="let post of followingFeed"
+      [post]="post">
+      </app-post>
+    </div>
+
+    <div *ngSwitchCase="'likes'">
+      <app-post
+      *ngFor="let post of followingFeed"
+      [post]="post">
+      </app-post>
+    </div>
+
+    <div *ngSwitchDefault> <!-- posts-->
+      <app-post
+      *ngFor="let post of forYouFeed"
+      [post]="post">
+      </app-post>
+    </div>
+
+  </div>
+</div>
+
 
 
 

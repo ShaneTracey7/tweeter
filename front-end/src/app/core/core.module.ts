@@ -27,6 +27,7 @@ import { ProfileModalComponent } from '../shared/components/profile-modal/profil
 import { CoreService } from './core-service.service';
 import { TweetService } from './tweet-service';
 import { LogoutModalComponent } from '../shared/components/navigation-bar/logout-modal.component';
+import { ProfilePageComponent } from '../features/profile-page/profile-page.component';
 
 
 
@@ -37,11 +38,12 @@ import { LogoutModalComponent } from '../shared/components/navigation-bar/logout
     CoreComponent,
     NavigationBarComponent,
     MainContentComponent,
-    HomePageComponent,
     CrudComponent,
+    HomePageComponent,
     ExplorePageComponent,
     MessagePageComponent,
     NotificationPageComponent,
+    ProfilePageComponent,
     PostComponent,
     MessageComponent,
     NotificationComponent,
