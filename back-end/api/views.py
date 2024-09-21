@@ -5,6 +5,8 @@ from django.http.response import JsonResponse
 from api.serializers import StudentSerializer, UserSerializer, TweetSerializer, MessageSerializer
 from api.models import Student, User, Tweet, Message
 from rest_framework.renderers import JSONRenderer
+import json
+import datetime
 
 #@api_view(['GET'])
 #def getData(request):
@@ -39,15 +41,46 @@ def tweetApi(request,id=id):
 
     elif request.method =='POST':
 
-        #retrieve tweet from front end
-       tweet_data = JSONParser().parse(request)
-        # serialize tweet
-       tweet_serializer = TweetSerializer(data=tweet_data)
-        # compare to all tweet in db
-       if tweet_serializer.is_valid():
-            tweet_serializer.save() #if user_serializer.is_valid():
+        #retrieve message from front end
+        message_data = JSONParser().parse(request)
+        # serialize message
+        message_serializer = MessageSerializer(data=message_data)
+        if message_serializer.is_valid():
+            acc_name_input = message_serializer.data['word']
+            user = User.objects.get(acc_name=acc_name_input)
+
+            text_content = message_serializer.data['word2']
+            image_content = message_serializer.data['word3']
+            date = datetime.datetime.now() #message_serializer.data['date']
+
+            tweetBody = {
+                "user": user,
+                "date_created": date,
+                "text_content": text_content,
+                "image_content": image_content,
+                "likes":0,
+                "comments":0,
+                "retweets":0,
+                "engagements":0,
+            }
+
+            # convert into JSON:    
+            #js = json.dumps(tweetBody)
+#            tweet_data = JSONParser().parse(js)
+#            tweet_serializer = TweetSerializer(data=tweet_data)
+#           tweet = Tweet(user,text_content, image_content, date,0,0,0,0)
+
+            tweet = Tweet.create(user,date,text_content,image_content,0,0,0,0)
+            
+            print(tweet)
+            
+            #tweet.create()
+            #tweet_serializer = TweetSerializer(data=tweet)
+            #print(tweet_serializer)
+            tweet.save()
+            #tweet_serializer.save() #if user_serializer.is_valid():
             return JsonResponse("Added Successfully",safe=False)
-       else: 
+        else: 
             return JsonResponse("Failed to Add",safe=False)
 
     elif request.method =='PUT': 

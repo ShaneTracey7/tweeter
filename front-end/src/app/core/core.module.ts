@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CoreRoutingModule } from './core-routing.module';
 import { CoreComponent } from './core.component';
 import { CrudComponent } from '../crud/crud.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 
@@ -57,6 +57,7 @@ import { LogoutModalComponent } from '../shared/components/navigation-bar/logout
     //BrowserModule,
     CoreRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     //HttpClientModule,
     RouterLink, 
     RouterLinkActive,

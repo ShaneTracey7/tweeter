@@ -4,6 +4,8 @@ import { CoreComponent } from '../../core/core.component';
 import { CoreService } from '../../core/core-service.service';
 import { AuthService } from '../../core/auth.service'; 
 import { HttpClient } from '@angular/common/http';
+import { TweetService } from '../../core/tweet-service';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
 
@@ -15,14 +17,59 @@ import { HttpClient } from '@angular/common/http';
 })
 export class HomePageComponent extends CoreComponent{
   
-constructor(router: Router, authService: AuthService, route: ActivatedRoute, service: CoreService,private http: HttpClient)
+constructor(router: Router, authService: AuthService, route: ActivatedRoute, service: CoreService,private http: HttpClient, private tweetService: TweetService, private formBuilder: FormBuilder )
 {
   super(router,authService,route,service);
 }
 
+submit_flag: number  = 0; // 0: not pressed, 1: pressed but not submitted, 2: pressed and submitted
+
+tweetForm = this.formBuilder.group({
+  text_content: ['', [Validators.maxLength(181)]],
+  });
+
+  isValidInput2()
+  {
+    if(this.tweetForm.controls['text_content'].errors?.['maxlength'])
+      {
+        return {
+          backgroundColor: 'rgba(255, 0, 0, 0.6)',
+        };
+      }
+      else
+      {
+        return {
+          backgroundColor: 'white',
+        };
+      }
+  }
+
   reaction: string = "";
 
-  //called upon successful submit of create account form
+  getTweetService()
+  {
+    return this.tweetService;
+  }
+
+  postClick()
+  {
+    let image_content = "";
+    this.getTweetService().postTweet(this.acc_name,this.tweetForm.value.text_content?? '',image_content);
+    
+    if(this.getTweetService().tweetValidated(this.tweetForm.value.text_content?? '',image_content))
+      {
+        this.submit_flag = 2;
+        this.tweetForm.reset();
+        console.log("submit flag: " +this.submit_flag)
+
+      }
+    else
+      {
+        this.submit_flag = 1;
+        console.log("submit flag: " +this.submit_flag)
+      }
+  }
+  //*****not in use****    called upon successful submit of create account form
   addPost()
   {
     //get id value for user using acc_name

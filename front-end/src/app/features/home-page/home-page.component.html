@@ -30,37 +30,44 @@
 
 <!-- main content add here-->
 <div class="empty-post">
-  <div class="post-profile-container">
-    <img id="post-profile-img" class="post-profile" [src]="service.setUrl('elon.jpeg')" alt="profile"/>
-  </div>
-  <div class="post-content-container">
 
+  <div id="form-status-message-good" *ngIf="this.submit_flag == 2"> Tweet Added!</div>
+  <div id="form-status-message-bad" *ngIf="this.submit_flag == 1">Invalid Tweet!</div>
+  
+  <div class="e-post-stack"> 
 
-    <div id="test-block">
-      <input id="e-post-input" placeholder="What is happening?!">
-       <p> Welcome, {{username}} </p>
+    <div class="post-profile-container">
+      <img id="post-profile-img" class="post-profile" [src]="service.setUrl('elon.jpeg')" alt="profile"/>
+    </div>
+    <div class="post-content-container">
+
+      <form [formGroup]="tweetForm" id="test-block">
+        <input id="e-post-input" formControlName="text_content" [style]="isValidInput2()"  placeholder="What is happening?!">
+      </form>
+
+      <div class="selection-bar">
+        <div class="e-icon-container"> 
+          <img [src]="service.setUrl('landscape.png')" class="selection-bar-icons" alt="Media"/>
+        </div>
+        <div class="e-icon-container"> 
+          <img [src]="service.setUrl('poll.png')" class="selection-bar-icons" alt="GIF"/>
+        </div>
+        <div class="e-icon-container">
+          <img [src]="service.setUrl('emoji.png')" class="selection-bar-icons" alt="Poll"/>
+        </div>
+        <div class="e-icon-container">
+          <img [src]="service.setUrl('schedule.png')" class="selection-bar-icons" alt="Emoji"/>
+        </div>
+        <div class="e-icon-container">
+          <img [src]="service.setUrl('location.png')" class="selection-bar-icons" alt="Schedule"/>
+        </div>
+        <button (click)="this.postClick()" id="e-post-button">Post</button>
+      </div>
     </div>
 
-
-    <div class="selection-bar">
-      <div class="e-icon-container"> 
-        <img [src]="service.setUrl('landscape.png')" class="selection-bar-icons" alt="Media"/>
-      </div>
-      <div class="e-icon-container"> 
-        <img [src]="service.setUrl('poll.png')" class="selection-bar-icons" alt="GIF"/>
-      </div>
-      <div class="e-icon-container">
-        <img [src]="service.setUrl('emoji.png')" class="selection-bar-icons" alt="Poll"/>
-      </div>
-      <div class="e-icon-container">
-        <img [src]="service.setUrl('schedule.png')" class="selection-bar-icons" alt="Emoji"/>
-      </div>
-      <div class="e-icon-container">
-        <img [src]="service.setUrl('location.png')" class="selection-bar-icons" alt="Schedule"/>
-      </div>
-      <button (click)="addPost()" id="e-post-button">Post</button>
-    </div>
   </div>
+
+
 </div>
 
 <!--<router-outlet name="followingFeed"></router-outlet>

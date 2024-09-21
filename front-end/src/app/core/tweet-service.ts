@@ -2,6 +2,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable} from "@angular/core";
 import { Post, getImgUrl, Profile } from "./data";
+import { FormBuilder, FormControl, Validators } from "@angular/forms";
 
 
 @Injectable()
@@ -11,12 +12,73 @@ export class TweetService {
     FEfeed: Post [] = [];
     UserFeed: Profile [] = [];
 
-    constructor( private http: HttpClient ) {
+    constructor( private http: HttpClient, private formBuilder: FormBuilder ) {
         this.createForYouFeed(); 
     }
 
 //Global variables (for test data)
 elon: string = getImgUrl('elon.jpeg');
+
+//validates tweet
+tweetValidated(text_content:string,image_content: string)
+{
+  if(text_content == "")
+    {
+      if(image_content == "empty" || image_content == "")
+        {
+          console.log("no content, tweet invalid!")
+          return false;
+        }
+      else
+      {
+        console.log("tweet valid, only picture")
+          return true;
+      }
+    }
+    else
+    {
+      if(text_content.length < 180)
+        {
+          console.log("tweet valid")
+          return true;
+        }
+      else
+        {
+          console.log("tweet too long, tweet invalid!")
+          return false;
+        }
+    }
+}
+
+//validates tweet and adds tweet to database
+postTweet(acc_name: string, text_content: string, image_content: string)
+{
+
+  if (image_content == "")
+    {
+      image_content = "empty"
+    }
+  console.log(text_content);
+
+  if(this.tweetValidated(text_content,image_content))
+  {
+
+  let requestMessage =
+    {
+      "word": acc_name,
+      "word2": text_content,
+      "word3": image_content,
+      //"date": Date(),    //date_created
+    }
+    console.log(requestMessage)
+  
+  this.http.post("http://127.0.0.1:8000/tweet",requestMessage).subscribe((resultData: any)=>
+    {
+        console.log(resultData);
+    });
+    
+  }
+}
 
 //gets all tweets(from DB) and adds them to DBfeed array
 getDBForYouFeed()
@@ -50,8 +112,9 @@ getDBForYouFeedUsers()
     
     let requestBody =
     {
-      "num": tweet.user,
       "word": 'w',
+      "num": tweet.user,
+      //"word": 'w',
     };
     console.log("BEFORE tweet-id:" + tweet.id);
     this.http.put("http://127.0.0.1:8000/tweet",requestBody).subscribe((resultData: any)=>
@@ -95,7 +158,8 @@ convertForYouFeed()
     console.log("Userfeed: " +this.UserFeed[0].username)
     this.DBfeed.forEach((tweet,index) => {
             
-        var p = new Post(this.UserFeed[index].pic, this.UserFeed[index].username, this.UserFeed[index].acc_name,this.DBfeed[index].date_created, this.DBfeed[index].text_content, this.elon, this.DBfeed[index].comments.toString(), this.DBfeed[index].retweets.toString(), this.DBfeed[index].likes.toString(), this.DBfeed[index].engagements.toString()); 
+      //need to use 'this.DBfeed[index].image_content' when i figure out how to upload images
+        var p = new Post(this.UserFeed[index].pic, this.UserFeed[index].username, this.UserFeed[index].acc_name,this.DBfeed[index].date_created, this.DBfeed[index].text_content, '', this.DBfeed[index].comments.toString(), this.DBfeed[index].retweets.toString(), this.DBfeed[index].likes.toString(), this.DBfeed[index].engagements.toString()); 
         this.FEfeed.push(p);
         console.log(p.toString())        
     });
