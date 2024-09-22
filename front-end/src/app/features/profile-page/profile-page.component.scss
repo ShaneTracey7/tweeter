@@ -2,6 +2,7 @@
 $bg-color-hover-main: rgba(0, 0, 0, 0.030);
 $bg-color-hover-nav-tool-bar: rgba(0, 0, 0, 0.090);
 $twitter-blue: #1DA1F2;
+$gray: rgb(97, 110, 124);
 
 #profile-ut{
     margin-right: auto;
@@ -29,6 +30,42 @@ $twitter-blue: #1DA1F2;
     height: 200px;
     width: 100%;
     object-fit: cover; //keeps aspect ratio and cut off any parts of image that doesnt fit
+}
+#invalid-profile-bg-image{
+    height: 200px;
+    width: 100%;
+    background-color: lightgray;
+}
+#invalid-profile-p-image{
+    position: relative; 
+    top: -70px;
+    height: 140px;
+    width: 140px;
+    border-radius: 50%;
+    border: 4px solid white;
+    margin-left: 20px;
+    z-index: 2;
+    background-color: gray; 
+}
+
+#invalid-profile-message-container{
+    margin-top: 50px;
+    
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 60%;
+}
+#invalid-profile-message-title{
+    font-size: 2rem;
+    color: black;
+    font-weight: bold;
+    height: fit-content;
+}
+#invalid-profile-message-body{
+    color: $gray;
+    font-size: 1rem;
+    
 }
 
 #profile-row1
@@ -60,7 +97,7 @@ $twitter-blue: #1DA1F2;
         height: 38px;
         color: black;
         background-color: white;
-        border: 1px solid rgb(97, 110, 124);
+        border: 1px solid $gray;
         font-weight: bold;
         padding-left: 15px;
         padding-right: 15px;

@@ -111,7 +111,7 @@
   </app-message>
 </div>
 
-<div *ngIf="page == 'Profile'">
+<div *ngIf="page == 'Profile' || page == 'OtherProfile'">
   <div [ngSwitch]="tab">
     
     <div *ngSwitchCase="'replies'">

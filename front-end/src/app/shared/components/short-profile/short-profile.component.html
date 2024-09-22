@@ -1,6 +1,9 @@
 <!-- Used when searching and for secondary content panes-->
 <div id="shortProfile">
-    <img id="spi" (mouseenter)="showModal(profile)" class="shortProfile-img" src={{profile.pic}} alt="profile"/>
+    <!--<a (click)="service.setCurrentPage('Explore')" routerLink="/tweeter/Explore" class="pane-more">Show more</a>-->
+    
+    <img (click)="goToProfile(timer)" id="spi" (mouseenter)="showModal(profile, this)" (mouseleave)="hideModal(timer)" class="shortProfile-img" src={{profile.pic}} alt="profile"/>
+    <!--<img id="spi" (mouseenter)="showModal(profile,this.show_modal,this.modal_profile,this.scc)" class="shortProfile-img" src={{profile.pic}} alt="profile"/>-->
     <div id="shortProfile-text">
         <h3 id="shortProfile-username"> {{ profile.username }} </h3>
         <p id="shortProfile-accountname">&commat;{{ profile.acc_name }}</p>

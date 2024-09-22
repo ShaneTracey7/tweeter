@@ -23,26 +23,20 @@ export class CoreComponent{
    
     }
 */
-  username: string;  
-  acc_name: string; 
-  constructor(private router: Router, private authService: AuthService, public route: ActivatedRoute, public service: CoreService ) {
+  //username: string;  
+  //acc_name: string; 
+  constructor(private authService: AuthService, public route: ActivatedRoute, public service: CoreService) {
     
     this.service.current_page = this.route.snapshot.url.toString();
     this.service.cp_style = this.route.snapshot.url.toString();
-    this.username = "";
-    this.acc_name = "";
+    //this.username = "";
+    //this.acc_name = "";
     }
 
+    /*
   ngOnInit() {  
     this.username = localStorage.getItem('username') ?? "badToken";
     this.acc_name = localStorage.getItem('acc_name') ?? "badToken";  
-    console.log(this.username);  
-  } 
-/*
-  logout() {  
-    console.log('logout');  
-    this.authService.logout();  
-    this.router.navigate(['/Login']);  
-  } 
-  */
+    console.log(this.username); 
+  } */
 }

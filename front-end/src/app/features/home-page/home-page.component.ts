@@ -17,9 +17,9 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class HomePageComponent extends CoreComponent{
   
-constructor(router: Router, authService: AuthService, route: ActivatedRoute, service: CoreService,private http: HttpClient, private tweetService: TweetService, private formBuilder: FormBuilder )
+constructor(authService: AuthService, route: ActivatedRoute, service: CoreService,private http: HttpClient, private tweetService: TweetService, private formBuilder: FormBuilder )
 {
-  super(router,authService,route,service);
+  super(authService,route,service);
 }
 
 submit_flag: number  = 0; // 0: not pressed, 1: pressed but not submitted, 2: pressed and submitted
@@ -54,7 +54,7 @@ tweetForm = this.formBuilder.group({
   postClick()
   {
     let image_content = "";
-    this.getTweetService().postTweet(this.acc_name,this.tweetForm.value.text_content?? '',image_content);
+    this.getTweetService().postTweet(this.service.acc_name,this.tweetForm.value.text_content?? '',image_content);
     
     if(this.getTweetService().tweetValidated(this.tweetForm.value.text_content?? '',image_content))
       {

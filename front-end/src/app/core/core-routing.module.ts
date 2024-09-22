@@ -53,6 +53,15 @@ const routes: Routes = [
         component: ProfilePageComponent,
         canActivate : [PermissionsService],
         title: 'Profile',
+        children: [
+          {
+            path: '**',
+            component: ProfilePageComponent,
+            canActivate : [PermissionsService],
+            title: 'Home',
+          },
+
+        ],
       },
 
 
@@ -175,9 +184,14 @@ const routes: Routes = [
   */
   {
     path: '**',
-    component: CoreComponent,
+    component: PageNotFoundComponent,
     title: 'Error',
   },
+  /*{
+    path: '**',
+    component: CoreComponent,
+    title: 'Error',
+  },*/
 ];
 
 @NgModule({

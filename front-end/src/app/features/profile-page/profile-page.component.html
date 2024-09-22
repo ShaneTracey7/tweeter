@@ -7,7 +7,12 @@
             <div id="profile-arrow-container" class="title-icons">
                 <img id="profile-arrow"  (click)="service.setCurrentPage('Home')" routerLink="/tweeter/Home" class="toolbar-icon" [src]="service.setUrl('back-arrow.svg')" alt="back-arrow"/>
             </div>
-            <h1 class="page-title"> {{this.username}} </h1>
+            <div *ngIf="isValid; else inValidProfile">
+              <h1 class="page-title"> {{this.acc_name}} </h1>
+            </div>
+            <ng-template #inValidProfile>
+              <h1 class="page-title"> Profile </h1>
+            </ng-template>
         </div>
     </div>
 
@@ -17,16 +22,23 @@
 
 
    <!-- <div > -->
-
+    <div *ngIf="isValid; else inValidProfile2">
       <img id="profile-bg-image" [src]="elon" alt="background-image"/>
       <div id="profile-row1">
-        <img id="profile-p-image" [src]="elon" alt="background-image"/>
+        <img id="profile-p-image" [src]="elon" alt="profile-image"/>
         <button id="edit-profile-button">Edit profile</button>
       </div>
+    </div>
+
+    <ng-template #inValidProfile2>
+      <div id="invalid-profile-bg-image"></div>
+      <div id="profile-row1">
+        <img id="invalid-profile-p-image"/>
+      </div>
+    </ng-template>
       
       
-      
-      
+  <div *ngIf="isValid; else inValidProfile3">
       <div class="lower-toolbar">
 <!-- lower toolbar add here-->
         <div id="profile-tab1" class="toolbar-tabs">
@@ -68,6 +80,14 @@
     {% endfor %}
 -->
 </div>
+</div>
+
+<ng-template #inValidProfile3>
+  <div id="invalid-profile-message-container">
+    <p id="invalid-profile-message-title">This account doesn't exist</p>
+    <p id="invalid-profile-message-body">Try searching for another.</p>
+  </div>
+</ng-template>
 
 <div id="sc" class="secondary-content">
     <!-- secondary content add here-->

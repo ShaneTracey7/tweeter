@@ -1,6 +1,7 @@
 import { Injectable} from "@angular/core";
 import { getImgUrl } from "./data";
-import { ActivatedRoute} from "@angular/router";
+import { ActivatedRoute, Router} from "@angular/router";
+import { HttpClient } from "@angular/common/http";
 
 @Injectable()
 export class CoreService {
@@ -16,10 +17,112 @@ export class CoreService {
   current_page: string =  "";
   cp_style: string = "";
 
-  constructor(public route: ActivatedRoute) { 
+  username: string; 
+  acc_name: string;
+
+  validUser: boolean = false;
+
+  constructor(public route: ActivatedRoute, public router: Router,private http: HttpClient,) { 
     this.current_page = this.route.snapshot.url.toString();
+    this.username = localStorage.getItem('username') ?? "badToken"; 
+    this.acc_name = localStorage.getItem('acc_name') ?? "badToken";;
   }
+
+  /*
+  ngOnInit() {  
+    this.username = localStorage.getItem('username') ?? "badToken";
+    this.acc_name = localStorage.getItem('acc_name') ?? "badToken";  
+    console.log(this.username); 
+  } */
  
+/*
+  checkUserResult()
+  {
+    return this.validUser;
+  }
+
+  checkUserInDB()
+  {
+  let requestBody =
+    {
+      "username" : 'credentialsCheck',
+      "email" : 'e',
+      "acc_name" : this.acc_name,
+      "password" : 'p',
+    };
+
+    this.http.put("http://127.0.0.1:8000/user",requestBody).subscribe((resultData: any)=>
+    {
+        console.log(resultData);
+    
+        if(resultData == "AC exists, P incorrect")
+        {
+          this.validUser = true;
+        }
+      else
+        {
+          this.validUser = false;
+        }
+    });
+  }
+
+  profileExists()
+  {
+    let obj = this;
+
+    const postPromise = new Promise<any>(function (resolve, reject) {
+      setTimeout(() => {
+        reject("We didn't get a response")
+      }, 5000) // 5 secs
+
+      setTimeout(() => {
+        obj.checkUserInDB()
+        resolve('we got a response');
+      }, 1000) // 0 secs
+
+    })
+
+    const checkPromise = new Promise<any>(function (resolve, reject) {
+      setTimeout(() => {
+        reject("We didn't check")
+      }, 8000) //8 secs
+
+      setTimeout(() => {
+        let r = obj.checkUserResult()
+        resolve(r);
+      }, 2000) // 2 sec
+
+    })
+
+    async function myAsync(){
+      //console.log("inside myAsync");
+      
+      try{
+        await postPromise;
+        checkPromise.then((value) => {
+          console.log(value);
+          return value;
+        });
+        return false;
+      }
+      catch (error) {
+        console.error('Promise rejected with error: ' + error);
+        return false;
+      }
+      //console.log("end of myAsync");
+    }
+    
+    myAsync().then((value) => {
+      console.log(value);
+      return value;
+    });;
+
+  }*/
+
+
+
+
+
   setUrl(str: string)
   {
     return getImgUrl(str);
