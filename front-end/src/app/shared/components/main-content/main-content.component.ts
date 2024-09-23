@@ -18,11 +18,9 @@ export class MainContentComponent {
     console.log('myService', tweetService);
 
     this.forYouFeed = this.tweetService.FEfeed
-    console.log(this.forYouFeed)
+    //console.log(this.forYouFeed)
   }
 
-  
-  
   //home page data
   followingFeed = createFollowingFeed(); //only posts from following
   //forYouFeed = this.createForYouFeed(); //any posts
@@ -43,5 +41,16 @@ export class MainContentComponent {
   entertainmentSearchTopics = createEntertainmentSearchTopics();
 
   // global page data
+
+
+  //to ensure only one modal is visible at a time
+  openmodal: boolean = false;
+
+  mcc = this;
+
+  changeOpenModal(newValue: boolean){
+    this.openmodal = newValue;
+    console.log(this.openmodal);
+  }
   
 }

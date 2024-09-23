@@ -30,7 +30,8 @@ export class Post {
     profile: string; //url
     username: string;
     acc_name: string; 
-    e_time: string; // cuz its a number and measurement of time (min, hr, day)
+    //e_time: string; 
+    e_time: Date;
     text: string;
     image: string; //url
     comments: string;
@@ -38,7 +39,7 @@ export class Post {
     likes: string;
     views: string;
 
-    constructor(p: string,u: string,a: string,e: string,t: string,i: string,c: number,r: number,l: number,v: number) {
+    constructor(p: string,u: string,a: string,e: Date,t: string,i: string,c: number,r: number,l: number,v: number) {
         this.profile = p;
         this.username = u;
         this.acc_name = a;
@@ -153,7 +154,7 @@ export class Profile {
  export function createForYouFeed(){
     //creating list
     var feed = new Array<Post>;
- 
+ /*
     //appending instances to list
     feed.push(new Post(elon, 'shane', 'shane17', '4h', 'Yo, this is the for you feed', elon, 3, 7, 35, 201));
     feed.push(new Post(elon, 'barry', 'sanders22', '20m', "I'm the best to ever do it", '', 15, 50, 120, 1034));
@@ -163,14 +164,14 @@ export class Profile {
     feed.push(new Post(elon, 'barry', 'sanders22', '20m', "I'm the best to ever do it", '', 15, 50, 120, 1034));
     feed.push(new Post(elon, 'jon', 'therealbonjovi', '2d', "Livin' on a prayer", '', 120, 1000, 12000, 300000));
     feed.push(new Post(elon, 'emmy', 'thedogemmy', '2h', 'Ruff ruff ruff', '', 1, 2, 7, 51));
-
+*/
     return feed;
  }
 
  export function createFollowingFeed(){
     //creating list
     var feed = new Array<Post>;
- 
+ /*
     //appending instances to list
     feed.push(new Post(elon, 'shane', 'shane17', '4h', 'Yo, this is the following feed', elon, 3, 7, 35, 201));
     feed.push(new Post(elon, 'barry', 'sanders22', '20m', "I'm the best to ever do it", '', 15, 50, 120, 1034));
@@ -180,7 +181,7 @@ export class Profile {
     feed.push(new Post(elon, 'barry', 'sanders22', '20m', "I'm the best to ever do it", '', 15, 50, 120, 1034));
     feed.push(new Post(elon, 'jon', 'therealbonjovi', '2d', "Livin' on a prayer", '', 120, 1000, 12000, 300000));
     feed.push(new Post(elon, 'emmy', 'thedogemmy', '2h', 'Ruff ruff ruff', '', 1, 2, 7, 51));
-
+*/
     return feed;
  }
 

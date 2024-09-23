@@ -17,7 +17,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class HomePageComponent extends CoreComponent{
   
-constructor(authService: AuthService, route: ActivatedRoute, service: CoreService,private http: HttpClient, private tweetService: TweetService, private formBuilder: FormBuilder )
+constructor(authService: AuthService, route: ActivatedRoute, service: CoreService,private http: HttpClient, public tweetService: TweetService, private formBuilder: FormBuilder )
 {
   super(authService,route,service);
 }

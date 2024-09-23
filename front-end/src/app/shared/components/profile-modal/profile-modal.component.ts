@@ -2,6 +2,9 @@ import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleCh
 import { ShortProfileComponent } from '../short-profile/short-profile.component';
 import { Profile } from '../../../core/data';
 import { SecondaryContentComponent } from '../secondary-content/secondary-content.component';
+import { CoreService } from '../../../core/core-service.service';
+import { TweetService } from '../../../core/tweet-service';
+import { MainContentComponent } from '../main-content/main-content.component';
 
 @Component({
 
@@ -14,7 +17,8 @@ export class ProfileModalComponent {
   @Input() show: boolean = false; //used to be false
   @Input() inMain: boolean = false;
   @Output() showChange = new EventEmitter<boolean>();
-  @Input() scc:SecondaryContentComponent = new SecondaryContentComponent(); //needed to check if any open modals
+  @Input() scc:SecondaryContentComponent = new SecondaryContentComponent(this.service); //needed to check if any open modals
+  @Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService); //NEW
 
   modal_profile = this.profile;
 
@@ -22,12 +26,16 @@ export class ProfileModalComponent {
   original_y: number = 0;
   original_m_height: number = 0;
   
+  constructor(public service: CoreService, public tweetService: TweetService){
+
+  }
+
   hideModal()
     {
      this.show = false;
      this.showChange.emit(this.show);
      this.scc.changeOpenModal(false);
-
+     this.mcc.changeOpenModal(false);
     }
 
   setModalPosition() {

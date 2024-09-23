@@ -3,7 +3,6 @@ import { getImgUrl } from '../../../core/data';
 import { FormControl, FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl, ValidationErrors, NgForm} from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
-
 @Component({
 
   selector: 'signup-modal',
@@ -71,6 +70,7 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) {
    //called upon successful submit of create account form
    addUser(obj: any)
    {
+
      let userData = {
        
       // "name" : obj.signupForm.value.name,
@@ -78,6 +78,7 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) {
        "email" : obj.signupForm.value.email,
        "acc_name" : obj.signupForm.value.acc_name,
        "password" : obj.signupForm.value.password1,
+       "pic" :  "default-profile-pic.jpg",
      };
      obj.http.post("http://127.0.0.1:8000/user",userData).subscribe((resultData: any)=>
      {
@@ -97,6 +98,7 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) {
       "acc_name" : obj.signupForm.value.acc_name,
       
       "password" : 'p',
+      "pic" : 'pic' //new
     };
 
     obj.http.put("http://127.0.0.1:8000/user",requestBody).subscribe((resultData: any)=>

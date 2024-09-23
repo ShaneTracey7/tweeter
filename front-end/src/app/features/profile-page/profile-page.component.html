@@ -17,15 +17,11 @@
     </div>
 
 
-
-
-
-
    <!-- <div > -->
     <div *ngIf="isValid; else inValidProfile2">
       <img id="profile-bg-image" [src]="elon" alt="background-image"/>
       <div id="profile-row1">
-        <img id="profile-p-image" [src]="elon" alt="profile-image"/>
+        <img id="profile-p-image" [src]="this.service.setUrl(this.user.pic)" alt="profile-image"/>
         <button id="edit-profile-button">Edit profile</button>
       </div>
     </div>
@@ -35,6 +31,17 @@
       <div id="profile-row1">
         <img id="invalid-profile-p-image"/>
       </div>
+    </ng-template>
+
+    <div *ngIf="isValid; else inValidProfile4">
+      <div class="profile-info">
+        <p>{{this.user.username}}</p>
+        <p>{{this.user.acc_name}}</p>
+      </div>
+    </div>
+
+    <ng-template #inValidProfile4>
+      <p>{{this.user.acc_name}}</p>
     </ng-template>
       
       
@@ -109,22 +116,6 @@
     -->
           <div id="pane-more" class="pane-container">
             <a (click)="service.setCurrentPage('Explore')" routerLink="/tweeter/Explore" class="pane-more">Show more</a>
-          </div>
-        </div>
-      
-        <div class="panes">
-          <div class="pane-container">
-            <h3 class="pane-title">Who to follow</h3>
-          </div>
-
-          <secondary-content [pane]='2' [page]=service.current_page [tab]=service.current_tab></secondary-content>
-    <!--
-          {% for profile in profiles %}
-            {% include "shortProfile.html" with profile=profile button="yes" count=forloop.counter %}
-          {% endfor %}
-    -->
-          <div id="pane-more" class="pane-container">
-            <a class="pane-more">Show more</a>
           </div>
         </div>
 

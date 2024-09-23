@@ -6,7 +6,7 @@ admin.site.register(Student)
 
 
 class UserAdmin(admin.ModelAdmin):
-  list_display = ("id","username", "email", "acc_name", "password")
+  list_display = ("id","username", "email", "acc_name", "password","pic")
 
 admin.site.register(User, UserAdmin)
 

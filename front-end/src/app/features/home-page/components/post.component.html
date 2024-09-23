@@ -3,8 +3,8 @@
 <div class="post">
 
     <div class="post-profile-container">
-        <img id="post-profile-img" (mouseover)="showModal(post.username)" (mouseout)="hideModal()" class="post-profile" src="{{ post.profile }}" alt="profile"/>
-        <profile-modal [inMain]="true" [show]='show_modal' [profile]='modal_profile'></profile-modal>
+        <img id="post-profile-img" (mouseover)="showModal(post, this)" (mouseout)="hideModal(timer)" class="post-profile" src="{{this.service.setUrl(post.profile)}}" alt="profile"/>
+        <profile-modal [inMain]="true" [(show)]='show_modal' [mcc]='mcc'[profile]='modal_profile'></profile-modal>
     </div>
 
     <div class="post-content-container">
@@ -12,7 +12,7 @@
             <div class="post-heading">
                 <p id="post-username">{{ post.username }}</p>
                 <p id="post-accountname">&commat;{{ post.acc_name }}</p>
-                <p id="post-etime">{{ post.e_time }} </p>
+                <p id="post-etime">{{ showDeltaDate()}} </p>
                 <img id="post-elip" class="elip" [src]="service.setUrl('ellipsis.png')" alt="more"/>
             </div>
 

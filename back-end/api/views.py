@@ -174,13 +174,17 @@ def userApi(request,id=id):
                 else:
                     return JsonResponse("AC doesn't exist",safe=False)
             elif username_input == 'getUser': # check if password and account name correct
+                result = User.objects.filter(acc_name=acc_name_input)
+                if result.exists():
+                    user = User.objects.get(acc_name=acc_name_input)
+                    user_serializer = UserSerializer(user,many=False)
                 #id_input = user_serializer.data['id']  
                 #result = User.objects.filter(id=id_input)
                 #if result.exists():
                     #user = User.objects.get(id=id_input)
-                return JsonResponse("its ok",safe=False)
-                #else:
-                 #   return JsonResponse("ID doesn't exist",safe=False)
+                    return JsonResponse(user_serializer.data,safe=False)
+                else:
+                    return JsonResponse("User doesn't exist",safe=False)
         else: 
             return JsonResponse("Failed to Add",safe=False)
             

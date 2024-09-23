@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CoreComponent } from '../../core/core.component';
 import { CoreService } from '../../core/core-service.service';
 import { ActivatedRoute } from '@angular/router';
-import {elon} from '../../core/data'
+import {Profile, elon} from '../../core/data'
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../core/auth.service';
 @Component({
@@ -14,8 +14,10 @@ export class ProfilePageComponent extends CoreComponent{
   
   //figure out a way to make this view work for any user (currently defaults to logged in user)
   elon = elon;
-  acc_name = "";
+  acc_name = ""; //might phase this out
   isValid:boolean = true;
+  user: Profile = new Profile("", "", "", "", 0, 0);
+  tmp: string;
   //isValid2 = false;
   /*
   ngOnInit(): void {
@@ -38,21 +40,51 @@ export class ProfilePageComponent extends CoreComponent{
   constructor(private http: HttpClient,authService: AuthService, route: ActivatedRoute, service: CoreService) {
     super(authService,route,service);
 
-    let tmp = window.location.pathname.split("/").pop()??"error";
-    if (tmp == "Profile")
+    this.tmp = window.location.pathname.split("/").pop()??"error";
+    if (this.tmp == "Profile")
       {
-        this.acc_name = this.service.acc_name;
+        this.acc_name = this.service.acc_name; //might phase this out
+        this.checkUserInDB(); //to get user data
          //testing
       }
     else
       {
-        this.acc_name = tmp;
+        this.service.setCurrentPage('OtherProfile');
+        this.acc_name = this.tmp; //might phase this out
         this.checkUserInDB();
       }
       console.log(this.acc_name); 
   }
-
+  
   checkUserInDB()
+  {
+  let requestBody =
+    {
+      "username" : 'getUser',
+      "email" : 'e',
+      "acc_name" : this.acc_name,
+      "password" : 'p',
+      "pic" : 'url', //new
+    };
+
+    this.http.put("http://127.0.0.1:8000/user",requestBody).subscribe((resultData: any)=>
+    {
+        console.log(resultData);
+    
+        if(resultData == "User doesn't exist" || resultData == "Failed to Add")
+        {
+          this.user = new Profile("","",this.tmp,"",0,0)
+          this.isValid = false;
+        }
+      else
+        {
+          this.user = new Profile(resultData.pic,resultData.username,resultData.acc_name,"",0,0)
+          this.isValid = true;
+        }
+    });
+  }
+
+  checkUserInDB2()
   {
   let requestBody =
     {
@@ -60,6 +92,7 @@ export class ProfilePageComponent extends CoreComponent{
       "email" : 'e',
       "acc_name" : this.acc_name,
       "password" : 'p',
+      "pic" : 'url', //new
     };
 
     this.http.put("http://127.0.0.1:8000/user",requestBody).subscribe((resultData: any)=>

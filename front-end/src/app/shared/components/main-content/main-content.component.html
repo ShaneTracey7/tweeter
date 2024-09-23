@@ -3,16 +3,16 @@
   <div [ngSwitch]="tab">
     
     <div *ngSwitchCase="'following'">
-      <app-post
+      <app-post [mcc]='mcc'
       *ngFor="let post of followingFeed"
       [post]="post">
       </app-post>
     </div>
 
     <div *ngSwitchDefault> 
-      <app-post
+      <app-post [mcc]='mcc'
       *ngFor="let post of forYouFeed"
-      [post]="post">
+       [post]="post">
       </app-post>
     </div>
 

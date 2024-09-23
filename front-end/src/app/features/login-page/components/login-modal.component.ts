@@ -87,6 +87,7 @@ loginForm = this.formBuilder.group({
       "email" : 'e',
       "acc_name" : obj.loginForm.value.acc_name,
       "password" : obj.loginForm.value.password,
+      "pic" : "p" //new 
     };
 
     obj.http.put("http://127.0.0.1:8000/user",requestBody).subscribe((resultData: any)=>

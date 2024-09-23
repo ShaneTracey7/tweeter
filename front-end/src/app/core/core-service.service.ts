@@ -1,5 +1,5 @@
 import { Injectable} from "@angular/core";
-import { getImgUrl } from "./data";
+import { Profile, getImgUrl } from "./data";
 import { ActivatedRoute, Router} from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 
@@ -22,10 +22,16 @@ export class CoreService {
 
   validUser: boolean = false;
 
-  constructor(public route: ActivatedRoute, public router: Router,private http: HttpClient,) { 
-    this.current_page = this.route.snapshot.url.toString();
+  
+  DBUsers: any [] = [];
+  UserFeed: Profile [] = [];
+
+
+  constructor(public route: ActivatedRoute, public router: Router,private http: HttpClient) { 
+    //this.current_page = this.route.snapshot.url.toString();
     this.username = localStorage.getItem('username') ?? "badToken"; 
-    this.acc_name = localStorage.getItem('acc_name') ?? "badToken";;
+    this.acc_name = localStorage.getItem('acc_name') ?? "badToken";
+    this.createUserFeed();
   }
 
   /*
@@ -154,6 +160,7 @@ export class CoreService {
       case "user": check="Profile";break;
     }
 
+    console.log("Check inside boldNavbarIcon cp_style: " + this.cp_style)
     if (this.cp_style == check) {
       return this.setUrl(str + "-fill.svg");
     }
@@ -290,5 +297,100 @@ routeToChild(str: string){
       }
     }
   }
+
+
+
+//gets all users(from DB) and adds them to DBfeed array
+getAllDBUsers()
+{
+    this.http.get("http://127.0.0.1:8000/user").subscribe((resultData: any)=>
+    {
+        console.log(resultData);
+        this.DBUsers = resultData;
+    });
+}
+
+//creates Post objects using data from DBFeed and UserFeed arrays and adds them to FEfeed array
+convertUserFeed(current_user_acc_name: string)
+{   
+  current_user_acc_name
+  let counter = 0;
+
+  for (let i = 0; i < this.DBUsers.length;i++) {
+    let user = this.DBUsers[i];
+    
+    if(user.acc_name != current_user_acc_name)
+      {
+        var u = new Profile(user.pic, user.username, user.acc_name, "bio", 0, 0);
+        this.UserFeed.push(u);
+        counter++;
+      }
+    if (counter == 3)
+      {
+        i = this.DBUsers.length; //breaks loop
+      }
+  }
+}
+
+
+//gets data for 'ForYou'feed, calls the 3 above functions using delays to ensure all the data is available, when accessed
+createUserFeed()
+  {
+    let globalObj = this;
+
+        const postPromise = new Promise<any>(function (resolve, reject) {
+          setTimeout(() => {
+            reject("We didn't get a response")
+          }, 5000) // 5 secs
+
+          setTimeout(() => {
+            globalObj.getAllDBUsers();
+            resolve('we got a response');
+          }, 0) // 0 secs
+
+        })
+
+        const checkPromise = new Promise<any>(function (resolve, reject) {
+          setTimeout(() => {
+            reject("We didn't get a response")
+          }, 8000) // 5 secs
+
+          setTimeout(() => {
+            globalObj.convertUserFeed(globalObj.acc_name);
+            resolve('we got a response');
+          }, 2000) // 0 secs
+
+        })
+
+        async function myAsync(){
+          //console.log("inside myAsync");
+          try{
+            postPromise;
+            await checkPromise;
+          }
+          catch (error) {
+            console.error('Promise rejected with error: ' + error);
+          }
+          //console.log("end of myAsync");
+        }
+        
+        myAsync();
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   }

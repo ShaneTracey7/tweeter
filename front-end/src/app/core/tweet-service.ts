@@ -85,7 +85,7 @@ getDBForYouFeed()
 {
     this.http.get("http://127.0.0.1:8000/tweet").subscribe((resultData: any)=>
     {
-        console.log(resultData);
+        //console.log(resultData);
         this.DBfeed = resultData;
     });
 }
@@ -108,21 +108,19 @@ getDBForYouFeedUsers()
   //this goes in any order
   this.DBfeed.forEach((tweet,index) => {
 
-    console.log(tweet.user)
-    
     let requestBody =
     {
       "word": 'w',
       "num": tweet.user,
       //"word": 'w',
     };
-    console.log("BEFORE tweet-id:" + tweet.id);
+
     this.http.put("http://127.0.0.1:8000/tweet",requestBody).subscribe((resultData: any)=>
     {
-        var u = new Profile(this.elon, resultData.username, resultData.acc_name, "bio", 100, 200);
+        //var u = new Profile(this.elon, resultData.username, resultData.acc_name, "bio", 100, 200);
+        var u = new Profile(resultData.pic, resultData.username, resultData.acc_name, "bio", 100, 200);
         this.UserFeed.splice(index, 1, u);
-        console.log("AFTER tweet-id:" + tweet.id + " recieved user data: " + resultData.username + "index: " + (index+ 1));
-        //this.UserFeed.push(u) //this is the issue, being added to array out of order(because loop completed b4 http requests are processed)
+         //this.UserFeed.push(u) //this is the issue, being added to array out of order(because loop completed b4 http requests are processed)
 
     });
     //req.unsubscribe();
@@ -154,14 +152,12 @@ getDBForYouFeedUsers1(tweet:any)
 //creates Post objects using data from DBFeed and UserFeed arrays and adds them to FEfeed array
 convertForYouFeed()
 {   
-    //UserFeed is all out of whack 
-    console.log("Userfeed: " +this.UserFeed[0].username)
+
     this.DBfeed.forEach((tweet,index) => {
             
       //need to use 'this.DBfeed[index].image_content' when i figure out how to upload images
         var p = new Post(this.UserFeed[index].pic, this.UserFeed[index].username, this.UserFeed[index].acc_name,this.DBfeed[index].date_created, this.DBfeed[index].text_content, '', this.DBfeed[index].comments.toString(), this.DBfeed[index].retweets.toString(), this.DBfeed[index].likes.toString(), this.DBfeed[index].engagements.toString()); 
-        this.FEfeed.push(p);
-        console.log(p.toString())        
+        this.FEfeed.push(p);       
     });
 }
 
