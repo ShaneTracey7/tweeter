@@ -32,14 +32,29 @@
 -->
 </div>
 
+
+
+
+
+
 <div id="sc" class="secondary-content">
     <!-- secondary content add here-->
-    
-    <div id="message-blurb">
-        <h2 id="messageb-title"> Select a message</h2>
-        <p id="messageb-text">Choose from your existing conversations, start a new one, or just keep swimming.</p>
-        <button id="messageb-button"> New message</button>
+
+    <div *ngIf="convo_clicked; else notClicked">  
+        <div id="message-blurb">
+            <h2 id="messageb-title"> Convo clicked</h2>
+            <p id="messageb-text">Choose from your existing conversations, start a new one, or just keep swimming.</p>
+            <button id="messageb-button"> New message</button>
+        </div>
     </div>
+
+    <ng-template #notClicked> 
+        <div id="message-blurb">
+            <h2 id="messageb-title"> Select a message</h2>
+            <p id="messageb-text">Choose from your existing conversations, start a new one, or just keep swimming.</p>
+            <button id="messageb-button"> New message</button>
+        </div>
+    </ng-template>
 
 </div>
 

@@ -35,7 +35,7 @@ const milliDiff: number = current - start;
 const totalSeconds = Math.floor(milliDiff / 1000);
 const totalMinutes = Math.floor(totalSeconds / 60);
 const totalHours = Math.floor(totalMinutes / 60);
-const totalDays = Math.floor(totalHours / 60);
+const totalDays = Math.floor(totalHours / 24);
 if (totalMinutes < 60)
   {
     return totalMinutes + "m";

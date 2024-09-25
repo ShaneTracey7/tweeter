@@ -1,5 +1,5 @@
 import { Component, Input} from '@angular/core';
-import { Message } from '../../../core/data';
+import { Message, MessageCard } from '../../../core/data';
 import { MessagePageComponent } from '../message-page.component';
 
 
@@ -12,6 +12,12 @@ import { MessagePageComponent } from '../message-page.component';
 
 })
 export class MessageComponent extends MessagePageComponent{
-@Input () message = new Message('','','','','');
+@Input () message = new MessageCard('','','','','');
  
+
+  showConvo()
+  {
+    this.convo_clicked = true; //this doesn't change the message page component html ngif
+    console.log("convo clicked: " + this.convo_clicked);
+  }
 }

@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { AppComponent } from '../../../app.component';
 import { createAllNotifications, createEntertainmentSearchTopics, createFollowingFeed, createForYouSearchTopics, createMentionsNotifications, createMessages, createNewsSearchTopics, createSportsSearchTopics, createTrendingSearchTopics, createVerifiedNotifications } from '../../../core/data';
 import { TweetService } from '../../../core/tweet-service';
+import { MessagePageComponent } from '../../../features/message-page/message-page.component';
 @Component({
   /*standalone: true,*/
   selector: 'main-content',

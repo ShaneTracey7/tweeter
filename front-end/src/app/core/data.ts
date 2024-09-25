@@ -21,11 +21,6 @@ export function getImgUrl(str:string)
 //Global variables (for test data)
 export var elon: string = getImgUrl('elon.jpeg');
 
-
-
-
-
-
 export class Post {
     profile: string; //url
     username: string;
@@ -60,7 +55,7 @@ export class Post {
     }
 }
 
-export class Message{
+export class MessageCard{
     profile: string; //url
     username: string;
     acc_name: string; 
@@ -150,6 +145,32 @@ export class Profile {
 
 }
 
+export class Message {
+    date: Date;
+    user: Profile
+    text: string;
+   
+    constructor(d: Date, u: Profile, t: string) {
+        this.date = d;
+        this.user = u;
+        this.text = t;
+      }
+
+}
+
+export class Convo {
+    user1_acc_name: string; //maybe change to type Profile
+    user2_acc_name: string; //maybe change to type Profile
+    messages: Message [];
+   
+    constructor(u1: string, u2: string, m: Message []) {
+        this.user1_acc_name = u1;
+        this.user2_acc_name = u2;
+        this.messages = m;
+      }
+
+}
+
 //function that creates data for the for you feed (homePage)
  export function createForYouFeed(){
     //creating list
@@ -188,19 +209,19 @@ export class Profile {
 //function that creates data for the MessagesPage 
 export function createMessages(){
     //creating list
-    var messages = new Array<Message>;
+    var messages = new Array<MessageCard>;
  
     //appending instances to list
-    messages.push(new Message(elon, 'shane', 'shane17', 'Feb 21, 2023', 'Yo, long time no see'));
-    messages.push(new Message(elon, 'hanna nurkic', 'hannaBanana4', 'Apr 2, 2022', 'Its finally springtime'));
-    messages.push(new Message(elon, 'george', 'GLopez15', 'Apr 26, 2023', 'ba ba ba ba ba ba buh, ba da da buh buh, ba ba ba ba ba ba buh, ba da da buh buh'));
-    messages.push(new Message(elon, 'miguel', 'oharaM', 'Dec 25, 2021', 'Merry merry, to all!'));
-    messages.push(new Message(elon, 'bean', 'littlebean1', 'Mar 10, 2022', 'Mewo mewoi, meow'));
-    messages.push(new Message(elon, 'shane', 'shane17', 'Feb 21, 2023', 'Yo, long time no see'));
-    messages.push(new Message(elon, 'hanna nurkic', 'hannaBanana4', 'Apr 2, 2022', 'Its finally springtime'));
-    messages.push(new Message(elon, 'george', 'GLopez15', 'Apr 26, 2023', 'ba ba ba ba ba ba buh, ba da da buh buh, ba ba ba ba ba ba buh, ba da da buh buh'));
-    messages.push(new Message(elon, 'miguel', 'oharaM', 'Dec 25, 2021', 'Merry merry, to all!'));
-    messages.push(new Message(elon, 'bean', 'littlebean1', 'Mar 10, 2022', 'Mewo mewoi, meow'));
+    messages.push(new MessageCard(elon, 'shane', 'shane17', 'Feb 21, 2023', 'Yo, long time no see'));
+    messages.push(new MessageCard(elon, 'hanna nurkic', 'hannaBanana4', 'Apr 2, 2022', 'Its finally springtime'));
+    messages.push(new MessageCard(elon, 'george', 'GLopez15', 'Apr 26, 2023', 'ba ba ba ba ba ba buh, ba da da buh buh, ba ba ba ba ba ba buh, ba da da buh buh'));
+    messages.push(new MessageCard(elon, 'miguel', 'oharaM', 'Dec 25, 2021', 'Merry merry, to all!'));
+    messages.push(new MessageCard(elon, 'bean', 'littlebean1', 'Mar 10, 2022', 'Mewo mewoi, meow'));
+    messages.push(new MessageCard(elon, 'shane', 'shane17', 'Feb 21, 2023', 'Yo, long time no see'));
+    messages.push(new MessageCard(elon, 'hanna nurkic', 'hannaBanana4', 'Apr 2, 2022', 'Its finally springtime'));
+    messages.push(new MessageCard(elon, 'george', 'GLopez15', 'Apr 26, 2023', 'ba ba ba ba ba ba buh, ba da da buh buh, ba ba ba ba ba ba buh, ba da da buh buh'));
+    messages.push(new MessageCard(elon, 'miguel', 'oharaM', 'Dec 25, 2021', 'Merry merry, to all!'));
+    messages.push(new MessageCard(elon, 'bean', 'littlebean1', 'Mar 10, 2022', 'Mewo mewoi, meow'));
 
     return messages;
 }

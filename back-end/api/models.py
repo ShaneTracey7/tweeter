@@ -18,7 +18,6 @@ class User(models.Model):
     password = models.CharField(max_length = 35)
     pic = models.CharField(max_length = 100)
 
-
     def __str__(self):
         return f"{self.id} {self.username} {self.email} {self.acc_name} {self.password} {self.pic}"
     
@@ -43,6 +42,29 @@ class Tweet(models.Model):
     def __str__(self):
         return f"{self.user} {self.date_created} {self.text_content} {self.image_content} {self.likes} {self.comments} {self.retweets} {self.engagements}"
 
+#was able to get user from tweet, aka convo from message
+#class Convo(models.Model):
+#    user1 = models.ForeignKey(User, on_delete=models.CASCADE)
+#    user2 = models.ForeignKey(User, on_delete=models.CASCADE)
+
+#    def __str__(self):
+ #       return f"{self.id} {self.user1} {self.user2}"
+
+# can i get UserMessage if i have instance of convo (opposed to convo id)
+#class UserMessage(models.Model):
+ #   user1_sent = models.BooleanField()
+    #from_user = models.ForeignKey(User, on_delete=models.CASCADE)
+ #   text = models.CharField(max_length = 100)
+ #   date = models.DateTimeField()
+ #   convo = models.ForeignKey(Convo, on_delete=models.CASCADE)
+
+ #   def __str__(self):
+  #      return f"{self.id} {self.convo} {self.user1_sent} {self.} {self.text} {self.date}"
+    
+    #display get all convos -> arr of messages[date, who sent, text] should be able to get message from convo id
+
+
+
 class Message():
     word: str
     #optional
@@ -55,6 +77,7 @@ class Message():
      #   self.num = num
      #   self.word = word
         
+
         
        
 

@@ -160,7 +160,7 @@ export class CoreService {
       case "user": check="Profile";break;
     }
 
-    console.log("Check inside boldNavbarIcon cp_style: " + this.cp_style)
+    //console.log("Check inside boldNavbarIcon cp_style: " + this.cp_style)
     if (this.cp_style == check) {
       return this.setUrl(str + "-fill.svg");
     }
