@@ -3,6 +3,9 @@ import { AppComponent } from '../../../app.component';
 import { createAllNotifications, createEntertainmentSearchTopics, createFollowingFeed, createForYouSearchTopics, createMentionsNotifications, createMessages, createNewsSearchTopics, createSportsSearchTopics, createTrendingSearchTopics, createVerifiedNotifications } from '../../../core/data';
 import { TweetService } from '../../../core/tweet-service';
 import { MessagePageComponent } from '../../../features/message-page/message-page.component';
+import { CoreService } from '../../../core/core-service.service';
+import { AuthService } from '../../../core/auth.service';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   /*standalone: true,*/
   selector: 'main-content',
@@ -12,10 +15,11 @@ export class MainContentComponent {
 
   @Input() tab: string = ""; //what tab is being displayed
   @Input() page: string = ""; //what current_page is being displayed
-
+  @Input() mpc:MessagePageComponent = new MessagePageComponent(this.authService, this.route,this.service);
+  @Input () c_c: boolean = false;
   forYouFeed: any [] = []
 
-  constructor(private tweetService: TweetService){
+  constructor(private tweetService: TweetService, public service: CoreService, public authService: AuthService, public route: ActivatedRoute){
     console.log('myService', tweetService);
 
     this.forYouFeed = this.tweetService.FEfeed

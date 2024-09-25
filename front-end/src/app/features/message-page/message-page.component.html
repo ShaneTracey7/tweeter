@@ -24,7 +24,7 @@
     </form>
 
     <!-- inspect element in browser, it says reflect home page-->
-    <main-content [page]=service.current_page></main-content>
+    <main-content [mpc]='messagePageComponent' [page]=service.current_page></main-content>
 <!--
     {% for message in messages %}
         {% include "message.html" with obj=message  %}
@@ -40,7 +40,7 @@
 <div id="sc" class="secondary-content">
     <!-- secondary content add here-->
 
-    <div *ngIf="convo_clicked; else notClicked">  
+    <div *ngIf="messagePageComponent.convo_clicked; else notClicked">  
         <div id="message-blurb">
             <h2 id="messageb-title"> Convo clicked</h2>
             <p id="messageb-text">Choose from your existing conversations, start a new one, or just keep swimming.</p>

@@ -25,7 +25,7 @@ export class CoreComponent{
 */
   //username: string;  
   //acc_name: string; 
-  constructor(private authService: AuthService, public route: ActivatedRoute, public service: CoreService) {
+  constructor(public authService: AuthService, public route: ActivatedRoute, public service: CoreService) {
     
     this.service.current_page = this.route.snapshot.url.toString();
     this.service.cp_style = this.route.snapshot.url.toString();

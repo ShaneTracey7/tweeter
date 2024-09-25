@@ -5,6 +5,8 @@ import { SecondaryContentComponent } from '../secondary-content/secondary-conten
 import { CoreService } from '../../../core/core-service.service';
 import { TweetService } from '../../../core/tweet-service';
 import { MainContentComponent } from '../main-content/main-content.component';
+import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../../core/auth.service';
 
 @Component({
 
@@ -18,7 +20,7 @@ export class ProfileModalComponent {
   @Input() inMain: boolean = false;
   @Output() showChange = new EventEmitter<boolean>();
   @Input() scc:SecondaryContentComponent = new SecondaryContentComponent(this.service); //needed to check if any open modals
-  @Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService); //NEW
+  @Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService,this.service,this.authService,this.route); //NEW
 
   modal_profile = this.profile;
 
@@ -26,7 +28,7 @@ export class ProfileModalComponent {
   original_y: number = 0;
   original_m_height: number = 0;
   
-  constructor(public service: CoreService, public tweetService: TweetService){
+  constructor(public service: CoreService, public tweetService: TweetService, public authService: AuthService, public route: ActivatedRoute){
 
   }
 

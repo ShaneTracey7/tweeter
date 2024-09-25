@@ -1,9 +1,9 @@
 
 <!-- only used within messagePage.html-->
 
-<div class="message">
+<div (click)="showConvo()" [style]="setStyle()"class="message">
         
-    <img (click)="showConvo()" class="message-img" src="{{ message.profile }}" alt="profile"/>
+    <img class="message-img" src="{{ message.profile }}" alt="profile"/>
 
     <div class="message-content">
 
@@ -18,4 +18,5 @@
     </div>
 
     <img id="message-elip" class="elip" data-toggle="tooltip" data-placement="bottom" title="More" [src]="service.setUrl('ellipsis.png')" alt="more"/>
+    <div id="tab" [style]="showTab()" ></div>
 </div>

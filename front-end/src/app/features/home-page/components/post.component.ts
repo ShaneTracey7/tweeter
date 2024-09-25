@@ -14,7 +14,7 @@ import { MainContentComponent } from '../../../shared/components/main-content/ma
 export class PostComponent extends HomePageComponent{
 
 @Input () post = new Post('','','',new Date,'','',0,0,0,0);
-@Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService);
+@Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService,this.service,this.authService,this.route);
 show_modal: boolean = false;
 modal_profile = new Profile('','','','',0,0);
 timer:any;

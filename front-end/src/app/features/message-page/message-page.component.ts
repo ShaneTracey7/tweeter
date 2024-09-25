@@ -14,4 +14,6 @@ export class MessagePageComponent extends CoreComponent{
 convo_clicked: boolean = false; //true: shows seleected converstion, false: shows 'select a message blurb'
 convo: Convo = new Convo('','',[]); //selected convo
 
+messagePageComponent = this;
+
 }

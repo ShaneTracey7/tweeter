@@ -12,11 +12,22 @@ $gray-font: rgb(97, 110, 124);
     width: 100%;
     background-color: white;
     padding: 10px;
+    padding-right: 5px;
     /* border: 1px solid green;*/
     align-items: center;
 }
+#tab{
+  height:100%;
+  background-color: white;
+  width: 7px;
+  border-radius: 5px;
+  padding-left: 5px;
+}
 
 .message:hover{
+  background-color: rgba(148, 173, 188, 0.1);
+}
+.message:hover > #tab{
     background-color: rgba(148, 173, 188, 0.1);
 }
 
