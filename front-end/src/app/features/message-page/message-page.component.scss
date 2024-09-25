@@ -3,6 +3,108 @@ $bg-color-hover-main: rgba(0, 0, 0, 0.030);
 $bg-color-hover-nav-tool-bar: rgba(0, 0, 0, 0.090);
 $twitter-blue: #1DA1F2;
 $gray-font: rgb(97, 110, 124);
+
+#sc-container{
+  width:100%;
+  height: 100%,
+}
+.sc-content{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+  margin-bottom: auto;
+}
+#send-message-form{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 20px;
+}
+#send-message-button{
+  width: 25px;
+  height: 25px;
+  margin-left: 20px;
+}
+
+.bottom-toolbar{
+  //margin-top: auto;
+  position: absolute;
+  padding: 10px;
+  bottom: 0;
+  z-index: 2;
+  //width: 75%;
+  //position: sticky;
+  //position: -webkit-sticky;
+//top: 0;
+  background-color: rgba(255, 255, 255, 0.985);
+  border-top: 1px solid lightgray;
+  border-right: 1px solid lightgray;
+}
+
+#message-input{
+padding: 12px 20px 12px 50px;
+width: 75%;
+height: 40px;
+border-radius: 15px;
+color: gray;
+border: 1px solid lightgray;
+}
+
+#message-input:focus {
+  outline: 0px;
+  outline-offset: -1px;
+  border: 1px solid $twitter-blue;
+  background-color: white;
+  caret-color: $twitter-blue;
+}
+
+#message-input::placeholder{
+  color: lightgray;
+}
+
+.message-date-pair{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+#date-sender{
+  margin-left: auto;
+  margin-right: 10px;
+}
+#date-reciever{
+  margin-left: 10px;
+  margin-right: auto;
+}
+.message-in-convo{
+  margin-bottom: 0;
+  font-size:medium;
+  width: fit-content;
+  padding: 12px;
+  //padding-left: 15px;
+  //padding-right: 15px;
+  border-radius: 20px;
+  color: white;
+}
+.message-in-convo-date{
+  font-size:small;
+  color: $gray-font;
+  margin-bottom: 0;
+}
+
+#message-sender{
+  background-color: $twitter-blue;
+  border-bottom-right-radius: 5px;
+  margin-left: auto;
+  margin-right: 10px;
+}
+#message-reciever{
+  background-color: $gray-font;
+  border-bottom-left-radius: 5px;
+  margin-left: 10px;
+  margin-right: auto;
+}
 /* message card */
 
 .message {
@@ -39,7 +141,7 @@ $gray-font: rgb(97, 110, 124);
     width: 40px;
     height: 40px;
     border-radius: 50%;
-
+    margin-left: 20px;
 }
 
 .message-content {
@@ -262,6 +364,10 @@ $gray-font: rgb(97, 110, 124);
       width: 58.5%;
       visibility: visible;
     }
+    .bottom-toolbar{
+      width: 58.5%;
+    }
+
   }
 
 @media only screen and (min-width: 1080px) and (max-width: 1249px) {
@@ -274,6 +380,9 @@ $gray-font: rgb(97, 110, 124);
       width: 51.5%;
       visibility: visible;
     }
+    .bottom-toolbar{
+      width: 51.5%;
+    }
   }
 
 @media only screen and (min-width: 1250px) {
@@ -285,6 +394,9 @@ $gray-font: rgb(97, 110, 124);
     .secondary-content {
         width: 46%;
         visibility: visible;
+      }
+      .bottom-toolbar{
+        width: 46%;
       }
       
 }

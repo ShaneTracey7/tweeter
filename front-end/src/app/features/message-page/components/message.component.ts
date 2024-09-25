@@ -1,5 +1,5 @@
 import { Component, Input} from '@angular/core';
-import { Message, MessageCard } from '../../../core/data';
+import { Convo, Message, MessageCard, Profile } from '../../../core/data';
 import { MessagePageComponent } from '../message-page.component';
 
 
@@ -13,6 +13,7 @@ import { MessagePageComponent } from '../message-page.component';
 })
 export class MessageComponent extends MessagePageComponent{
 @Input () message = new MessageCard('','','','','');
+@Input () convo = new Convo(new Profile('','','','',0,0),[]);
 @Input() mpc:MessagePageComponent = new MessagePageComponent(this.authService, this.route,this.service);
 @Input () c_c: boolean = false;
 selected: boolean = false;
@@ -38,6 +39,7 @@ selected: boolean = false;
       this.mpc.convo_clicked = true; //this doesn't change the message page component html ngif
       console.log("convo clicked: " + this.c_c);
       this.selected = true;
+      this.mpc.selectedConvo = this.convo;
     }
   }
 //#1DA1F2

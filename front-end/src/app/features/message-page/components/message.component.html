@@ -1,6 +1,6 @@
 
 <!-- only used within messagePage.html-->
-
+<!--
 <div (click)="showConvo()" [style]="setStyle()"class="message">
         
     <img class="message-img" src="{{ message.profile }}" alt="profile"/>
@@ -14,6 +14,27 @@
         </div>
 
         <p class="message-text"> {{ message.text }}</p>
+
+    </div>
+
+    <img id="message-elip" class="elip" data-toggle="tooltip" data-placement="bottom" title="More" [src]="service.setUrl('ellipsis.png')" alt="more"/>
+    <div id="tab" [style]="showTab()" ></div>
+</div>
+-->
+
+<div (click)="showConvo()" [style]="setStyle()"class="message">
+        
+    <img class="message-img" src="{{ convo.otherUser.pic}}" alt="profile"/>
+
+    <div class="message-content">
+
+        <div class="message-heading">
+            <p class="message-username">{{ convo.otherUser.username }}</p>
+            <p class="message-accountname">&commat;{{ convo.otherUser.acc_name }}</p>
+            <p class="message-date"> {{convo.getLastMessageDate()}}</p>
+        </div>          <!--convo.getLastMessageDate()-->
+
+        <p class="message-text"> {{ convo.getLastMessage() }}</p>
 
     </div>
 

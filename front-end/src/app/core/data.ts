@@ -146,28 +146,122 @@ export class Profile {
 }
 
 export class Message {
-    date: Date;
-    user: Profile
     text: string;
+    isSender: boolean
+    date: Date;
+    
    
-    constructor(d: Date, u: Profile, t: string) {
+    constructor(t: string, is: boolean,d: Date ) {
         this.date = d;
-        this.user = u;
+        this.isSender = is;
         this.text = t;
+      }
+
+      getDateTime()
+      {
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        let month = monthNames[(this.date.getMonth())];
+        var hours = this.date.getHours();
+        var suffix;
+        if (hours <= 11)
+            {
+                
+                suffix = "AM";
+            }
+        else if(hours = 12)
+            {
+                suffix = "PM";
+            }
+        else
+            {
+                hours = hours - 12;
+                suffix = "PM";
+            }
+        var mins = this.date.getMinutes();
+        var minStr;
+
+        if (mins < 10)
+            {
+                minStr = "0"+ mins;
+            }
+        else
+            {
+                minStr = mins;
+            }
+        return month + " " + this.date.getDate() + " " + this.date.getFullYear() + " " + this.date.getHours()+":"+minStr + " " + suffix;
       }
 
 }
 
 export class Convo {
-    user1_acc_name: string; //maybe change to type Profile
-    user2_acc_name: string; //maybe change to type Profile
+    otherUser: Profile; //maybe change to type Profile
     messages: Message [];
    
-    constructor(u1: string, u2: string, m: Message []) {
-        this.user1_acc_name = u1;
-        this.user2_acc_name = u2;
+    constructor(u: Profile, m: Message []) {
+        this.otherUser = u;
         this.messages = m;
       }
+
+    getLastMessage()
+    {
+       return this.messages[(this.messages.length-1)].text;
+    }
+
+    getLastMessageDate()
+    {
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        let date = this.messages[(this.messages.length-1)].date;
+        let month = monthNames[(date.getMonth())];
+
+       return month + " " + date.getDate() + " " + date.getFullYear();
+    }
+
+}
+
+//function that creates data for the for you feed (homePage)
+export function createConversations(){
+
+    
+    var convos = new Array<Convo>;
+    
+    let m1 = new Array<Message>;
+    let p1 = new Profile(elon,'bobby','roberto23','bio', 0,0);
+    m1.push(new Message("hello, it's me", true, new Date));
+    m1.push(new Message("howdy there", false, new Date));
+    m1.push(new Message("would you like to go to the movies?", true, new Date));
+    m1.push(new Message("I sure would, thank you", false, new Date));
+    m1.push(new Message("hello, it's me", true, new Date));
+    m1.push(new Message("howdy there", false, new Date));
+    m1.push(new Message("would you like to go to the movies?", true, new Date));
+    m1.push(new Message("I sure would, thank you", false, new Date));
+    m1.push(new Message("hello, it's me", true, new Date));
+    m1.push(new Message("howdy there", false, new Date));
+    m1.push(new Message("would you like to go to the movies?", true, new Date));
+    m1.push(new Message("I sure would, thank you", false, new Date));
+
+    convos.push(new Convo(p1, m1));
+
+    let m2 = new Array<Message>;
+    let p2 = new Profile(elon,'gerry','theTEACHER3','bio', 0,0);
+    m2.push(new Message("hey, u handed in you work late", false, new Date));
+    m2.push(new Message("hya my dog ate it, so i had to print it again", true, new Date));
+    m2.push(new Message("Don't lie to me, boy", false, new Date));
+    m2.push(new Message("Ok sorry i just procrastinated.", true, new Date));
+
+    convos.push(new Convo(p2, m2));
+
+    let m3 = new Array<Message>;
+    let p3 = new Profile(elon,'bart','therealbartsimpson','bio', 0,0);
+    m3.push(new Message("hows it goin?", false, new Date));
+    m3.push(new Message("It aint too bad, just skateboarding", true, new Date));
+    m3.push(new Message("oh nice, i got a scooter", false, new Date));
+    m3.push(new Message("skateboard > scooters 4life", true, new Date));
+
+    convos.push(new Convo(p3, m3));
+
+    return convos;
 
 }
 

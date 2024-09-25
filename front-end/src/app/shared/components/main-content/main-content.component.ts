@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { AppComponent } from '../../../app.component';
-import { createAllNotifications, createEntertainmentSearchTopics, createFollowingFeed, createForYouSearchTopics, createMentionsNotifications, createMessages, createNewsSearchTopics, createSportsSearchTopics, createTrendingSearchTopics, createVerifiedNotifications } from '../../../core/data';
+import { createAllNotifications, createConversations, createEntertainmentSearchTopics, createFollowingFeed, createForYouSearchTopics, createMentionsNotifications, createMessages, createNewsSearchTopics, createSportsSearchTopics, createTrendingSearchTopics, createVerifiedNotifications } from '../../../core/data';
 import { TweetService } from '../../../core/tweet-service';
 import { MessagePageComponent } from '../../../features/message-page/message-page.component';
 import { CoreService } from '../../../core/core-service.service';
@@ -32,6 +32,7 @@ export class MainContentComponent {
 
   //message page data
   messages = createMessages();
+  convos = createConversations();
 
   //notification page data
   allNotifications = createAllNotifications();

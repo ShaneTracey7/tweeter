@@ -104,13 +104,20 @@
   </div>
 </div>
 
+<!---
 <div *ngIf="page == 'Messages'">
   <app-message [mpc]="mpc" [c_c]="c_c"
     *ngFor="let message of messages"
     [message]="message">
   </app-message>
 </div>
-
+-->
+<div *ngIf="page == 'Messages'">
+  <app-message [mpc]="mpc"
+    *ngFor="let convo of convos"
+    [convo]="convo">
+  </app-message>
+</div>
 <div *ngIf="page == 'Profile' || page == 'OtherProfile'">
   <div [ngSwitch]="tab">
     
