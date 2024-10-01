@@ -18,6 +18,10 @@ export class ProfilePageComponent extends CoreComponent{
   isValid:boolean = true;
   user: Profile = new Profile("", "", "", "", 0, 0);
   tmp: string;
+
+
+  DBFollowers: any [] = [];
+  DBFollowing: any [] = [];
   //isValid2 = false;
   /*
   ngOnInit(): void {
@@ -44,14 +48,14 @@ export class ProfilePageComponent extends CoreComponent{
     if (this.tmp == "Profile")
       {
         this.acc_name = this.service.acc_name; //might phase this out
-        this.checkUserInDB(); //to get user data
+        this.setUpProfileDataDB();//this.checkUserInDB(); //to get user data
          //testing
       }
     else
       {
         this.service.setCurrentPage('OtherProfile');
         this.acc_name = this.tmp; //might phase this out
-        this.checkUserInDB();
+        this.setUpProfileDataDB();//this.checkUserInDB();
       }
       console.log(this.acc_name); 
   }
@@ -84,6 +88,70 @@ export class ProfilePageComponent extends CoreComponent{
     });
   }
 
+  getFollowers()
+  {
+    if(!this.isValid)
+      {
+        return;
+      }
+
+    let requestBody =
+    {
+      "word" : "getFollowers",
+      "word2" : this.acc_name,
+    };
+
+    this.http.put("http://127.0.0.1:8000/follow",requestBody).subscribe((resultData: any)=>
+    {
+      console.log(resultData);
+
+      if(resultData == 'Failed to Add')
+        {
+
+        }
+      else if(resultData == 'No followers')
+        {
+
+        }
+      else
+        {
+          this.DBFollowers = resultData;
+        }
+    });
+  }
+  getFollowing()
+  {
+    if(!this.isValid)
+      {
+        return;
+      }
+
+    let requestBody =
+    {
+      "word" : "getFollowing",
+      "word2" : this.acc_name,
+    };
+
+    this.http.put("http://127.0.0.1:8000/follow",requestBody).subscribe((resultData: any)=>
+    {
+      console.log(resultData);
+
+      if(resultData == 'Failed to Add')
+        {
+
+        }
+      else if(resultData == 'No following')
+        {
+
+        }
+      else
+        {
+          this.DBFollowing = resultData;
+        }
+    });
+  }
+
+  /* not in use (i believe)
   checkUserInDB2()
   {
   let requestBody =
@@ -109,6 +177,26 @@ export class ProfilePageComponent extends CoreComponent{
         }
     });
   }
+*/
+  getFollowerCount()
+  {
+    if(!this.isValid)
+      {
+        return;
+      }
+
+    this.user.follower_count == String(this.DBFollowers.length);
+  }
+
+  getFollowingCount()
+  {
+    if(!this.isValid)
+      {
+        return;
+      }
+
+    this.user.follow_count == String(this.DBFollowing.length);
+  }
 
 
   showFollowerList()
@@ -118,6 +206,90 @@ export class ProfilePageComponent extends CoreComponent{
   showFollowingList()
   {
     
+  }
+
+
+
+  setUpProfileDataDB()
+  {
+    let globalObj = this;
+
+        const postPromise1 = new Promise<any>(function (resolve, reject) {
+          setTimeout(() => {
+            reject("We didn't get a response")
+          }, 5000) // 5 secs
+
+          setTimeout(() => {
+            globalObj.checkUserInDB();
+            resolve('we got a response');
+          }, 0) // 0 secs
+
+        })
+
+        const postPromise2 = new Promise<any>(function (resolve, reject) {
+          setTimeout(() => {
+            reject("We didn't get a response")
+          }, 8000) // 5 secs
+
+          setTimeout(() => {
+            globalObj.getFollowers();
+            resolve('we got a response');
+          }, 1000) // 0 secs
+
+        })
+
+        const postPromise3 = new Promise<any>(function (resolve, reject) {
+          setTimeout(() => {
+            reject("We didn't get a response")
+          }, 8000) // 5 secs
+
+          setTimeout(() => {
+            globalObj.getFollowing();
+            resolve('we got a response');
+          }, 2000) // 0 secs
+
+        })
+
+        const checkPromise1 = new Promise<any>(function (resolve, reject) {
+          setTimeout(() => {
+            reject("We didn't get a response")
+          }, 8000) // 5 secs
+
+          setTimeout(() => {
+            globalObj.getFollowingCount();
+            resolve('we got a response');
+          }, 3000) // 0 secs
+
+        })
+
+        const checkPromise2 = new Promise<any>(function (resolve, reject) {
+          setTimeout(() => {
+            reject("We didn't get a response")
+          }, 8000) // 5 secs
+
+          setTimeout(() => {
+            globalObj.getFollowerCount();
+            resolve('we got a response');
+          }, 4000) // 0 secs
+
+        })
+
+        async function myAsync(){
+          //console.log("inside myAsync");
+          try{
+            postPromise1;
+            postPromise2;
+            postPromise3;
+            await checkPromise1;
+            await checkPromise2;
+          }
+          catch (error) {
+            console.error('Promise rejected with error: ' + error);
+          }
+          //console.log("end of myAsync");
+        }
+        
+        myAsync();
   }
 /*
   profileExists()

@@ -210,7 +210,30 @@ def followApi(request,id=id):
         return JsonResponse("Failed to Add",safe=False)
     
     elif request.method =='PUT':
-        follow_data = JSONParser().parse(request)
+        message_data = JSONParser().parse(request)
+
+        message_serializer = MessageSerializer(data=message_data)
+        if message_serializer.is_valid():
+            check = message_serializer.data['word']
+            acc_name_input = message_serializer.data['word2']
+            if check == 'getFollowers':
+                user = User.objects.get(acc_name=acc_name_input)
+ #               followers = Follow.objects.filter(follower=user)
+ #               if result.exists():
+ #                   follow_serializer = FollowSerializer(followers,many=True)
+ #                   return JsonResponse(follow_serializer.data,safe=False)
+ #               else:
+ #                   JsonResponse("No followers")
+            elif check == 'getFollowing':
+                user = User.objects.get(acc_name=acc_name_input)
+ #               following = Follow.objects.filter(following=user)
+ #               if result.exists():
+ #                   follow_serializer = FollowSerializer(following,many=True)
+ #                   return JsonResponse(follow_serializer.data,safe=False)
+#                else:
+#                    JsonResponse("No following")
+        else:
+            return JsonResponse("Failed to Add") 
         #
         #student = Student.objects.get(id=id)
         #student_serializer = StudentSerializer(student,data=student_data)
