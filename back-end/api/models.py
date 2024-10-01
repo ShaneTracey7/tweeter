@@ -17,9 +17,19 @@ class User(models.Model):
     acc_name = models.CharField(max_length = 35)
     password = models.CharField(max_length = 35)
     pic = models.CharField(max_length = 100)
+    #header-pic  -default is default-header.jpg
+    #bio -default is ""
 
     def __str__(self):
         return f"{self.id} {self.username} {self.email} {self.acc_name} {self.password} {self.pic}"
+    
+#keeps track of followers/following for entire web app
+class Follow(models.Model):
+    follower = models.ForeignKey(User, related_name='follower_follow_set', on_delete=models.CASCADE)
+    following = models.ForeignKey(User, related_name='following_follow_set', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.id} {self.follower} {self.following}"
     
 class Tweet(models.Model):
     #username = models.CharField(max_length = 35)

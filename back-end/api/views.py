@@ -2,8 +2,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
-from api.serializers import StudentSerializer, UserSerializer, TweetSerializer, MessageSerializer
-from api.models import Student, User, Tweet, Message
+from api.serializers import StudentSerializer, UserSerializer, TweetSerializer, MessageSerializer, FollowSerializer
+from api.models import Student, User, Tweet, Message, Follow
 from rest_framework.renderers import JSONRenderer
 import json
 import datetime
@@ -194,13 +194,45 @@ def userApi(request,id=id):
         return JsonResponse("Deleted Successfully",safe=False)
 
 @csrf_exempt
+def followApi(request,id=id):
+    
+    if request.method =='GET':
+        follow = Follow.objects.all()
+        follow_serializer = FollowSerializer(follow,many=True)
+        return JsonResponse(follow_serializer.data,safe=False)
+
+    elif request.method =='POST':
+        follow_data = JSONParser().parse(request)
+        follow_serializer = FollowSerializer(data=follow_data)
+        if follow_serializer.is_valid():
+            follow_serializer.save()
+            return JsonResponse("Added Successfully",safe=False)
+        return JsonResponse("Failed to Add",safe=False)
+    
+    elif request.method =='PUT':
+        follow_data = JSONParser().parse(request)
+        #
+        #student = Student.objects.get(id=id)
+        #student_serializer = StudentSerializer(student,data=student_data)
+        #if student_serializer.is_valid():
+        #    student_serializer.save()
+        #    return JsonResponse("Updated Successfully",safe=False)
+        #return JsonResponse("Failed to Update")
+    
+    elif request.method =='DELETE':
+        follow = Follow.objects.get(id=id)
+        follow.delete()
+        return JsonResponse("Deleted Successfully",safe=False)
+
+
+@csrf_exempt
 def studentApi(request,id=id):
     
     if request.method =='GET':
         student = Student.objects.all()
         student_serializer = StudentSerializer(student,many=True)
         return JsonResponse(student_serializer.data,safe=False)
-    
+
     elif request.method =='POST':
         student_data = JSONParser().parse(request)
         student_serializer = StudentSerializer(data=student_data)
@@ -222,6 +254,9 @@ def studentApi(request,id=id):
         student = Student.objects.get(id=id)
         student.delete()
         return JsonResponse("Deleted Successfully",safe=False)
+
+    
+    
 
 """
 elif request.method =='POST':

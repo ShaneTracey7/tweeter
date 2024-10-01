@@ -35,13 +35,26 @@
 
     <div *ngIf="isValid; else inValidProfile4">
       <div class="profile-info">
-        <p>{{this.user.username}}</p>
-        <p>{{this.user.acc_name}}</p>
+        <p class="profile-page-username">{{this.user.username}}</p>
+        <p class="profile-page-acc-name"> &commat;{{this.user.acc_name}}</p>
+        <p id="profile-page-bio"> {{this.user.bio}}</p>
+        <div class="profile-page-counts">
+          <div class="profile-page-count-info">
+            <p class="profile-page-count"> {{this.user.follow_count}}</p>
+            <p (click)="showFollowingList()"class="profile-page-count-button"> Following </p>
+          </div>
+          <div class="profile-page-count-info">
+            <p class="profile-page-count"> {{this.user.follower_count}}</p>
+            <p (click)="showFollowerList()" class="profile-page-count-button"> Followers </p>
+          </div>
+        </div>
       </div>
     </div>
 
     <ng-template #inValidProfile4>
-      <p>{{this.user.acc_name}}</p>
+      <div class="profile-info">
+        <p class="profile-page-username" id="invalid-profile-ac">&commat;{{ this.user.acc_name}}</p>
+      </div>
     </ng-template>
       
       

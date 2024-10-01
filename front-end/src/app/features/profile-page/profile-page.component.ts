@@ -110,6 +110,15 @@ export class ProfilePageComponent extends CoreComponent{
     });
   }
 
+
+  showFollowerList()
+  {
+
+  }
+  showFollowingList()
+  {
+    
+  }
 /*
   profileExists()
   {

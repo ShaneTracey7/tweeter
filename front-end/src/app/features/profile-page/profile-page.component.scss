@@ -49,8 +49,7 @@ $gray: rgb(97, 110, 124);
 }
 
 #invalid-profile-message-container{
-    margin-top: 50px;
-    
+    padding-top: 100px;
     display: flex;
     flex-direction: column;
     margin: auto;
@@ -68,10 +67,16 @@ $gray: rgb(97, 110, 124);
     
 }
 
+.profile-info{
+    margin-left: 20px;
+    gap: 0;
+}
+
 #profile-row1
 {
     display: flex;
     flex-direction: row;
+    height: 70px;
 
     #profile-p-image{
         position: relative; 
@@ -106,6 +111,54 @@ $gray: rgb(97, 110, 124);
         background-color: $bg-color-hover-nav-tool-bar;
     }
 }
+
+
+.profile-page-counts
+{
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    font-size: 1rem;
+
+    .profile-page-count-info{
+        display: flex;
+        flex-direction: row;
+
+        .profile-page-count{
+            font-weight: bold;
+            padding-right: 5px;
+        }
+        .profile-page-count-button{
+            text-align: right;
+            color: $gray
+        }
+        .profile-page-count-button:hover{
+            text-decoration: underline;
+        }
+
+    }
+    
+    
+}
+
+.profile-page-username{
+    font-weight: bold;
+    font-size: 1.5rem;
+    padding: 0;
+    margin: 0;
+    height:30px;
+}
+.profile-page-acc-name{
+    font-size: 1rem;
+    padding: 0;
+    margin: 0;
+    color: $gray;
+    height:20px;
+}
+
+/*#invalid-profile-ac{
+
+}*/
   
   #profile-searchbar{
     width: 89%;
