@@ -55,7 +55,7 @@ export class ProfilePageComponent extends CoreComponent{
       {
         this.service.setCurrentPage('OtherProfile');
         this.acc_name = this.tmp; //might phase this out
-        this.setUpProfileDataDB();//this.checkUserInDB();
+        this.setUpProfileDataDB();//this.checkUserInDB(); //didn't work properly
       }
       console.log(this.acc_name); 
   }
@@ -97,7 +97,7 @@ export class ProfilePageComponent extends CoreComponent{
 
     let requestBody =
     {
-      "word" : "getFollowers",
+      "word" : 'getFollowers',
       "word2" : this.acc_name,
     };
 
@@ -116,6 +116,10 @@ export class ProfilePageComponent extends CoreComponent{
       else
         {
           this.DBFollowers = resultData;
+          this.user.follower_count = String(this.DBFollowers.length);
+
+          var fc_html = <HTMLElement>document.getElementById("ppfrc");
+          fc_html.innerHTML = this.user.follower_count;
         }
     });
   }
@@ -147,44 +151,20 @@ export class ProfilePageComponent extends CoreComponent{
       else
         {
           this.DBFollowing = resultData;
+          this.user.follow_count = String(this.DBFollowing.length);
+          var fc_html = <HTMLElement>document.getElementById("ppfgc");
+          fc_html.innerHTML = this.user.follow_count;
         }
     });
   }
 
-  /* not in use (i believe)
-  checkUserInDB2()
-  {
-  let requestBody =
-    {
-      "username" : 'credentialsCheck',
-      "email" : 'e',
-      "acc_name" : this.acc_name,
-      "password" : 'p',
-      "pic" : 'url', //new
-    };
-
-    this.http.put("http://127.0.0.1:8000/user",requestBody).subscribe((resultData: any)=>
-    {
-        console.log(resultData);
-    
-        if(resultData == "AC exists, P incorrect")
-        {
-          this.isValid = true;
-        }
-      else
-        {
-          this.isValid = false;
-        }
-    });
-  }
-*/
   getFollowerCount()
   {
     if(!this.isValid)
       {
         return;
       }
-
+      console.log(this.DBFollowers.length); //for testing
     this.user.follower_count == String(this.DBFollowers.length);
   }
 
@@ -194,7 +174,7 @@ export class ProfilePageComponent extends CoreComponent{
       {
         return;
       }
-
+      console.log(this.DBFollowing.length); //for testing
     this.user.follow_count == String(this.DBFollowing.length);
   }
 
@@ -234,7 +214,7 @@ export class ProfilePageComponent extends CoreComponent{
           setTimeout(() => {
             globalObj.getFollowers();
             resolve('we got a response');
-          }, 1000) // 0 secs
+          }, 500) // 0.5 secs
 
         })
 
@@ -246,7 +226,7 @@ export class ProfilePageComponent extends CoreComponent{
           setTimeout(() => {
             globalObj.getFollowing();
             resolve('we got a response');
-          }, 2000) // 0 secs
+          }, 1000) // 1 secs
 
         })
 
@@ -258,7 +238,7 @@ export class ProfilePageComponent extends CoreComponent{
           setTimeout(() => {
             globalObj.getFollowingCount();
             resolve('we got a response');
-          }, 3000) // 0 secs
+          }, 1500) // 1.5 secs
 
         })
 
@@ -270,7 +250,7 @@ export class ProfilePageComponent extends CoreComponent{
           setTimeout(() => {
             globalObj.getFollowerCount();
             resolve('we got a response');
-          }, 4000) // 0 secs
+          }, 2000) // 2 secs
 
         })
 
@@ -290,6 +270,22 @@ export class ProfilePageComponent extends CoreComponent{
         }
         
         myAsync();
+  }
+
+
+  followUser(){
+
+    let requestBody =
+    {
+      "word" : this.acc_name,
+      "word2" : this.service.acc_name,
+    };
+
+    this.http.post("http://127.0.0.1:8000/follow",requestBody).subscribe((resultData: any)=>
+    {
+      console.log(resultData);
+      this.user.follower_count = String(Number(this.user.follower_count) + 1); //idk if this will work
+    });
   }
 /*
   profileExists()

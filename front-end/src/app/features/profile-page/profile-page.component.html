@@ -19,11 +19,24 @@
 
    <!-- <div > -->
     <div *ngIf="isValid; else inValidProfile2">
-      <img id="profile-bg-image" [src]="elon" alt="background-image"/>
-      <div id="profile-row1">
-        <img id="profile-p-image" [src]="this.service.setUrl(this.user.pic)" alt="profile-image"/>
-        <button id="edit-profile-button">Edit profile</button>
+
+      <div *ngIf="tmp == 'Profile'; else otherProfile">
+
+        <img id="profile-bg-image" [src]="elon" alt="background-image"/>
+        <div id="profile-row1">
+          <img id="profile-p-image" [src]="this.service.setUrl(this.user.pic)" alt="profile-image"/>
+          <button class="profile-page-button" id="edit-profile-button">Edit profile</button>
+        </div>
       </div>
+
+      <ng-template #otherProfile>
+        <img id="profile-bg-image" [src]="elon" alt="background-image"/>
+        <div id="profile-row1">
+          <img id="profile-p-image" [src]="this.service.setUrl(this.user.pic)" alt="profile-image"/>
+          <button (click)="followUser()" class="profile-page-button" id="follow-profile-button">Follow</button>
+        </div>
+      </ng-template>
+
     </div>
 
     <ng-template #inValidProfile2>
@@ -40,11 +53,11 @@
         <p id="profile-page-bio"> {{this.user.bio}}</p>
         <div class="profile-page-counts">
           <div class="profile-page-count-info">
-            <p class="profile-page-count"> {{this.user.follow_count}}</p>
+            <p id="ppfgc" class="profile-page-count"> {{this.user.follow_count}}</p>
             <p (click)="showFollowingList()"class="profile-page-count-button"> Following </p>
           </div>
           <div class="profile-page-count-info">
-            <p class="profile-page-count"> {{this.user.follower_count}}</p>
+            <p id="ppfrc" class="profile-page-count"> {{this.user.follower_count}}</p>
             <p (click)="showFollowerList()" class="profile-page-count-button"> Followers </p>
           </div>
         </div>

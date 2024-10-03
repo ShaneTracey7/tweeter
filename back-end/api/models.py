@@ -27,7 +27,12 @@ class User(models.Model):
 class Follow(models.Model):
     follower = models.ForeignKey(User, related_name='follower_follow_set', on_delete=models.CASCADE)
     following = models.ForeignKey(User, related_name='following_follow_set', on_delete=models.CASCADE)
-
+    
+    @classmethod
+    def create(cls,follower,following):
+        follow = cls(follower=follower,following=following)
+        return follow
+        
     def __str__(self):
         return f"{self.id} {self.follower} {self.following}"
     
@@ -46,7 +51,6 @@ class Tweet(models.Model):
     @classmethod
     def create(cls, user,date_created,text_content,image_content,likes,comments,retweets,engagements):
         tweet = cls(user=user,date_created=date_created,text_content=text_content,image_content=image_content,likes=likes,comments=comments,retweets=retweets,engagements=engagements)
-        # do something with the book
         return tweet
     
     def __str__(self):

@@ -92,7 +92,7 @@ $gray: rgb(97, 110, 124);
     #profile-p-image:hover{
         filter: brightness(92%);
     }
-
+/*
     #edit-profile-button{
         margin-top: 15px;
         margin-left: auto;
@@ -108,6 +108,24 @@ $gray: rgb(97, 110, 124);
         padding-right: 15px;
     }
     #edit-profile-button:hover{
+        background-color: $bg-color-hover-nav-tool-bar;
+    }
+    */
+    .profile-page-button{
+        margin-top: 15px;
+        margin-left: auto;
+        margin-right: 20px;
+        border-radius: 25px;
+        width: fit-content;
+        height: 38px;
+        color: black;
+        background-color: white;
+        border: 1px solid $gray;
+        font-weight: bold;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .profile-page-button:hover{
         background-color: $bg-color-hover-nav-tool-bar;
     }
 }
