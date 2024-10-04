@@ -33,7 +33,13 @@
         <img id="profile-bg-image" [src]="elon" alt="background-image"/>
         <div id="profile-row1">
           <img id="profile-p-image" [src]="this.service.setUrl(this.user.pic)" alt="profile-image"/>
-          <button (click)="followUser()" class="profile-page-button" id="follow-profile-button">Follow</button>
+          <div *ngIf="isFollow; else notFollowing">
+            <button [style]="styleButton()" class="profile-page-button" id="following-profile-button">Following</button>
+          </div>
+          <ng-template #notFollowing>
+            <button [style]="styleButton()" (click)="followUser()" class="profile-page-button" id="follow-profile-button">Follow</button>
+          </ng-template>
+          
         </div>
       </ng-template>
 

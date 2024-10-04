@@ -233,18 +233,30 @@ def followApi(request,id=id):
                 #return JsonResponse("inside getFollowers if",safe=False)
                 user = User.objects.get(acc_name=acc_name_input)
                 followers = Follow.objects.filter(follower=user)
+                following = []
+                for follow in followers:
+                    following.append(follow.following)
+                    
                 if followers.exists():
-                    follow_serializer = FollowSerializer(followers,many=True)
-                    return JsonResponse(follow_serializer.data,safe=False)
+                    user_serializer = UserSerializer(following,many=True)
+                    return JsonResponse(user_serializer.data,safe=False)
+                    #follow_serializer = FollowSerializer(followers,many=True)
+                    #return JsonResponse(follow_serializer.data,safe=False)
                 else:
                     return JsonResponse("No followers",safe=False)
             elif check == 'getFollowing':
                 #return JsonResponse("inside getFollowing if",safe=False)
                 user = User.objects.get(acc_name=acc_name_input)
                 following = Follow.objects.filter(following=user)
+                followers = []
+                for follow in following:
+                    followers.append(follow.follower)
+
                 if following.exists():
-                    follow_serializer = FollowSerializer(following,many=True)
-                    return JsonResponse(follow_serializer.data,safe=False)
+                    user_serializer = UserSerializer(followers,many=True)
+                    return JsonResponse(user_serializer.data,safe=False)
+                    #follow_serializer = FollowSerializer(following,many=True)
+                    #return JsonResponse(follow_serializer.data,safe=False)
                 else:
                     return JsonResponse("No following",safe=False)
         else:
