@@ -29,105 +29,19 @@ export class CoreService {
 
   constructor(public route: ActivatedRoute, public router: Router,private http: HttpClient) { 
     //this.current_page = this.route.snapshot.url.toString();
+    //window.location.reload();
     this.username = localStorage.getItem('username') ?? "badToken"; 
     this.acc_name = localStorage.getItem('acc_name') ?? "badToken";
-    this.createUserFeed();
+    this.createUserFeed(false, "");
+    //console.log("current user acc_name: "+ this.acc_name);
   }
 
-  /*
-  ngOnInit() {  
-    this.username = localStorage.getItem('username') ?? "badToken";
-    this.acc_name = localStorage.getItem('acc_name') ?? "badToken";  
-    console.log(this.username); 
-  } */
- 
-/*
-  checkUserResult()
+  //don't think this is doing anything
+  ngOnDestroy()
   {
-    return this.validUser;
+    localStorage.clear();
+    console.log("ngOnDestroy called in core service");
   }
-
-  checkUserInDB()
-  {
-  let requestBody =
-    {
-      "username" : 'credentialsCheck',
-      "email" : 'e',
-      "acc_name" : this.acc_name,
-      "password" : 'p',
-    };
-
-    this.http.put("http://127.0.0.1:8000/user",requestBody).subscribe((resultData: any)=>
-    {
-        console.log(resultData);
-    
-        if(resultData == "AC exists, P incorrect")
-        {
-          this.validUser = true;
-        }
-      else
-        {
-          this.validUser = false;
-        }
-    });
-  }
-
-  profileExists()
-  {
-    let obj = this;
-
-    const postPromise = new Promise<any>(function (resolve, reject) {
-      setTimeout(() => {
-        reject("We didn't get a response")
-      }, 5000) // 5 secs
-
-      setTimeout(() => {
-        obj.checkUserInDB()
-        resolve('we got a response');
-      }, 1000) // 0 secs
-
-    })
-
-    const checkPromise = new Promise<any>(function (resolve, reject) {
-      setTimeout(() => {
-        reject("We didn't check")
-      }, 8000) //8 secs
-
-      setTimeout(() => {
-        let r = obj.checkUserResult()
-        resolve(r);
-      }, 2000) // 2 sec
-
-    })
-
-    async function myAsync(){
-      //console.log("inside myAsync");
-      
-      try{
-        await postPromise;
-        checkPromise.then((value) => {
-          console.log(value);
-          return value;
-        });
-        return false;
-      }
-      catch (error) {
-        console.error('Promise rejected with error: ' + error);
-        return false;
-      }
-      //console.log("end of myAsync");
-    }
-    
-    myAsync().then((value) => {
-      console.log(value);
-      return value;
-    });;
-
-  }*/
-
-
-
-
 
   setUrl(str: string)
   {
@@ -169,7 +83,6 @@ export class CoreService {
     }
   }
 
-
   boldNavbarItem(str: string) {
     if (this.cp_style == str) {
       return {
@@ -193,7 +106,7 @@ routeToChild(str: string){
     */
   
     this.current_tab = str;
-    if (str == "foryou" || str == "all" || str == "posts")
+    if (str == "foryou" || str == "all" || str == "posts" || str == 'followers')
       {
         this.marker1= true; 
         this.marker2= false;
@@ -243,8 +156,6 @@ routeToChild(str: string){
       }
       
   }
-
-
 
   getMarkerStyles(num: Number) {
     var marker;
@@ -298,9 +209,7 @@ routeToChild(str: string){
     }
   }
 
-
-
-//gets all users(from DB) and adds them to DBfeed array
+//gets all users(from DB) and adds them to DBUsers array
 getAllDBUsers()
 {
     this.http.get("http://127.0.0.1:8000/user").subscribe((resultData: any)=>
@@ -313,13 +222,17 @@ getAllDBUsers()
 //creates Post objects using data from DBFeed and UserFeed arrays and adds them to FEfeed array
 convertUserFeed(current_user_acc_name: string)
 {   
-  current_user_acc_name
+  //current_user_acc_name
+
+  //clear UserFeed
+  this.UserFeed = [];
+
   let counter = 0;
 
   for (let i = 0; i < this.DBUsers.length;i++) {
     let user = this.DBUsers[i];
     
-    if(user.acc_name != current_user_acc_name)
+    if(user.acc_name != current_user_acc_name) //this is issue current_user_acc_name =this.acc_name
       {
         var u = new Profile(user.pic, user.username, user.acc_name, "bio", 0, 0);
         this.UserFeed.push(u);
@@ -334,8 +247,18 @@ convertUserFeed(current_user_acc_name: string)
 
 
 //gets data for 'ForYou'feed, calls the 3 above functions using delays to ensure all the data is available, when accessed
-createUserFeed()
+createUserFeed(outsideOfService: boolean, acc_name: string)
   {
+    var ac = "";
+    if(outsideOfService)
+    {
+      ac = acc_name;
+    }
+    else
+    {
+      ac = this.acc_name;
+    }
+
     let globalObj = this;
 
         const postPromise = new Promise<any>(function (resolve, reject) {
@@ -347,7 +270,6 @@ createUserFeed()
             globalObj.getAllDBUsers();
             resolve('we got a response');
           }, 0) // 0 secs
-
         })
 
         const checkPromise = new Promise<any>(function (resolve, reject) {
@@ -356,14 +278,12 @@ createUserFeed()
           }, 8000) // 5 secs
 
           setTimeout(() => {
-            globalObj.convertUserFeed(globalObj.acc_name);
+            globalObj.convertUserFeed(ac);
             resolve('we got a response');
-          }, 2000) // 0 secs
-
+          }, 500) // 0 secs
         })
 
         async function myAsync(){
-          //console.log("inside myAsync");
           try{
             postPromise;
             await checkPromise;
@@ -371,7 +291,6 @@ createUserFeed()
           catch (error) {
             console.error('Promise rejected with error: ' + error);
           }
-          //console.log("end of myAsync");
         }
         
         myAsync();

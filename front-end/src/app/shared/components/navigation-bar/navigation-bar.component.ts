@@ -13,6 +13,8 @@ import { AuthService } from '../../../core/auth.service';
 })
 export class NavigationBarComponent{
 
+
+  //******* need to find a getUser (from db) function to user to get user.pic for profile at bottom of navbar */
   show:boolean = false;
   username: string;
   acc_name: string;
@@ -20,13 +22,13 @@ export class NavigationBarComponent{
   constructor(private router: Router, private authService: AuthService, public service: CoreService) {
     
     this.username = "";
-    this.acc_name = "";
+    this.acc_name = ""; 
     }
 
   ngOnInit() {  
     this.username = localStorage.getItem('username') ?? "badToken";
     this.acc_name = localStorage.getItem('acc_name') ?? "badToken";  
-    console.log(this.username);  
+    console.log("username is: " + this.username);  
   } 
 
   showModal()
@@ -35,8 +37,13 @@ export class NavigationBarComponent{
   }
 
   logout() {  
+    localStorage.clear();
+    //this.service.clearStorage();
+    console.log(localStorage.getItem('acc_name') ?? "badToken");
+    console.log(localStorage.getItem('username') ?? "badToken");
     console.log('logout');  
-    this.authService.logout();  
+    this.authService.logout();
+    
     this.router.navigate(['/Login']);  
   } 
 }

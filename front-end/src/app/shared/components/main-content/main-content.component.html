@@ -152,6 +152,26 @@
   </div>
 </div>
 
+<!--might need some more work to get going-->
+<div *ngIf="page == 'ProfileFollow'">
+  <div [ngSwitch]="tab">
+    
+    <div *ngSwitchCase="'followers'">
+      <short-profile
+      *ngFor="let profile of data[0]"
+      [profile]="profile">
+      </short-profile>
+    </div>
+
+    <div *ngSwitchCase="'following'">
+      <short-profile
+      *ngFor="let profile of data[1]"
+      [profile]="profile">
+      </short-profile>
+    </div>
+  </div>
+</div>
+
 
 
 

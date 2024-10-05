@@ -58,10 +58,17 @@ const routes: Routes = [
             path: '**',
             component: ProfilePageComponent,
             canActivate : [PermissionsService],
-            title: 'Home',
+            title: 'Profile',
+            
           },
 
         ],
+      },
+      {
+        path: 'Error',
+        component: PageNotFoundComponent,
+        canActivate : [PermissionsService],
+        title: 'Error',
       },
 
 

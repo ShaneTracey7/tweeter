@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { AppComponent } from '../../../app.component';
-import { createAllNotifications, createConversations, createEntertainmentSearchTopics, createFollowingFeed, createForYouSearchTopics, createMentionsNotifications, createMessages, createNewsSearchTopics, createSportsSearchTopics, createTrendingSearchTopics, createVerifiedNotifications } from '../../../core/data';
+import { createAllNotifications, createConversations, createEntertainmentSearchTopics, createFollowingFeed, createForYouSearchTopics, createMentionsNotifications, createMessages, createNewsSearchTopics, createSportsSearchTopics, createTrendingSearchTopics, createVerifiedNotifications, Profile } from '../../../core/data';
 import { TweetService } from '../../../core/tweet-service';
 import { MessagePageComponent } from '../../../features/message-page/message-page.component';
 import { CoreService } from '../../../core/core-service.service';
@@ -13,6 +13,9 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class MainContentComponent {
 
+  //testing
+  @Input() data: any [] = []; //what tab is being displayed
+
   @Input() tab: string = ""; //what tab is being displayed
   @Input() page: string = ""; //what current_page is being displayed
   @Input() mpc:MessagePageComponent = new MessagePageComponent(this.authService, this.route,this.service);
@@ -24,6 +27,13 @@ export class MainContentComponent {
 
     this.forYouFeed = this.tweetService.FEfeed
     //console.log(this.forYouFeed)
+  }
+
+  ngOnChanges(changes: SimpleChanges)
+  {
+    console.log(changes);
+    console.log("a change in main component");
+    console.log("tab:" + this.tab)
   }
 
   //home page data
@@ -45,6 +55,10 @@ export class MainContentComponent {
   newsSearchTopics = createNewsSearchTopics();
   sportsSearchTopics = createSportsSearchTopics();
   entertainmentSearchTopics = createEntertainmentSearchTopics();
+
+  //profile page data
+  followerProfiles = [];
+  followingProfiles = [];
 
   // global page data
 

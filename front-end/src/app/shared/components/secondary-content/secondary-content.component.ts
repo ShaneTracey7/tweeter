@@ -12,12 +12,22 @@ export class SecondaryContentComponent {
   @Input() tab: string = ""; //what tab is being displayed
   @Input() page: string = ""; //what current_page is being displayed
   @Input() pane: number = 0; //what pane is being displayed
-  profiles: any [] = []
+  profiles: any [];// = []
+  service_acc_name: string;
 
   constructor(private service: CoreService){
     
-    this.profiles = this.service.UserFeed
+    this.profiles = [];//this.service.UserFeed
+    this.service_acc_name = "";
     //console.log(this.profiles)
+  }
+
+  ngOnInit()
+  {
+    this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";  
+    this.createServiceUserFeed();
+    //this.service.createUserFeed(true,this.service_acc_name);
+    this.profiles = this.service.UserFeed;
   }
 
   // global page data
@@ -32,6 +42,50 @@ export class SecondaryContentComponent {
   changeOpenModal(newValue: boolean){
     this.openmodal = newValue;
     console.log(this.openmodal);
+  }
+
+  
+  createServiceUserFeed()
+  {
+    let globalObj = this;
+
+        const postPromise = new Promise<any>(function (resolve, reject) {
+          setTimeout(() => {
+            reject("We didn't get a response")
+          }, 5000) // 5 secs
+
+          setTimeout(() => {
+            globalObj.service.createUserFeed(true,globalObj.service_acc_name);
+            resolve('we got a response');
+          }, 0) // 0 secs
+
+        })
+
+        const checkPromise = new Promise<any>(function (resolve, reject) {
+          setTimeout(() => {
+            reject("We didn't get a response")
+          }, 8000) // 5 secs
+
+          setTimeout(() => {
+            globalObj.profiles = globalObj.service.UserFeed;
+            resolve('we got a response');
+          }, 1000) // 0 secs
+
+        })
+
+        async function myAsync(){
+          //console.log("inside myAsync");
+          try{
+            postPromise;
+            await checkPromise;
+          }
+          catch (error) {
+            console.error('Promise rejected with error: ' + error);
+          }
+          //console.log("end of myAsync");
+        }
+        
+        myAsync();
   }
 
 }
