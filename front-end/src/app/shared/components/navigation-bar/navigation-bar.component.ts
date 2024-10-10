@@ -18,16 +18,19 @@ export class NavigationBarComponent{
   show:boolean = false;
   username: string;
   acc_name: string;
+  pic: string;
 
   constructor(private router: Router, private authService: AuthService, public service: CoreService) {
     
     this.username = "";
     this.acc_name = ""; 
+    this.pic = ""; 
     }
 
   ngOnInit() {  
     this.username = localStorage.getItem('username') ?? "badToken";
     this.acc_name = localStorage.getItem('acc_name') ?? "badToken";  
+    this.pic = localStorage.getItem('pic') ?? "badToken";  
     console.log("username is: " + this.username);  
   } 
 

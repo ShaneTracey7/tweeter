@@ -168,7 +168,9 @@ def userApi(request,id=id):
                 if result.exists():
                     user = User.objects.get(acc_name=acc_name_input)
                     if user.password == password_input:
-                        return JsonResponse(user.username,safe=False) # ()password and account name correct
+                        user_serializer = UserSerializer(user,many=False) #NEW
+                        return JsonResponse(user_serializer.data,safe=False) #NEW
+                        #return JsonResponse(user.username,safe=False) # ()password and account name correct
                     else:
                         return JsonResponse("AC exists, P incorrect",safe=False)
                 else:

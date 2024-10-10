@@ -15,6 +15,7 @@ export class ProfilePageComponent extends CoreComponent{
   //figure out a way to make this view work for any user (currently defaults to logged in user)
   elon = elon;
   acc_name = ""; //might phase this out
+  username = ""; //might phase this out
   isValid:boolean = true;
   user: Profile = new Profile("", "", "", "", 0, 0);
   last_url_section: string;
@@ -25,11 +26,11 @@ export class ProfilePageComponent extends CoreComponent{
   isVisible: boolean = false; //if follow/following button is visible
   inFollowLists: boolean = false; //if displaying following or follower lists
 
-  DBFollowers: any [] = [];
-  followers: Profile [] = []
+  DBFollowers: any [] = []; //raw array of User followers from DB
+  followers: Profile [] = [] //array of Profile objs of followers
 
-  DBFollowing: any [] = [];
-  following: Profile [] = []
+  DBFollowing: any [] = []; //raw array of User following from DB
+  following: Profile [] = [] //array of Profile objs of following
 
   //needed to ensure when logging into a different account, correct data displays
   service_acc_name: string;
@@ -127,23 +128,62 @@ export class ProfilePageComponent extends CoreComponent{
     //this.tmp = arr.pop()??"error";
     if (this.last_url_section == "Profile")
       {
+        console.log("last_url_section == Profile");
         this.acc_name = this.service_acc_name; //might phase this out
+        this.username = this.service_username;
         this.setUpProfileDataDB();//this.checkUserInDB(); //to get user data
         //testing
       }
     else if (this.last_url_section == "followers" || this.last_url_section == "following")
     {
-        this.acc_name = second_last; 
-        this.setUpProfileDataDB(); //check that 'second_last' value exists and get data
+        console.log("last_url_section == " + this.last_url_section);
+        if(second_last == "Profile")
+        {
+          this.acc_name = this.service_acc_name; //might phase this out
+          this.username = this.service_username;
+          this.setUpProfileDataDB();
+
+          this.service.setCurrentPage('ProfileFollow');
+          this.service_page = 'ProfileFollow';
+          this.arrs = [this.followers,this.following];
+          if(this.last_url_section == "followers" )
+            {
+              this.service.routeToChild('followers');
+            }
+            else
+            {
+              this.service.routeToChild('following');
+            }
+        }
+        else
+        {
+          this.acc_name = second_last; 
+          this.setUpProfileDataDB(); //check that 'second_last' value exists and get data
+
+          this.service.setCurrentPage('ProfileFollow');
+          this.service_page = 'ProfileFollow';
+          this.arrs = [this.followers,this.following];
+          if(this.last_url_section == "followers" )
+          {
+            this.service.routeToChild('followers');
+          }
+          else
+          {
+            this.service.routeToChild('following');
+          }
+          
+        }
+        
         
         //this.inFollowLists = true;
     }
     else
-      {
+    {
+        console.log("last_url_section == else");
         this.service.setCurrentPage('OtherProfile');
         this.acc_name = this.last_url_section; //might phase this out
         this.setUpProfileDataDB();//this.checkUserInDB(); //didn't work properly
-      }
+    }
     console.log(this.acc_name); 
     console.log("url arr:" + arr + "length: " + arr.length);
     console.log("url arr2:" + arr2 + "length: " + arr2.length);

@@ -17,12 +17,20 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class HomePageComponent extends CoreComponent{
   
+  submit_flag: number  = 0; // 0: not pressed, 1: pressed but not submitted, 2: pressed and submitted
+  pic: string;
 constructor(authService: AuthService, route: ActivatedRoute, service: CoreService,private http: HttpClient, public tweetService: TweetService, private formBuilder: FormBuilder )
 {
   super(authService,route,service);
+  this.pic = "";
 }
 
-submit_flag: number  = 0; // 0: not pressed, 1: pressed but not submitted, 2: pressed and submitted
+
+ngOnInit()
+{
+  this.pic = localStorage.getItem('pic') ?? "badToken";
+}
+
 
 tweetForm = this.formBuilder.group({
   text_content: ['', [Validators.maxLength(181)]],

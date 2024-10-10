@@ -4,6 +4,23 @@ $bg-color-hover-nav-tool-bar: rgba(0, 0, 0, 0.090);
 $twitter-blue: #1DA1F2;
 $gray: rgb(97, 110, 124);
 
+#profile-f-tab1, #profile-f-tab2{
+    width:50%;
+  }
+
+.follow-list-headers{
+    display: flex;
+    flex-direction: column;
+    gap:0;
+    margin-top: 10px;
+}
+
+#follow-list-ac{
+    font-size: 0.9rem;
+    color: $gray;
+    margin-left: 15px;
+}
+
 #profile-ut{
     margin-right: auto;
     gap: 20px;
@@ -12,6 +29,12 @@ $gray: rgb(97, 110, 124);
     margin-right: auto;
     gap: 20px;
     z-index: 3; //
+}
+#profile-t-f{
+    margin-right: auto;
+    gap: 20px;
+    z-index: 3;
+    border-bottom: 0;
 }
 #profile-arrow-container{
     //margin-right: auto;

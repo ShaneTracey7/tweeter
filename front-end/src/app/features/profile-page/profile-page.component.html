@@ -1,35 +1,61 @@
 <div id="mc" class="main-content">
 
-    <div id="profile-t"class="toolbar">
-        <div id="profile-ut" class="upper-toolbar">
+    <!--<div id="profile-t"class="toolbar"> -->
+        <!--<div id="profile-ut" class="upper-toolbar"> -->
 
           <div *ngIf="inFollowLists; else inProfile1">
-            <!-- upper toolbar add here-->
-            <div id="profile-arrow-container" class="title-icons">
-                <img id="profile-arrow" (click)="goBack()" class="toolbar-icon" [src]="service.setUrl('back-arrow.svg')" alt="back-arrow"/>
+            <div id="profile-t"class="toolbar">
+              <div id="profile-ut" class="upper-toolbar">
+                <!-- upper toolbar add here-->
+                <div id="profile-arrow-container" class="title-icons">
+                  <img id="profile-arrow" (click)="goBack()" class="toolbar-icon" [src]="service.setUrl('back-arrow.svg')" alt="back-arrow"/>
+                </div>
+                <div *ngIf="isValid; else inValidProfile">
+                  <div class="follow-list-headers">
+                    <h1 class="page-title"> {{this.user.username}} </h1>
+                    <h1 id="follow-list-ac"> &commat;{{this.user.acc_name}} </h1>
+                  </div>
+                </div>
+                <ng-template #inValidProfile>
+                    <h1 class="page-title"> Profile </h1>
+                </ng-template>
+              </div>
+              <div class="lower-toolbar">
+                <!-- lower toolbar add here-->
+                <div id="profile-f-tab1" class="toolbar-tabs">
+                  <div class="tab-container">
+                    <button (click)="service.routeToChild('followers')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(1)"> Followers</button>
+                    <div class="tab-item" id="marker" [style]="service.displayMarker(1)"></div>
+                  </div>
+                </div>
+                
+                <div id="profile-f-tab2" class="toolbar-tabs">
+                  <div class="tab-container">
+                    <button (click)="service.routeToChild('following')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(2)"> Following</button>
+                    <div class="tab-item" id="marker" [style]="service.displayMarker(2)"></div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div *ngIf="isValid; else inValidProfile">
-              <h1 class="page-title"> {{this.acc_name}} </h1>
-            </div>
-            <ng-template #inValidProfile>
-              <h1 class="page-title"> Profile </h1>
-            </ng-template>
-
           </div>
           <ng-template #inProfile1>
-            <!-- upper toolbar add here-->
-            <div id="profile-arrow-container" class="title-icons">
-              <img id="profile-arrow"  (click)="service.setCurrentPage('Home')" routerLink="/tweeter/Home" class="toolbar-icon" [src]="service.setUrl('back-arrow.svg')" alt="back-arrow"/>
-          </div>
-          <div *ngIf="isValid; else inValidProfile">
-            <h1 class="page-title"> {{this.acc_name}} </h1>
-          </div>
-          <ng-template #inValidProfile>
-            <h1 class="page-title"> Profile </h1>
+            <div id="profile-t"class="toolbar">
+              <div id="profile-ut" class="upper-toolbar">
+                <!-- upper toolbar add here-->
+                <div id="profile-arrow-container" class="title-icons">
+                  <img id="profile-arrow"  (click)="service.setCurrentPage('Home')" routerLink="/tweeter/Home" class="toolbar-icon" [src]="service.setUrl('back-arrow.svg')" alt="back-arrow"/>
+                </div>
+                <div *ngIf="isValid; else inValidProfile">
+                  <h1 class="page-title"> {{this.user.username}} </h1>
+                </div>
+                <ng-template #inValidProfile>
+                  <h1 class="page-title"> Profile </h1>
+                </ng-template>
+              </div>
+            </div>
           </ng-template>
-          </ng-template>
-        </div>
-    </div>
+       <!--</div>-->
+    
 
    <!-- <div > -->
     <div *ngIf="!inFollowLists">
@@ -94,27 +120,10 @@
   </div>
 
     <div *ngIf="inFollowLists; else inProfile2">
-      <div class="lower-toolbar">
-        <!-- lower toolbar add here-->
-                <div id="profile-tab1" class="toolbar-tabs">
-                    <div class="tab-container">
-                      <button (click)="service.routeToChild('followers')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(1)"> Followers</button>
-                      <div class="tab-item" id="marker" [style]="service.displayMarker(1)"></div>
-                    </div>
-                </div>
-          
-                <div id="profile-tab2" class="toolbar-tabs">
-                    <div class="tab-container">
-                      <button (click)="service.routeToChild('following')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(2)"> Following</button>
-                      <div class="tab-item" id="marker" [style]="service.displayMarker(2)"></div>
-                    </div>
-                </div>
+      <!-- main content add here-->
+      <main-content [data]=arrs [page]=service_page [tab]=service.current_tab></main-content>
     </div>
 
-    <!-- main content add here-->
-    <main-content [data]=arrs [page]=service_page [tab]=service.current_tab></main-content>
-
-    </div>
   <ng-template #inProfile2>
       
   <div *ngIf="isValid; else inValidProfile3">

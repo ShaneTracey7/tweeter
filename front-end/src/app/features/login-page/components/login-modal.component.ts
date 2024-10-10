@@ -22,6 +22,7 @@ export class LoginModalComponent {
 
 p_value = "password";
 u_value = "username";
+userDB:any = []; //might not work like this
 
 submit_flag: number  = 0; // 0: not pressed, 1: pressed but not submitted, 2: pressed and submitted
 goodLogin: boolean = false; 
@@ -101,7 +102,8 @@ loginForm = this.formBuilder.group({
       else
         {
           obj.goodLogin = true;
-          obj.u_value = resultData
+          //obj.u_value = resultData
+          obj.userDB = resultData;
         }
     });
 
@@ -127,14 +129,16 @@ loginForm = this.formBuilder.group({
                 //get user with username
                 
 
-                localStorage.setItem('isLoggedIn', "true");  
-                localStorage.setItem('username', globalObj.u_value ?? 'badToken');
+                localStorage.setItem('isLoggedIn', "true");
+                localStorage.setItem('username', globalObj.userDB.username ?? 'badToken');
+                localStorage.setItem('pic', globalObj.userDB.pic ?? 'badToken');
+                //localStorage.setItem('username', globalObj.u_value ?? 'badToken');
                 localStorage.setItem('acc_name', globalObj.loginForm.value.acc_name ?? 'badToken'); 
                 globalObj.loginForm.reset();
                 //this.router.navigate([this.returnUrl]);
                 setTimeout(() => {
                 globalObj.router.navigate(['/tweeter']); //this is just (need to figure out a secure login)
-                }, 2000) // 0.5 secs
+                }, 1000) // 1 sec
               }
             else
               {
