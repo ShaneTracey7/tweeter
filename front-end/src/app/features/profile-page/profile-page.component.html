@@ -24,14 +24,14 @@
                 <!-- lower toolbar add here-->
                 <div id="profile-f-tab1" class="toolbar-tabs">
                   <div class="tab-container">
-                    <button (click)="service.routeToChild('followers')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(1)"> Followers</button>
+                    <button (click)="handleTabClick('followers')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(1)"> Followers</button>
                     <div class="tab-item" id="marker" [style]="service.displayMarker(1)"></div>
                   </div>
                 </div>
                 
                 <div id="profile-f-tab2" class="toolbar-tabs">
                   <div class="tab-container">
-                    <button (click)="service.routeToChild('following')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(2)"> Following</button>
+                    <button (click)="handleTabClick('following')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(2)"> Following</button>
                     <div class="tab-item" id="marker" [style]="service.displayMarker(2)"></div>
                   </div>
                 </div>

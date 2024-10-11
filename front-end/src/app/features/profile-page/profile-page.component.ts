@@ -51,6 +51,36 @@ export class ProfilePageComponent extends CoreComponent{
     this.service_page = "";
     this.backUrl = "";
   }
+
+  handleTabClick(str: string)
+  {
+    var url = "";
+    var arr = window.location.pathname.split("/");
+    let check = arr.pop()
+    if (check == str)
+    {
+      //do nothing already on that page
+    }
+    else
+    {
+      for (let i = 0; i < arr.length; i++) 
+        {
+          if(i == 0)
+          {
+            url = arr[i];
+          }
+          else
+          {
+            url = url + '/' + arr[i];
+          }
+        }  
+  
+      url = url + '/' + str;
+      this.service.routeToChild(str);
+      this.router.navigate([url]);
+    }
+    
+  }
   /*
     //will need to change checks for arr count for github pages upload
     var arr = window.location.pathname.split("/");
