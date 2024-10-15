@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CoreComponent } from '../../core/core.component';
 import { CoreService } from '../../core/core-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import {Profile, elon} from '../../core/data'
+import {Post, Profile, elon} from '../../core/data'
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../core/auth.service';
 @Component({
@@ -32,14 +32,29 @@ export class ProfilePageComponent extends CoreComponent{
   DBFollowing: any [] = []; //raw array of User following from DB
   following: Profile [] = [] //array of Profile objs of following
 
+  /* posts NOT BEING UPDATED*/
+  DBPosts: any [] = []; //raw array of Tweets following from DB
+  posts: Post [] = [] //array of Post objs of following
+
+  DBLikes: any [] = []; //raw array of Tweets following from DB
+  likes: Post [] = [] //array of Post objs of following
+
+  DBRetweets: any [] = []; //raw array of Tweets following from DB
+  retweets: Post [] = [] //array of Post objs of following
+
+
+
+
+  
+
   //needed to ensure when logging into a different account, correct data displays
   service_acc_name: string;
   service_username: string;
   service_page: string; //needed to change current_page
 
-  backUrl: string;
+  backUrl: string; //url needed to go back to profile page from followers/following view
 
-  //core_service: CoreService;
+
 
   constructor(private router: Router,private http: HttpClient,authService: AuthService, route: ActivatedRoute, service2: CoreService) {
     super(authService,route,service2);
@@ -81,39 +96,6 @@ export class ProfilePageComponent extends CoreComponent{
     }
     
   }
-  /*
-    //will need to change checks for arr count for github pages upload
-    var arr = window.location.pathname.split("/");
-    var arr2 = window.location.pathname.split("/");
-    if (arr2.length > 5) //error
-    {
-      this.router.navigate(['/Login']);  
-        //redirect to 404 page
-
-    }
-    console.log("url" + arr);
-    this.tmp = arr.pop()??"error";
-    if (this.tmp == "Profile")
-      {
-        this.acc_name = this.service.acc_name; //might phase this out
-        this.setUpProfileDataDB();//this.checkUserInDB(); //to get user data
-         //testing
-      }
-     else if (this.tmp == "followers" || this.tmp == "followers")
-     {
-
-     }
-    else
-      {
-        this.service.setCurrentPage('OtherProfile');
-        this.acc_name = this.tmp; //might phase this out
-        this.setUpProfileDataDB();//this.checkUserInDB(); //didn't work properly
-
-      }
-      console.log(this.acc_name); 
-      console.log("url arr:" + arr + "length: " + arr.length);
-      console.log("url arr2:" + arr2 + "length: " + arr2.length);
-      */
   
   setBackUrl(arr: any [])
   {
@@ -150,7 +132,7 @@ export class ProfilePageComponent extends CoreComponent{
     {
       this.router.navigate(['tweeter/Error']);
     } 
-    else if (arr2.length > 4 && this.last_url_section != 'following' && this.last_url_section != 'follower')
+    else if (arr2.length > 4 && this.last_url_section != 'following' && this.last_url_section != 'followers')
     {
       this.router.navigate(['tweeter/Error']);
     }
@@ -162,6 +144,7 @@ export class ProfilePageComponent extends CoreComponent{
         this.acc_name = this.service_acc_name; //might phase this out
         this.username = this.service_username;
         this.setUpProfileDataDB();//this.checkUserInDB(); //to get user data
+        this.arrs = [this.posts,this.retweets,this.likes];
         //testing
       }
     else if (this.last_url_section == "followers" || this.last_url_section == "following")
@@ -213,6 +196,7 @@ export class ProfilePageComponent extends CoreComponent{
         this.service.setCurrentPage('OtherProfile');
         this.acc_name = this.last_url_section; //might phase this out
         this.setUpProfileDataDB();//this.checkUserInDB(); //didn't work properly
+        this.arrs = [this.posts,this.retweets,this.likes];
     }
     console.log(this.acc_name); 
     console.log("url arr:" + arr + "length: " + arr.length);
@@ -311,6 +295,7 @@ export class ProfilePageComponent extends CoreComponent{
   {
     if(!this.isValid)
       {
+        console.log("invalid (getPosts)" );
         return;
       }
 
@@ -340,6 +325,44 @@ export class ProfilePageComponent extends CoreComponent{
           var fc_html = <HTMLElement>document.getElementById("ppfgc");
           fc_html.innerHTML = this.user.follow_count;
 
+        }
+    });
+  }
+
+  getPosts()
+  {
+    console.log("inside (getPosts)" );
+    if(!this.isValid)
+      {
+        console.log("invalid (getPosts)" );
+        return;
+      }
+    
+    let requestBody =
+    {
+      "word" : "getPosts",
+      "word2" : this.acc_name,
+    };
+
+    this.http.put("http://127.0.0.1:8000/tweet",requestBody).subscribe((resultData: any)=>
+    {
+      console.log("get posts result data: " + resultData[0].text_content);
+
+      if(resultData == 'Failed to Add')
+        {
+          console.log("failed to add (getPosts)" );
+        }
+      else if(resultData == 'No posts')
+        {
+          console.log("no posts (getPosts)" );
+        }
+      else
+        {
+          console.log("good (getPosts)" );
+          this.DBPosts = resultData;
+          console.log("DBPosts: " + this.DBPosts)
+          this.convertDBInfoPosts('posts');
+          console.log("posts: " + this.posts)
         }
     });
   }
@@ -384,6 +407,10 @@ export class ProfilePageComponent extends CoreComponent{
     this.user.follow_count == String(this.DBFollowing.length);
   }
 
+  setArrs()
+  {
+    this.arrs = [this.posts,this.retweets,this.likes];
+  }
 
   showFollowerList()
   {
@@ -444,7 +471,7 @@ export class ProfilePageComponent extends CoreComponent{
           }, 8000) // 5 secs
 
           setTimeout(() => {
-            globalObj.getFollowers();
+            globalObj.getPosts();
             resolve('we got a response');
           }, 500) // 0.5 secs
 
@@ -456,9 +483,21 @@ export class ProfilePageComponent extends CoreComponent{
           }, 8000) // 5 secs
 
           setTimeout(() => {
+            globalObj.getFollowers();
+            resolve('we got a response');
+          }, 1000) // 0.5 secs
+
+        })
+
+        const postPromise4 = new Promise<any>(function (resolve, reject) {
+          setTimeout(() => {
+            reject("We didn't get a response")
+          }, 8000) // 5 secs
+
+          setTimeout(() => {
             globalObj.getFollowing();
             resolve('we got a response');
-          }, 1000) // 1 secs
+          }, 1500) // 1 secs
 
         })
 
@@ -470,7 +509,7 @@ export class ProfilePageComponent extends CoreComponent{
           setTimeout(() => {
             globalObj.isFollowing();
             resolve('we got a response');
-          }, 1500) // 1.5 secs
+          }, 2000) // 1.5 secs
 
         })
 
@@ -482,7 +521,7 @@ export class ProfilePageComponent extends CoreComponent{
           setTimeout(() => {
             globalObj.getFollowerCount();
             resolve('we got a response');
-          }, 2000) // 2 secs
+          }, 2500) // 2 secs
 
         })
 
@@ -494,7 +533,7 @@ export class ProfilePageComponent extends CoreComponent{
           setTimeout(() => {
             globalObj.getFollowingCount();
             resolve('we got a response');
-          }, 2500) // 2 secs
+          }, 3000) // 2 secs
 
         })
 
@@ -504,6 +543,7 @@ export class ProfilePageComponent extends CoreComponent{
             postPromise1;
             postPromise2;
             postPromise3;
+            postPromise4;
             await checkPromise1;
             await checkPromise2;
             await checkPromise3;
@@ -553,13 +593,65 @@ convertDBInfo(arr_type: string)
       this.followers.push(u);
     }
     //console.log("testing: "+this.DBFollowers[0].follower); //test
-  }
-
-  
-
-  
-    
+  }  
 }
+/*
+    profile: string; //url
+    username: string;
+    acc_name: string; 
+    //e_time: string; 
+    e_time: Date;
+    text: string;
+    image: string; //url
+    comments: string;
+    retweets: string;
+    likes: string;
+    views: string;
+
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date_created = models.DateTimeField()
+    text_content = models.CharField(max_length = 280)
+    image_content = models.CharField(max_length = 35) #url to image (can alos look into ImageField)
+    likes = models.IntegerField()
+    comments = models.IntegerField() # may not need this one
+    retweets = models.IntegerField()
+    engagements = models.IntegerField()
+
+*/
+ //either 'posts' or 'retweets' or 'likes'
+ convertDBInfoPosts(arr_type: string)
+ {   
+   if( arr_type == 'posts' && this.DBPosts.length > 0)
+   {
+     for (let i = 0; i < this.DBPosts.length;i++) {
+       let post = this.DBPosts[i];
+       var p = new Post('url','username','acc_name', post.date_created, post.text_content, "url", post.comments, post.retweets, post.likes, post.engagements); //need to find where to keep bio, and counts in db
+       this.posts.push(p);
+     }
+   }
+   if( arr_type == 'retweets' && this.DBRetweets.length > 0)
+   {
+     for (let i = 0; i < this.DBRetweets.length;i++) {
+       let post = this.DBRetweets[i];
+       var p = new Post('url','username','acc_name', post.e_time, post.text_content, "url", post.comments, post.retweets, post.likes, post.engagements); //need to find where to keep bio, and counts in db
+       this.retweets.push(p);
+     }
+   }
+   if( arr_type == 'likes' && this.DBLikes.length > 0)
+    {
+      for (let i = 0; i < this.DBLikes.length;i++) {
+        let post = this.DBLikes[i];
+        var p = new Post('url','username','acc_name', post.e_time, post.text_content, "url", post.comments, post.retweets, post.likes, post.engagements); //need to find where to keep bio, and counts in db
+        this.likes.push(p);
+      }
+    }
+ 
+   
+ 
+   
+     
+ }
 /*
   profileExists()
   {

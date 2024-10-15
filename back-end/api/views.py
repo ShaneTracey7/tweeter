@@ -53,23 +53,6 @@ def tweetApi(request,id=id):
             image_content = message_serializer.data['word3']
             date = datetime.datetime.now() #message_serializer.data['date']
 
-            tweetBody = {
-                "user": user,
-                "date_created": date,
-                "text_content": text_content,
-                "image_content": image_content,
-                "likes":0,
-                "comments":0,
-                "retweets":0,
-                "engagements":0,
-            }
-
-            # convert into JSON:    
-            #js = json.dumps(tweetBody)
-#            tweet_data = JSONParser().parse(js)
-#            tweet_serializer = TweetSerializer(data=tweet_data)
-#           tweet = Tweet(user,text_content, image_content, date,0,0,0,0)
-
             tweet = Tweet.create(user,date,text_content,image_content,0,0,0,0)
             
             print(tweet)
@@ -88,13 +71,25 @@ def tweetApi(request,id=id):
 
         message_serializer = MessageSerializer(data=message_data)
         if message_serializer.is_valid():
+            check = message_serializer.data['word']
+            acc_name_input = message_serializer.data['word2']
             #return JsonResponse("ok",safe=False)
             user_id = message_serializer.data['num']
-            user = User.objects.get(id=user_id)
-            #tweet = Tweet.objects.get(id=user_id)
-            #tweet_user = tweet.user
-            user_serializer = UserSerializer(user,many=False)
-            return JsonResponse(user_serializer.data,safe=False)
+            if check == 'getPosts':
+                #get all tweets that user tweeted
+                user = User.objects.get(acc_name=acc_name_input)
+                tweet = Tweet.objects.filter(user=user)
+                if tweet.exists():
+                    tweet_serializer = TweetSerializer(tweet,many=True)
+                    return JsonResponse(tweet_serializer.data,safe=False)
+                else:
+                    return JsonResponse("No posts",safe=False)
+            else:
+                user = User.objects.get(id=user_id)
+                #tweet = Tweet.objects.get(id=user_id)
+                #tweet_user = tweet.user
+                user_serializer = UserSerializer(user,many=False)
+                return JsonResponse(user_serializer.data,safe=False)
         else:
             return JsonResponse("Failed to Add",safe=False)
 

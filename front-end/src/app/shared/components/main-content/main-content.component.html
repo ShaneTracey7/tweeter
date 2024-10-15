@@ -118,6 +118,7 @@
     [convo]="convo">
   </app-message>
 </div>
+
 <div *ngIf="page == 'Profile' || page == 'OtherProfile'">
   <div [ngSwitch]="tab">
     
@@ -137,14 +138,14 @@
 
     <div *ngSwitchCase="'likes'">
       <app-post
-      *ngFor="let post of followingFeed"
+      *ngFor="let post of forYouFeed"
       [post]="post">
       </app-post>
     </div>
 
     <div *ngSwitchDefault> <!-- posts-->
       <app-post
-      *ngFor="let post of forYouFeed"
+      *ngFor="let post of data[0]"
       [post]="post">
       </app-post>
     </div>
