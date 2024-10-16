@@ -13,12 +13,61 @@ import { MainContentComponent } from '../../../shared/components/main-content/ma
 })
 export class PostComponent extends HomePageComponent{
 
-@Input () post = new Post('','','',new Date,'','',0,0,0,0);
+@Input () post = new Post(0,'','','',new Date,'','',0,0,0,0);
 @Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService,this.service,this.authService,this.route);
 show_modal: boolean = false;
 modal_profile = new Profile('','','','',0,0);
 timer:any;
+liked: boolean = false;
+retweeted: boolean = false;
 
+override ngOnInit(): void {
+  //check if liked or retweeted
+  this.checkLiked()
+}
+
+//ideally don't want to make a call to database for each of post
+//maybe call an get a one-time array of logged in user's likes and retweets and check within those
+checkLiked()
+{
+
+}
+//called upon click of like button
+handleLike()
+{ 
+  if (!this.liked) // not liked 
+  {
+    //change like icon to a filled in red heart
+    this.liked = true;
+
+    //increment post 'like' value in class 
+    this.post.likes = this.post.likes + 1;
+
+    //add like to DB & update 'like' column of 'tweet' in DB
+    let requestBody =
+    {
+      "word" : this.service_acc_name,
+      "num" : this.post.id, //tweet id
+    };
+
+    this.http.post("http://127.0.0.1:8000/like",requestBody).subscribe((resultData: any)=>
+    {
+        //console.log(resultData);
+    
+        if(resultData == "Added Successfully")
+        {
+          console.log(resultData);
+        }
+      else // "Failed to Add"
+        {
+          console.log(resultData);
+        }
+    });
+  }
+
+   //add 'like' notitication to DB
+
+}
 
 
 showDeltaDate()
@@ -83,6 +132,21 @@ showModal(post: Post, obj:PostComponent)
   }
 
 
+  dynamicStylingHeart()
+  {
+    if (this.liked)
+    {
+      return{
+        fontWeight: 'normal'
+      }
+    }
+    else
+    {
+      return{
+        color: ''
+      }
+    }
+  }
 /*
 showModal(username: string)
   {
@@ -96,6 +160,29 @@ hideModal()
     this.show_modal = false;
   }
 */
+colorReactionBarHeart(str: string) {
+
+  if (this.reaction == str) {
+    return this.service.setUrl(str + "-color.png");
+  }
+  else if(this.liked)
+  {
+    return this.service.setUrl(str + "-color-fill.png");
+  }
+  else{
+    return this.service.setUrl(str + ".png");
+  }
+}
+colorReactionBarIcon(str: string) {
+
+  if (this.reaction == str) {
+    return this.service.setUrl(str + "-color.png");
+  }
+  else{
+    return this.service.setUrl(str + ".png");
+  }
+}
+
 colorReaction(str: string)
   {
    this.reaction = str;

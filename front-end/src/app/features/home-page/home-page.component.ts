@@ -17,18 +17,24 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class HomePageComponent extends CoreComponent{
   
+  //needed to ensure when logging into a different account, correct data displays
+  service_acc_name: string;
+  
   submit_flag: number  = 0; // 0: not pressed, 1: pressed but not submitted, 2: pressed and submitted
   pic: string;
-constructor(authService: AuthService, route: ActivatedRoute, service: CoreService,private http: HttpClient, public tweetService: TweetService, private formBuilder: FormBuilder )
+  reaction: string = "";
+constructor(authService: AuthService, route: ActivatedRoute, service: CoreService,public http: HttpClient, public tweetService: TweetService, private formBuilder: FormBuilder )
 {
   super(authService,route,service);
   this.pic = "";
+  this.service_acc_name = "";
 }
 
 
 ngOnInit()
 {
   this.pic = localStorage.getItem('pic') ?? "badToken";
+  this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";
 }
 
 
@@ -52,7 +58,7 @@ tweetForm = this.formBuilder.group({
       }
   }
 
-  reaction: string = "";
+  
 
   getTweetService()
   {
@@ -120,7 +126,8 @@ tweetForm = this.formBuilder.group({
   } 
   */
 
-  colorReactionBarIcon(str: string) {
+  //using function from post instead
+  colorReactionBarIcon2(str: string) {
 
     if (this.reaction == str) {
       return this.service.setUrl(str + "-color.png");

@@ -56,6 +56,21 @@ class Tweet(models.Model):
     def __str__(self):
         return f"{self.user} {self.date_created} {self.text_content} {self.image_content} {self.likes} {self.comments} {self.retweets} {self.engagements}"
 
+#keeps track of followers/following for entire web app
+class Like(models.Model):
+    tweet = models.ForeignKey(Tweet, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    
+    @classmethod
+    def create(cls,tweet,user):
+        like = cls(tweet=tweet,user=user)
+        return like
+        
+    def __str__(self):
+        return f"{self.id} {self.tweet} {self.user}"
+
+
+
 #was able to get user from tweet, aka convo from message
 #class Convo(models.Model):
 #    user1 = models.ForeignKey(User, on_delete=models.CASCADE)

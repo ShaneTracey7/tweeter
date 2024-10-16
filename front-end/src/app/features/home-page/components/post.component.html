@@ -42,8 +42,8 @@
                 </div>
                 <div class="reactiongroup">
                     <button class="reaction-button" (mouseover)="colorReaction('heart')" (mouseout)="grayReaction()">
-                        <div class="icon-container" [style]="colorReactionBarBG('heart')">
-                            <img class="reactionbaricons" [src]="colorReactionBarIcon('heart')" alt="like"/>
+                        <div (click)="handleLike()" class="icon-container" [style]="colorReactionBarBG('heart')">
+                            <img class="reactionbaricons" [src]="colorReactionBarHeart('heart')" alt="like"/>
                         </div>
                         <h3 class="reactionbarvalues" [style]="colorReactionBarText('heart')"> {{ post.likes }} </h3>
                     </button>

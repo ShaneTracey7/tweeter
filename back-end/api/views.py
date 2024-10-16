@@ -2,8 +2,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
-from api.serializers import StudentSerializer, UserSerializer, TweetSerializer, MessageSerializer, FollowSerializer
-from api.models import Student, User, Tweet, Message, Follow
+from api.serializers import StudentSerializer, UserSerializer, TweetSerializer, MessageSerializer, FollowSerializer, LikeSerializer
+from api.models import Student, User, Tweet, Message, Follow, Like
 from rest_framework.renderers import JSONRenderer
 import json
 import datetime
@@ -112,6 +112,67 @@ def tweetApi(request,id=id):
         tweet.delete()
         return JsonResponse("Deleted Successfully",safe=False)
 
+@csrf_exempt
+def likeApi(request,id=id):
+
+    if request.method =='GET':
+        like = Like.objects.all()
+        like_serializer = LikeSerializer(like,many=True)
+        return JsonResponse(like_serializer.data,safe=False)
+
+    elif request.method =='POST':
+
+        #retrieve message from front end
+        message_data = JSONParser().parse(request)
+        # serialize message
+        message_serializer = MessageSerializer(data=message_data)
+        if message_serializer.is_valid():
+
+            #have to get user from front-end
+            acc_name_input = message_serializer.data['word']
+            user = User.objects.get(acc_name=acc_name_input)
+
+            #have to get tweet id from front-end
+            tweet_id = message_serializer.data['num']
+            tweet = Tweet.objects.get(id=tweet_id)
+            tweet.likes = tweet.likes + 1 #incrementing like count of tweet
+            tweet.save()
+
+            like = Like.create(tweet,user)
+            print(like)
+            like.save()
+            return JsonResponse("Added Successfully",safe=False)
+        else: 
+            return JsonResponse("Failed to Add",safe=False)
+
+    elif request.method =='PUT': 
+        message_data = JSONParser().parse(request)
+        message_serializer = MessageSerializer(data=message_data)
+        if message_serializer.is_valid():
+            check = message_serializer.data['word']
+            acc_name_input = message_serializer.data['word2']
+            if check == 'getLikes':
+                #get all tweets that user tweeted
+                user = User.objects.get(acc_name=acc_name_input)
+                likes = Like.objects.filter(user=user)
+                tweets = []
+                for like in likes:
+                    tweets.append(like.tweet)
+                if likes.exists():
+                    #return only an array of tweets
+                    tweet_serializer = TweetSerializer(tweets,many=True)
+                    return JsonResponse(tweet_serializer.data,safe=False)
+                else:
+                    return JsonResponse("No likes",safe=False)
+            else:
+                return JsonResponse('not getLikes',safe=False)
+        else:
+            return JsonResponse("Failed to Add",safe=False)
+
+    elif request.method =='DELETE':
+        like = Like.objects.get(id=id)
+        like.delete()
+        return JsonResponse("Deleted Successfully",safe=False)
 
 
 @csrf_exempt

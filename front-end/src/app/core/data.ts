@@ -22,6 +22,7 @@ export function getImgUrl(str:string)
 export var elon: string = getImgUrl('elon.jpeg');
 
 export class Post {
+    id: number; //needed for accessing db tweets(posts)
     profile: string; //url
     username: string;
     acc_name: string; 
@@ -34,7 +35,8 @@ export class Post {
     likes: string;
     views: string;
 
-    constructor(p: string,u: string,a: string,e: Date,t: string,i: string,c: number,r: number,l: number,v: number) {
+    constructor(id: number, p: string,u: string,a: string,e: Date,t: string,i: string,c: number,r: number,l: number,v: number) {
+        this.id = id;
         this.profile = p;
         this.username = u;
         this.acc_name = a;

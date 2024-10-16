@@ -48,8 +48,6 @@ export class ProfilePageComponent extends CoreComponent{
 
 
 
-  
-
   //needed to ensure when logging into a different account, correct data displays
   service_acc_name: string;
   service_username: string;
@@ -637,7 +635,7 @@ convertDBInfo(arr_type: string)
    {
      for (let i = 0; i < this.DBPosts.length;i++) {
        let post = this.DBPosts[i];
-       var p = new Post(this.user.pic,this.user.username,this.user.acc_name, post.date_created, post.text_content, "", post.comments, post.retweets, post.likes, post.engagements); //need to find where to keep bio, and counts in db
+       var p = new Post(post.id,this.user.pic,this.user.username,this.user.acc_name, post.date_created, post.text_content, "", post.comments, post.retweets, post.likes, post.engagements); //need to find where to keep bio, and counts in db
        this.posts.push(p);
      }
    }
@@ -645,7 +643,7 @@ convertDBInfo(arr_type: string)
    {
      for (let i = 0; i < this.DBRetweets.length;i++) {
        let post = this.DBRetweets[i];
-       var p = new Post('url','username','acc_name', post.e_time, post.text_content, "url", post.comments, post.retweets, post.likes, post.engagements); //need to find where to keep bio, and counts in db
+       var p = new Post(post.id,'url','username','acc_name', post.e_time, post.text_content, "url", post.comments, post.retweets, post.likes, post.engagements); //need to find where to keep bio, and counts in db
        this.retweets.push(p);
      }
    }
@@ -653,7 +651,7 @@ convertDBInfo(arr_type: string)
     {
       for (let i = 0; i < this.DBLikes.length;i++) {
         let post = this.DBLikes[i];
-        var p = new Post('url','username','acc_name', post.e_time, post.text_content, "url", post.comments, post.retweets, post.likes, post.engagements); //need to find where to keep bio, and counts in db
+        var p = new Post(post.id,'url','username','acc_name', post.e_time, post.text_content, "url", post.comments, post.retweets, post.likes, post.engagements); //need to find where to keep bio, and counts in db
         this.likes.push(p);
       }
     }

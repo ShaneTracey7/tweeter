@@ -154,9 +154,10 @@ convertForYouFeed()
 {   
 
     this.DBfeed.forEach((tweet,index) => {
-            
+      
+        //console.log("tweet id: " + tweet.id)
       //need to use 'this.DBfeed[index].image_content' when i figure out how to upload images
-        var p = new Post(this.UserFeed[index].pic, this.UserFeed[index].username, this.UserFeed[index].acc_name,this.DBfeed[index].date_created, this.DBfeed[index].text_content, '', this.DBfeed[index].comments.toString(), this.DBfeed[index].retweets.toString(), this.DBfeed[index].likes.toString(), this.DBfeed[index].engagements.toString()); 
+        var p = new Post(tweet.id,this.UserFeed[index].pic, this.UserFeed[index].username, this.UserFeed[index].acc_name,this.DBfeed[index].date_created, this.DBfeed[index].text_content, '', this.DBfeed[index].comments.toString(), this.DBfeed[index].retweets.toString(), this.DBfeed[index].likes.toString(), this.DBfeed[index].engagements.toString()); 
         this.FEfeed.push(p);       
     });
 }
