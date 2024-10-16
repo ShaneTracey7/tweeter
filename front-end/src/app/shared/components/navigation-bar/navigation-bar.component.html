@@ -6,36 +6,36 @@
     <!-- Links -->
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a (click)="service.setCurrentPage('Home')" id="tweeter-navbar" class="nav-link" routerLink="/tweeter/Home">
+        <a (click)="handleNavigation('Home','foryou')" id="tweeter-navbar" class="nav-link" routerLink="/tweeter/Home">
             <img id="tnb" class="navbaricons" [src]="service.setUrl('tweeter-logo-blue.png')" alt="Logo"/>
         </a>
       </li>
       <li class="nav-item">
-        <a (click)="service.setCurrentPage('Home')" class="nav-link" routerLink="/tweeter/Home">
+        <a (click)="handleNavigation('Home','foryou')" class="nav-link" routerLink="/tweeter/Home">
           <img class="navbaricons" [src]="service.setUrl(service.boldNavbarIcon('house'))" alt="Home"/>
           <p class="navbartext" [style]="service.boldNavbarItem('Home')"> Home </p>          
         </a>
       </li>
       <li class="nav-item">
-        <a (click)="service.setCurrentPage('Explore')" class="nav-link" routerLink="/tweeter/Explore"> 
+        <a (click)="handleNavigation('Explore','foryou')" class="nav-link" routerLink="/tweeter/Explore"> 
             <img class="navbaricons" [src]="service.setUrl(service.boldNavbarIcon('magnifier'))" alt="Search"/>
             <p class="navbartext" [style]="service.boldNavbarItem('Explore')"> Explore </p>
         </a>
       </li>
       <li class="nav-item">
-        <a (click)="service.setCurrentPage('Notifications')" class="nav-link" routerLink="/tweeter/Notifications">
+        <a (click)="handleNavigation('Notifications','all')" class="nav-link" routerLink="/tweeter/Notifications">
             <img class="navbaricons"  [src]="service.setUrl(service.boldNavbarIcon('bell'))" alt="Notifications"/>
             <p class="navbartext" [style]="service.boldNavbarItem('Notifications')"> Notifications </p>
         </a>
       </li>
       <li class="nav-item">
-        <a (click)="service.setCurrentPage('Messages')" class="nav-link" routerLink="/tweeter/Messages">
+        <a (click)="handleNavigation('Messages','')" class="nav-link" routerLink="/tweeter/Messages">
             <img class="navbaricons" [src]="service.setUrl(service.boldNavbarIcon('envelope'))" alt="Messages"/>
             <p class="navbartext" [style]="service.boldNavbarItem('Messages')"> Messages </p>
         </a>
       </li>
       <li class="nav-item">
-        <a (click)="service.setCurrentPage('Profile')" class="nav-link" routerLink="/tweeter/Profile">
+        <a (click)="handleNavigation('Profile','posts')" class="nav-link" routerLink="/tweeter/Profile">
           <img class="navbaricons" [src]="service.setUrl(service.boldNavbarIcon('user'))" alt="User"/> <!--user.svg-->
           <p class="navbartext" [style]="service.boldNavbarItem('Profile')"style="font-weight: normal;"> Profile </p>
         </a>
@@ -47,7 +47,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a (click)="service.setCurrentPage('Home')" id="post-navlink" class="nav-link" routerLink="/tweeter/Home">
+        <a (click)="handleNavigation('Home','foryou')" id="post-navlink" class="nav-link" routerLink="/tweeter/Home">
             <img id="write-tweet" [src]="service.setUrl('write-tweet.png')" alt="Post"/>
             <button id="navbarpost"> Post </button>
         </a>

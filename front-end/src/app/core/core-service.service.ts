@@ -114,7 +114,7 @@ routeToChild(str: string){
         this.marker4= false; 
         this.marker5= false; 
       }
-    else if(str == "following" || str == "trending" || str == "verified" || str == "replies")
+    else if(str == "following" || str == "trending" || str == "verified" || str == "retweets")//|| str == "replies")
       {
         this.marker1= false; 
         this.marker2= true;

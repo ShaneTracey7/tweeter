@@ -34,6 +34,12 @@ export class NavigationBarComponent{
     console.log("username is: " + this.username);  
   } 
 
+  handleNavigation(page: string, tab: string)
+  {
+    this.service.setCurrentPage(page);
+    this.service.routeToChild(tab);
+  }
+
   showModal()
   {
     this.show = true;

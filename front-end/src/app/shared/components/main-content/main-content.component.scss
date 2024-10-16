@@ -1,0 +1,27 @@
+$bg-color-hover-main: rgba(0, 0, 0, 0.030);
+$bg-color-hover-nav-tool-bar: rgba(0, 0, 0, 0.090);
+$twitter-blue: #1DA1F2;
+$gray: rgb(97, 110, 124);
+
+.profile-empty-list{
+    display: flex;
+    flex-direction: column;
+    color: $gray;
+    font-size: 1rem;
+    width:fit-content;
+    max-width: 70%;
+    margin-top: 50px;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.profile-empty-list-title{
+    font-size: 2rem;
+    font-weight: bold;
+    color: black;
+    text-align: center;
+}
+.profile-empty-list-body{
+    margin: auto;
+}

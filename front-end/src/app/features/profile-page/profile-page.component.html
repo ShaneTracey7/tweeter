@@ -121,7 +121,7 @@
 
     <div *ngIf="inFollowLists; else inProfile2">
       <!-- main content add here-->
-      <main-content [data]=arrs [page]=service_page [tab]=service.current_tab></main-content>
+      <main-content [user]=user [data]=arrs [page]=service_page [tab]=service.current_tab></main-content>
     </div>
 
   <ng-template #inProfile2>
@@ -138,7 +138,7 @@
   
         <div id="profile-tab2" class="toolbar-tabs">
             <div class="tab-container">
-              <button (click)="service.routeToChild('replies')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(2)"> Replies</button>
+              <button (click)="service.routeToChild('retweets')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(2)"> Retweets</button>
               <div class="tab-item" id="marker" [style]="service.displayMarker(2)"></div>
             </div>
         </div>
@@ -162,7 +162,7 @@
     <!--</div> -->
 
 <!-- main content add here-->
-<main-content [page]=service.current_page [tab]=service.current_tab></main-content>
+<main-content [user]=user [data]=arrs [page]=service.current_page [tab]=service.current_tab></main-content>
 <!--
     {% for notification in notifications %}
         {% include "notification.html" with obj=notification  %}

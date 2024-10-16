@@ -42,6 +42,9 @@ export class ProfilePageComponent extends CoreComponent{
   DBRetweets: any [] = []; //raw array of Tweets following from DB
   retweets: Post [] = [] //array of Post objs of following
 
+  DBMedia: any [] = []; //raw array of Tweets following from DB
+  media: Post [] = [] //array of Post objs of following
+
 
 
 
@@ -144,7 +147,7 @@ export class ProfilePageComponent extends CoreComponent{
         this.acc_name = this.service_acc_name; //might phase this out
         this.username = this.service_username;
         this.setUpProfileDataDB();//this.checkUserInDB(); //to get user data
-        this.arrs = [this.posts,this.retweets,this.likes];
+        this.arrs = [this.posts,this.retweets,this.likes, this.media];
         //testing
       }
     else if (this.last_url_section == "followers" || this.last_url_section == "following")
@@ -196,7 +199,7 @@ export class ProfilePageComponent extends CoreComponent{
         this.service.setCurrentPage('OtherProfile');
         this.acc_name = this.last_url_section; //might phase this out
         this.setUpProfileDataDB();//this.checkUserInDB(); //didn't work properly
-        this.arrs = [this.posts,this.retweets,this.likes];
+        this.arrs = [this.posts,this.retweets,this.likes, this.media];
     }
     console.log(this.acc_name); 
     console.log("url arr:" + arr + "length: " + arr.length);
@@ -407,11 +410,6 @@ export class ProfilePageComponent extends CoreComponent{
     this.user.follow_count == String(this.DBFollowing.length);
   }
 
-  setArrs()
-  {
-    this.arrs = [this.posts,this.retweets,this.likes];
-  }
-
   showFollowerList()
   {
     console.log('follower button pressed');
@@ -476,18 +474,18 @@ export class ProfilePageComponent extends CoreComponent{
           }, 500) // 0.5 secs
 
         })
-
+        /*
         const postPromise3 = new Promise<any>(function (resolve, reject) {
           setTimeout(() => {
             reject("We didn't get a response")
           }, 8000) // 5 secs
 
           setTimeout(() => {
-            globalObj.getFollowers();
+            globalObj.setArrs();
             resolve('we got a response');
           }, 1000) // 0.5 secs
 
-        })
+        })*/
 
         const postPromise4 = new Promise<any>(function (resolve, reject) {
           setTimeout(() => {
@@ -495,9 +493,21 @@ export class ProfilePageComponent extends CoreComponent{
           }, 8000) // 5 secs
 
           setTimeout(() => {
+            globalObj.getFollowers();
+            resolve('we got a response');
+          }, 1500) // 0.5 secs
+
+        })
+
+        const postPromise5 = new Promise<any>(function (resolve, reject) {
+          setTimeout(() => {
+            reject("We didn't get a response")
+          }, 8000) // 5 secs
+
+          setTimeout(() => {
             globalObj.getFollowing();
             resolve('we got a response');
-          }, 1500) // 1 secs
+          }, 2000) // 1 secs
 
         })
 
@@ -509,7 +519,7 @@ export class ProfilePageComponent extends CoreComponent{
           setTimeout(() => {
             globalObj.isFollowing();
             resolve('we got a response');
-          }, 2000) // 1.5 secs
+          }, 2500) // 1.5 secs
 
         })
 
@@ -521,7 +531,7 @@ export class ProfilePageComponent extends CoreComponent{
           setTimeout(() => {
             globalObj.getFollowerCount();
             resolve('we got a response');
-          }, 2500) // 2 secs
+          }, 3000) // 2 secs
 
         })
 
@@ -533,7 +543,7 @@ export class ProfilePageComponent extends CoreComponent{
           setTimeout(() => {
             globalObj.getFollowingCount();
             resolve('we got a response');
-          }, 3000) // 2 secs
+          }, 3500) // 2 secs
 
         })
 
@@ -542,8 +552,9 @@ export class ProfilePageComponent extends CoreComponent{
           try{
             postPromise1;
             postPromise2;
-            postPromise3;
+            //postPromise3;
             postPromise4;
+            postPromise5;
             await checkPromise1;
             await checkPromise2;
             await checkPromise3;
@@ -626,7 +637,7 @@ convertDBInfo(arr_type: string)
    {
      for (let i = 0; i < this.DBPosts.length;i++) {
        let post = this.DBPosts[i];
-       var p = new Post('url','username','acc_name', post.date_created, post.text_content, "url", post.comments, post.retweets, post.likes, post.engagements); //need to find where to keep bio, and counts in db
+       var p = new Post(this.user.pic,this.user.username,this.user.acc_name, post.date_created, post.text_content, "", post.comments, post.retweets, post.likes, post.engagements); //need to find where to keep bio, and counts in db
        this.posts.push(p);
      }
    }

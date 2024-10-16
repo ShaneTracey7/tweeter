@@ -4,6 +4,18 @@ $bg-color-hover-nav-tool-bar: rgba(0, 0, 0, 0.090);
 $twitter-blue: #1DA1F2;
 $gray: rgb(97, 110, 124);
 
+.profile-empty-list{
+    display: flex;
+    flex-direction: column;
+    color: $gray;
+    font-size: 1rem;
+    width:fit-content;
+    margin-top: 50px;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 #profile-f-tab1, #profile-f-tab2{
     width:50%;
   }

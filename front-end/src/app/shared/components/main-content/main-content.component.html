@@ -121,33 +121,57 @@
 
 <div *ngIf="page == 'Profile' || page == 'OtherProfile'">
   <div [ngSwitch]="tab">
-    
-    <div *ngSwitchCase="'replies'">
-      <app-post
-      *ngFor="let post of followingFeed"
-      [post]="post">
-      </app-post>
+
+    <div *ngSwitchCase="'retweets'">
+      <div class="profile-empty-list" *ngIf="data[1] == ''; else notEmpty">
+        <p class="profile-empty-list-title"> &commat;{{user.acc_name}} hasn't retweeted any posts</p>
+        <p class="profile-empty-list-body">Once they do, those posts will show up here.</p>
+      </div>
+      <ng-template #notEmpty>
+        <app-post
+        *ngFor="let post of data[1]"
+        [post]="post">
+        </app-post>
+      </ng-template>
     </div>
 
     <div *ngSwitchCase="'media'">
-      <app-post
-      *ngFor="let post of followingFeed"
-      [post]="post">
-      </app-post>
+      <div class="profile-empty-list" *ngIf="data[3] == ''; else notEmpty2">
+        <p class="profile-empty-list-title"> &commat;{{user.acc_name}} hasn't posted media</p>
+        <p class="profile-empty-list-body">Once they do, those posts will show up here.</p>
+      </div>
+      <ng-template #notEmpty2>
+        <app-post
+        *ngFor="let post of data[3]"
+        [post]="post">
+        </app-post>
+      </ng-template>
     </div>
 
     <div *ngSwitchCase="'likes'">
-      <app-post
-      *ngFor="let post of forYouFeed"
-      [post]="post">
-      </app-post>
+      <div class="profile-empty-list" *ngIf="data[2] == ''; else notEmpty3">
+        <p class="profile-empty-list-title"> &commat;{{user.acc_name}} hasn't liked any posts</p>
+        <p class="profile-empty-list-body">Once they do, those posts will show up here.</p>
+      </div>
+      <ng-template #notEmpty3>
+        <app-post
+        *ngFor="let post of data[2]"
+        [post]="post">
+        </app-post>
+      </ng-template>
     </div>
 
     <div *ngSwitchDefault> <!-- posts-->
-      <app-post
-      *ngFor="let post of data[0]"
-      [post]="post">
-      </app-post>
+      <div class="profile-empty-list" *ngIf="data[0] == ''; else notEmpty4">
+        <p class="profile-empty-list-title"> &commat;{{user.acc_name}} hasn't posted</p>
+        <p class="profile-empty-list-body">Once they do, those posts will show up here.</p>
+      </div>
+      <ng-template #notEmpty4>
+        <app-post
+        *ngFor="let post of data[0]"
+        [post]="post">
+        </app-post>
+      </ng-template>
     </div>
 
   </div>

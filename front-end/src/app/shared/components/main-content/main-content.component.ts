@@ -10,11 +10,13 @@ import { ActivatedRoute } from '@angular/router';
   /*standalone: true,*/
   selector: 'main-content',
   templateUrl: './main-content.component.html',
+  styleUrl: './main-content.component.scss',
 })
 export class MainContentComponent {
 
   //testing
   @Input() data: any [] = []; //what tab is being displayed
+  @Input() user: Profile = new Profile('','','','',0,0);
 
   @Input() tab: string = ""; //what tab is being displayed
   @Input() page: string = ""; //what current_page is being displayed
