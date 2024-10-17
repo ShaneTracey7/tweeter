@@ -12,6 +12,8 @@ export class TweetService {
     FEfeed: Post [] = [];
     UserFeed: Profile [] = [];
 
+    DBlikes: number [] = []; //just stores tweet/post id's
+
     constructor( private http: HttpClient, private formBuilder: FormBuilder ) {
         this.createForYouFeed(); 
     }
@@ -49,6 +51,80 @@ tweetValidated(text_content:string,image_content: string)
         }
     }
 }
+
+
+getLikeIDs(ac:string)
+  {
+    let globalObj = this;
+
+        const postPromise = new Promise<any>(function (resolve, reject) {
+          setTimeout(() => {
+            reject("We didn't get a response")
+          }, 5000) // 5 secs
+
+          setTimeout(() => {
+            globalObj.getLikeIDsDB(ac);
+            resolve('we got a response');
+          }, 0) // 0 secs
+
+        })
+
+        const checkPromise = new Promise<any>(function (resolve, reject) {
+          setTimeout(() => {
+            reject("We didn't get a response")
+          }, 8000) // 5 secs
+
+          setTimeout(() => {
+            //arr = globalObj.DBlikes
+            resolve('we got a response');
+          }, 500) // 0 secs
+
+        })
+
+        async function myAsync(){
+          //console.log("inside myAsync");
+          try{
+            postPromise;
+            await checkPromise;
+          }
+          catch (error) {
+            console.error('Promise rejected with error: ' + error);
+          }
+          //console.log("end of myAsync");
+        }
+        
+        myAsync();
+  }
+
+
+//returns list of like id's
+getLikeIDsDB(ac:string)
+{
+  let requestMessage =
+    {
+      "word": 'getLikeIDs',
+      "word2": ac, 
+    }
+    
+  this.http.put("http://127.0.0.1:8000/like",requestMessage).subscribe((resultData: any)=>
+    {
+        //console.log(resultData);
+
+        if(resultData == 'Failed to Add' || resultData == 'No like ids')
+        {
+          console.log("Did not get ID's");
+          console.log(resultData);
+          this.DBlikes = [];
+        }
+        else //Successful
+        {
+          this.DBlikes = resultData;
+          console.log(this.DBlikes);
+        }
+    });
+  }
+
+
 
 //validates tweet and adds tweet to database
 postTweet(acc_name: string, text_content: string, image_content: string)

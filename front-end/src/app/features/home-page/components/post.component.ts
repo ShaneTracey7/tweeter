@@ -15,6 +15,8 @@ export class PostComponent extends HomePageComponent{
 
 @Input () post = new Post(0,'','','',new Date,'','',0,0,0,0);
 @Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService,this.service,this.authService,this.route);
+//@Input() hpc: HomePageComponent = new HomePageComponent(this.authService,this.route,this.service,this.http,this.tweetService,this.formBuilder)
+@Input() upc: any = '';
 show_modal: boolean = false;
 modal_profile = new Profile('','','','',0,0);
 timer:any;
@@ -23,15 +25,73 @@ retweeted: boolean = false;
 
 override ngOnInit(): void {
   //check if liked or retweeted
-  this.checkLiked()
+  //this.checkLiked()
+  this.setLiked2()
 }
 
 //ideally don't want to make a call to database for each of post
 //maybe call an get a one-time array of logged in user's likes and retweets and check within those
+checkLiked2()
+{
+  console.log("post dblikes:" + this.tweetService.DBlikes);
+  console.log("post like_ids:" + this.like_ids);
+ if(this.tweetService.DBlikes.includes(this.post.id)) //result from DB check or check through list of users likes
+ {
+  this.liked = true;
+  console.log("this.liked: " + this.liked);
+ }
+ else
+ {
+  this.liked = false;
+  console.log("this.liked: " + this.liked);
+ }
+}
+
+setLiked2()
+  {
+    let globalObj = this;
+
+        const postPromise = new Promise<any>(function (resolve, reject) {
+          setTimeout(() => {
+            reject("We didn't get a response")
+          }, 5000) // 5 secs
+
+          setTimeout(() => {
+            globalObj.checkLiked();
+            resolve('we got a response');
+          }, 300) // 0 secs
+
+        })
+        async function myAsync(){
+          //console.log("inside myAsync");
+          try{
+            postPromise;
+          }
+          catch (error) {
+            console.error('Promise rejected with error: ' + error);
+          }
+          //console.log("end of myAsync");
+        }
+        myAsync();
+  }
+
+
 checkLiked()
 {
-
+  console.log("post dblikes:" + this.tweetService.DBlikes);
+  console.log("post hpc like_ids:" + this.upc.like_ids);
+ if(this.upc.like_ids.includes(this.post.id)) //result from DB check or check through list of users likes
+ {
+  this.liked = true;
+  console.log("this.liked: " + this.liked);
+ }
+ else
+ {
+  this.liked = false;
+  console.log("this.liked: " + this.liked);
+ }
 }
+
 //called upon click of like button
 handleLike()
 { 
@@ -41,14 +101,16 @@ handleLike()
     this.liked = true;
 
     //increment post 'like' value in class 
-    this.post.likes = this.post.likes + 1;
+    this.post.likes = String(Number(this.post.likes) + 1);
 
     //add like to DB & update 'like' column of 'tweet' in DB
     let requestBody =
     {
-      "word" : this.service_acc_name,
+      "word" : this.upc.service_acc_name,
       "num" : this.post.id, //tweet id
     };
+    console.log("this.hpc.service_acc_name: " +this.upc.service_acc_name);
+    console.log("this.post.id: " + this.post.id);
 
     this.http.post("http://127.0.0.1:8000/like",requestBody).subscribe((resultData: any)=>
     {
@@ -131,22 +193,6 @@ showModal(post: Post, obj:PostComponent)
     clearTimeout(timer);
   }
 
-
-  dynamicStylingHeart()
-  {
-    if (this.liked)
-    {
-      return{
-        fontWeight: 'normal'
-      }
-    }
-    else
-    {
-      return{
-        color: ''
-      }
-    }
-  }
 /*
 showModal(username: string)
   {
@@ -162,14 +208,16 @@ hideModal()
 */
 colorReactionBarHeart(str: string) {
 
-  if (this.reaction == str) {
-    return this.service.setUrl(str + "-color.png");
-  }
-  else if(this.liked)
+  if(this.liked)
+    {
+      return this.service.setUrl(str + "-color-fill.png");
+    }
+  else if (this.reaction == str) 
+    {
+      return this.service.setUrl(str + "-color.png");
+    }
+  else
   {
-    return this.service.setUrl(str + "-color-fill.png");
-  }
-  else{
     return this.service.setUrl(str + ".png");
   }
 }
@@ -183,9 +231,9 @@ colorReactionBarIcon(str: string) {
   }
 }
 
-colorReaction(str: string)
+  colorReaction(str: string)
   {
-   this.reaction = str;
+    this.reaction = str;
   }
 
 grayReaction()

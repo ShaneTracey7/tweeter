@@ -23,20 +23,69 @@ export class HomePageComponent extends CoreComponent{
   submit_flag: number  = 0; // 0: not pressed, 1: pressed but not submitted, 2: pressed and submitted
   pic: string;
   reaction: string = "";
-constructor(authService: AuthService, route: ActivatedRoute, service: CoreService,public http: HttpClient, public tweetService: TweetService, private formBuilder: FormBuilder )
+  like_ids: number [];
+
+constructor(authService: AuthService, route: ActivatedRoute, service: CoreService,public http: HttpClient, public tweetService: TweetService, public formBuilder: FormBuilder )
 {
   super(authService,route,service);
   this.pic = "";
   this.service_acc_name = "";
+  this.like_ids = [];
 }
 
+//passed a hpc to post, so it's going off the correct instance
 
 ngOnInit()
 {
+  console.log("DBlikes: " + this.tweetService.DBlikes)
   this.pic = localStorage.getItem('pic') ?? "badToken";
   this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";
+  //this.tweetService.getLikeIDsDB(this.service_acc_name);
+  this.setLiked();
+  //console.log("HOMEPAGE INITIALIZED");
 }
 
+setLiked()
+  {
+    let globalObj = this;
+
+        const postPromise = new Promise<any>(function (resolve, reject) {
+          setTimeout(() => {
+            reject("We didn't get a response")
+          }, 5000) // 5 secs
+
+          setTimeout(() => {
+            globalObj.tweetService.getLikeIDsDB(globalObj.service_acc_name);
+            resolve('we got a response');
+          }, 0) // 0 secs
+
+        })
+        const checkPromise = new Promise<any>(function (resolve, reject) {
+          setTimeout(() => {
+            reject("We didn't get a response")
+          }, 5000) // 5 secs
+
+          setTimeout(() => {
+            globalObj.like_ids = globalObj.tweetService.DBlikes;
+            console.log("like_ids = " + globalObj.like_ids);
+            resolve('we got a response');
+          }, 200) // 0 secs
+
+        })
+
+        async function myAsync(){
+          //console.log("inside myAsync");
+          try{
+            postPromise;
+            await checkPromise;
+          }
+          catch (error) {
+            console.error('Promise rejected with error: ' + error);
+          }
+          //console.log("end of myAsync");
+        }
+        myAsync();
+  }
 
 tweetForm = this.formBuilder.group({
   text_content: ['', [Validators.maxLength(181)]],

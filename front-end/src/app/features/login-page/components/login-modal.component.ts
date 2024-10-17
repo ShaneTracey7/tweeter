@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 //import { ILogin } from 'src/app/interfaces/login';  
 import { AuthService } from '../../../core/auth.service'
+import { CoreService } from '../../../core/core-service.service';
 
 @Component({
 
@@ -28,7 +29,7 @@ submit_flag: number  = 0; // 0: not pressed, 1: pressed but not submitted, 2: pr
 goodLogin: boolean = false; 
 
 
-constructor(private formBuilder: FormBuilder, private http: HttpClient,private router:Router ) {}
+constructor(private formBuilder: FormBuilder, private http: HttpClient,private router:Router, public service: CoreService) {}
 
 loginForm = this.formBuilder.group({
   acc_name: ['', [Validators.required]],
@@ -137,6 +138,7 @@ loginForm = this.formBuilder.group({
                 globalObj.loginForm.reset();
                 //this.router.navigate([this.returnUrl]);
                 setTimeout(() => {
+                globalObj.service.routeToChild('foryou');
                 globalObj.router.navigate(['/tweeter']); //this is just (need to figure out a secure login)
                 }, 1000) // 1 sec
               }

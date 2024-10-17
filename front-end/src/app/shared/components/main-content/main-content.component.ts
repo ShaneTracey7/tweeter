@@ -14,6 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class MainContentComponent {
 
+  @Input() upc: any = ''; //universal page component
   //testing
   @Input() data: any [] = []; //what tab is being displayed
   @Input() user: Profile = new Profile('','','','',0,0);

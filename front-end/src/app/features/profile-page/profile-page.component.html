@@ -121,7 +121,7 @@
 
     <div *ngIf="inFollowLists; else inProfile2">
       <!-- main content add here-->
-      <main-content [user]=user [data]=arrs [page]=service_page [tab]=service.current_tab></main-content>
+      <main-content [upc]=this [user]=user [data]=arrs [page]=service_page [tab]=service.current_tab></main-content>
     </div>
 
   <ng-template #inProfile2>
@@ -162,7 +162,7 @@
     <!--</div> -->
 
 <!-- main content add here-->
-<main-content [user]=user [data]=arrs [page]=service.current_page [tab]=service.current_tab></main-content>
+<main-content [upc]=this [user]=user [data]=arrs [page]=service.current_page [tab]=service.current_tab></main-content>
 <!--
     {% for notification in notifications %}
         {% include "notification.html" with obj=notification  %}

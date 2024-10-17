@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {Post, Profile, elon} from '../../core/data'
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../core/auth.service';
+import { TweetService } from '../../core/tweet-service';
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
@@ -46,7 +47,7 @@ export class ProfilePageComponent extends CoreComponent{
   media: Post [] = [] //array of Post objs of following
 
 
-
+  like_ids: number [];
 
   //needed to ensure when logging into a different account, correct data displays
   service_acc_name: string;
@@ -57,7 +58,7 @@ export class ProfilePageComponent extends CoreComponent{
 
 
 
-  constructor(private router: Router,private http: HttpClient,authService: AuthService, route: ActivatedRoute, service2: CoreService) {
+  constructor(private router: Router,private http: HttpClient,authService: AuthService, route: ActivatedRoute, service2: CoreService, public tweetService: TweetService) {
     super(authService,route,service2);
 
     //this.core_service = new CoreService(route,router,http);
@@ -66,55 +67,10 @@ export class ProfilePageComponent extends CoreComponent{
     this.last_url_section = "";
     this.service_page = "";
     this.backUrl = "";
+    this.like_ids = [];
   }
 
-  handleTabClick(str: string)
-  {
-    var url = "";
-    var arr = window.location.pathname.split("/");
-    let check = arr.pop()
-    if (check == str)
-    {
-      //do nothing already on that page
-    }
-    else
-    {
-      for (let i = 0; i < arr.length; i++) 
-        {
-          if(i == 0)
-          {
-            url = arr[i];
-          }
-          else
-          {
-            url = url + '/' + arr[i];
-          }
-        }  
   
-      url = url + '/' + str;
-      this.service.routeToChild(str);
-      this.router.navigate([url]);
-    }
-    
-  }
-  
-  setBackUrl(arr: any [])
-  {
-    this.backUrl = "";
-    for (let i = 0; i < arr.length; i++) 
-      {
-        if(i == 0)
-        {
-          this.backUrl = arr[i];
-        }
-        else
-        {
-          this.backUrl = this.backUrl + '/' + arr[i];
-        }
-      
-      }  
-      console.log('end of setBackUrl function');  
-  }
 
   ngOnInit()
   {
@@ -146,6 +102,7 @@ export class ProfilePageComponent extends CoreComponent{
         this.username = this.service_username;
         this.setUpProfileDataDB();//this.checkUserInDB(); //to get user data
         this.arrs = [this.posts,this.retweets,this.likes, this.media];
+        this.setLiked();
         //testing
       }
     else if (this.last_url_section == "followers" || this.last_url_section == "following")
@@ -198,6 +155,7 @@ export class ProfilePageComponent extends CoreComponent{
         this.acc_name = this.last_url_section; //might phase this out
         this.setUpProfileDataDB();//this.checkUserInDB(); //didn't work properly
         this.arrs = [this.posts,this.retweets,this.likes, this.media];
+        this.setLiked();
     }
     console.log(this.acc_name); 
     console.log("url arr:" + arr + "length: " + arr.length);
@@ -661,52 +619,95 @@ convertDBInfo(arr_type: string)
    
      
  }
-/*
-  profileExists()
-  {
 
-    let obj = this;
+ setLiked()
+ {
+   let globalObj = this;
 
-    const postPromise = new Promise<any>(function (resolve, reject) {
-      setTimeout(() => {
-        reject("We didn't get a response")
-      }, 5000) // 5 secs
+       const postPromise = new Promise<any>(function (resolve, reject) {
+         setTimeout(() => {
+           reject("We didn't get a response")
+         }, 5000) // 5 secs
 
-      setTimeout(() => {
-        obj.checkUserInDB()
-        resolve('we got a response');
-      }, 1000) // 0 secs
+         setTimeout(() => {
+           globalObj.tweetService.getLikeIDsDB(globalObj.service_acc_name);
+           resolve('we got a response');
+         }, 0) // 0 secs
 
-    })
+       })
+       const checkPromise = new Promise<any>(function (resolve, reject) {
+         setTimeout(() => {
+           reject("We didn't get a response")
+         }, 5000) // 5 secs
 
-    const checkPromise = new Promise<any>(function (resolve, reject) {
-      setTimeout(() => {
-        reject("We didn't check")
-      }, 8000) //8 secs
+         setTimeout(() => {
+           globalObj.like_ids = globalObj.tweetService.DBlikes;
+           console.log("like_ids = " + globalObj.like_ids);
+           resolve('we got a response');
+         }, 200) // 0 secs
 
-      setTimeout(() => {
-        
-        resolve('we checked');
-      }, 2000) // 2 sec
+       })
 
-    })
+       async function myAsync(){
+         //console.log("inside myAsync");
+         try{
+           postPromise;
+           await checkPromise;
+         }
+         catch (error) {
+           console.error('Promise rejected with error: ' + error);
+         }
+         //console.log("end of myAsync");
+       }
+       myAsync();
+ }
 
-    async function myAsync(){
-      //console.log("inside myAsync");
-      var result;
-      try{
-        postPromise;
-        await checkPromise ;
-      }
-      catch (error) {
-        console.error('Promise rejected with error: ' + error);
-      }
-      //console.log("end of myAsync");
-    }
-    
-    myAsync();
-
-    return ;
-  }*/
+ handleTabClick(str: string)
+ {
+   var url = "";
+   var arr = window.location.pathname.split("/");
+   let check = arr.pop()
+   if (check == str)
+   {
+     //do nothing already on that page
+   }
+   else
+   {
+     for (let i = 0; i < arr.length; i++) 
+       {
+         if(i == 0)
+         {
+           url = arr[i];
+         }
+         else
+         {
+           url = url + '/' + arr[i];
+         }
+       }  
+ 
+     url = url + '/' + str;
+     this.service.routeToChild(str);
+     this.router.navigate([url]);
+   }
+   
+ }
+ 
+ setBackUrl(arr: any [])
+ {
+   this.backUrl = "";
+   for (let i = 0; i < arr.length; i++) 
+     {
+       if(i == 0)
+       {
+         this.backUrl = arr[i];
+       }
+       else
+       {
+         this.backUrl = this.backUrl + '/' + arr[i];
+       }
+     
+     }  
+     console.log('end of setBackUrl function');  
+ }
   
 }

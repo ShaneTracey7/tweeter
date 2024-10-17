@@ -164,8 +164,20 @@ def likeApi(request,id=id):
                     return JsonResponse(tweet_serializer.data,safe=False)
                 else:
                     return JsonResponse("No likes",safe=False)
+            elif check == 'getLikeIDs':
+                user = User.objects.get(acc_name=acc_name_input)
+                likes = Like.objects.filter(user=user)
+                tweet_ids = []
+                for like in likes:
+                    tweet_ids.append(like.tweet.id)
+                if likes.exists():
+                    #return only an array of tweets
+                    #tweet_serializer = TweetSerializer(tweets,many=True)
+                    return JsonResponse(tweet_ids,safe=False)
+                else:
+                    return JsonResponse("No like ids",safe=False)
             else:
-                return JsonResponse('not getLikes',safe=False)
+                return JsonResponse('not getLikes or getLikeIDs',safe=False)
         else:
             return JsonResponse("Failed to Add",safe=False)
 

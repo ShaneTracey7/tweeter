@@ -5,14 +5,14 @@
     <div *ngSwitchCase="'following'">
       <app-post [mcc]='mcc'
       *ngFor="let post of followingFeed"
-      [post]="post">
+      [post]="post" [upc]="upc">
       </app-post>
     </div>
 
     <div *ngSwitchDefault> 
       <app-post [mcc]='mcc'
       *ngFor="let post of forYouFeed"
-       [post]="post">
+       [post]="post" [upc]="upc">
       </app-post>
     </div>
 
@@ -130,7 +130,7 @@
       <ng-template #notEmpty>
         <app-post
         *ngFor="let post of data[1]"
-        [post]="post">
+        [post]="post" [upc]="upc"> <!-- add input variable for like_ids-->
         </app-post>
       </ng-template>
     </div>
@@ -143,7 +143,7 @@
       <ng-template #notEmpty2>
         <app-post
         *ngFor="let post of data[3]"
-        [post]="post">
+        [post]="post" [upc]="upc">
         </app-post>
       </ng-template>
     </div>
@@ -156,7 +156,7 @@
       <ng-template #notEmpty3>
         <app-post
         *ngFor="let post of data[2]"
-        [post]="post">
+        [post]="post" [upc]="upc"> <!-- add input variable for like_ids-->
         </app-post>
       </ng-template>
     </div>
@@ -169,7 +169,7 @@
       <ng-template #notEmpty4>
         <app-post
         *ngFor="let post of data[0]"
-        [post]="post">
+        [post]="post" [upc]="upc"> <!-- add input variable for like_ids-->
         </app-post>
       </ng-template>
     </div>
