@@ -48,6 +48,7 @@ export class ProfilePageComponent extends CoreComponent{
 
 
   like_ids: number [];
+  last_like_ids: number [];
 
   //needed to ensure when logging into a different account, correct data displays
   service_acc_name: string;
@@ -68,6 +69,7 @@ export class ProfilePageComponent extends CoreComponent{
     this.service_page = "";
     this.backUrl = "";
     this.like_ids = [];
+    this.last_like_ids = [];
   }
 
   
@@ -630,6 +632,7 @@ convertDBInfo(arr_type: string)
          }, 5000) // 5 secs
 
          setTimeout(() => {
+          globalObj.last_like_ids = globalObj.tweetService.DBlikes; //NEW
            globalObj.tweetService.getLikeIDsDB(globalObj.service_acc_name);
            resolve('we got a response');
          }, 0) // 0 secs

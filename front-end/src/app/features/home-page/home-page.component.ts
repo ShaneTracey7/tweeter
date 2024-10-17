@@ -24,6 +24,7 @@ export class HomePageComponent extends CoreComponent{
   pic: string;
   reaction: string = "";
   like_ids: number [];
+  last_like_ids: number [];
 
 constructor(authService: AuthService, route: ActivatedRoute, service: CoreService,public http: HttpClient, public tweetService: TweetService, public formBuilder: FormBuilder )
 {
@@ -31,6 +32,7 @@ constructor(authService: AuthService, route: ActivatedRoute, service: CoreServic
   this.pic = "";
   this.service_acc_name = "";
   this.like_ids = [];
+  this.last_like_ids = [];
 }
 
 //passed a hpc to post, so it's going off the correct instance
@@ -55,6 +57,7 @@ setLiked()
           }, 5000) // 5 secs
 
           setTimeout(() => {
+            globalObj.last_like_ids = globalObj.tweetService.DBlikes; //NEW
             globalObj.tweetService.getLikeIDsDB(globalObj.service_acc_name);
             resolve('we got a response');
           }, 0) // 0 secs

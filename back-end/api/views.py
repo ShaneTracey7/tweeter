@@ -141,7 +141,10 @@ def likeApi(request,id=id):
             like = Like.create(tweet,user)
             print(like)
             like.save()
-            return JsonResponse("Added Successfully",safe=False)
+            db_like = Like.objects.get(tweet=tweet, user=user) #NEW
+            like_serializer = LikeSerializer(db_like,many=False) #NEW
+            return JsonResponse(like_serializer.data,safe=False) #NEW
+            #return JsonResponse("Added Successfully",safe=False) #NEW
         else: 
             return JsonResponse("Failed to Add",safe=False)
 
@@ -151,6 +154,7 @@ def likeApi(request,id=id):
         if message_serializer.is_valid():
             check = message_serializer.data['word']
             acc_name_input = message_serializer.data['word2']
+            post_id = message_serializer.data['num']
             if check == 'getLikes':
                 #get all tweets that user tweeted
                 user = User.objects.get(acc_name=acc_name_input)
@@ -176,15 +180,32 @@ def likeApi(request,id=id):
                     return JsonResponse(tweet_ids,safe=False)
                 else:
                     return JsonResponse("No like ids",safe=False)
+            elif check == 'delete':
+                user = User.objects.get(acc_name=acc_name_input)
+                tweet = Tweet.objects.get(id=post_id)
+                tweet.likes = tweet.likes - 1 #decrementing like count of tweet
+                tweet.save()
+
+                like = Like.objects.get(user=user, tweet=tweet)
+                like.delete()
+                return JsonResponse("Deleted Successfully",safe=False)
             else:
-                return JsonResponse('not getLikes or getLikeIDs',safe=False)
+                return JsonResponse('check is else',safe=False)
         else:
             return JsonResponse("Failed to Add",safe=False)
 
     elif request.method =='DELETE':
+       #message_data = JSONParser().parse(request)
+       # message_serializer = MessageSerializer(data=message_data)
+        #if message_serializer.is_valid():
+           # check = message_serializer.data['word']
+            #like_id = message_serializer.data['num']
+            #if check == 'delete':
         like = Like.objects.get(id=id)
         like.delete()
         return JsonResponse("Deleted Successfully",safe=False)
+        #else:
+        #    return JsonResponse("Failed to Add",safe=False)
 
 
 @csrf_exempt

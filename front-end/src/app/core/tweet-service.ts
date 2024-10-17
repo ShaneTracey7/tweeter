@@ -110,7 +110,7 @@ getLikeIDsDB(ac:string)
     {
         //console.log(resultData);
 
-        if(resultData == 'Failed to Add' || resultData == 'No like ids')
+        if(resultData == 'Failed to Add' || resultData == 'No like ids' || resultData == 'check is else')
         {
           console.log("Did not get ID's");
           console.log(resultData);
