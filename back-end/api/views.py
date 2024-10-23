@@ -2,8 +2,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
-from api.serializers import StudentSerializer, UserSerializer, TweetSerializer, MessageSerializer, FollowSerializer, LikeSerializer
-from api.models import Student, User, Tweet, Message, Follow, Like
+from api.serializers import StudentSerializer, UserSerializer, TweetSerializer, MessageSerializer, FollowSerializer, LikeSerializer, RetweetSerializer
+from api.models import Student, User, Tweet, Message, Follow, Like, Retweet
 from rest_framework.renderers import JSONRenderer
 import json
 import datetime
@@ -74,8 +74,40 @@ def tweetApi(request,id=id):
             check = message_serializer.data['word']
             acc_name_input = message_serializer.data['word2']
             #return JsonResponse("ok",safe=False)
-            user_id = message_serializer.data['num']
-            if check == 'getPosts':
+            user_id = message_serializer.data['num']            
+            if check == 'getLikes':
+                #get all tweets that user tweeted
+                user = User.objects.get(acc_name=acc_name_input)
+                likes = Like.objects.filter(user=user)
+                if likes.exists():
+                    tweets = []
+                    for like in likes:
+                        tweets.append(like.tweet)
+                    tweet_serializer = TweetSerializer(tweets,many=True)
+                    users = []
+                    for like in likes:
+                        users.append(like.tweet.user)
+                    user_serializer = UserSerializer(users,many=True)
+                    return JsonResponse([tweet_serializer.data,user_serializer.data],safe=False)
+                else:
+                    return JsonResponse("No likes",safe=False)
+            elif check == 'getRetweets':
+                #get all tweets that user tweeted
+                user = User.objects.get(acc_name=acc_name_input)
+                retweets = Retweet.objects.filter(user=user)
+                if retweets.exists():
+                    tweets = []
+                    for retweet in retweets:
+                        tweets.append(retweet.tweet)
+                    tweet_serializer = TweetSerializer(tweets,many=True)
+                    users = []
+                    for retweet in retweets:
+                        users.append(retweet.tweet.user)
+                    user_serializer = UserSerializer(users,many=True)
+                    return JsonResponse([tweet_serializer.data,user_serializer.data],safe=False)
+                else:
+                    return JsonResponse("No retweets",safe=False)
+            elif check == 'getPosts':
                 #get all tweets that user tweeted
                 user = User.objects.get(acc_name=acc_name_input)
                 tweet = Tweet.objects.filter(user=user)
@@ -112,6 +144,107 @@ def tweetApi(request,id=id):
         tweet.delete()
         return JsonResponse("Deleted Successfully",safe=False)
 
+
+@csrf_exempt
+def retweetApi(request,id=id):
+
+    if request.method =='GET':
+        retweet = Retweet.objects.all()
+        retweet_serializer = RetweetSerializer(like,many=True)
+        return JsonResponse(retweet_serializer.data,safe=False)
+
+    elif request.method =='POST':
+
+        #retrieve message from front end
+        message_data = JSONParser().parse(request)
+        # serialize message
+        message_serializer = MessageSerializer(data=message_data)
+        if message_serializer.is_valid():
+
+            #have to get user from front-end
+            acc_name_input = message_serializer.data['word']
+            user = User.objects.get(acc_name=acc_name_input)
+
+            #have to get tweet id from front-end
+            tweet_id = message_serializer.data['num']
+            tweet = Tweet.objects.get(id=tweet_id)
+            tweet.retweets = tweet.retweets + 1 #incrementing retweet count of tweet
+            tweet.save()
+
+            #Tweet.objects.all().values() #just testing
+
+            retweet = Retweet.create(tweet,user)
+            print(retweet)
+            retweet.save()
+            db_retweet = Retweet.objects.get(tweet=tweet, user=user) #NEW
+            retweet_serializer = RetweetSerializer(db_retweet,many=False) #NEW
+            return JsonResponse(retweet_serializer.data,safe=False) #NEW
+            #return JsonResponse("Added Successfully",safe=False) #NEW
+        else: 
+            return JsonResponse("Failed to Add",safe=False)
+
+    elif request.method =='PUT': 
+        message_data = JSONParser().parse(request)
+        message_serializer = MessageSerializer(data=message_data)
+        if message_serializer.is_valid():
+            check = message_serializer.data['word']
+            acc_name_input = message_serializer.data['word2']
+            post_id = message_serializer.data['num']
+            if check == 'getRetweets':
+                #get all tweets that user tweeted
+                user = User.objects.get(acc_name=acc_name_input)
+                retweets = Retweet.objects.filter(user=user)
+                tweets = []
+                for retweet in retweets:
+                    tweets.append(retweet.tweet)
+                if retweets.exists():
+                    #return only an array of tweets
+                    tweet_serializer = TweetSerializer(tweets,many=True)
+                    return JsonResponse(tweet_serializer.data,safe=False)
+                else:
+                    return JsonResponse("No likes",safe=False)
+            elif check == 'getRetweetIDs':
+                user = User.objects.get(acc_name=acc_name_input)
+                retweets = Retweet.objects.filter(user=user)
+                tweet_ids = []
+                for retweet in retweets:
+                    tweet_ids.append(retweet.tweet.id)
+                if retweets.exists():
+                    #return only an array of tweets
+                    #tweet_serializer = TweetSerializer(tweets,many=True)
+                    return JsonResponse(tweet_ids,safe=False)
+                else:
+                    return JsonResponse("No like ids",safe=False)
+            elif check == 'delete':
+                user = User.objects.get(acc_name=acc_name_input)
+                tweet = Tweet.objects.get(id=post_id)
+                tweet.retweets = tweet.retweets - 1 #decrementing retweet count of tweet
+                tweet.save()
+
+                #Tweet.objects.all().values() #just testing
+
+                retweet = Retweet.objects.get(user=user, tweet=tweet)
+                retweet.delete()
+                return JsonResponse("Deleted Successfully",safe=False)
+            else:
+                return JsonResponse('check is else',safe=False)
+        else:
+            return JsonResponse("Failed to Add",safe=False)
+
+    elif request.method =='DELETE':
+       #message_data = JSONParser().parse(request)
+       # message_serializer = MessageSerializer(data=message_data)
+        #if message_serializer.is_valid():
+           # check = message_serializer.data['word']
+            #like_id = message_serializer.data['num']
+            #if check == 'delete':
+        like = Like.objects.get(id=id)
+        like.delete()
+        return JsonResponse("Deleted Successfully",safe=False)
+        
+        
+
+
 @csrf_exempt
 def likeApi(request,id=id):
 
@@ -137,6 +270,8 @@ def likeApi(request,id=id):
             tweet = Tweet.objects.get(id=tweet_id)
             tweet.likes = tweet.likes + 1 #incrementing like count of tweet
             tweet.save()
+
+            #Tweet.objects.all().values() #just testing
 
             like = Like.create(tweet,user)
             print(like)
@@ -185,6 +320,8 @@ def likeApi(request,id=id):
                 tweet = Tweet.objects.get(id=post_id)
                 tweet.likes = tweet.likes - 1 #decrementing like count of tweet
                 tweet.save()
+
+                #Tweet.objects.all().values() #just testing
 
                 like = Like.objects.get(user=user, tweet=tweet)
                 like.delete()

@@ -29,6 +29,8 @@ from api import views
 
 urlpatterns = [
     
+    re_path(r'^retweet$',views.retweetApi),
+    #re_path(r'^retweet/(.*)$',views.likeApi),
     re_path(r'^like$',views.likeApi),
     #re_path(r'^like/(.*)$',views.likeApi),
     re_path(r'^follow$',views.followApi),

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from api.models import Student, User, Tweet, Follow, Like
+from api.models import Student, User, Tweet, Follow, Like, Retweet
 
 # Register your models here.
 admin.site.register(Student)
@@ -24,6 +24,11 @@ class LikeAdmin(admin.ModelAdmin):
   list_display = ("id", "user", "tweet")
 
 admin.site.register(Like, LikeAdmin)
+
+class RetweetAdmin(admin.ModelAdmin):
+  list_display = ("id", "user", "tweet")
+
+admin.site.register(Retweet, RetweetAdmin)
 
 #class TweetReactionAdmin(admin.ModelAdmin):
  # list_display = ("tweet", "likes", "comments", "retweets", "engagements")

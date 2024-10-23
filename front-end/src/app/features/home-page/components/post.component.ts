@@ -21,18 +21,27 @@ export class PostComponent extends HomePageComponent{
 show_modal: boolean = false;
 modal_profile = new Profile('','','','',0,0);
 timer:any;
-liked: boolean = false;
+liked: boolean = false; // true: if post is liked, false: if post isn't liked
+postLikeArr: number [] = [];
+
 retweeted: boolean = false;
-postLikeArr: number [] = []
+postRetweetArr: number [] = [];
+
+like_count: number = 0; //test 
+
+fromRefresh: boolean = false;
 
 override ngOnInit(): void {
   //check if liked or retweeted
   //this.checkLiked()
+  console.log("**ngOnInit**");
 
-  this.setLiked2()
+  this.setPost()
+
+  console.log("POST: "+ this.post);
 }
 
-setLiked2()
+setPost()
   {
     let globalObj = this;
 
@@ -47,10 +56,22 @@ setLiked2()
           }, 300) // 0 secs
 
         })
+        const postPromise2 = new Promise<any>(function (resolve, reject) {
+          setTimeout(() => {
+            reject("We didn't get a response")
+          }, 5000) // 5 secs
+
+          setTimeout(() => {
+            globalObj.checkRetweeted();
+            resolve('we got a response');
+          }, 300) // 0 secs
+
+        })
         async function myAsync(){
           //console.log("inside myAsync");
           try{
             postPromise;
+            postPromise2;
           }
           catch (error) {
             console.error('Promise rejected with error: ' + error);
@@ -60,55 +81,151 @@ setLiked2()
         myAsync();
   }
 
-
-  //maybe the answer is here for like count not updating between profile and home
 checkLiked()
-{/*
-  //trying to fix inaccurate like counts in posts between home and profile page tweet arrs
-    console.log("this.upc.last_like_ids : " + this.upc.last_like_ids  + " this.upc.like_ids: " + this.upc.like_ids);
-  if (this.upc.last_like_ids != this.upc.like_ids )
+{
+  /*
+  if (this.service.cp_style == "Home")
   {
-    console.log(this.upc.last_like_ids  + " != " + this.upc.like_ids);
-    //need to adjust like counter
-    const dif1 = 
-    this.upc.last_like_ids.filter((element:number) => !this.upc.like_ids.includes(element));
-
-    const dif2 = 
-    this.upc.like_ids.filter((element: number) => !this.upc.last_like_ids .includes(element));
-
-    if (dif1.includes(this.post.id))
+  //trying to fix inaccurate like counts in posts between home and profile page tweet arrs
+      console.log("this.upc.last_like_ids : " + this.upc.last_like_ids  + " this.upc.like_ids: " + this.upc.like_ids);
+    if ((JSON.stringify(this.upc.last_like_ids)) != (JSON.stringify(this.upc.like_ids)) )
     {
-      //increment post 'like' value in class 
-      this.post.likes = String(Number(this.post.likes) - 1);
-    }
-    if (dif2.includes(this.post.id))
+      console.log(this.upc.last_like_ids  + " != " + this.upc.like_ids);
+      //need to adjust like counter
+      const dif1 = 
+      this.upc.last_like_ids.filter((element:number) => !this.upc.like_ids.includes(element));
+
+      const dif2 = 
+      this.upc.like_ids.filter((element: number) => !this.upc.last_like_ids .includes(element));
+
+      if (dif1.includes(this.post.id))
+      {
+        //increment post 'like' value in class 
+        this.post.likes = String(Number(this.post.likes) - 1);
+      }
+      if (dif2.includes(this.post.id))
       {
         //increment post 'like' value in class 
         this.post.likes = String(Number(this.post.likes) + 1);
       }
-
+    }
   }*/
-  console.log("post dblikes:" + this.tweetService.DBlikes);
-  console.log("post hpc like_ids:" + this.upc.like_ids);
+  //console.log("post dblikes:" + this.tweetService.DBlikes);
+  //console.log("post hpc like_ids:" + this.upc.like_ids);
  if(this.upc.like_ids.includes(this.post.id)) //result from DB check or check through list of users likes
  {
   this.liked = true;
-  console.log("this.liked: " + this.liked);
+ // console.log("this.liked: " + this.liked);
  }
  else
  {
   this.liked = false;
-  console.log("this.liked: " + this.liked);
+ // console.log("this.liked: " + this.liked);
  }
 
  this.postLikeArr = this.upc.like_ids;
- console.log("this.postLikeArr: " + this.postLikeArr);
+ //console.log("this.postLikeArr: " + this.postLikeArr);
+
+}
+
+checkRetweeted()
+{
+  if(this.upc.retweet_ids.includes(this.post.id)) //result from DB check or check through list of users likes
+ {
+  this.retweeted = true;
+ }
+ else
+ {
+  this.retweeted = false;
+ }
+
+ this.postRetweetArr = this.upc.retweet_ids;
+}
+
+//called upon hitting retweet button
+handleRetweet()
+{ 
+  if(this.service.current_tab == 'retweets')
+  {
+    return;
+  }
+  if (!this.retweeted) // not liked 
+  {
+    //change like icon to a filled in red heart
+    this.retweeted = true;
+
+    //increment post 'retweet' value in class 
+    this.post.retweets = String(Number(this.post.retweets) + 1);
+    //this.like_count = (this.like_count + 1);
+    
+    //add like to DB & update 'like' column of 'tweet' in DB
+    let requestBody =
+    {
+      "word" : this.upc.service_acc_name,
+      "num" : this.post.id, //tweet id
+    };
+    console.log("this.hpc.service_acc_name: " +this.upc.service_acc_name);
+    console.log("this.post.id: " + this.post.id);
+
+    this.http.post("http://127.0.0.1:8000/retweet",requestBody).subscribe((resultData: any)=>
+    {
+        //console.log(resultData);
+    
+        if(resultData == "Failed to Add")
+        {
+          console.log(resultData);
+        }
+      else // "Added Successfully"
+        {
+          console.log(resultData);
+        }
+    });
+  }
+  else //unlike
+  {
+    //change like icon to a filled in red heart
+    this.retweeted = false;
+
+    //decrement post 'like' value in class 
+    this.post.retweets = String(Number(this.post.retweets) - 1);
+    //this.like_count = (this.like_count - 1);
+
+    //delete like to DB & update 'like' column of 'tweet' in DB
+    let requestBody =
+    {
+      "word" : 'delete',
+      "word2" : this.upc.service_acc_name,
+      "num" : this.post.id, //tweet id
+    };
+    console.log("this.post.id: " + this.post.id);
+
+    this.http.put("http://127.0.0.1:8000/retweet",requestBody).subscribe((resultData: any)=>
+    {
+      //console.log(resultData);
+
+      if(resultData == "Deleted Successfully")
+      {
+        console.log(resultData);
+      }
+      else // "Failed to Add"
+      {
+      console.log(resultData);
+      }
+  });
+
+  }
+
+   //add 'like' notitication to DB
 
 }
 
 //called upon hitting like button
 handleLike()
 { 
+  if(this.service.current_tab == 'likes')
+  {
+    return;
+  }
   if (!this.liked) // not liked 
   {
     //change like icon to a filled in red heart
@@ -116,6 +233,7 @@ handleLike()
 
     //increment post 'like' value in class 
     this.post.likes = String(Number(this.post.likes) + 1);
+    this.like_count = (this.like_count + 1);
     
     //add like to DB & update 'like' column of 'tweet' in DB
     let requestBody =
@@ -147,6 +265,7 @@ handleLike()
 
     //decrement post 'like' value in class 
     this.post.likes = String(Number(this.post.likes) - 1);
+    this.like_count = (this.like_count - 1);
 
     //delete like to DB & update 'like' column of 'tweet' in DB
     let requestBody =
@@ -255,6 +374,21 @@ hideModal()
 colorReactionBarHeart(str: string) {
 
   if(this.liked)
+    {
+      return this.service.setUrl(str + "-color-fill.png");
+    }
+  else if (this.reaction == str) 
+    {
+      return this.service.setUrl(str + "-color.png");
+    }
+  else
+  {
+    return this.service.setUrl(str + ".png");
+  }
+}
+colorReactionBarRetweet(str: string) {
+
+  if(this.retweeted)
     {
       return this.service.setUrl(str + "-color-fill.png");
     }

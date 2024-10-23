@@ -26,9 +26,10 @@ export class MainContentComponent {
   forYouFeed: any [] = []
 
   constructor(private tweetService: TweetService, public service: CoreService, public authService: AuthService, public route: ActivatedRoute){
-    console.log('myService', tweetService);
+   // console.log('myService', tweetService);
 
-    this.forYouFeed = this.tweetService.FEfeed
+    //this.forYouFeed = this.tweetService.FEfeed
+   // this.forYouFeed = [];
     //console.log(this.forYouFeed)
   }
 

@@ -52,7 +52,7 @@ export class Post {
       toString(): string
       {
         
-        return " " + this.profile + " "+ this.username + " " + this.acc_name + " " +this.e_time + " " +this.text + " " +this.image + " " + this.comments + " " +this.retweets + " "+this.likes + " "+this.views + " ";
+        return " " + this.id + " " + this.profile + " "+ this.username + " " + this.acc_name + " " +this.e_time + " " +this.text + " " +this.image + " " + this.comments + " " +this.retweets + " "+this.likes + " "+this.views + " ";
       
     }
 }

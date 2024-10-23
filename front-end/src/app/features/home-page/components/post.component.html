@@ -34,8 +34,8 @@
                 </div>
                 <div class="reactiongroup">
                     <button class="reaction-button" (mouseover)="colorReaction('retweet')" (mouseout)="grayReaction()">
-                        <div class="icon-container" [style]="colorReactionBarBG('retweet')">
-                            <img class="reactionbaricons" [src]="colorReactionBarIcon('retweet')" alt="retweet"/>
+                        <div (click)="handleRetweet()" class="icon-container" [style]="colorReactionBarBG('retweet')">
+                            <img class="reactionbaricons" [src]="colorReactionBarRetweet('retweet')" alt="retweet"/>
                         </div>
                         <h3 class="reactionbarvalues" [style]="colorReactionBarText('retweet')"> {{ post.retweets }} </h3>
                     </button>
@@ -45,7 +45,7 @@
                         <div (click)="handleLike()" class="icon-container" [style]="colorReactionBarBG('heart')">
                             <img class="reactionbaricons" [src]="colorReactionBarHeart('heart')" alt="like"/>
                         </div>
-                        <h3 class="reactionbarvalues" [style]="colorReactionBarText('heart')"> {{ post.likes }} </h3>
+                        <h3 class="reactionbarvalues" [style]="colorReactionBarText('heart')"> {{ post.likes}} </h3> <!--NEW-->
                     </button>
                 </div>
                 <div class="reactiongroup">

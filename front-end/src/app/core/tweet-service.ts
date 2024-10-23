@@ -13,6 +13,7 @@ export class TweetService {
     UserFeed: Profile [] = [];
 
     DBlikes: number [] = []; //just stores tweet/post id's
+    DBretweets: number [] = []; //just stores tweet/post id's
 
     constructor( private http: HttpClient, private formBuilder: FormBuilder ) {
         this.createForYouFeed(); 
@@ -97,7 +98,7 @@ getLikeIDs(ac:string)
   }
 
 
-//returns list of like id's
+//sets list of like id's
 getLikeIDsDB(ac:string)
 {
   let requestMessage =
@@ -120,6 +121,33 @@ getLikeIDsDB(ac:string)
         {
           this.DBlikes = resultData;
           console.log(this.DBlikes);
+        }
+    });
+  }
+
+  //sets list of like id's
+getRetweetIDsDB(ac:string)
+{
+  let requestMessage =
+    {
+      "word": 'getRetweetIDs',
+      "word2": ac, 
+    }
+    
+  this.http.put("http://127.0.0.1:8000/retweet",requestMessage).subscribe((resultData: any)=>
+    {
+        //console.log(resultData);
+
+        if(resultData == 'Failed to Add' || resultData == 'No retweet ids' || resultData == 'check is else')
+        {
+          console.log("Did not get ID's");
+          console.log(resultData);
+          this.DBretweets = [];
+        }
+        else //Successful
+        {
+          this.DBretweets = resultData;
+          console.log(this.DBretweets);
         }
     });
   }
@@ -264,7 +292,7 @@ createForYouFeed()
           setTimeout(() => {
             globalObj.getDBForYouFeedUsers();
             resolve('we got a response');
-          }, 2000) // 0 secs
+          }, 500) // 0 secs
 
         })
 
@@ -276,7 +304,7 @@ createForYouFeed()
           setTimeout(() => {
             globalObj.convertForYouFeed();
             resolve('we checked');
-          }, 3000) // 1 sec
+          }, 1000) // 1 sec
 
         })
         
