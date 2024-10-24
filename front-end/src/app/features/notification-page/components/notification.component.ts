@@ -43,4 +43,16 @@ hideModal()
       console.log("Direct to tweet view/page");
     }
   }
+
+  setTextContent()
+  {
+    if(this.notification.type == 'Follow')
+    {
+      return this.notification.profile_from.bio;
+    }
+    else //'Like' or 'Retweet'
+    {
+      return this.notification.tweet.text;
+    }
+  }
 }

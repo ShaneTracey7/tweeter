@@ -518,8 +518,12 @@ def followApi(request,id=id):
             user1 = User.objects.get(acc_name=acc_name1)
             user2 = User.objects.get(acc_name=acc_name2)
 
-            follow_object = Follow.create(user1,user2)
+            #add notification to DB
+            notification = Notification.create(0,'Follow',user1,user2)
+            notification.save()
 
+            #add follow to DB
+            follow_object = Follow.create(user1,user2)
             follow_object.save()
             return JsonResponse("Added Successfully",safe=False)
         #follow_data = JSONParser().parse(request)
@@ -537,6 +541,7 @@ def followApi(request,id=id):
         if message_serializer.is_valid():
             check = message_serializer.data['word']
             acc_name_input = message_serializer.data['word2']
+            acc_name_input2 = message_serializer.data['word3']
             if check == 'getFollowers':
                 #return JsonResponse("inside getFollowers if",safe=False)
                 user = User.objects.get(acc_name=acc_name_input)
@@ -567,6 +572,18 @@ def followApi(request,id=id):
                     #return JsonResponse(follow_serializer.data,safe=False)
                 else:
                     return JsonResponse("No following",safe=False)
+            elif check == 'delete':
+
+                user1 = User.objects.get(acc_name=acc_name_input)
+                user2 = User.objects.get(acc_name=acc_name_input2)
+
+                #delete follow from DB
+                follow = Follow.objects.filter(following=user2, follower=user1)
+                follow.delete()
+
+                #Do i want to delete notification for follow? (add it here if so)
+                return JsonResponse("Deleted Successfully",safe=False)
+
         else:
             return JsonResponse("Failed to Add",safe=False)
 

@@ -640,6 +640,45 @@ export class ProfilePageComponent extends CoreComponent{
     });
   }
 
+  unfollowUser(){
+
+    let requestBody =
+    {
+      "word" : 'delete',
+      "word2" : this.service_acc_name,
+      "word3": this.acc_name,
+    };
+
+    this.http.put("http://127.0.0.1:8000/follow",requestBody).subscribe((resultData: any)=>
+    {
+      console.log(resultData);
+      this.user.follower_count = String(Number(this.user.follower_count) + 1); //idk if this will work
+    });
+  }
+  handleFollowClick()
+  {
+    if(this.isFollow)
+    {
+      //do nothing (just atm)
+      this.isFollow = false;
+      this.unfollowUser(); //this causes tabs on profile page to populate inaccurately (for some reason)
+
+      //consider updating arrs
+     // let temp = this.followers.filter((user) => user.acc_name != this.user.acc_name);
+      //this.arrs = [temp,this.following];
+    }
+    else
+    {
+      this.isFollow = true;
+      this.followUser();
+
+      //consider updating arrs
+      //this.followers.push(this.user);
+      //this.arrs = [this.followers,this.following];
+
+    }
+  }
+
   //either 'following' or 'follower'
 convertDBInfo(arr_type: string)
 {   
