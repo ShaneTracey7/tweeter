@@ -1,19 +1,22 @@
 <!-- only used within notificationPage.html-->
 
-<div class="notification">
+<div (click)="handleClick()"  class="notification">
 
         <div [ngSwitch]="notification.type" class="notification-header" >
-            <div *ngSwitchCase="'Heart'">
+            <div *ngSwitchCase="'Like'">
                 <img class="notification-icon" [src]="service.setUrl('pink-heart-fill.png')" alt="type"/>
             </div>
             <div *ngSwitchCase="'News'">
+                <img class="notification-icon" [src]="service.setUrl('purple-star.png')" alt="type"/>
+            </div>
+            <div *ngSwitchCase="'Follow'">
                 <img class="notification-icon" [src]="service.setUrl('purple-star.png')" alt="type"/>
             </div>
             <div *ngSwitchCase="'Retweet'">
                 <img class="notification-icon" [src]="service.setUrl('retweet.png')" alt="type"/>
             </div>
 
-            <img (mouseover)="showModal(notification.username)" (mouseout)="hideModal()" class="notification-profile" src={{notification.profile}} alt="profile"/>
+            <img (mouseover)="showModal(notification.profile_from.username)" (mouseout)="hideModal()" class="notification-profile" src={{this.service.setUrl(notification.profile_from.pic)}} alt="profile"/>
 
             <div *ngIf="notification.type == 'News'">
                 <img id="notification-elip" class="elip" data-toggle="tooltip" data-placement="bottom" title="More" [src]="service.setUrl('ellipsis.png')" alt="more"/>
@@ -23,17 +26,20 @@
         <profile-modal [inMain]="true" [show]='show_modal' [profile]='modal_profile'></profile-modal>
 
         <div [ngSwitch]="notification.type">
-            <div *ngSwitchCase="'Heart'">
-                <p class="notification-title"> <b>{{ notification.username }}</b> liked your post! </p>
+            <div *ngSwitchCase="'Like'">
+                <p class="notification-title"> <b>{{ notification.profile_from.username }}</b> liked your post! </p>
             </div>
             <div *ngSwitchCase="'News'">
-                <p class="notification-title"><b>{{ notification.username }}</b></p>
+                <p class="notification-title"><b>{{ notification.profile_from.username }}</b></p>
+            </div>
+            <div *ngSwitchCase="'Follow'">
+                <p class="notification-title"><b>{{ notification.profile_from.username }}</b> followed you!</p>
             </div>
             <div *ngSwitchCase="'Retweet'">
-                <p class="notification-title"><b>{{ notification.username }}</b> retweeted your post! </p>
+                <p class="notification-title"><b>{{ notification.profile_from.username }}</b> retweeted your post! </p>
             </div>
         </div>
-        <p class="notification-text"> {{ notification.text }}</p>
+        <p class="notification-text"> {{ notification.tweet.text }}</p>
 </div>
 
 

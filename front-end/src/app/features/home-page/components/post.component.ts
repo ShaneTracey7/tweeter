@@ -149,20 +149,22 @@ handleRetweet()
   {
     return;
   }
-  if (!this.retweeted) // not liked 
+  if (!this.retweeted) // not retweeted
   {
-    //change like icon to a filled in red heart
+    //change 'retweet' icon to a filled in retweet
     this.retweeted = true;
 
     //increment post 'retweet' value in class 
     this.post.retweets = String(Number(this.post.retweets) + 1);
-    //this.like_count = (this.like_count + 1);
     
-    //add like to DB & update 'like' column of 'tweet' in DB
+    //add retweet to DB & update 'retweet' column of 'tweet' in DB
+    //& add retweet notification to DB
     let requestBody =
     {
-      "word" : this.upc.service_acc_name,
+      "word" : this.upc.service_acc_name, //user_from
       "num" : this.post.id, //tweet id
+      //new 
+      "word2" : this.post.acc_name, //user_to
     };
     console.log("this.hpc.service_acc_name: " +this.upc.service_acc_name);
     console.log("this.post.id: " + this.post.id);
@@ -180,22 +182,25 @@ handleRetweet()
           console.log(resultData);
         }
     });
+
   }
-  else //unlike
+  else //undo retweet
   {
-    //change like icon to a filled in red heart
+    //change 'retweet' icon to a filled in retweet
     this.retweeted = false;
 
-    //decrement post 'like' value in class 
+    //decrement post 'retweet' value in class 
     this.post.retweets = String(Number(this.post.retweets) - 1);
-    //this.like_count = (this.like_count - 1);
 
-    //delete like to DB & update 'like' column of 'tweet' in DB
+    //delete like to DB & update 'retweet' column of 'tweet' in DB
+    // & delete retweet notification to DB
     let requestBody =
     {
       "word" : 'delete',
-      "word2" : this.upc.service_acc_name,
-      "num" : this.post.id, //tweet id
+      "word2" : this.upc.service_acc_name, //user_from
+      "num" : this.post.id, //tweet id (set to 0 if follow)
+      //new
+      "word3" : this.post.acc_name, //user_to
     };
     console.log("this.post.id: " + this.post.id);
 
@@ -212,11 +217,7 @@ handleRetweet()
       console.log(resultData);
       }
   });
-
   }
-
-   //add 'like' notitication to DB
-
 }
 
 //called upon hitting like button
@@ -236,10 +237,13 @@ handleLike()
     this.like_count = (this.like_count + 1);
     
     //add like to DB & update 'like' column of 'tweet' in DB
+    //& add 'like' notification to DB
     let requestBody =
     {
       "word" : this.upc.service_acc_name,
       "num" : this.post.id, //tweet id
+      //new
+      "word2" : this.post.acc_name, //user_to
     };
     console.log("this.hpc.service_acc_name: " +this.upc.service_acc_name);
     console.log("this.post.id: " + this.post.id);
@@ -273,6 +277,8 @@ handleLike()
       "word" : 'delete',
       "word2" : this.upc.service_acc_name,
       "num" : this.post.id, //tweet id
+      //new
+      "word3" : this.post.acc_name, //user_to
     };
     console.log("this.post.id: " + this.post.id);
 

@@ -2,26 +2,12 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
-from api.serializers import StudentSerializer, UserSerializer, TweetSerializer, MessageSerializer, FollowSerializer, LikeSerializer, RetweetSerializer
-from api.models import Student, User, Tweet, Message, Follow, Like, Retweet
+from api.serializers import StudentSerializer, UserSerializer, TweetSerializer, MessageSerializer, FollowSerializer, LikeSerializer, RetweetSerializer, NotificationSerializer
+from api.models import Student, User, Tweet, Message, Follow, Like, Retweet, Notification
 from rest_framework.renderers import JSONRenderer
 import json
 import datetime
 
-#@api_view(['GET'])
-#def getData(request):
-#    students = Student.objects.all()
-#    serializer = StudentSerializer(students, many=True)
-#    return JsonResponse(serializer.data,safe=False)
-
-#@api_view(['POST'])
-#def addItem(request):
-#   student_data = JSONParser().parse(request)
-#    serializer =StudentSerializer(data=student_data)
-#    if serializer.is_valid():
-#       serializer.save()
-#       return JsonResponse("Added Successfully",safe=False)
-#    return JsonResponse("Failed to Add",safe=False)
 @csrf_exempt
 def tweetApi(request,id=id):
 
@@ -143,6 +129,81 @@ def tweetApi(request,id=id):
         tweet = Tweet.objects.get(id=id)
         tweet.delete()
         return JsonResponse("Deleted Successfully",safe=False)
+    
+@csrf_exempt
+def notificationApi(request,id=id):
+
+    if request.method =='GET':
+        notification = Notification.objects.all()
+        notification_serializer = NotificationSerializer(notification,many=True)
+        return JsonResponse(notification_serializer.data,safe=False)
+
+    elif request.method =='POST':
+
+        #NOT IN USE
+                
+        #retrieve message from front end
+        message_data = JSONParser().parse(request)
+        # serialize message
+        message_serializer = MessageSerializer(data=message_data)
+        if message_serializer.is_valid():
+            type = message_serializer.data['word']
+            acc_name_input_to = message_serializer.data['word2']
+            acc_name_input_from = message_serializer.data['word3']
+
+            user_to = User.objects.get(acc_name=acc_name_input_to)
+            user_from = User.objects.get(acc_name=acc_name_input_from)
+            
+            notification = Notification.create(type, user_to, user_from)
+            print(notification)
+            notification.save()
+            return JsonResponse("Added Successfully",safe=False)
+        else: 
+            return JsonResponse("Failed to Add",safe=False)
+
+    elif request.method =='PUT': 
+        message_data = JSONParser().parse(request)
+
+        message_serializer = MessageSerializer(data=message_data)
+        if message_serializer.is_valid():
+            check = message_serializer.data['word']
+            acc_name_input = message_serializer.data['word2']
+            #return JsonResponse("ok",safe=False)
+            notification_id = message_serializer.data['num']            
+            if check == 'getNotifications':
+                #get all tweets that user tweeted
+                user_to = User.objects.get(acc_name=acc_name_input)
+                notifications = Notification.objects.filter(user_to=user_to)
+                if notifications.exists():
+                    users = []
+                    types = []
+                    tweets = []
+                    for notification in notifications:
+                        users.append(notification.user_from)
+                        types.append(notification.type)
+                        if notification.post_id == 0:
+                            tweets.append(Tweet.create(notification.user_from,datetime.datetime.now(),'','',0,0,0,0))
+                        else:
+                            tweet = Tweet.objects.get(id=notification.post_id)
+                            tweets.append(tweet)
+                    user_serializer = UserSerializer(users,many=True)
+                    tweet_serializer = TweetSerializer(tweets,many=True)
+                    return JsonResponse([types,user_serializer.data,tweet_serializer.data],safe=False)
+                else:
+                    return JsonResponse("No notifications",safe=False)
+            elif check == 'delete':
+                notification = Notification.objects.get(id=notification_id)
+                notification.delete()
+                return JsonResponse("Deleted Successfully",safe=False)
+            else:
+                return JsonResponse("check is else",safe=False)
+        else:
+            return JsonResponse("Failed to Add",safe=False)
+        
+    elif request.method =='DELETE':
+        tweet = Tweet.objects.get(id=id)
+        tweet.delete()
+        return JsonResponse("Deleted Successfully",safe=False)
 
 
 @csrf_exempt
@@ -162,8 +223,10 @@ def retweetApi(request,id=id):
         if message_serializer.is_valid():
 
             #have to get user from front-end
-            acc_name_input = message_serializer.data['word']
-            user = User.objects.get(acc_name=acc_name_input)
+            acc_name_from_input = message_serializer.data['word'] #from
+            acc_name_to_input = message_serializer.data['word2'] #to
+            user_from = User.objects.get(acc_name=acc_name_from_input)
+            user_to = User.objects.get(acc_name=acc_name_to_input)
 
             #have to get tweet id from front-end
             tweet_id = message_serializer.data['num']
@@ -171,12 +234,16 @@ def retweetApi(request,id=id):
             tweet.retweets = tweet.retweets + 1 #incrementing retweet count of tweet
             tweet.save()
 
-            #Tweet.objects.all().values() #just testing
+            #add notification to DB
+            notification = Notification.create(tweet_id,'Retweet',user_to,user_from)
+            notification.save()
 
-            retweet = Retweet.create(tweet,user)
+            #add retweet to DB
+            retweet = Retweet.create(tweet,user_from)
             print(retweet)
             retweet.save()
-            db_retweet = Retweet.objects.get(tweet=tweet, user=user) #NEW
+
+            db_retweet = Retweet.objects.get(tweet=tweet, user=user_from) #NEW
             retweet_serializer = RetweetSerializer(db_retweet,many=False) #NEW
             return JsonResponse(retweet_serializer.data,safe=False) #NEW
             #return JsonResponse("Added Successfully",safe=False) #NEW
@@ -188,11 +255,12 @@ def retweetApi(request,id=id):
         message_serializer = MessageSerializer(data=message_data)
         if message_serializer.is_valid():
             check = message_serializer.data['word']
-            acc_name_input = message_serializer.data['word2']
+            acc_name_from_input = message_serializer.data['word2'] #from
+            acc_name_to_input = message_serializer.data['word3'] #to
             post_id = message_serializer.data['num']
             if check == 'getRetweets':
                 #get all tweets that user tweeted
-                user = User.objects.get(acc_name=acc_name_input)
+                user = User.objects.get(acc_name=acc_name_from_input)
                 retweets = Retweet.objects.filter(user=user)
                 tweets = []
                 for retweet in retweets:
@@ -204,7 +272,7 @@ def retweetApi(request,id=id):
                 else:
                     return JsonResponse("No likes",safe=False)
             elif check == 'getRetweetIDs':
-                user = User.objects.get(acc_name=acc_name_input)
+                user = User.objects.get(acc_name=acc_name_from_input)
                 retweets = Retweet.objects.filter(user=user)
                 tweet_ids = []
                 for retweet in retweets:
@@ -216,14 +284,18 @@ def retweetApi(request,id=id):
                 else:
                     return JsonResponse("No like ids",safe=False)
             elif check == 'delete':
-                user = User.objects.get(acc_name=acc_name_input)
+                user_from = User.objects.get(acc_name=acc_name_from_input)
+                user_to = User.objects.get(acc_name=acc_name_to_input)
                 tweet = Tweet.objects.get(id=post_id)
                 tweet.retweets = tweet.retweets - 1 #decrementing retweet count of tweet
                 tweet.save()
 
-                #Tweet.objects.all().values() #just testing
+                #delete notification
+                notification = Notification.objects.get(post_id=post_id, user_from=user_from, user_to=user_to, type='Retweet')
+                notification.delete()
 
-                retweet = Retweet.objects.get(user=user, tweet=tweet)
+                #delete retweet
+                retweet = Retweet.objects.get(user=user_from, tweet=tweet)
                 retweet.delete()
                 return JsonResponse("Deleted Successfully",safe=False)
             else:
@@ -262,8 +334,10 @@ def likeApi(request,id=id):
         if message_serializer.is_valid():
 
             #have to get user from front-end
-            acc_name_input = message_serializer.data['word']
-            user = User.objects.get(acc_name=acc_name_input)
+            acc_name_from_input = message_serializer.data['word']
+            acc_name_to_input = message_serializer.data['word2']
+            user_from = User.objects.get(acc_name=acc_name_from_input)
+            user_to = User.objects.get(acc_name=acc_name_to_input)
 
             #have to get tweet id from front-end
             tweet_id = message_serializer.data['num']
@@ -271,12 +345,14 @@ def likeApi(request,id=id):
             tweet.likes = tweet.likes + 1 #incrementing like count of tweet
             tweet.save()
 
-            #Tweet.objects.all().values() #just testing
+            #add notification to DB
+            notification = Notification.create(tweet_id,'Like',user_to,user_from)
+            notification.save()
 
-            like = Like.create(tweet,user)
+            like = Like.create(tweet,user_from)
             print(like)
             like.save()
-            db_like = Like.objects.get(tweet=tweet, user=user) #NEW
+            db_like = Like.objects.get(tweet=tweet, user=user_from) #NEW
             like_serializer = LikeSerializer(db_like,many=False) #NEW
             return JsonResponse(like_serializer.data,safe=False) #NEW
             #return JsonResponse("Added Successfully",safe=False) #NEW
@@ -289,6 +365,7 @@ def likeApi(request,id=id):
         if message_serializer.is_valid():
             check = message_serializer.data['word']
             acc_name_input = message_serializer.data['word2']
+            acc_name_to_input = message_serializer.data['word3']
             post_id = message_serializer.data['num']
             if check == 'getLikes':
                 #get all tweets that user tweeted
@@ -316,14 +393,17 @@ def likeApi(request,id=id):
                 else:
                     return JsonResponse("No like ids",safe=False)
             elif check == 'delete':
-                user = User.objects.get(acc_name=acc_name_input)
+                user_from = User.objects.get(acc_name=acc_name_input)
+                user_to = User.objects.get(acc_name=acc_name_to_input)
                 tweet = Tweet.objects.get(id=post_id)
                 tweet.likes = tweet.likes - 1 #decrementing like count of tweet
                 tweet.save()
 
-                #Tweet.objects.all().values() #just testing
+                #delete notification
+                notification = Notification.objects.get(post_id=post_id, user_from=user_from, user_to=user_to, type='Like')
+                notification.delete()
 
-                like = Like.objects.get(user=user, tweet=tweet)
+                like = Like.objects.get(user=user_from, tweet=tweet)
                 like.delete()
                 return JsonResponse("Deleted Successfully",safe=False)
             else:

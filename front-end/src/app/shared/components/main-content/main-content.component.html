@@ -82,21 +82,21 @@
 
     <div *ngSwitchCase="'verified'">
       <app-notification
-      *ngFor="let notification of verifiedNotifications"
+      *ngFor="let notification of data[0]"
       [notification]="notification">
       </app-notification>
     </div>
 
     <div *ngSwitchCase="'mentions'">
       <app-notification
-      *ngFor="let notification of mentionsNotifications"
+      *ngFor="let notification of data[0]"
       [notification]="notification">
       </app-notification>
     </div>
     
     <div *ngSwitchDefault> <!-- 'all'-->
       <app-notification
-      *ngFor="let notification of allNotifications"
+      *ngFor="let notification of data[0]"
       [notification]="notification">
     </app-notification>
     </div>

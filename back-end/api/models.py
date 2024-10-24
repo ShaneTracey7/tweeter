@@ -82,6 +82,21 @@ class Retweet(models.Model):
     def __str__(self):
         return f"{self.id} {self.tweet} {self.user}"
 
+#keeps track of followers/following for entire web app
+class Notification(models.Model):
+    post_id = models.IntegerField()
+    type = models.CharField(max_length = 35) # 'retweet', 'like', or 'follow'
+    user_to = models.ForeignKey(User, related_name='user_to_notification_set', on_delete=models.CASCADE)
+    user_from = models.ForeignKey(User, related_name='user_from_notification_set', on_delete=models.CASCADE)
+    
+
+    @classmethod
+    def create(cls,post_id,type,user_to,user_from):
+        notification = cls(post_id=post_id,type=type,user_to=user_to,user_from=user_from)
+        return notification
+        
+    def __str__(self):
+        return f"{self.id} {self.post_id} {self.type} {self.user_to} {self.user_from}"
 
 
 #was able to get user from tweet, aka convo from message

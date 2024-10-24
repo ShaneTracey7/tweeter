@@ -1,5 +1,5 @@
 import { Component, Input} from '@angular/core';
-import { Notification, Profile, createAllProfiles, getProfile } from '../../../core/data';
+import { Notification, Notification2, Post, Profile, createAllProfiles, getProfile } from '../../../core/data';
 import { NotificationPageComponent } from '../notification-page.component';
 
 
@@ -11,7 +11,7 @@ import { NotificationPageComponent } from '../notification-page.component';
 
 })
 export class NotificationComponent extends NotificationPageComponent{
-@Input () notification = new Notification('','','','');
+@Input () notification = new Notification2('',new Profile('','','','',0,0), new Post(0,'','','', new Date(),'','',0,0,0,0) );
 
 show_modal: boolean = false;
 modal_profile = new Profile('','','','',0,0);
@@ -20,7 +20,8 @@ modal_profile = new Profile('','','','',0,0);
 showModal(username: string)
   {
 
-   this.modal_profile = getProfile(username, createAllProfiles());
+   //this.modal_profile = getProfile(username, createAllProfiles());
+   this.modal_profile = this.notification.profile_from;
    this.show_modal = true;
   }
 
@@ -29,4 +30,17 @@ hideModal()
     this.show_modal = false;
   }
  
+  handleClick()
+  {
+    if (this.notification.type == 'Follow')
+    {
+      // direct to profile page
+      console.log("Direct to profile page");
+    }
+    else //type == 'Like' or 'Retweet'
+    {
+      //direct to tweet view/page (not made yet)
+      console.log("Direct to tweet view/page");
+    }
+  }
 }

@@ -86,6 +86,18 @@ export class Notification{
         this.text = text;
       }
 }
+export class Notification2{
+    type: string; //url
+    profile_from: Profile;    
+    tweet: Post; // not coming from db
+    //maybe add post_id (needed to delete) but can only delete from post that already has id
+
+    constructor(type: string, pf: Profile, tweet: Post) {
+        this.type = type;
+        this.profile_from = pf;
+        this.tweet = tweet;
+      }
+}
 
 export class SearchTopic {
     category: string;
