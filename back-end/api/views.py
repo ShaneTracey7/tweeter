@@ -578,7 +578,7 @@ def followApi(request,id=id):
                 user2 = User.objects.get(acc_name=acc_name_input2)
 
                 #delete follow from DB
-                follow = Follow.objects.filter(following=user2, follower=user1)
+                follow = Follow.objects.filter(following=user1, follower=user2)
                 follow.delete()
 
                 #Do i want to delete notification for follow? (add it here if so)

@@ -3,7 +3,10 @@ import { Profile, getImgUrl } from "./data";
 import { ActivatedRoute, Router} from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 
-@Injectable()
+//@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CoreService {
 
      //used for toolbar tabs
@@ -59,7 +62,7 @@ export class CoreService {
     this.marker4= false; 
     this.marker5= false; 
 
-    console.log("logging page: " + this.cp_style);
+    console.log("logging page: " + this.current_page);
   }
 
   boldNavbarIcon(str: string) {

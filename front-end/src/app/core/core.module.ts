@@ -65,7 +65,7 @@ import { ProfilePageComponent } from '../features/profile-page/profile-page.comp
     RouterLinkActive,
     CommonModule
   ],
-  providers: [CoreService,TweetService], //new
+  providers: [/*CoreService,*/TweetService], //new
   bootstrap: [CoreComponent]
 })
 export class CoreModule {}

@@ -48,6 +48,7 @@ constructor(authService: AuthService, route: ActivatedRoute, service: CoreServic
 
 ngOnInit()
 {
+  console.log("ppg init service current page: " + this.service.current_page);
   this.pic = localStorage.getItem('pic') ?? "badToken";
   this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";
   this.setLiked();

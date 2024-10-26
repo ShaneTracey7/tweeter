@@ -24,10 +24,20 @@ export class SecondaryContentComponent {
 
   ngOnInit()
   {
+    console.log("page b4 init:" + this.page)
     this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";  
     this.createServiceUserFeed();
     //this.service.createUserFeed(true,this.service_acc_name);
     this.profiles = this.service.UserFeed;
+    
+  }
+
+  ngOnChanges(changes: SimpleChanges)
+  {
+    console.log(changes);
+    console.log("a change in secondary component");
+    console.log("tab:" + this.tab)
+    console.log("page:" + this.page)
   }
 
   // global page data

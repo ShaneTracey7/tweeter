@@ -76,7 +76,10 @@ export class ProfilePageComponent extends CoreComponent{
 
   ngOnInit()
   {
-    this.service_page = this.service.current_page;
+    //console.log("ppg init service current page: " + this.service.current_page);
+    //console.log("ppg init service current page: " + this.service.current_page);
+    //this.service_page = this.service.current_page;
+    //console.log("Service Page PPC init: " + this.service_page)
     this.service_username = localStorage.getItem('username') ?? "badToken";
     this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";
  
@@ -97,8 +100,8 @@ export class ProfilePageComponent extends CoreComponent{
     }
     //console.log("url" + arr);
     //this.tmp = arr.pop()??"error";
-    if (this.last_url_section == "Profile")
-      {
+    else if (this.last_url_section == "Profile") //changed to 'else if' from 'if'
+    {
         console.log("last_url_section == Profile");
         this.acc_name = this.service_acc_name; //might phase this out
         this.username = this.service_username;
@@ -107,7 +110,11 @@ export class ProfilePageComponent extends CoreComponent{
         this.setLiked();
         this.setRetweeted();
         //testing
-      }
+        this.service.setCurrentPage('Profile'); //could be redundant
+        this.service_page = 'Profile'; //cound be redundant
+        //this.service.current_page = 'Profile';
+        //this.service.cp_style = 'Profile';
+    }
     else if (this.last_url_section == "followers" || this.last_url_section == "following")
     {
         console.log("last_url_section == " + this.last_url_section);
@@ -119,6 +126,8 @@ export class ProfilePageComponent extends CoreComponent{
 
           this.service.setCurrentPage('ProfileFollow');
           this.service_page = 'ProfileFollow';
+          //this.service.current_page = 'ProfileFollow'; //NEW
+          this.inFollowLists = true; //NEW
           this.arrs = [this.followers,this.following];
           if(this.last_url_section == "followers" )
             {
@@ -136,6 +145,7 @@ export class ProfilePageComponent extends CoreComponent{
 
           this.service.setCurrentPage('ProfileFollow');
           this.service_page = 'ProfileFollow';
+          this.inFollowLists = true; //NEW
           this.arrs = [this.followers,this.following];
           if(this.last_url_section == "followers" )
           {
@@ -153,6 +163,9 @@ export class ProfilePageComponent extends CoreComponent{
     {
         console.log("last_url_section == else");
         this.service.setCurrentPage('OtherProfile');
+        this.service_page = 'OtherProfile'; //NEW
+        this.service.current_page = 'OtherProfile';
+        this.service.cp_style = 'OtherProfile';
         this.acc_name = this.last_url_section; //might phase this out
         this.setUpProfileDataDB();//this.checkUserInDB(); //didn't work properly
         this.arrs = [this.posts,this.retweets,this.likes, this.media];
@@ -160,6 +173,7 @@ export class ProfilePageComponent extends CoreComponent{
         this.setRetweeted();
     }
     console.log(this.acc_name); 
+    console.log("current page of this.service: " + this.service.current_page);
     console.log("url arr:" + arr + "length: " + arr.length);
     console.log("url arr2:" + arr2 + "length: " + arr2.length);
   }
@@ -307,7 +321,7 @@ export class ProfilePageComponent extends CoreComponent{
 
     this.http.put("http://127.0.0.1:8000/tweet",requestBody).subscribe((resultData: any)=>
     {
-      console.log("get posts result data: " + resultData[0].text_content);
+      //console.log("get posts result data: " + resultData[0].text_content);
 
       if(resultData == 'Failed to Add')
         {
@@ -345,7 +359,7 @@ export class ProfilePageComponent extends CoreComponent{
 
     this.http.put("http://127.0.0.1:8000/tweet",requestBody).subscribe((resultData: any)=>
     {
-      console.log("get likes result data: " + resultData[0].text_content);
+      //console.log("get likes result data: " + resultData[0].text_content);
 
       if(resultData == 'Failed to Add')
         {
@@ -384,7 +398,7 @@ export class ProfilePageComponent extends CoreComponent{
 
     this.http.put("http://127.0.0.1:8000/tweet",requestBody).subscribe((resultData: any)=>
     {
-      console.log("get retweets result data: " + resultData[0].text_content);
+      //console.log("get retweets result data: " + resultData[0].text_content);
 
       if(resultData == 'Failed to Add')
         {
@@ -472,13 +486,31 @@ export class ProfilePageComponent extends CoreComponent{
   }
 
   // to go back to normal profile view
-  goBack()
+  goBack()//************************************************************************************************************* */
   {
     var arr = window.location.pathname.split("/");
     arr.pop();
     this.setBackUrl(arr);
+    let check = arr.pop()
+    if(check == 'Profile')
+    {
+      this.service.setCurrentPage('Profile') 
+      this.service_page = 'Profile';
+    }
+    else
+    {
+      this.service.setCurrentPage('OtherProfile') 
+      this.service_page = 'OtherProfile';
+    }
     this.inFollowLists = false;
-    this.service.setCurrentPage('OtherProfile') // or Profile (have to create condition for this)
+
+    //set arrs again
+    //this.setUpProfileDataDB(); //might have to call this
+    this.arrs = [this.posts,this.retweets,this.likes, this.media];
+    this.setLiked();
+    this.setRetweeted();
+
+    //navigate back to profile page
     this.router.navigate([this.backUrl]);
   }
 
@@ -840,6 +872,8 @@ convertDBInfo(arr_type: string)
        }  
  
      url = url + '/' + str;
+     
+     this.service.current_tab = str; //new
      this.service.routeToChild(str);
      this.router.navigate([url]);
    }

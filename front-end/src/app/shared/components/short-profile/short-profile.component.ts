@@ -23,13 +23,14 @@ export class ShortProfileComponent{
   timer:any;
 
   constructor(public service: CoreService/*, public tweetService: TweetService*/){
-
+    //changed from public
   }
 
   goToProfile(timer:any)
   {
     this.service.router.navigate(['/tweeter/Profile/' + this.profile.acc_name]);
     this.service.setCurrentPage('OtherProfile');
+    this.service.routeToChild('posts'); //NEW
     clearTimeout(timer);
   }
 
