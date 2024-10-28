@@ -31,7 +31,9 @@ Users can express themselves through how they customize their profile (profile p
 Tools:
 
 -VS Code for programming the front-end and back-end
+
 -iconmonstr for most of the icons: https://iconmonstr.com
+
 -ran front-end and back-end from my laptop's terminal during development(front-end moved to GitHubPages and back-end being hosted elsewhere)
 
 
