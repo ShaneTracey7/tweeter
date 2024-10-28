@@ -29,6 +29,8 @@ export class CoreService {
   DBUsers: any [] = [];
   UserFeed: Profile [] = [];
 
+  other_profile_flag = false;
+
 
   constructor(public route: ActivatedRoute, public router: Router,private http: HttpClient) { 
     //this.current_page = this.route.snapshot.url.toString();
