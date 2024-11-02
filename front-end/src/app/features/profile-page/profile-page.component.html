@@ -60,8 +60,9 @@
    <!-- <div > -->
     <div *ngIf="!inFollowLists">
     <div *ngIf="isValid; else inValidProfile2">
-
+       
       <div *ngIf="last_url_section == 'Profile'; else otherProfile">
+      <!--<div *ngIf="last_url_section == 'Profile' && service.other_profile_flag == false; else otherProfile">-->
 
         <img id="profile-bg-image" [src]="elon" alt="background-image"/>
         <div id="profile-row1">
@@ -83,7 +84,7 @@
           
         </div>
       </ng-template>
-
+    
     </div>
 
     <ng-template #inValidProfile2>

@@ -36,11 +36,16 @@ hideModal()
     {
       // direct to profile page
       console.log("Direct to profile page");
+      var route = '/tweeter/Profile/' + this.notification.profile_from.acc_name;
+      this.service.router.navigate([route]); 
+      this.service.routeToChild('posts');
     }
     else //type == 'Like' or 'Retweet'
     {
       //direct to tweet view/page (not made yet)
       console.log("Direct to tweet view/page");
+      var route = '/tweeter/Post/' + this.notification.tweet.id;
+      this.service.router.navigate([route]); 
     }
   }
 

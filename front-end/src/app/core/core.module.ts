@@ -28,6 +28,7 @@ import { CoreService } from './core-service.service';
 import { TweetService } from './tweet-service';
 import { LogoutModalComponent } from '../shared/components/navigation-bar/logout-modal.component';
 import { ProfilePageComponent } from '../features/profile-page/profile-page.component';
+import { PostPageComponent } from '../features/post-page/post-page.component';
 
 
 
@@ -52,6 +53,7 @@ import { ProfilePageComponent } from '../features/profile-page/profile-page.comp
     ShortProfileComponent,
     ProfileModalComponent,
     LogoutModalComponent,
+    PostPageComponent,
     
   ],
   imports: [

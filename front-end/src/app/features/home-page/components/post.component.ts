@@ -14,7 +14,7 @@ import { MainContentComponent } from '../../../shared/components/main-content/ma
 export class PostComponent extends HomePageComponent{
 
 @Input () post = new Post(0,'','','',new Date,'','',0,0,0,0);
-
+@Input () focused = false; // true if post is being focused within post-page-component
 @Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService,this.service,this.authService,this.route);
 //@Input() hpc: HomePageComponent = new HomePageComponent(this.authService,this.route,this.service,this.http,this.tweetService,this.formBuilder)
 @Input() upc: any = '';
@@ -302,13 +302,55 @@ handleLike()
 
 }
 
+showTimeAndDate()
+{
+  let date = new Date(this.post.e_time);
+  let hours = date.getHours();
+  let mins =date.getMinutes();
+  let month = date.getMonth();
+  let day = date.getDate();
+  let year = date.getFullYear();
+  
+  let month_str;
+  switch(month)
+  {
+    case 0: month_str = "Jan ";break;
+    case 1: month_str = "Feb " ;break;
+    case 2: month_str = "Mar " ;break;
+    case 3: month_str = "Apr " ;break;
+    case 4: month_str = "May " ;break;
+    case 5: month_str = "Jun " ;break;
+    case 6: month_str = "Jul " ;break;
+    case 7: month_str = "Aug " ;break;
+    case 8: month_str = "Sep " ;break;
+    case 9: month_str = "Oct " ;break;
+    case 10: month_str = "Nov " ;break;
+    case 11: month_str = "Dec " ;break;
+  }
+
+  let meridiem;
+  if(hours > 11)
+  {
+    meridiem = " PM";
+    if (hours != 12)
+    {
+      hours = hours - 12;
+    }
+  }
+  else
+  {
+    meridiem = " AM";
+  }
+
+  return hours + ":" + mins + meridiem + " . " + month_str + day + ", " + year + " . ";
+}
 
 showDeltaDate()
 {
 
   // Time Difference in Milliseconds
 
-let start = new Date(this.post.e_time).getTime()
+let start = new Date(this.post.e_time).getTime();
 let d = new Date(this.post.e_time);
 let current = new Date().getTime();
 
@@ -427,4 +469,26 @@ grayReaction()
     this.reaction = "";
   }
  
+  handlePostClick()
+  {
+    if(this.focused)
+    {
+      console.log("Already on post page");
+    }
+    else
+    {
+      console.log("going to post page");
+      var route = '/tweeter/Post/' + this.post.id;
+      this.service.router.navigate([route]); 
+    }
+    
+  }
+  handleCommentClick()
+  {
+    //Go to post page OR will show a modal of tweet + tweet form in a vertical stack
+    console.log("going to post page");
+    var route = '/tweeter/Post/' + this.post.id;
+    this.service.router.navigate([route]); 
+  }
+
 }

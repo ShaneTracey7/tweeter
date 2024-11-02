@@ -1,95 +1,29 @@
-/* when making any changes, you will have to collectstatic after 
-and add html somewhere, to make them appear, try clicking another then come back and refresh
-*/
 $bg-color-hover-main: rgba(0, 0, 0, 0.030);
 $bg-color-hover-nav-tool-bar: rgba(0, 0, 0, 0.090);
 $twitter-blue: #1DA1F2;
+$gray: rgb(97, 110, 124);
 $gray-font: rgb(97, 110, 124);
 
-#post-focused-date{
-  margin-bottom: 10;
-  margin-top: 10px;
-  font-size: 0.9rem;
-  color: $gray-font;
-  margin-left: 7px;
+#profile-ut{
+    margin-right: auto;
+    gap: 20px;
 }
-.reactionbar-line{
-  margin-top: 0;
-  margin-bottom: 0;
+#profile-t{
+    margin-right: auto;
+    gap: 20px;
+    z-index: 3; //
 }
-
-#user-accname-stack{
-  display: flex;
-  flex-direction: column;
-  margin-left: 20px;
+#profile-arrow-container{
+    //margin-right: auto;
+    margin-left: 15px;
 }
-
-#test-block{
-  display:flex;
-  flex-direction: row;
+#profile-arrow{
+    //margin-right: auto;
+    height: 40px;
+    width: 40px;
 }
 
-/* post styling */
-.reactionbar{
-  display:flex;
-  flex-direction: row;
-  align-items: center;
-  height: 45px;
-}
-
-.reaction-button{
-  height:35px;
-  width: fit-content;
-  min-width: 35px;
-  border: 0;
-  background-color: transparent;
-  padding: 0;
-  margin: 0;
-}
-
-img.reactionbaricons{
-    width: 18px;
-    height: 18px;
-  }
-
-.icon-container{
-  display: inline;
-  align-items: center;
-  justify-content: center;
-  padding: 7px;
-  background-color: transparent;
-  border-radius: 50%;
-  height: fit-content;
-}
-
-#post-profile-img{
-    margin: 0;
-  }
-.post-text{
-  margin-top: 10px;
-  margin-bottom: 5px;
-  margin-left: 7px;
-}
-.post-image{
-  margin-right: 15px;
-  margin-left: 7px;
-  max-height: 500px;
-  height:fit-content;
-  width: fit-content;
-  max-width: 98%;
-  border-radius: 15px;
-  border: 1px solid lightgray;
-
-}
-
-  .post-content-container{
-    display: inline;
-    width: 100%;
-    margin-left: 7px;
-    margin-right: 7px;
-  }
-
-  .post-profile-container{
+.post-profile-container{
     margin-top: 12px;
     margin-left: 17px;
     //display: inline;
@@ -97,57 +31,41 @@ img.reactionbaricons{
     height: fit-content;  
   }
 
-  .post-heading{
-    display:flex;
-    flex-direction: row;
-    align-items: center;
+.profile-page-button{
+    margin-left: auto;
+    margin-right: 20px;
+    border-radius: 25px;
+    width: fit-content;
+    height: 32px;
+    color: black;
+    background-color: white;
+    border: 1px solid rgb(185, 199, 213);
+    font-weight: bold;
+    font-size: 0.9rem;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.profile-page-button:hover{
+    background-color: $bg-color-hover-nav-tool-bar;
+}
+
+#post-focused-date{
+    margin-bottom: 0;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: $gray-font;
+}
+
+.post-content-container{
+    display: inline;
+    width: 100%;
     margin-left: 7px;
-    margin-top: 5px;
-
-      #post-username{
-        font-weight: bold;
-        color: black;
-        font-size: 1rem;
-      }
-      p{
-        margin-bottom: 0;
-      }
-      #post-accountname-focused{
-        margin-left: 0;
-      }
-
-      .post-accountname{
-        color: $gray-font;
-        font-size: 0.95rem;
-        margin-left: 5px;
-      }
-
-      #post-etime::before {
-        content: ".";
-        margin-left: 4px;
-        margin-right: 4px;
-        //vertical-align: super;
-      }
-
-      #post-etime{
-        color: $gray-font;
-        font-size: 0.95rem;
-      }
-
-      #post-elip{
-        margin-right: 0;
-        margin-left: auto;
-        width: 32px;
-        height: 32px;
-        padding: 7px;
-        border-radius: 20px;
-      }
-
+    margin-right: 7px;
   }
 
-  .post-profile{
+.post-profile{
     display:inline;
-    margin-left:10px;
+    //margin-left:10px;
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -155,8 +73,8 @@ img.reactionbaricons{
   .post:hover {
     background-color: $bg-color-hover-main;
   }
-  
-  .reactiongroup {
+
+.reactiongroup {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -288,45 +206,5 @@ img.reactionbaricons{
     }
     .e-icon-container:hover{
       background-color: #1da0f22f;
-    }
-  }
-
-
-
-  #home-searchbar{
-    width: 89%;
-    max-width: 350px; /*new */
-    margin-left:8%;
-    margin-right:auto;
-    font-size: 0.95rem;
-  }
-
-  #home-form {
-    height: 50px;
-    margin-top: 4px;
-    position:sticky;
-    position: -webkit-sticky;
-    top: 0;
-    background-color: white;
-  }
-
-  #home-tab1, #home-tab2{
-    width:50%;
-  }
-  
-  .lower-toolbar {
-    display: none;
-  }
-
-  .toolbar-icon {
-
-    margin-left: 10px;
-    margin-bottom: 0px;
-  }
-
-  @media only screen and (min-width: 1250px) {
-
-    #home-searchbar{
-      margin-left:5%;
     }
   }

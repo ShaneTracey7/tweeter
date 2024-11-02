@@ -58,6 +58,7 @@ export class NavigationBarComponent{
       {
         this.service.other_profile_flag = true;
         console.log("was on OtherProfile");
+        //this.router.navigate(['/tweeter/Profile']); 
       }
       else // is already on neither
       {
@@ -65,6 +66,7 @@ export class NavigationBarComponent{
         this.service.setCurrentPage(page);
         this.service.routeToChild(tab);
         console.log("not on Profile or OtherProfile");
+        this.router.navigate(['/tweeter/Profile']); 
       }
 
     }

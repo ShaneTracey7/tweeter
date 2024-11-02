@@ -102,6 +102,21 @@ def tweetApi(request,id=id):
                     return JsonResponse(tweet_serializer.data,safe=False)
                 else:
                     return JsonResponse("No posts",safe=False)
+            elif check == 'getPost':
+                #get all tweets that user tweeted    
+                try:               
+                    tweet = Tweet.objects.get(id=user_id) # user_id is actually tweet id here
+                    tweet_serializer = TweetSerializer(tweet,many=False)
+                    print(tweet.user)
+                    #user = User.objects.get(id=tweet.user)
+                    user_serializer = UserSerializer(tweet.user,many=False)
+                    return JsonResponse([tweet_serializer.data,user_serializer.data],safe=False)
+                except Tweet.DoesNotExist:
+                    return JsonResponse("No post",safe=False)
+                #if tweet.exists():
+                
+                #else:
+                 #   return JsonResponse("No post",safe=False)
             else:
                 user = User.objects.get(id=user_id)
                 #tweet = Tweet.objects.get(id=user_id)

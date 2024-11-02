@@ -1,0 +1,97 @@
+<div id="mc" class="main-content">
+
+            <div id="profile-t"class="toolbar">
+              <div id="profile-ut" class="upper-toolbar">
+                <!-- upper toolbar add here-->
+                <div id="profile-arrow-container" class="title-icons">
+                  <img id="profile-arrow"  (click)="service.setCurrentPage('Home')" routerLink="/tweeter/Home" class="toolbar-icon" [src]="service.setUrl('back-arrow.svg')" alt="back-arrow"/>
+                </div>
+                  <h1 class="page-title"> Post </h1>
+                  <button class="profile-page-button" id="reply-button">Reply</button>
+              </div>
+            </div>
+    
+            <app-post [focused]=true [post]="post" [upc]="this"></app-post>
+
+            <div class="empty-post">
+              <!--Profile pic-->
+              <!-- text input-->
+               <!-- reply button-->
+               
+
+                <div id="form-status-message-good" *ngIf="this.submit_flag == 2"> Tweet Added!</div>
+                <div id="form-status-message-bad" *ngIf="this.submit_flag == 1">Invalid Tweet!</div>
+                
+                <div class="e-post-stack"> 
+              
+                  <div class="post-profile-container">
+                    <img id="post-profile-img" class="post-profile" [src]="service.setUrl(pic)" alt="profile"/>
+                  </div>
+                  <div class="post-content-container">
+              
+                    <form [formGroup]="tweetForm" id="test-block">
+                      <input id="e-post-input" formControlName="text_content" [style]="isValidInput2()"  placeholder="Post you reply">
+                    </form>
+              
+                    <div class="selection-bar">
+                      <div class="e-icon-container"> 
+                        <img [src]="service.setUrl('landscape.png')" class="selection-bar-icons" alt="Media"/>
+                      </div>
+                      <div class="e-icon-container"> 
+                        <img [src]="service.setUrl('poll.png')" class="selection-bar-icons" alt="GIF"/>
+                      </div>
+                      <div class="e-icon-container">
+                        <img [src]="service.setUrl('emoji.png')" class="selection-bar-icons" alt="Poll"/>
+                      </div>
+                      <div class="e-icon-container">
+                        <img [src]="service.setUrl('schedule.png')" class="selection-bar-icons" alt="Emoji"/>
+                      </div>
+                      <div class="e-icon-container">
+                        <img [src]="service.setUrl('location.png')" class="selection-bar-icons" alt="Schedule"/>
+                      </div>
+                      <button (click)="this.postClick()" id="e-post-button">Reply</button>
+                    </div>
+                  </div>
+              
+                </div>
+
+            </div>
+      
+      <!-- main content add here-->
+      <main-content [upc]=this [data]=arrs [page]=service.current_page [tab]=service.current_tab></main-content>
+
+</div>
+
+<div id="sc" class="secondary-content">
+    <!-- secondary content add here-->
+    
+    <form id="profile-form">
+        <input id="profile-searchbar" type="text" placeholder="Search">
+      </form>
+      
+        <div class="panes">
+          <div class="pane-container">
+            <h3 class="pane-title">What's Happening</h3>
+          </div>
+
+          <secondary-content [pane]='1' [page]=service.current_page [tab]=service.current_tab></secondary-content>
+    <!--
+          {% for topic in topics %}
+              {% include "searchCard.html" with obj=topic %}
+          {% endfor %}
+    -->
+          <div id="pane-more" class="pane-container">
+            <a (click)="service.setCurrentPage('Explore')" routerLink="/tweeter/Explore" class="pane-more">Show more</a>
+          </div>
+        </div>
+
+</div>
+
+<div class="modal-content">
+
+<!--
+    {% for profile in profiles %}
+        {% include "profileModal.html" with profile=profile count=forloop.counter %}
+    {% endfor %}
+-->
+</div>

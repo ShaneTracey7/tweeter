@@ -29,7 +29,7 @@ export class CoreService {
   DBUsers: any [] = [];
   UserFeed: Profile [] = [];
 
-  other_profile_flag = false;
+  other_profile_flag = false; //not really in use, (was part of profile button of navbar functionality implementation)
 
 
   constructor(public route: ActivatedRoute, public router: Router,private http: HttpClient) { 

@@ -8,6 +8,7 @@ import { ProfilePageComponent } from '../features/profile-page/profile-page.comp
 import { PageNotFoundComponent } from '../shared/components/page-not-found/page-not-found.component';
 import { CoreComponent } from './core.component';
 import { PermissionsService } from './auth.guard';
+import { PostPageComponent } from '../features/post-page/post-page.component';
 
 
 
@@ -47,6 +48,22 @@ const routes: Routes = [
         component: MessagePageComponent,
         canActivate : [PermissionsService],
         title: 'Messages',
+      },
+      {
+        path: 'Post',
+        component: PostPageComponent,
+        canActivate : [PermissionsService],
+        title: 'Post',
+        children: [
+          {
+            path: '**',
+            component: PostPageComponent,
+            canActivate : [PermissionsService],
+            title: 'Profile',
+            
+          },
+
+        ],
       },
       {
         path: 'Profile',

@@ -897,5 +897,38 @@ convertDBInfo(arr_type: string)
      }  
      console.log('end of setBackUrl function');  
  }
-  
+
+ /* currently not pursing this implementation
+ profileStyle()
+ {
+  console.log("this.service.current_page:" + this.service.current_page + " this.service.other_profile_flag: " +this.service.other_profile_flag);
+  if(this.service.current_page == 'Profile' || this.service.other_profile_flag == true)
+  {
+    return {
+        display: 'block',
+      };
+  }
+  else
+  {
+    return{
+        display: 'none',
+      };
+  }
+ }
+ otherProfileStyle()
+ {
+  if(this.service.current_page == 'OtherProfile' && this.service.other_profile_flag == false)
+    {
+      return {
+          display: 'block',
+        };
+    }
+    else
+    {
+      return{
+          display: 'none',
+        };
+    }
+ }
+  */
 }

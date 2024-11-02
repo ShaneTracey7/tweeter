@@ -38,6 +38,7 @@ export class MainContentComponent {
     console.log(changes);
     console.log("a change in main component");
     console.log("tab:" + this.tab)
+    console.log("page:" + this.page)
   }
 
   //home page data

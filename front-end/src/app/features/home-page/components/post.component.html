@@ -1,32 +1,51 @@
 
 <!-- only used within homePage.html-->
-<div class="post">
+<div (click)="handlePostClick()" class="post">
 
-    <div class="post-profile-container">
-        <img id="post-profile-img" (mouseover)="showModal(post, this)" (mouseout)="hideModal(timer)" class="post-profile" src="{{this.service.setUrl(post.profile)}}" alt="profile"/>
-        <profile-modal [inMain]="true" [(show)]='show_modal' [mcc]='mcc'[profile]='modal_profile'></profile-modal>
+    <div *ngIf="!focused">
+        <div class="post-profile-container">
+            <img id="post-profile-img" (mouseover)="showModal(post, this)" (mouseout)="hideModal(timer)" class="post-profile" src="{{this.service.setUrl(post.profile)}}" alt="profile"/>
+            <profile-modal [inMain]="true" [(show)]='show_modal' [mcc]='mcc'[profile]='modal_profile'></profile-modal>
+        </div>
     </div>
 
     <div class="post-content-container">
-
+        <div *ngIf="!focused">
             <div class="post-heading">
                 <p id="post-username">{{ post.username }}</p>
-                <p id="post-accountname">&commat;{{ post.acc_name }}</p>
+                <p class="post-accountname">&commat;{{ post.acc_name }}</p>
                 <p id="post-etime">{{ showDeltaDate()}} </p>
                 <img id="post-elip" class="elip" [src]="service.setUrl('ellipsis.png')" alt="more"/>
             </div>
-
+        </div>
+        <div *ngIf="focused">
+            <div class="post-heading">
+                <img id="post-profile-img" (mouseover)="showModal(post, this)" (mouseout)="hideModal(timer)" class="post-profile" src="{{this.service.setUrl(post.profile)}}" alt="profile"/>
+                <profile-modal [inMain]="true" [(show)]='show_modal' [mcc]='mcc'[profile]='modal_profile'></profile-modal>
+                <div id="user-accname-stack">
+                    <p id="post-username">{{ post.username }}</p>
+                    <p id="post-accountname-focused" class="post-accountname">&commat;{{ post.acc_name }}</p>
+                </div>
+                <img id="post-elip" class="elip" [src]="service.setUrl('ellipsis.png')" alt="more"/>
+            </div>
+        </div>
             <div class="post-content">
                 <p class="post-text"> {{ post.text }}</p>
                 <div *ngIf="post.image != ''">
                     <img class="post-image" src="{{ post.image }}" alt="image"/>
                 </div>
+                <div *ngIf="focused">
+                    <p id="post-focused-date">{{showTimeAndDate()}}</p>
+                </div>
             </div>
 
+            <div *ngIf="focused">
+                <hr class="reactionbar-line"> 
+            </div>
             <div class="reactionbar">
                 <div class="reactiongroup">
                     <button class="reaction-button" (mouseover)="colorReaction('chat-bubble')" (mouseout)="grayReaction()">
-                        <div class="icon-container" [style]="colorReactionBarBG('chat-bubble')">
+                        <div (click)="handleCommentClick()" class="icon-container" [style]="colorReactionBarBG('chat-bubble')">
                             <img class="reactionbaricons" [src]="colorReactionBarIcon('chat-bubble')" alt="comment"/>
                         </div>
                         <h3 class="reactionbarvalues" [style]="colorReactionBarText('chat-bubble')"> {{ post.comments }} </h3>
@@ -70,6 +89,9 @@
                     </button> 
                 </div>
             
+            </div>
+            <div *ngIf="focused">
+                <hr class="reactionbar-line"> 
             </div>
         </div>
     
