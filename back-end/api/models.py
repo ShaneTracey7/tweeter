@@ -47,14 +47,15 @@ class Tweet(models.Model):
     comments = models.IntegerField() # may not need this one
     retweets = models.IntegerField()
     engagements = models.IntegerField()
+    reply_id = models.IntegerField(default=0) #will be id of tweet being commented upon or 0 if original tweet(needed to have lists of comments)
 
     @classmethod
-    def create(cls, user,date_created,text_content,image_content,likes,comments,retweets,engagements):
-        tweet = cls(user=user,date_created=date_created,text_content=text_content,image_content=image_content,likes=likes,comments=comments,retweets=retweets,engagements=engagements)
+    def create(cls, user,date_created,text_content,image_content,likes,comments,retweets,engagements,reply_id):
+        tweet = cls(user=user,date_created=date_created,text_content=text_content,image_content=image_content,likes=likes,comments=comments,retweets=retweets,engagements=engagements, reply_id=reply_id)
         return tweet
     
     def __str__(self):
-        return f"{self.user} {self.date_created} {self.text_content} {self.image_content} {self.likes} {self.comments} {self.retweets} {self.engagements}"
+        return f"{self.user} {self.date_created} {self.text_content} {self.image_content} {self.likes} {self.comments} {self.retweets} {self.engagements} {self.reply_id}"
 
 #keeps track of likes for entire web app
 class Like(models.Model):

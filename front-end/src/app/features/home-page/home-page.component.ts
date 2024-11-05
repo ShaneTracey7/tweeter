@@ -312,10 +312,10 @@ tweetForm = this.formBuilder.group({
     return this.tweetService;
   }
 
-  postClick()
+  postClick(reply_id: number)
   {
     let image_content = "";
-    this.getTweetService().postTweet(this.service.acc_name,this.tweetForm.value.text_content?? '',image_content);
+    this.getTweetService().postTweet(this.service.acc_name,this.tweetForm.value.text_content?? '',image_content, reply_id);
     
     if(this.getTweetService().tweetValidated(this.tweetForm.value.text_content?? '',image_content))
       {

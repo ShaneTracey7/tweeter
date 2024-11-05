@@ -22,9 +22,14 @@ export class PostPageComponent extends CoreComponent{
   DBpost: any = '';
   post: Post = new Post(0,'','','', new Date(),'','',0,0,0,0);
   
-  DBfeed: any [] = [];
+  DBUserfeed: any [] = [];
+  DBPostfeed: any [] = [];
+
   comments: Post [] = [];
   arrs: any[] = []; //testing to feed into main component
+
+  like_ids: number [];
+  retweet_ids: number [];
 
   submit_flag: number  = 0; // 0: not pressed, 1: pressed but not submitted, 2: pressed and submitted
   
@@ -38,6 +43,8 @@ export class PostPageComponent extends CoreComponent{
     this.service_acc_name = "";
     this.p_id = 0;
     this.pic = "";
+    this.like_ids = [];
+    this.retweet_ids = [];
   }
 
   ngOnInit()
@@ -54,13 +61,55 @@ export class PostPageComponent extends CoreComponent{
     }
     else
     {
+      //get like and retweet arrs
+      this.setLikeAndRetweeted();
       // get post
       this.getDBPost();
     }
     
   }
 
+  setLikeAndRetweeted()
+  {
+    let globalObj = this;
 
+        const postPromise = new Promise<any>(function (resolve, reject) {
+          setTimeout(() => {
+            reject("We didn't get a response")
+          }, 5000) // 5 secs
+
+          setTimeout(() => {
+            //globalObj.last_like_ids = globalObj.tweetService.DBlikes; //NEW
+            globalObj.tweetService.getRetweetIDsDB(globalObj.service_acc_name);
+            globalObj.tweetService.getLikeIDsDB(globalObj.service_acc_name);
+            //console.log("last_like_ids = " + globalObj.last_like_ids);
+            resolve('we got a response');
+          }, 0)
+        })
+        const checkPromise = new Promise<any>(function (resolve, reject) {
+          setTimeout(() => {
+            reject("We didn't get a response")
+          }, 5000) // 5 secs
+
+          setTimeout(() => {
+            globalObj.retweet_ids = globalObj.tweetService.DBretweets;
+            globalObj.like_ids = globalObj.tweetService.DBlikes;
+            //console.log("like_ids = " + globalObj.like_ids);
+            resolve('we got a response');
+          }, 500) // 0 secs
+        })
+
+        async function myAsync(){
+          try{
+            postPromise;
+            await checkPromise;
+          }
+          catch (error) {
+            console.error('Promise rejected with error: ' + error);
+          }
+        }
+        myAsync();
+  }
 
   //gets all replies(from DB) and adds them to DBfeed array
   //**** NOT IMPLEMENTED YET IN BACKEND */
@@ -68,32 +117,41 @@ export class PostPageComponent extends CoreComponent{
   {
     let requestMessage =
     {
-      'word': 'getComments',
-      'word2': this.post.id, 
+      'word': 'getReplies',
+      'num': this.p_id, 
     };
       this.http.put("http://127.0.0.1:8000/tweet",requestMessage).subscribe((resultData: any)=>
       {
-        if(resultData == 'Failed to Add' || resultData == 'No comments' || resultData == 'check is else')
+        if(resultData == 'Failed to Add' || resultData == 'No replies' || resultData == 'check is else')
           {
             console.log(resultData);
-            this.DBfeed = [];
+            this.DBUserfeed = [];
+            this.DBPostfeed = [];
             console.log('Unsuccessful data base retrieval');
           }
           else //Successful
           {
-            this.DBfeed = resultData;
-            console.log(this.DBfeed);
-            this.convertCommentFeed();
+            this.DBPostfeed = resultData[0];
+            this.DBUserfeed = resultData[1];
+            
+            //this.DBfeed = resultData;
+            //console.log(this.DBfeed);
+            console.log(this.DBUserfeed);
+            console.log(this.DBPostfeed);
+            this.convertReplyFeed();
             console.log('Successful data base retrieval');
           }
       });
   }
 
 
-  convertCommentFeed()
+  convertReplyFeed()
   {   
-    this.DBfeed.forEach(comment => {
-      var tweet = new Post(comment.id,comment.pic,comment.username,comment.acc_name,comment.date_created,comment.text_content,'',comment.comments, comment.retweets,comment.likes, comment.engagements)
+    let u = this.DBUserfeed;
+
+    this.DBPostfeed.forEach((reply,index) => {
+
+      var tweet = new Post(reply.id,u[index].pic,u[index].username,u[index].acc_name,reply.date_created,reply.text_content,'',reply.comments, reply.retweets,reply.likes, reply.engagements);
         this.comments.push(tweet);
       });
   }
@@ -121,7 +179,7 @@ export class PostPageComponent extends CoreComponent{
         setTimeout(() => {
           globalObj.arrs = [globalObj.comments];
           resolve('we checked');
-        }, 100) // 1 sec
+        }, 1000) // 1 sec
       })
       
       async function myAsync(){
@@ -159,7 +217,7 @@ getDBPost()
           this.DBpost = resultData;
           console.log(this.DBpost);
           this.convertPost();
-          //this.createCommentFeed();
+          this.createCommentFeed();
           console.log('Successful data base retrieval');
         }
     });
@@ -172,7 +230,7 @@ convertPost()
     this.post = tweet;
 }
 
-//i dont think i need this
+
 createPost()
 {
   let globalObj = this;
@@ -183,7 +241,8 @@ createPost()
         }, 5000) // 5 secs
 
         setTimeout(() => {
-          globalObj.getDBPost();
+          //globalObj.setLiked();
+          globalObj.setLikeAndRetweeted();
           resolve('we got a response');
         }, 0) // 0 secs
       })
@@ -194,9 +253,9 @@ createPost()
         }, 10000) //8 secs
 
         setTimeout(() => {
-          globalObj.convertPost();
+          globalObj.getDBPost();
           resolve('we checked');
-        }, 500) // 0.5 sec
+        }, 0) // 1 sec
       })
       
       async function myAsync(){
@@ -212,10 +271,10 @@ createPost()
       myAsync();
 }
 
-postClick()
+postClick(reply_id: number)
   {
     let image_content = "";
-    this.tweetService.postTweet(this.service.acc_name,this.tweetForm.value.text_content?? '',image_content);
+    this.tweetService.postTweet(this.service.acc_name,this.tweetForm.value.text_content?? '',image_content,reply_id);
     
     if(this.tweetService.tweetValidated(this.tweetForm.value.text_content?? '',image_content))
       {

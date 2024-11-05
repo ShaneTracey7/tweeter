@@ -155,7 +155,7 @@ getRetweetIDsDB(ac:string)
 
 
 //validates tweet and adds tweet to database
-postTweet(acc_name: string, text_content: string, image_content: string)
+postTweet(acc_name: string, text_content: string, image_content: string, reply_id: number)
 {
 
   if (image_content == "")
@@ -172,6 +172,7 @@ postTweet(acc_name: string, text_content: string, image_content: string)
       "word": acc_name,
       "word2": text_content,
       "word3": image_content,
+      "num": reply_id,
       //"date": Date(),    //date_created
     }
     console.log(requestMessage)

@@ -18,6 +18,15 @@
 
   </div>
 </div>
+
+<div *ngIf="page == 'Post'">
+
+  <app-post [mcc]='mcc'
+    *ngFor="let post of data[0]"
+    [post]="post" [upc]="upc">
+  </app-post>
+
+</div>
 <!--
 <div *ngIf="tab == 'following'" <; else elseBlock
   This is the following feed

@@ -60,6 +60,11 @@ export class CoreComponent{
               this.service.cp_style = 'OtherProfile';
             }
         }
+        else if(second_last == 'Post')
+        {
+          this.service.current_page = 'Post';
+          this.service.cp_style = 'Post';
+        }
         else
         {
           //could be set to ''

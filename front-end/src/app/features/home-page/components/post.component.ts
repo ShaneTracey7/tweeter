@@ -43,6 +43,11 @@ override ngOnInit(): void {
 
 setPost()
   {
+    let extraTime = 0;
+    if(this.focused)
+    {
+      extraTime = 200;
+    }
     let globalObj = this;
 
         const postPromise = new Promise<any>(function (resolve, reject) {
@@ -53,7 +58,7 @@ setPost()
           setTimeout(() => {
             globalObj.checkLiked();
             resolve('we got a response');
-          }, 300) // 0 secs
+          }, 300 + extraTime) // 0 secs
 
         })
         const postPromise2 = new Promise<any>(function (resolve, reject) {
@@ -64,7 +69,7 @@ setPost()
           setTimeout(() => {
             globalObj.checkRetweeted();
             resolve('we got a response');
-          }, 300) // 0 secs
+          }, 300 + extraTime) // 0 secs
 
         })
         async function myAsync(){
@@ -115,12 +120,12 @@ checkLiked()
  if(this.upc.like_ids.includes(this.post.id)) //result from DB check or check through list of users likes
  {
   this.liked = true;
- // console.log("this.liked: " + this.liked);
+  console.log("this.liked: " + this.liked);
  }
  else
  {
   this.liked = false;
- // console.log("this.liked: " + this.liked);
+  console.log("this.liked: " + this.liked);
  }
 
  this.postLikeArr = this.upc.like_ids;
@@ -133,10 +138,12 @@ checkRetweeted()
   if(this.upc.retweet_ids.includes(this.post.id)) //result from DB check or check through list of users likes
  {
   this.retweeted = true;
+  console.log("this.retweeted: " + this.retweeted);
  }
  else
  {
   this.retweeted = false;
+  console.log("this.retweeted: " + this.retweeted);
  }
 
  this.postRetweetArr = this.upc.retweet_ids;

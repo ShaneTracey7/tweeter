@@ -37,9 +37,11 @@ def tweetApi(request,id=id):
 
             text_content = message_serializer.data['word2']
             image_content = message_serializer.data['word3']
+            reply_id = message_serializer.data['num']
             date = datetime.datetime.now() #message_serializer.data['date']
 
-            tweet = Tweet.create(user,date,text_content,image_content,0,0,0,0)
+            #get anothet input from message serializer
+            tweet = Tweet.create(user,date,text_content,image_content,0,0,0,0,reply_id)
             
             print(tweet)
             
@@ -113,10 +115,19 @@ def tweetApi(request,id=id):
                     return JsonResponse([tweet_serializer.data,user_serializer.data],safe=False)
                 except Tweet.DoesNotExist:
                     return JsonResponse("No post",safe=False)
-                #if tweet.exists():
-                
-                #else:
-                 #   return JsonResponse("No post",safe=False)
+            elif check == 'getReplies':
+                #get all replies to tweet  
+                tweets = Tweet.objects.filter(reply_id=user_id) # user_id is actually tweet id here
+                if tweets.exists():
+                    user_arr = []
+                    for tweet in tweets:
+                        user_arr.append(tweet.user)
+
+                    tweet_serializer = TweetSerializer(tweets,many=True)
+                    user_serializer = UserSerializer(user_arr,many=True)
+                    return JsonResponse([tweet_serializer.data,user_serializer.data],safe=False)
+                else:
+                    return JsonResponse("No replies",safe=False)
             else:
                 user = User.objects.get(id=user_id)
                 #tweet = Tweet.objects.get(id=user_id)
@@ -197,7 +208,7 @@ def notificationApi(request,id=id):
                         users.append(notification.user_from)
                         types.append(notification.type)
                         if notification.post_id == 0:
-                            tweets.append(Tweet.create(notification.user_from,datetime.datetime.now(),'','',0,0,0,0))
+                            tweets.append(Tweet.create(notification.user_from,datetime.datetime.now(),'','',0,0,0,0,0))
                         else:
                             tweet = Tweet.objects.get(id=notification.post_id)
                             tweets.append(tweet)
