@@ -69,6 +69,11 @@ export class PostPageComponent extends CoreComponent{
     
   }
 
+  ngOnChanges()
+  {
+
+  }
+
   setLikeAndRetweeted()
   {
     let globalObj = this;
@@ -112,7 +117,6 @@ export class PostPageComponent extends CoreComponent{
   }
 
   //gets all replies(from DB) and adds them to DBfeed array
-  //**** NOT IMPLEMENTED YET IN BACKEND */
   getDBCommentFeed()
   {
     let requestMessage =
@@ -143,7 +147,6 @@ export class PostPageComponent extends CoreComponent{
           }
       });
   }
-
 
   convertReplyFeed()
   {   

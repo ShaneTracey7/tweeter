@@ -1,4 +1,4 @@
-import { Component, Input} from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges} from '@angular/core';
 import { HomePageComponent } from '../home-page.component';
 import { Post, Profile, createAllProfiles, getProfile } from '../../../core/data';
 import { MainContentComponent } from '../../../shared/components/main-content/main-content.component';
@@ -13,8 +13,17 @@ import { MainContentComponent } from '../../../shared/components/main-content/ma
 })
 export class PostComponent extends HomePageComponent{
 
+@Input () fp = new Post(0,'','','',new Date,'','',0,0,0,0); //focused post of post page component(only for reply thread posts)
+@Output() fpChange = new EventEmitter<Post>();
+@Input () comments: Post [] = []; //list of comments of post page component(only for reply thread posts)
+@Output() commentsChange = new EventEmitter<Post[]>(); 
+newComments: Post [] = [];
+DBUserfeed: any [] = [];
+DBPostfeed: any [] = [];
+
 @Input () post = new Post(0,'','','',new Date,'','',0,0,0,0);
 @Input () focused = false; // true if post is being focused within post-page-component
+@Input () inThread = false; // true if post is in thread within post-page-component
 @Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService,this.service,this.authService,this.route);
 //@Input() hpc: HomePageComponent = new HomePageComponent(this.authService,this.route,this.service,this.http,this.tweetService,this.formBuilder)
 @Input() upc: any = '';
@@ -39,6 +48,15 @@ override ngOnInit(): void {
   this.setPost()
 
   console.log("POST: "+ this.post);
+}
+
+ngOnChanges(changes: SimpleChanges){
+  
+    if (changes['post']) {
+      console.log("**ngOnChanges**");
+      this.setPost();
+      console.log("POST: "+ this.post);
+    }
 }
 
 setPost()
@@ -482,6 +500,13 @@ grayReaction()
     {
       console.log("Already on post page");
     }
+    else if(this.inThread)
+    {
+      console.log("switching focused post");
+      this.inThread = false;
+      //this.focused = true;
+      this.setNewPostPageData();
+    }
     else
     {
       console.log("going to post page");
@@ -497,5 +522,92 @@ grayReaction()
     var route = '/tweeter/Post/' + this.post.id;
     this.service.router.navigate([route]); 
   }
+
+
+  setNewPostPageData()
+  {
+    let globalObj = this;
+
+      const postPromise = new Promise<any>(function (resolve, reject) {
+        setTimeout(() => {
+          reject("We didn't get a response")
+        }, 5000) // 5 secs
+
+        setTimeout(() => {
+          //globalObj.setLiked();
+          globalObj.getDBCommentFeed();
+          resolve('we got a response');
+        }, 0) // 0 secs
+      })
+
+      const postPromise2 = new Promise<any>(function (resolve, reject) {
+        setTimeout(() => {
+          reject("We didn't check")
+        }, 10000) //8 secs
+
+        setTimeout(() => {
+          globalObj.commentsChange.emit(globalObj.newComments)
+          globalObj.fpChange.emit(globalObj.post);
+          var route = '/tweeter/Post/' + globalObj.post.id;
+          globalObj.service.router.navigate([route]); 
+          resolve('we checked');
+        }, 1000) // 1 sec
+      })
+      
+      async function myAsync(){
+        //console.log("inside myAsync");
+        try{
+          postPromise;
+          postPromise2;
+        }
+        catch (error) {
+          console.error('Promise rejected with error: ' + error);
+        }
+      }
+      myAsync();
+  }
+  //gets all replies(from DB) and adds them to DBfeed array
+  getDBCommentFeed()
+  {
+    let requestMessage =
+    {
+      'word': 'getReplies',
+      'num': this.post.id, 
+    };
+      this.http.put("http://127.0.0.1:8000/tweet",requestMessage).subscribe((resultData: any)=>
+      {
+        if(resultData == 'Failed to Add' || resultData == 'No replies' || resultData == 'check is else')
+          {
+            console.log(resultData);
+            this.DBUserfeed = [];
+            this.DBPostfeed = [];
+            console.log('Unsuccessful data base retrieval');
+          }
+          else //Successful
+          {
+            this.DBPostfeed = resultData[0];
+            this.DBUserfeed = resultData[1];
+            
+            //this.DBfeed = resultData;
+            //console.log(this.DBfeed);
+            console.log(this.DBUserfeed);
+            console.log(this.DBPostfeed);
+            this.convertReplyFeed();
+            console.log('Successful data base retrieval');
+          }
+      });
+  }
+
+  convertReplyFeed()
+  {   
+    let u = this.DBUserfeed;
+
+    this.DBPostfeed.forEach((reply,index) => {
+
+      var tweet = new Post(reply.id,u[index].pic,u[index].username,u[index].acc_name,reply.date_created,reply.text_content,'',reply.comments, reply.retweets,reply.likes, reply.engagements);
+        this.newComments.push(tweet);
+      });
+  }
+
 
 }

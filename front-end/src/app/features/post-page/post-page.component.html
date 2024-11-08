@@ -49,7 +49,7 @@
                       <div class="e-icon-container">
                         <img [src]="service.setUrl('location.png')" class="selection-bar-icons" alt="Schedule"/>
                       </div>
-                      <button (click)="this.postClick(p_id)" id="e-post-button">Reply</button>
+                      <button (click)="this.postClick(post.id)" id="e-post-button">Reply</button>
                     </div>
                   </div>
               
@@ -58,8 +58,15 @@
             </div>
       
       <!-- main content add here-->
-      <main-content [upc]=this [data]=arrs [page]=service.current_page [tab]=service.current_tab></main-content>
+       <!-- [mcc]='mcc' -->
+      <app-post 
+      *ngFor="let p of arrs[0]"
+      [(fp)]="this.post" [(comments)]="arrs[0]" [post]="p" [upc]="this" [inThread]="true">
+    </app-post>
 
+      <!--
+    <main-content [upc]=this [data]=arrs [page]=service.current_page [tab]=service.current_tab></main-content>
+  -->
 </div>
 
 <div id="sc" class="secondary-content">
