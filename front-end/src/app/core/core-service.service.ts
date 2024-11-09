@@ -31,6 +31,11 @@ export class CoreService {
 
   other_profile_flag = false; //not really in use, (was part of profile button of navbar functionality implementation)
 
+  DBFollowers: any [] = []; //raw array of User followers from DB
+  followers: Profile [] = [] //array of Profile objs of followers
+
+  DBFollowing: any [] = []; //raw array of User following from DB
+  following: Profile [] = [] //array of Profile objs of following
 
   constructor(public route: ActivatedRoute, public router: Router,private http: HttpClient) { 
     //this.current_page = this.route.snapshot.url.toString();
@@ -39,6 +44,12 @@ export class CoreService {
     this.acc_name = localStorage.getItem('acc_name') ?? "badToken";
     this.createUserFeed(false, "");
     //console.log("current user acc_name: "+ this.acc_name);
+
+    //new
+    this.getFollowers();
+    this.getFollowing();
+    console.log("inside core service constructor");
+
   }
 
   //don't think this is doing anything
@@ -302,19 +313,101 @@ createUserFeed(outsideOfService: boolean, acc_name: string)
   }
 
 
+//implementing global follow /following lists
+
+//either 'following' or 'follower'
+convertDBInfo(arr_type: string)
+{   
+  if( arr_type == 'following' && this.DBFollowing.length > 0)
+  {
+    for (let i = 0; i < this.DBFollowing.length;i++) {
+      let user = this.DBFollowing[i];
+      var u = new Profile(user.pic, user.username, user.acc_name, user.bio, user.following_count, user.follower_count); //need to find where to keep bio, and counts in db
+      this.following.push(u);
+    }
+    
+  }
+  if( arr_type == 'follower' && this.DBFollowers.length > 0)
+  {
+    for (let i = 0; i < this.DBFollowers.length;i++) {
+      let user = this.DBFollowers[i];
+      var u = new Profile(user.pic, user.username, user.acc_name, user.bio, user.following_count, user.follower_count); //need to find where to keep bio, and counts in db
+      this.followers.push(u);
+    }
+   
+  }  
+}
+
+getFollowers()
+  {
+
+    let requestBody =
+    {
+      "word" : 'getFollowers',
+      "word2" : this.acc_name,
+    };
+
+    this.http.put("http://127.0.0.1:8000/follow",requestBody).subscribe((resultData: any)=>
+    {
+      console.log(resultData);
+
+      if(resultData == 'Failed to Add')
+        {
+
+        }
+      else if(resultData == 'No followers')
+        {
+
+        }
+      else
+        {
+          this.DBFollowers = resultData;
+          this.convertDBInfo('follower');
+        }
+    });
+  }
+
+  getFollowing()
+  {
+    
+    let requestBody =
+    {
+      "word" : "getFollowing",
+      "word2" : this.acc_name,
+    };
+
+    this.http.put("http://127.0.0.1:8000/follow",requestBody).subscribe((resultData: any)=>
+    {
+      console.log(resultData);
+
+      if(resultData == 'Failed to Add')
+        {
+
+        }
+      else if(resultData == 'No following')
+        {
+
+        }
+      else
+        {
+          this.DBFollowing = resultData;
+          this.convertDBInfo('following');
+        }
+    });
+  }
 
 
-
-
-
-
-
-
-
-
-
-
-
+isFollower(acc_name: string)
+{
+  for(var i = 0; i < this.following.length; i++)
+  {
+    if(this.following[i].acc_name == acc_name)
+    {
+      return true;
+    }
+  }
+  return false;
+}
 
 
   }

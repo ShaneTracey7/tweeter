@@ -34,6 +34,12 @@ export class HomePageComponent extends CoreComponent{
   FEfeed: Post [] = [];
   UserFeed: Profile [] = [];
 
+  DBFollowers: any [] = []; //raw array of User followers from DB
+  followers: Profile [] = [] //array of Profile objs of followers
+
+  DBFollowing: any [] = []; //raw array of User following from DB
+  following: Profile [] = [] //array of Profile objs of following
+
 constructor(authService: AuthService, route: ActivatedRoute, service: CoreService,public http: HttpClient, public tweetService: TweetService, public formBuilder: FormBuilder )
 {
   super(authService,route,service);
@@ -92,7 +98,8 @@ getDBForYouFeedUsers()
 
     this.http.put("http://127.0.0.1:8000/tweet",requestBody).subscribe((resultData: any)=>
     {
-        var u = new Profile(resultData.pic, resultData.username, resultData.acc_name, "bio", 100, 200);
+        //var u = new Profile(resultData.pic, resultData.username, resultData.acc_name, "bio", 100, 200);
+        var u = new Profile(resultData.pic, resultData.username, resultData.acc_name, resultData.bio, resultData.following_count, resultData.follower_count);
         this.UserFeed.splice(index, 1, u);
 
     });
@@ -187,7 +194,8 @@ setFUF()
           }, 5000) // 5 secs
 
           setTimeout(() => {
-            globalObj.arrs = [globalObj.FEfeed];
+            //globalObj.arrs = [globalObj.FEfeed];
+            globalObj.arrs = [globalObj.FEfeed, globalObj.UserFeed];
             console.log("Arrs HP in ngOnoInit:" + globalObj.arrs[0])
             resolve('we got a response');
           }, 2000) // 0 secs
@@ -414,5 +422,5 @@ tweetForm = this.formBuilder.group({
       }
     }
   }
-  
+
 }

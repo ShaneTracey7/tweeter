@@ -28,28 +28,33 @@ export class ProfilePageComponent extends CoreComponent{
   inFollowLists: boolean = false; //if displaying following or follower lists
 
   DBFollowers: any [] = []; //raw array of User followers from DB
-  followers: Profile [] = [] //array of Profile objs of followers
+  followers: Profile [] = []; //array of Profile objs of followers
 
   DBFollowing: any [] = []; //raw array of User following from DB
-  following: Profile [] = [] //array of Profile objs of following
+  following: Profile [] = []; //array of Profile objs of following
 
   /* posts NOT BEING UPDATED*/
   DBPosts: any [] = []; //raw array of Tweets following from DB
-  posts: Post [] = [] //array of Post objs of following
+  DBPostsUsers: any [] = []; //raw array of Tweets following from DB
+  posts: Post [] = []; //array of Post objs of following
+  postsUsers: Profile [] = []; //needed for profile modal
 
   DBLikes: any [] = []; //raw array of Tweets following from DB
   DBLikesUsers: any [] = []; //raw array of Users from Tweets from DB
-  likes: Post [] = [] //array of Post objs of following
+  likes: Post [] = []; //array of Post objs of following
+  likesUsers: Profile [] = []; //needed for profile modal
   like_ids: number [];
   //last_like_ids: number [];
 
   DBRetweets: any [] = []; //raw array of Tweets following from DB
   DBRetweetsUsers: any [] = [];//raw array of Users from Tweets from DB
-  retweets: Post [] = [] //array of Post objs of following
+  retweets: Post [] = []; //array of Post objs of following
+  retweetsUsers: Profile [] = []; //needed for profile modal
   retweet_ids: number [];
 
   DBMedia: any [] = []; //raw array of Tweets following from DB
   media: Post [] = [] //array of Post objs of following
+  mediaUsers: Profile [] = []; //needed for profile modal
 
 
 
@@ -106,7 +111,8 @@ export class ProfilePageComponent extends CoreComponent{
         this.acc_name = this.service_acc_name; //might phase this out
         this.username = this.service_username;
         this.setUpProfileDataDB();//this.checkUserInDB(); //to get user data
-        this.arrs = [this.posts,this.retweets,this.likes, this.media];
+        this.arrs = [this.posts,this.postsUsers,this.retweets,this.retweetsUsers,this.likes,this.likesUsers, this.media,this.mediaUsers];
+        //this.arrs = [this.posts,this.retweets,this.likes, this.media];
         this.setLiked();
         this.setRetweeted();
         //testing
@@ -168,7 +174,8 @@ export class ProfilePageComponent extends CoreComponent{
         this.service.cp_style = 'OtherProfile';
         this.acc_name = this.last_url_section; //might phase this out
         this.setUpProfileDataDB();//this.checkUserInDB(); //didn't work properly
-        this.arrs = [this.posts,this.retweets,this.likes, this.media];
+        //this.arrs = [this.posts,this.retweets,this.likes, this.media];
+        this.arrs = [this.posts,this.postsUsers,this.retweets,this.retweetsUsers,this.likes,this.likesUsers, this.media,this.mediaUsers];
         this.setLiked();
         this.setRetweeted();
     }
@@ -334,7 +341,9 @@ export class ProfilePageComponent extends CoreComponent{
       else
         {
           console.log("good (getPosts)" );
-          this.DBPosts = resultData;
+          //this.DBPosts = resultData;
+          this.DBPosts = resultData[0];
+          this.DBPostsUsers = resultData[1];
           console.log("DBPosts: " + this.DBPosts)
           this.convertDBInfoPosts('posts');
           console.log("posts: " + this.posts)
@@ -718,7 +727,7 @@ convertDBInfo(arr_type: string)
   {
     for (let i = 0; i < this.DBFollowing.length;i++) {
       let user = this.DBFollowing[i];
-      var u = new Profile(user.pic, user.username, user.acc_name, "bio", 0, 0); //need to find where to keep bio, and counts in db
+      var u = new Profile(user.pic, user.username, user.acc_name, user.bio, user.following_count, user.follower_count); //need to find where to keep bio, and counts in db
       this.following.push(u);
     }
     
@@ -727,7 +736,7 @@ convertDBInfo(arr_type: string)
   {
     for (let i = 0; i < this.DBFollowers.length;i++) {
       let user = this.DBFollowers[i];
-      var u = new Profile(user.pic, user.username, user.acc_name, "bio", 0, 0); //need to find where to keep bio, and counts in db
+      var u = new Profile(user.pic, user.username, user.acc_name, user.bio, user.following_count, user.follower_count); //need to find where to keep bio, and counts in db
       this.followers.push(u);
     }
    
@@ -741,8 +750,11 @@ convertDBInfo(arr_type: string)
    {
      for (let i = 0; i < this.DBPosts.length;i++) {
        let post = this.DBPosts[i];
+       let user = this.DBPostsUsers[i]; //need to set this in dbcall
        var p = new Post(post.id,this.user.pic,this.user.username,this.user.acc_name, post.date_created, post.text_content, "", post.comments, post.retweets, post.likes, post.engagements); //need to find where to keep bio, and counts in db
        this.posts.push(p);
+       var u = new Profile(user.pic,user.username,user.acc_name,user.bio,user.following_count,user.follower_count);
+       this.postsUsers.push(u);
      }
    }
    if( arr_type == 'retweets' && this.DBRetweets.length > 0)
@@ -752,6 +764,8 @@ convertDBInfo(arr_type: string)
        let user = this.DBRetweetsUsers[i]
        var p = new Post(post.id,user.pic,user.username,user.acc_name, post.date_created, post.text_content, "", post.comments, post.retweets, post.likes, post.engagements); //need to find where to keep bio, and counts in db
        this.retweets.push(p);
+       var u = new Profile(user.pic,user.username,user.acc_name,user.bio,user.following_count,user.follower_count);
+       this.retweetsUsers.push(u);
      }
    }
    if( arr_type == 'likes' && this.DBLikes.length > 0)
@@ -761,6 +775,8 @@ convertDBInfo(arr_type: string)
         let user = this.DBLikesUsers[i]
         var p = new Post(post.id,user.pic,user.username,user.acc_name, post.date_created, post.text_content, "", post.comments, post.retweets, post.likes, post.engagements); //need to find where to keep bio, and counts in db
         this.likes.push(p);
+        var u = new Profile(user.pic,user.username,user.acc_name,user.bio,user.following_count,user.follower_count);
+       this.likesUsers.push(u);
       }
     }
  }

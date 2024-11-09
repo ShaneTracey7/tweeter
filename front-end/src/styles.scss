@@ -4,6 +4,7 @@
 $bg-color-hover-main: rgba(0, 0, 0, 0.030);
 $bg-color-hover-nav-tool-bar: rgba(0, 0, 0, 0.090);
 $twitter-blue: #1DA1F2;
+$gray: rgb(97, 110, 124);
 /* <----------------------------------------  search card  ----------------------------------------> */   
 
 .searchCard{
@@ -102,7 +103,7 @@ $twitter-blue: #1DA1F2;
   /* <----------------------------------------  profile modal  ----------------------------------------> */   
   
   .modal-content {
-    z-index: 2;
+    z-index: 2;//was 2
     height: 100%;
     width: 100%;
   }
@@ -124,7 +125,7 @@ $twitter-blue: #1DA1F2;
     display: flex;
     flex-direction: column;
     gap: 0px;
-    /*z-index: 2;*/
+    z-index: 3;//was commented out
     width: 300px;
     height: fit-content;
     background-color: white;
@@ -385,6 +386,11 @@ $twitter-blue: #1DA1F2;
     height: 25px;
     padding: 5px;
     border-radius: 15px;
+  }
+
+  #pm-button-following{
+    background-color: $gray;
+    border: 1px solid black;
   }
   
   .elip:hover {

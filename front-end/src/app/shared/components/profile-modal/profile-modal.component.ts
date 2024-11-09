@@ -27,9 +27,54 @@ export class ProfileModalComponent {
   original_x: number = 0;
   original_y: number = 0;
   original_m_height: number = 0;
+  f_check: string = "Follow";
+
+
+  service_acc_name: string = "";
   
   constructor(public service: CoreService, public tweetService: TweetService, public authService: AuthService, public route: ActivatedRoute){
+    this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";
+    this.setInfo();
+    //this.setFCheck();
+    console.log("inside profile modal constructor");
+  }
 
+
+  setInfo()
+  {
+    let globalObj = this;
+
+        const postPromise = new Promise<any>(function (resolve, reject) {
+          setTimeout(() => {
+            reject("We didn't get a response")
+          }, 5000) // 5 secs
+
+          setTimeout(() => {
+            globalObj.setFCheck();
+            resolve('we got a response');
+          }, 1000) // 1 secs
+        })
+
+        async function myAsync(){
+          try{
+            postPromise;
+          }
+          catch (error) {
+            console.error('Promise rejected with error: ' + error);
+          }
+        }
+        myAsync();
+  }
+
+  setFCheck()
+  {
+    if(this.service.isFollower(this.profile.acc_name)){
+      this.f_check = "Following";
+    }
+    else
+    {
+      this.f_check = "Follow";
+    }
   }
 
   hideModal()
@@ -38,6 +83,24 @@ export class ProfileModalComponent {
      this.showChange.emit(this.show);
      this.scc.changeOpenModal(false);
      this.mcc.changeOpenModal(false);
+    }
+
+    handleFollowClick(str: string)
+    {
+      //condition necessary, because it would be a mess otherwise
+      if(this.service.current_page != "Profile" && this.service.current_page != "OtherProfile" && this.service.current_page != 'ProfileFollow')
+      {
+        var r: string = 'Profile/';
+        if(this.profile.acc_name == this.service_acc_name)
+        {
+          r = r + str;
+        }
+        else
+        {
+          r = r + this.profile.acc_name + '/' + str;
+        }
+        this.service.router.navigate(['tweeter/' + r]);
+      }
     }
 
   setModalPosition() {
@@ -147,6 +210,24 @@ export class ProfileModalComponent {
           }
 
         }
+    }
+
+    handleUsernameClick()
+    {
+      //condition necessary, because it would be a mess otherwise
+      if(this.service.current_page != "Profile" && this.service.current_page != "OtherProfile" && this.service.current_page != 'ProfileFollow')
+      {
+        var r: string = 'Profile';
+        if(this.profile.acc_name == this.service_acc_name)
+        {
+          //do nothing
+        }
+        else
+        {
+          r = r + '/' + this.profile.acc_name;
+        }
+        this.service.router.navigate(['tweeter/' + r]);
+      }
     }
 }
   

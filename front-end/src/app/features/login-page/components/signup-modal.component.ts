@@ -79,6 +79,10 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) {
        "acc_name" : obj.signupForm.value.acc_name,
        "password" : obj.signupForm.value.password1,
        "pic" :  "default-profile-pic.jpg",
+       "header_pic" : "default-header-pic.jpg",
+       "bio" : "",
+       "follower_count": 0,
+       "following_count": 0,
      };
      obj.http.post("http://127.0.0.1:8000/user",userData).subscribe((resultData: any)=>
      {
@@ -98,7 +102,12 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) {
       "acc_name" : obj.signupForm.value.acc_name,
       
       "password" : 'p',
-      "pic" : 'pic' //new
+      "pic" : 'pic', //new
+      "header_pic" : "hp",
+      "bio" : "b",
+      "follower_count": 0,
+      "following_count": 0,
+
     };
 
     obj.http.put("http://127.0.0.1:8000/user",requestBody).subscribe((resultData: any)=>

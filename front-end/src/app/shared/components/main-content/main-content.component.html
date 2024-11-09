@@ -11,8 +11,8 @@
 
     <div *ngSwitchDefault> 
       <app-post [mcc]='mcc'
-      *ngFor="let post of data[0]"
-       [post]="post" [upc]="upc">
+      *ngFor="let post of data[0]; index as i"
+       [post]="post" [user]="data[1][i]" [upc]="upc">
       </app-post>
     </div>
 
@@ -132,40 +132,40 @@
   <div [ngSwitch]="tab">
 
     <div *ngSwitchCase="'retweets'">
-      <div class="profile-empty-list" *ngIf="data[1] == ''; else notEmpty">
+      <div class="profile-empty-list" *ngIf="data[2] == ''; else notEmpty">
         <p class="profile-empty-list-title"> &commat;{{user.acc_name}} hasn't retweeted any posts</p>
         <p class="profile-empty-list-body">Once they do, those posts will show up here.</p>
       </div>
       <ng-template #notEmpty>
         <app-post
-        *ngFor="let post of data[1]"
-        [post]="post" [upc]="upc"> <!-- add input variable for like_ids-->
+        *ngFor="let post of data[2]; index as i"
+        [post]="post" [user]="data[3][i]" [upc]="upc"> <!-- add input variable for like_ids-->
         </app-post>
       </ng-template>
     </div>
 
     <div *ngSwitchCase="'media'">
-      <div class="profile-empty-list" *ngIf="data[3] == ''; else notEmpty2">
+      <div class="profile-empty-list" *ngIf="data[6] == ''; else notEmpty2">
         <p class="profile-empty-list-title"> &commat;{{user.acc_name}} hasn't posted media</p>
         <p class="profile-empty-list-body">Once they do, those posts will show up here.</p>
       </div>
       <ng-template #notEmpty2>
         <app-post
-        *ngFor="let post of data[3]"
-        [post]="post" [upc]="upc">
+        *ngFor="let post of data[6]; index as i"
+        [post]="post" [user]="data[7][i]" [upc]="upc">
         </app-post>
       </ng-template>
     </div>
 
     <div *ngSwitchCase="'likes'">
-      <div class="profile-empty-list" *ngIf="data[2] == ''; else notEmpty3">
+      <div class="profile-empty-list" *ngIf="data[4] == ''; else notEmpty3">
         <p class="profile-empty-list-title"> &commat;{{user.acc_name}} hasn't liked any posts</p>
         <p class="profile-empty-list-body">Once they do, those posts will show up here.</p>
       </div>
       <ng-template #notEmpty3>
         <app-post
-        *ngFor="let post of data[2]"
-        [post]="post" [upc]="upc"> <!-- add input variable for like_ids-->
+        *ngFor="let post of data[4]; index as i"
+        [post]="post" [user]="data[5][i]" [upc]="upc"> <!-- add input variable for like_ids-->
         </app-post>
       </ng-template>
     </div>
@@ -177,8 +177,8 @@
       </div>
       <ng-template #notEmpty4>
         <app-post
-        *ngFor="let post of data[0]"
-        [post]="post" [upc]="upc"> <!-- add input variable for like_ids-->
+        *ngFor="let post of data[0]; index as i"
+        [post]="post" [user]="data[1][i]"[upc]="upc"> <!-- add input variable for like_ids-->
         </app-post>
       </ng-template>
     </div>

@@ -21,6 +21,8 @@ newComments: Post [] = [];
 DBUserfeed: any [] = [];
 DBPostfeed: any [] = [];
 
+@Input () user = new Profile('','','','',0,0);
+
 @Input () post = new Post(0,'','','',new Date,'','',0,0,0,0);
 @Input () focused = false; // true if post is being focused within post-page-component
 @Input () inThread = false; // true if post is in thread within post-page-component
@@ -46,6 +48,8 @@ override ngOnInit(): void {
   console.log("**ngOnInit**");
 
   this.setPost()
+
+  this.modal_profile = this.user; //NEW
 
   console.log("POST: "+ this.post);
 }
@@ -413,7 +417,7 @@ showModal(post: Post, obj:PostComponent)
         }
         else
         {
-          obj.modal_profile = new Profile(post.profile, post.username,post.acc_name,'bio',0,0);
+          //obj.modal_profile = new Profile(post.profile, post.username,post.acc_name,'bio',0,0);
           obj.show_modal = true;
           obj.mcc.changeOpenModal(true);
         }

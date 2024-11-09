@@ -49,6 +49,14 @@ def tweetApi(request,id=id):
             #tweet_serializer = TweetSerializer(data=tweet)
             #print(tweet_serializer)
             tweet.save()
+
+            if reply_id != 0:
+                #get other tweet being replied upon
+                tweet2 = Tweet.objects.get(id=reply_id)
+                #update comment/reply count
+                tweet2.comments = (tweet2.comments + 1)
+                tweet2.save()
+
             #tweet_serializer.save() #if user_serializer.is_valid():
             return JsonResponse("Added Successfully",safe=False)
         else: 
@@ -98,10 +106,14 @@ def tweetApi(request,id=id):
             elif check == 'getPosts':
                 #get all tweets that user tweeted
                 user = User.objects.get(acc_name=acc_name_input)
-                tweet = Tweet.objects.filter(user=user)
-                if tweet.exists():
-                    tweet_serializer = TweetSerializer(tweet,many=True)
-                    return JsonResponse(tweet_serializer.data,safe=False)
+                tweets = Tweet.objects.filter(user=user)
+                if tweets.exists():
+                    users = []
+                    for tweet in tweets:
+                        users.append(tweet.user)
+                    user_serializer = UserSerializer(users,many=True)
+                    tweet_serializer = TweetSerializer(tweets,many=True)
+                    return JsonResponse([tweet_serializer.data,user_serializer.data],safe=False)
                 else:
                     return JsonResponse("No posts",safe=False)
             elif check == 'getPost':
@@ -207,7 +219,7 @@ def notificationApi(request,id=id):
                     for notification in notifications:
                         users.append(notification.user_from)
                         types.append(notification.type)
-                        if notification.post_id == 0:
+                        if notification.post_id == 0: # if notification is a follow
                             tweets.append(Tweet.create(notification.user_from,datetime.datetime.now(),'','',0,0,0,0,0))
                         else:
                             tweet = Tweet.objects.get(id=notification.post_id)
@@ -215,6 +227,7 @@ def notificationApi(request,id=id):
                     user_serializer = UserSerializer(users,many=True)
                     tweet_serializer = TweetSerializer(tweets,many=True)
                     return JsonResponse([types,user_serializer.data,tweet_serializer.data],safe=False)
+                    #return JsonResponse("No notifications",safe=False)
                 else:
                     return JsonResponse("No notifications",safe=False)
             elif check == 'delete':
@@ -551,6 +564,16 @@ def followApi(request,id=id):
             #add follow to DB
             follow_object = Follow.create(user1,user2)
             follow_object.save()
+
+
+            #******** NEW ********
+            #increment follower_count and following_count of user1 and user2
+            user1.follower_count = (user1.follower_count + 1)
+            user1.save()
+            user2.following_count = (user2.following_count + 1)
+            user2.save()
+
+
             return JsonResponse("Added Successfully",safe=False)
         #follow_data = JSONParser().parse(request)
         #follow_serializer = FollowSerializer(data=follow_data)
@@ -606,6 +629,13 @@ def followApi(request,id=id):
                 #delete follow from DB
                 follow = Follow.objects.filter(following=user1, follower=user2)
                 follow.delete()
+
+                            #******** NEW ********
+                #increment follower_count and following_count of user1 and user2
+                user1.follower_count = (user1.follower_count - 1)
+                user1.save()
+                user2.following_count = (user2.following_count - 1)
+                user2.save()
 
                 #Do i want to delete notification for follow? (add it here if so)
                 return JsonResponse("Deleted Successfully",safe=False)

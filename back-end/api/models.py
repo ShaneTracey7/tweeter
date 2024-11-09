@@ -17,8 +17,10 @@ class User(models.Model):
     acc_name = models.CharField(max_length = 35)
     password = models.CharField(max_length = 35)
     pic = models.CharField(max_length = 100)
-    #header-pic  -default is default-header.jpg
-    #bio -default is ""
+    header_pic = models.CharField(max_length = 100, default="") #default is default-header.jpg
+    bio = models.CharField(max_length = 100, default="")
+    follower_count = models.IntegerField(default=0)
+    following_count = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.id} {self.username} {self.email} {self.acc_name} {self.password} {self.pic}"
