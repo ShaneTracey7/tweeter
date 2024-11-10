@@ -323,7 +323,7 @@ tweetForm = this.formBuilder.group({
   postClick(reply_id: number)
   {
     let image_content = "";
-    this.getTweetService().postTweet(this.service.acc_name,this.tweetForm.value.text_content?? '',image_content, reply_id);
+    this.getTweetService().postTweet(this.service_acc_name,this.tweetForm.value.text_content?? '',image_content, reply_id);
     
     if(this.getTweetService().tweetValidated(this.tweetForm.value.text_content?? '',image_content))
       {

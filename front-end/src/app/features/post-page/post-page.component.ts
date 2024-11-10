@@ -21,11 +21,14 @@ export class PostPageComponent extends CoreComponent{
   p_id: number;
   DBpost: any = '';
   post: Post = new Post(0,'','','', new Date(),'','',0,0,0,0);
-  
+  DBuser: any = '';
+  user: Profile = new Profile('','','','',0,0);
+
   DBUserfeed: any [] = [];
   DBPostfeed: any [] = [];
 
   comments: Post [] = [];
+  commentUsers: Profile [] = [];
   arrs: any[] = []; //testing to feed into main component
 
   like_ids: number [];
@@ -155,7 +158,9 @@ export class PostPageComponent extends CoreComponent{
     this.DBPostfeed.forEach((reply,index) => {
 
       var tweet = new Post(reply.id,u[index].pic,u[index].username,u[index].acc_name,reply.date_created,reply.text_content,'',reply.comments, reply.retweets,reply.likes, reply.engagements);
-        this.comments.push(tweet);
+      this.comments.push(tweet);
+      var user = new Profile(u[index].pic,u[index].username,u[index].acc_name,u[index].bio,u[index].following_count,u[index].follower_count);
+      this.commentUsers.push(user);
       });
   }
 
@@ -180,7 +185,7 @@ export class PostPageComponent extends CoreComponent{
         }, 10000) //8 secs
 
         setTimeout(() => {
-          globalObj.arrs = [globalObj.comments];
+          globalObj.arrs = [globalObj.comments, globalObj.commentUsers];
           resolve('we checked');
         }, 1000) // 1 sec
       })
@@ -212,12 +217,14 @@ getDBPost()
         {
           console.log(resultData);
           this.DBpost = '';
+          this.DBuser = '';
           console.log('Unsuccessful data base retrieval');
           this.service.router.navigate(['tweeter/Error']); //if no post, theres nothing to display
         }
         else //Successful
         {
-          this.DBpost = resultData;
+          this.DBpost = resultData[0];
+          this.DBuser = resultData[1];
           console.log(this.DBpost);
           this.convertPost();
           this.createCommentFeed();
@@ -227,10 +234,18 @@ getDBPost()
 }
 convertPost()
 {   
-    let p = this.DBpost[0];
-    let u = this.DBpost[1];
+    let p = this.DBpost;
+    let u = this.DBuser;
     var tweet = new Post(p.id,u.pic,u.username,u.acc_name,p.date_created,p.text_content,'',p.comments, p.retweets,p.likes, p.engagements)
     this.post = tweet;
+    var prof = new Profile(u.pic,u.username,u.acc_name,u.bio,u.following_count,u.follower_count);
+    //var prof = new Profile('pic','username','acc_name','bio',5,5);
+    
+    this.user = prof;
+
+    console.log("u & u.acc_name: " + u + "" + u.acc_name);
+    console.log("in convertPost: post: " + this.post + " user: " + this.user);
+    //console.log("in convertPost: post: " + this.post + " user: " + this.user);
 }
 
 
@@ -277,7 +292,7 @@ createPost()
 postClick(reply_id: number)
   {
     let image_content = "";
-    this.tweetService.postTweet(this.service.acc_name,this.tweetForm.value.text_content?? '',image_content,reply_id);
+    this.tweetService.postTweet(this.service_acc_name,this.tweetForm.value.text_content?? '',image_content,reply_id);
     
     if(this.tweetService.tweetValidated(this.tweetForm.value.text_content?? '',image_content))
       {

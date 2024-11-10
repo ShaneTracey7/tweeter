@@ -15,9 +15,14 @@ export class PostComponent extends HomePageComponent{
 
 @Input () fp = new Post(0,'','','',new Date,'','',0,0,0,0); //focused post of post page component(only for reply thread posts)
 @Output() fpChange = new EventEmitter<Post>();
+@Input () fpuser = new Profile('','','','',0,0); //NEW
+@Output() fpuserChange = new EventEmitter<Profile>(); //NEW
 @Input () comments: Post [] = []; //list of comments of post page component(only for reply thread posts)
-@Output() commentsChange = new EventEmitter<Post[]>(); 
+@Output() commentsChange = new EventEmitter<Post[]>();
+@Input () commentsusers: Profile [] = []; //NEW
+@Output() commentsusersChange = new EventEmitter<Profile[]>(); //NEW
 newComments: Post [] = [];
+newCommentUsers: Profile [] = [];
 DBUserfeed: any [] = [];
 DBPostfeed: any [] = [];
 
@@ -550,8 +555,10 @@ grayReaction()
         }, 10000) //8 secs
 
         setTimeout(() => {
-          globalObj.commentsChange.emit(globalObj.newComments)
+          globalObj.commentsChange.emit(globalObj.newComments);
+          globalObj.commentsusersChange.emit(globalObj.newCommentUsers); //NEW
           globalObj.fpChange.emit(globalObj.post);
+          globalObj.fpuserChange.emit(globalObj.fpuser); //NEW
           var route = '/tweeter/Post/' + globalObj.post.id;
           globalObj.service.router.navigate([route]); 
           resolve('we checked');
@@ -610,6 +617,8 @@ grayReaction()
 
       var tweet = new Post(reply.id,u[index].pic,u[index].username,u[index].acc_name,reply.date_created,reply.text_content,'',reply.comments, reply.retweets,reply.likes, reply.engagements);
         this.newComments.push(tweet);
+      var user = new Profile(u[index].pic,u[index].username,u[index].acc_name,u[index].bio,u[index].following_count,u[index].follower_count);
+        this.newCommentUsers.push(user);
       });
   }
 

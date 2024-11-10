@@ -157,6 +157,13 @@ export class Profile {
         this.follower_count = shortenNum(frc); 
       }
 
+      toString(): string
+      {
+        
+        return " " + this.pic + " "+ this.username + " " + this.acc_name + " " +this.bio + " " +this.follow_count + " " +this.follower_count + " ";
+      
+    }
+
 }
 
 export class Message {

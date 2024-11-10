@@ -10,8 +10,8 @@
                   <button class="profile-page-button" id="reply-button">Reply</button>
               </div>
             </div>
-    
-            <app-post [focused]=true [post]="post" [upc]="this"></app-post>
+            
+            <app-post [focused]=true [post]="post" [user]="user" [upc]="this"></app-post>
 
             <div class="empty-post">
               <!--Profile pic-->
@@ -60,8 +60,8 @@
       <!-- main content add here-->
        <!-- [mcc]='mcc' -->
       <app-post 
-      *ngFor="let p of arrs[0]"
-      [(fp)]="this.post" [(comments)]="arrs[0]" [post]="p" [upc]="this" [inThread]="true">
+      *ngFor="let p of arrs[0]; index as i"
+      [(fp)]="this.post" [(fpuser)]="this.user" [(comments)]="arrs[0]" [(commentsusers)]="arrs[1]" [post]="p" [user]="arrs[1][i]" [upc]="this" [inThread]="true">
     </app-post>
 
       <!--
