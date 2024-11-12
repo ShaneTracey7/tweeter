@@ -105,8 +105,8 @@
     
     <div *ngSwitchDefault> <!-- 'all'-->
       <app-notification
-      *ngFor="let notification of data[0]"
-      [notification]="notification">
+      *ngFor="let notification of data[0]; index as i"
+      [notification]="notification" [user]="data[1][i]">
     </app-notification>
     </div>
 
