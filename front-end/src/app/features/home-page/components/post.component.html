@@ -5,7 +5,7 @@
     <div *ngIf="!focused">
         <div class="post-profile-container">
             <img id="post-profile-img" (mouseover)="showModal(post, this)" (mouseout)="hideModal(timer)" class="post-profile" src="{{this.service.setUrl(post.profile)}}" alt="profile"/>
-            <profile-modal [inMain]="true" [(show)]='show_modal' [mcc]='mcc'[profile]='modal_profile'></profile-modal>
+            <profile-modal [inMain]="true" [(show)]='show_modal' [mcc]='mcc'[profile]='user'></profile-modal> <!--[profile]='modal_profile'-->
         </div>
     </div>
 

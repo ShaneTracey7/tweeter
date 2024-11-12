@@ -47,16 +47,21 @@ like_count: number = 0; //test
 
 fromRefresh: boolean = false;
 
+//testArr: any [] = []; //needed to force profile modal to work right
+
 override ngOnInit(): void {
   //check if liked or retweeted
   //this.checkLiked()
   console.log("**ngOnInit**");
+
+  //this.testArr = [0];
 
   this.setPost()
 
   this.modal_profile = this.user; //NEW
 
   console.log("POST: "+ this.post);
+  console.log("USER: " + this.user);
 }
 
 ngOnChanges(changes: SimpleChanges){
@@ -65,6 +70,11 @@ ngOnChanges(changes: SimpleChanges){
       console.log("**ngOnChanges**");
       this.setPost();
       console.log("POST: "+ this.post);
+    }
+    if (changes['user']){
+      console.log("**ngOnChanges**");
+      //this.testArr = [1];
+      console.log("USER: "+ this.user);
     }
 }
 
@@ -414,6 +424,9 @@ else
 
 showModal(post: Post, obj:PostComponent)
   {
+
+    let globalObj =this;
+
     obj.timer = setTimeout( function(){
       //insert logic here
       if(obj.show_modal || obj.mcc.openmodal)
@@ -422,6 +435,8 @@ showModal(post: Post, obj:PostComponent)
         }
         else
         {
+          console.log("obj.user: " + obj.user); //new
+          console.log("this.user: " + globalObj.user); //new
           //obj.modal_profile = new Profile(post.profile, post.username,post.acc_name,'bio',0,0);
           obj.show_modal = true;
           obj.mcc.changeOpenModal(true);
@@ -558,7 +573,7 @@ grayReaction()
           globalObj.commentsChange.emit(globalObj.newComments);
           globalObj.commentsusersChange.emit(globalObj.newCommentUsers); //NEW
           globalObj.fpChange.emit(globalObj.post);
-          globalObj.fpuserChange.emit(globalObj.fpuser); //NEW
+          globalObj.fpuserChange.emit(globalObj.user); //NEW
           var route = '/tweeter/Post/' + globalObj.post.id;
           globalObj.service.router.navigate([route]); 
           resolve('we checked');

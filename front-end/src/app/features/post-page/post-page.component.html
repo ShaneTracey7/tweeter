@@ -11,7 +11,10 @@
               </div>
             </div>
             
-            <app-post [focused]=true [post]="post" [user]="user" [upc]="this"></app-post>
+            <app-post 
+            *ngFor="let p of testArr"
+            [focused]=true [post]="post" [user]="user" [upc]="this">
+          </app-post>
 
             <div class="empty-post">
               <!--Profile pic-->

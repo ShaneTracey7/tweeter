@@ -22,7 +22,7 @@ export class ProfileModalComponent {
   @Input() scc:SecondaryContentComponent = new SecondaryContentComponent(this.service); //needed to check if any open modals
   @Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService,this.service,this.authService,this.route); //NEW
 
-  modal_profile = this.profile;
+  //modal_profile = this.profile;
 
   original_x: number = 0;
   original_y: number = 0;
@@ -37,7 +37,17 @@ export class ProfileModalComponent {
     this.setInfo();
     //this.setFCheck();
     console.log("inside profile modal constructor");
+    console.log("Profile: " + this.profile);
   }
+
+  ngOnChanges(changes: SimpleChanges){
+  
+    if (changes['profile']) {
+      console.log("**ngOnChanges** PM");
+      console.log("PROFILE CV: "+ changes['profile'].currentValue);
+      console.log("PROFILE: PV"+ changes['profile'].previousValue);
+    }
+}
 
 
   setInfo()

@@ -23,13 +23,13 @@ export class PostPageComponent extends CoreComponent{
   post: Post = new Post(0,'','','', new Date(),'','',0,0,0,0);
   DBuser: any = '';
   user: Profile = new Profile('','','','',0,0);
-
   DBUserfeed: any [] = [];
   DBPostfeed: any [] = [];
 
   comments: Post [] = [];
   commentUsers: Profile [] = [];
   arrs: any[] = []; //testing to feed into main component
+  testArr: any[] = [];
 
   like_ids: number [];
   retweet_ids: number [];
@@ -186,6 +186,7 @@ export class PostPageComponent extends CoreComponent{
 
         setTimeout(() => {
           globalObj.arrs = [globalObj.comments, globalObj.commentUsers];
+          globalObj.testArr = [0]; //needed so profile modal works for post component instances created outside of loops
           resolve('we checked');
         }, 1000) // 1 sec
       })
@@ -237,13 +238,13 @@ convertPost()
     let p = this.DBpost;
     let u = this.DBuser;
     var tweet = new Post(p.id,u.pic,u.username,u.acc_name,p.date_created,p.text_content,'',p.comments, p.retweets,p.likes, p.engagements)
-    this.post = tweet;
+    this.post = tweet;          
     var prof = new Profile(u.pic,u.username,u.acc_name,u.bio,u.following_count,u.follower_count);
     //var prof = new Profile('pic','username','acc_name','bio',5,5);
     
     this.user = prof;
 
-    console.log("u & u.acc_name: " + u + "" + u.acc_name);
+    console.log("u & p: " + u + " " + p);
     console.log("in convertPost: post: " + this.post + " user: " + this.user);
     //console.log("in convertPost: post: " + this.post + " user: " + this.user);
 }
