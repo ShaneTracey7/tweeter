@@ -13,6 +13,10 @@ import { MainContentComponent } from '../../../shared/components/main-content/ma
 })
 export class PostComponent extends HomePageComponent{
 
+//new
+@Input () fparr = [0];
+@Output() fparrChange = new EventEmitter<any[]>();
+
 @Input () fp = new Post(0,'','','',new Date,'','',0,0,0,0); //focused post of post page component(only for reply thread posts)
 @Output() fpChange = new EventEmitter<Post>();
 @Input () fpuser = new Profile('','','','',0,0); //NEW
@@ -574,6 +578,7 @@ grayReaction()
           globalObj.commentsusersChange.emit(globalObj.newCommentUsers); //NEW
           globalObj.fpChange.emit(globalObj.post);
           globalObj.fpuserChange.emit(globalObj.user); //NEW
+          globalObj.fparrChange.emit([1]);
           var route = '/tweeter/Post/' + globalObj.post.id;
           globalObj.service.router.navigate([route]); 
           resolve('we checked');

@@ -64,7 +64,7 @@
        <!-- [mcc]='mcc' -->
       <app-post 
       *ngFor="let p of arrs[0]; index as i"
-      [(fp)]="this.post" [(fpuser)]="this.user" [(comments)]="arrs[0]" [(commentsusers)]="arrs[1]" [post]="p" [user]="arrs[1][i]" [upc]="this" [inThread]="true">
+      [(fp)]="this.post" [(fpuser)]="this.user" [(fparr)]="this.testArr" [(comments)]="arrs[0]" [(commentsusers)]="arrs[1]" [post]="p" [user]="arrs[1][i]" [upc]="this" [inThread]="true">
     </app-post>
 
       <!--
