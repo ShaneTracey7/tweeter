@@ -9,8 +9,15 @@
         <p id="shortProfile-accountname">&commat;{{ profile.acc_name }}</p>
     </div>
     <!-- {% if button == "yes" %} -->
-        <button id="shortProfile-button">Follow</button>
+        <div *ngIf="f_check == 'Follow'; else following">
+            <button class="shortProfile-button">{{f_check}}</button>
+        </div>
+        <ng-template #following>
+            <button id="shortProfile-button-following" class="shortProfile-button">{{f_check}}</button>
+        </ng-template>
+            <!-- <button id="shortProfile-button">{{f_check}}</button> -->
     <!--{% endif %} -->
 </div>
 
-<profile-modal id="pm-instance" [inMain]="false" [(show)]='show_modal' [scc]='scc' [profile]='modal_profile'></profile-modal>
+<profile-modal id="pm-instance" [inMain]="false" [(show)]='show_modal' [scc]='scc' [profile]='profile'></profile-modal>
+        

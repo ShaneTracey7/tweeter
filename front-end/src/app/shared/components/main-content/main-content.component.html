@@ -92,7 +92,7 @@
     <div *ngSwitchCase="'verified'">
       <app-notification
       *ngFor="let notification of data[0]"
-      [notification]="notification">
+      [notification]="notification" [mcc]="this">
       </app-notification>
     </div>
 

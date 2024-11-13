@@ -29,6 +29,7 @@ export class SecondaryContentComponent {
     this.createServiceUserFeed();
     //this.service.createUserFeed(true,this.service_acc_name);
     this.profiles = this.service.UserFeed;
+
     
   }
 

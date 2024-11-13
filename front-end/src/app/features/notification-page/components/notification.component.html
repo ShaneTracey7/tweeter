@@ -16,14 +16,14 @@
                 <img class="notification-icon" [src]="service.setUrl('retweet.png')" alt="type"/>
             </div>
 
-            <img (mouseover)="showModal(notification.profile_from.username)" (mouseout)="hideModal()" class="notification-profile" src={{this.service.setUrl(notification.profile_from.pic)}} alt="profile"/>
+            <img (mouseover)="showModal(this)" (mouseout)="hideModal(timer)" class="notification-profile" src={{this.service.setUrl(notification.profile_from.pic)}} alt="profile"/>
 
             <div *ngIf="notification.type == 'News'">
                 <img id="notification-elip" class="elip" data-toggle="tooltip" data-placement="bottom" title="More" [src]="service.setUrl('ellipsis.png')" alt="more"/>
             </div>
         </div>
 
-        <profile-modal [inMain]="true" [show]='show_modal' [profile]='modal_profile'></profile-modal>
+        <profile-modal [inMain]="true" [(show)]='show_modal' [mcc]='mcc' [profile]='modal_profile'></profile-modal>
 
         <div [ngSwitch]="notification.type">
             <div *ngSwitchCase="'Like'">

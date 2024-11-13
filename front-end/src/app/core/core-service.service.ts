@@ -250,7 +250,7 @@ convertUserFeed(current_user_acc_name: string)
     
     if(user.acc_name != current_user_acc_name) //this is issue current_user_acc_name =this.acc_name
       {
-        var u = new Profile(user.pic, user.username, user.acc_name, "bio", 0, 0);
+        var u = new Profile(user.pic, user.username, user.acc_name, user.bio, user.following_count, user.follower_count);
         this.UserFeed.push(u);
         counter++;
       }

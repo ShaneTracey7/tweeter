@@ -238,6 +238,11 @@ $gray: rgb(97, 110, 124);
   .pm-button:hover {
     background-color: rgba(0, 0, 0, 0.700);
   }
+
+  #pm-button-following{
+    background-color: $gray;
+    border: 1px solid black;
+  }
   
   /*
   #shortProfile-img:hover + .profileModal {
@@ -285,7 +290,7 @@ $gray: rgb(97, 110, 124);
   }
   #shortProfile-accountname {
     display: block;
-    color: rgb(97, 110, 124);
+    color: $gray;
     font-size: 0.9rem;
     margin: 0;
     margin-block-start: 0px;
@@ -303,25 +308,35 @@ $gray: rgb(97, 110, 124);
       border-radius: 50%;
   }
   
-  #shortProfile-button {
+  .shortProfile-button {
     background-color: black;
     color: white;
     height: 30px;
     width: 75px;
     border-radius: 25px;
     padding: 5px;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
     margin-right: 10px;
     margin-left: auto;
     vertical-align: middle;
     display:inline;
     border: 0px;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: bold;
     align-items: center;
   }
-  #shortProfile-button:hover {
+
+  #shortProfile-button-following{
+    background-color: $gray;
+    border: 1px solid black;
+    width: 90px;
+  }
+  #shortProfile-button-following:hover {
+    background-color: rgb(97, 110, 124,0.800);;
+  }
+
+  .shortProfile-button:hover {
     background-color: rgba(0, 0, 0, 0.700);
   }
   
@@ -386,11 +401,6 @@ $gray: rgb(97, 110, 124);
     height: 25px;
     padding: 5px;
     border-radius: 15px;
-  }
-
-  #pm-button-following{
-    background-color: $gray;
-    border: 1px solid black;
   }
   
   .elip:hover {

@@ -22,8 +22,48 @@ export class ShortProfileComponent{
   modal_profile = this.profile;
   timer:any;
 
+  f_check: string = "Follow";
+
   constructor(public service: CoreService/*, public tweetService: TweetService*/){
     //changed from public
+    this.setInfo();
+  }
+
+  setInfo()
+  {
+    let globalObj = this;
+
+        const postPromise = new Promise<any>(function (resolve, reject) {
+          setTimeout(() => {
+            reject("We didn't get a response")
+          }, 5000) // 5 secs
+
+          setTimeout(() => {
+            globalObj.setFCheck();
+            resolve('we got a response');
+          }, 1000) // 1 secs
+        })
+
+        async function myAsync(){
+          try{
+            postPromise;
+          }
+          catch (error) {
+            console.error('Promise rejected with error: ' + error);
+          }
+        }
+        myAsync();
+  }
+
+  setFCheck()
+  {
+    if(this.service.isFollower(this.profile.acc_name)){
+      this.f_check = "Following";
+    }
+    else
+    {
+      this.f_check = "Follow";
+    }
   }
 
   goToProfile(timer:any)
@@ -45,7 +85,7 @@ export class ShortProfileComponent{
         }
         else
         {
-          obj.modal_profile = obj.profile;
+          //obj.modal_profile = obj.profile;
           obj.show_modal = true;
           obj.scc.changeOpenModal(true);
           //obj.mcc.changeOpenModal(true);
