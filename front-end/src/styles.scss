@@ -5,6 +5,7 @@ $bg-color-hover-main: rgba(0, 0, 0, 0.030);
 $bg-color-hover-nav-tool-bar: rgba(0, 0, 0, 0.090);
 $twitter-blue: #1DA1F2;
 $gray: rgb(97, 110, 124);
+$gray-font: rgb(97, 110, 124);
 /* <----------------------------------------  search card  ----------------------------------------> */   
 
 .searchCard{
@@ -100,6 +101,241 @@ $gray: rgb(97, 110, 124);
     text-align: center;
   }
 
+
+  /* <----------------------------------------  edit profile modal  ----------------------------------------> */   
+  #edit-profile-row2
+  {
+    display: flex;
+    flex-direction: row;
+    height: 175px;
+  }
+  #camera-image-container-header{
+    position: absolute;
+    z-index: 2;
+    left: unset;
+    top: unset;
+    margin-top: 65px;
+    margin-left: 46%;
+  }
+
+  .camera-image-container {
+    position: relative;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(9, 6, 52, 0.4);
+    z-index: 3;
+    //left: 15px;
+    //top: 15px;
+    top: -25px;
+    left: -81px;
+  }
+
+  .camera-image-container:hover{
+    background-color: rgba(48, 42, 88, 0.4);
+  }
+
+  #edit-profile-camera-image {
+    padding:0;
+    margin:0;
+    margin-left:7.5px;
+    margin-top:10px;
+    width: 25px;
+    height: 20px;
+    z-index: 3;
+  }
+
+
+  #bio-input{
+    height: 120px;
+    width: 100%;
+      min-height: 60px;
+      border-radius: 3px;
+      border: 1px solid lightgray;
+      font-size: 1.2rem;
+      background-image: unset;
+      background-position: unset;
+      background-size: unset;
+      padding: 5px;
+      background-repeat: unset;
+      background-color: unset;
+      color: unset;
+      padding-left: 10px;
+      line-height: 20px;
+      padding-top: 25px;
+      margin-bottom: 25px;
+  }
+
+  #bio-input:focus{
+      outline: 0;
+      border: 2px solid $twitter-blue;
+  }
+  #bio-input:focus + label {
+    color:$twitter-blue;
+  }
+
+  #edit-profile-row1
+  {
+    display: flex;
+    flex-direction: row;
+    height: 60px;
+
+    #edit-profile-p-image{
+        position: relative; 
+        top: -60px;
+        height: 120px;
+        width: 120px;
+        border-radius: 50%;
+        border: 3px solid white;
+        margin-left: 20px;
+        z-index: 2;
+        object-fit: cover; //keeps aspect ratio and cut off any parts of image that doesnt fit
+    }
+    #profile-p-image:hover{
+        filter: brightness(92%);
+    }
+  }
+  
+  #edit-profile-bg-image{
+    height: 175px;
+    width: 100%;
+    object-fit: cover; //keeps aspect ratio and cut off any parts of image that doesnt fit
+}
+  /*
+  .epm-toolbar {
+    width: 100%;
+    position:unset;
+    top: 0;
+    background-color: rgba(255, 255, 255, 0.985);
+    border-bottom: 1px solid lightgray;
+  }*/
+
+  #epm-cross-container{
+    //margin-right: auto;
+    margin-left: 5px;
+  }
+  #epm-cross{
+    //margin-right: auto;
+    height: 35px;
+    width: 35px;
+  }
+  
+  .editProfileModal{
+    //display: none;
+    //top: 100px; //test
+    //left: 100px; //test
+    position:fixed;
+    display: flex;
+    overflow-y: scroll;
+    flex-direction: column;
+    gap: 0px;
+    z-index: 3;//was commented out
+    width: 60%;
+    min-width: 400px;
+    max-width: 700px;
+    margin-left: 20%;
+    margin-top: 10%;
+    height: 500px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.200);
+    padding: 5px;
+  }
+
+  .editProfileModal::-webkit-scrollbar {
+    display: none;
+  }
+
+  #epm-title{
+    margin-right: auto;
+  }
+
+  .modal-content-area{
+    //overflow-y: scroll;
+    height: 150px;
+    min-height: 100px;
+    padding-top: 15px;
+    //min-height: fit-content;
+    margin-bottom: auto;
+    margin-left: 10%;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+  
+    #modal-title{
+      width: 450px;
+      font-size: 2rem;
+      color: black;
+      font-weight: bold;
+    }
+  
+    .label-wrapper{
+      position: relative; 
+      display: inline-block;
+      width: 100%;
+  
+        label{
+          position: absolute; 
+          top: 5px; 
+          left: 10px;
+          font-size: 0.8rem;
+          color: lightgray;
+          width: 100%;
+          //transform: translateY(-50%); 
+        }
+    }
+  
+    input[type=text]{
+      width: 100%;
+      min-height: 60px;
+      height: 60px;
+      border-radius: 3px;
+      border: 1px solid lightgray;
+      font-size: 1.2rem;
+      background-image: unset;
+      background-position: unset;
+      background-size: unset;
+      padding: unset;
+      background-repeat: unset;
+      background-color: unset;
+      color: unset;
+      padding-left: 10px;
+      line-height: 70px;
+      
+    }
+    input::placeholder{
+      font-size: 1.2rem;
+      color: $gray-font;
+      //margin-left: 10px;
+      
+    }
+  
+    input:focus::placeholder{
+      padding-bottom: 35px;
+      font-size: 0.8rem;
+      color: $twitter-blue;
+      
+    }
+
+    input:focus + label {
+      color:$twitter-blue;
+    }
+
+    input:focus{
+      outline: 0;
+      border: 2px solid $twitter-blue
+    }
+  }
+
+  .form-input-container{
+    display: flex;
+    flex-direction: column;
+    //justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
   /* <----------------------------------------  profile modal  ----------------------------------------> */   
   
   .modal-content {
@@ -274,6 +510,7 @@ $gray: rgb(97, 110, 124);
     display:inline;
     padding-left: 10px;
     padding-right: 10px;
+    margin-right: auto;
   }
   
   #shortProfile-username {
@@ -308,21 +545,22 @@ $gray: rgb(97, 110, 124);
       border-radius: 50%;
   }
   
+  
   .shortProfile-button {
     background-color: black;
     color: white;
-    height: 30px;
-    width: 75px;
+    height: 28px;
+    width: 65px;
     border-radius: 25px;
     padding: 5px;
     padding-left: 10px;
     padding-right: 10px;
     margin-right: 10px;
-    margin-left: auto;
+    //margin-left: 10px;
     vertical-align: middle;
     display:inline;
     border: 0px;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: bold;
     align-items: center;
   }
@@ -330,7 +568,7 @@ $gray: rgb(97, 110, 124);
   #shortProfile-button-following{
     background-color: $gray;
     border: 1px solid black;
-    width: 90px;
+    width: 78px;
   }
   #shortProfile-button-following:hover {
     background-color: rgb(97, 110, 124,0.800);;
@@ -645,6 +883,9 @@ $gray: rgb(97, 110, 124);
         /*visibility: hidden;*/
   
       }
+      .editProfileModal {
+        margin-left: 18%;
+      }
   }
   
     @media only screen and (min-width: 701px) and (max-width: 975px) {
@@ -695,6 +936,7 @@ $gray: rgb(97, 110, 124);
      /* float: left;*/
       visibility: visible;
     }
+
   }
   
   @media only screen and (min-width: 1250px) {
@@ -714,6 +956,10 @@ $gray: rgb(97, 110, 124);
       .secondary-content {
           width: 30%;
           visibility: visible;
+        }
+
+        .editProfileModal {
+          margin-left: 22%;
         }
   }
   

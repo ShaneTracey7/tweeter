@@ -1,0 +1,57 @@
+
+
+<div *ngIf="showep">
+
+<div id="p-modal" class="editProfileModal">
+
+    <form [formGroup]="editProfileForm" (ngSubmit)="onSubmit()">
+        <div id="profile-t"class="toolbar">
+            <div id="profile-ut" class="upper-toolbar">
+            <!-- upper toolbar add here-->
+            <div id="epm-cross-container" class="title-icons">
+                <img id="epm-cross" (click)="hideModal()" class="toolbar-icon" [src]="service.setUrl('cross.svg')" alt="cross"/>
+            </div>
+                <h1 class="page-title" id="epm-title"> Edit Profile </h1>
+                <button type="submit" class="shortProfile-button">Save</button>
+            </div>
+        </div>
+
+
+        
+            <div id="edit-profile-row2">                  <!-- will be 'this.profile.header_pic'-->
+                <img id="edit-profile-bg-image" [src]="this.service.setUrl(this.profile.pic)" alt="background-image"/>
+                <div id="camera-image-container-header" class="camera-image-container">
+                    <img id="edit-profile-camera-image" (click)="handleClick('header')" [src]="this.service.setUrl('camera.png')" alt="camera-image"/>
+                </div>
+            </div>
+            <div id="edit-profile-row1">
+                <img id="edit-profile-p-image" [src]="this.service.setUrl(this.profile.pic)" alt="profile-image"/>
+                <div class="camera-image-container">
+                    <img id="edit-profile-camera-image" (click)="handleClick('profile')" [src]="this.service.setUrl('camera.png')" alt="camera-image"/>
+                </div>
+            </div>
+
+            <div class="modal-content-area">
+
+                <div class="label-wrapper">  
+                    <input type="text" id="username-input" value="{{this.profile.username}}" readonly>
+                    <label>Username</label>
+                </div>
+
+                <div class="label-wrapper">                   
+                    <textarea type="text" id="bio-input" formControlName="bio" maxlength="99"></textarea>
+                    <div class="error-message" *ngIf="this.editProfileForm.controls['bio'].errors?.['maxlength']"> Bio must be less than 100 characters!</div>
+                <label>Bio</label>
+                </div>
+                <!--
+                <div class="label-wrapper">                   
+                        <input type="text" id="bio-input" formControlName="bio" maxlength="99">
+                        <div class="error-message" *ngIf="this.editProfileForm.controls['bio'].errors?.['maxlength']"> Bio must be less than 100 characters!</div>
+                    <label>Bio</label>
+                </div>
+                -->
+
+            </div>
+        </form>
+    </div>
+</div>

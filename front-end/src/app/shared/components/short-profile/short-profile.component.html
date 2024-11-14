@@ -9,15 +9,17 @@
         <p id="shortProfile-accountname">&commat;{{ profile.acc_name }}</p>
     </div>
     <!-- {% if button == "yes" %} -->
-        <div *ngIf="f_check == 'Follow'; else following">
-            <button class="shortProfile-button">{{f_check}}</button>
+        <div *ngIf="this.profile.acc_name != this.service_acc_name">
+            <div *ngIf="f_check == 'Follow'; else following">
+               <button class="shortProfile-button">{{f_check}}</button>
+            </div>
+            <ng-template #following>
+                <button id="shortProfile-button-following" class="shortProfile-button">{{f_check}}</button>
+            </ng-template>
         </div>
-        <ng-template #following>
-            <button id="shortProfile-button-following" class="shortProfile-button">{{f_check}}</button>
-        </ng-template>
             <!-- <button id="shortProfile-button">{{f_check}}</button> -->
     <!--{% endif %} -->
 </div>
-
-<profile-modal id="pm-instance" [inMain]="false" [(show)]='show_modal' [scc]='scc' [profile]='profile'></profile-modal>
+<!-- adding [mcc]='mcc' is NEW-->
+<profile-modal id="pm-instance" [inMain]="false" [(show)]='show_modal' [scc]='scc' [mcc]='mcc' [profile]='profile'></profile-modal>
         

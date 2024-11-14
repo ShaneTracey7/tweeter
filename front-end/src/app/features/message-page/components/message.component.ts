@@ -1,6 +1,7 @@
 import { Component, Input} from '@angular/core';
 import { Convo, Message, MessageCard, Profile } from '../../../core/data';
 import { MessagePageComponent } from '../message-page.component';
+import { MainContentComponent } from '../../../shared/components/main-content/main-content.component';
 
 
 
@@ -14,9 +15,12 @@ import { MessagePageComponent } from '../message-page.component';
 export class MessageComponent extends MessagePageComponent{
 @Input () message = new MessageCard('','','','','');
 @Input () convo = new Convo(new Profile('','','','',0,0),[]);
-@Input() mpc:MessagePageComponent = new MessagePageComponent(this.authService, this.route,this.service);
+@Input() mpc:MessagePageComponent = new MessagePageComponent(this.authService, this.route,this.service,this.tweetService);
+@Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService,this.service,this.authService,this.route);
 @Input () c_c: boolean = false;
 selected: boolean = false;
+timer:any;
+show_modal: boolean = false;
   showConvo()
   {
     //this.c_c = true;
@@ -77,5 +81,50 @@ selected: boolean = false;
 
   }
 
+  showModal2(obj:MessageComponent)
+  {
 
+    let globalObj =this;
+
+    obj.timer = setTimeout( function(){
+      //insert logic here
+      if(obj.show_modal || obj.mcc.openmodal)
+        {
+          //console.log("show: " + obj.show_modal + " openModal: " + obj.mcc.openmodal);
+        }
+        else
+        {
+        
+          obj.show_modal = true;
+          obj.mcc.changeOpenModal(true);
+        }
+
+    }, 1000);
+}
+showModal(obj:MessageComponent)
+  {
+
+    let globalObj =this;
+
+    obj.timer = setTimeout( function(){
+      //insert logic here
+      if(obj.show_modal || obj.mcc.openmodal)
+        {
+          console.log("show: " + obj.show_modal + " openModal: " + obj.mcc.openmodal);
+        }
+        else
+        {
+          
+          //obj.modal_profile = new Profile(post.profile, post.username,post.acc_name,'bio',0,0);
+          obj.show_modal = true;
+          obj.mcc.changeOpenModal(true);
+        }
+
+    }, 1000);
+  }
+  //prevents modal from appearing if mouse isnt over profile pic long enough
+  hideModal(timer:any)
+  {
+    clearTimeout(timer);
+  }
 }

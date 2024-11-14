@@ -46,6 +46,9 @@ export class ProfileModalComponent {
       console.log("**ngOnChanges** PM");
       console.log("PROFILE CV: "+ changes['profile'].currentValue);
       console.log("PROFILE: PV"+ changes['profile'].previousValue);
+
+      //testing
+      this.setFCheck();
     }
 }
 

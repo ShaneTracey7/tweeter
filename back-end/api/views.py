@@ -532,6 +532,12 @@ def userApi(request,id=id):
                     return JsonResponse(user_serializer.data,safe=False)
                 else:
                     return JsonResponse("User doesn't exist",safe=False)
+            elif username_input == 'updateProfile':
+                user = User.objects.get(acc_name=acc_name_input)
+                user.bio = password_input
+                user.save()
+                return JsonResponse("Successful Update",safe=False)
+
         else: 
             return JsonResponse("Failed to Add",safe=False)
             

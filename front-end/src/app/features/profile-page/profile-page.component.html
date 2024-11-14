@@ -1,5 +1,8 @@
+<edit-profile-modal [profile]="user" [(showep)]="showep"></edit-profile-modal>
+
 <div id="mc" class="main-content">
 
+  
     <!--<div id="profile-t"class="toolbar"> -->
         <!--<div id="profile-ut" class="upper-toolbar"> -->
 
@@ -67,7 +70,7 @@
         <img id="profile-bg-image" [src]="elon" alt="background-image"/>
         <div id="profile-row1">
           <img id="profile-p-image" [src]="this.service.setUrl(this.user.pic)" alt="profile-image"/>
-          <button class="profile-page-button" id="edit-profile-button">Edit profile</button>
+          <button class="profile-page-button" id="edit-profile-button" (click)="showEPModal()"  >Edit profile</button>
         </div>
       </div>
 
@@ -206,6 +209,8 @@
 </div>
 
 <div class="modal-content">
+
+
 
 <!--
     {% for profile in profiles %}

@@ -6,6 +6,8 @@ import { SecondaryContentComponent } from '../secondary-content/secondary-conten
 import { CoreService } from '../../../core/core-service.service';
 import { MainContentComponent } from '../main-content/main-content.component';
 import { TweetService } from '../../../core/tweet-service';
+import { AuthService } from '../../../core/auth.service';
+import { ActivatedRoute } from '@angular/router';
 @Component({
 
   selector: 'short-profile',
@@ -14,19 +16,23 @@ import { TweetService } from '../../../core/tweet-service';
 export class ShortProfileComponent{
 
   @Input() profile = new Profile('','','','',0,0);
+  @Input() page: string = ""; //what current_page is being displayed
   //@Output() openmodalChangeS = new EventEmitter<boolean>();
   //@Output() openmodalChangeM = new EventEmitter<boolean>();
+  @Input() upc: any = '';
   @Input() scc:SecondaryContentComponent = new SecondaryContentComponent(this.service);
-  //@Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService);
+  @Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService,this.service,this.authService,this.route);
   show_modal: boolean = false;
   modal_profile = this.profile;
   timer:any;
+  service_acc_name: string = "";
 
   f_check: string = "Follow";
 
-  constructor(public service: CoreService/*, public tweetService: TweetService*/){
-    //changed from public
+  constructor(public service: CoreService, public tweetService: TweetService, public authService: AuthService, public route: ActivatedRoute){
+    this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";
     this.setInfo();
+
   }
 
   setInfo()
@@ -77,9 +83,10 @@ export class ShortProfileComponent{
   //shows modal if mouse is over profile pic for long enough
   showModal(profile: Profile, obj:ShortProfileComponent)
   {
+
     obj.timer = setTimeout( function(){
       //insert logic here
-      if(obj.show_modal || obj.scc.openmodal /*|| obj.mcc.openmodal*/)
+      if(obj.show_modal || obj.scc.openmodal || obj.mcc.openmodal)
         {
           console.log("show: " + obj.show_modal + " openModalS: " + obj.scc.openmodal /*+ " openModalM: " + obj.mcc.openmodal*/);
         }
@@ -88,7 +95,7 @@ export class ShortProfileComponent{
           //obj.modal_profile = obj.profile;
           obj.show_modal = true;
           obj.scc.changeOpenModal(true);
-          //obj.mcc.changeOpenModal(true);
+          obj.mcc.changeOpenModal(true);
         }
 
     }, 1000);
@@ -98,6 +105,31 @@ export class ShortProfileComponent{
     //clearTimeout(timer);
 
   }
+    //shows modal if mouse is over profile pic for long enough
+    showModal2(profile: Profile, obj:ShortProfileComponent)
+    {
+  
+      obj.timer = setTimeout( function(){
+        //insert logic here
+        if(obj.show_modal || obj.upc.openmodal /*|| obj.mcc.openmodal*/)
+          {
+            console.log("show: " + obj.show_modal + " openModalS: " + obj.upc.openmodal /*+ " openModalM: " + obj.mcc.openmodal*/);
+          }
+          else
+          {
+            //obj.modal_profile = obj.profile;
+            obj.show_modal = true;
+            obj.upc.changeOpenModal(true);
+            //obj.mcc.changeOpenModal(true);
+          }
+  
+      }, 1000);
+  
+      //timer;
+      // cancel it immediately so it will never run
+      //clearTimeout(timer);
+  
+    }
   //prevents modal from appearing if mouse isnt over profile pic long enough
   hideModal(timer:any)
   {

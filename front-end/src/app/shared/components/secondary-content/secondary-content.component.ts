@@ -48,8 +48,6 @@ export class SecondaryContentComponent {
   //to ensure only one modal is visible at a time
   openmodal: boolean = false;
 
-  scc = this;
-
   changeOpenModal(newValue: boolean){
     this.openmodal = newValue;
     console.log(this.openmodal);

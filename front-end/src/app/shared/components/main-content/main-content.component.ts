@@ -21,7 +21,7 @@ export class MainContentComponent {
 
   @Input() tab: string = ""; //what tab is being displayed
   @Input() page: string = ""; //what current_page is being displayed
-  @Input() mpc:MessagePageComponent = new MessagePageComponent(this.authService, this.route,this.service);
+  @Input() mpc:MessagePageComponent = new MessagePageComponent(this.authService, this.route,this.service,this.tweetService);
   @Input () c_c: boolean = false;
   forYouFeed: any [] = []
 

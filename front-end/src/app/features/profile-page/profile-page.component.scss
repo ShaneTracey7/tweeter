@@ -66,6 +66,7 @@ $gray: rgb(97, 110, 124);
     width: 100%;
     object-fit: cover; //keeps aspect ratio and cut off any parts of image that doesnt fit
 }
+
 #invalid-profile-bg-image{
     height: 200px;
     width: 100%;
@@ -176,6 +177,8 @@ $gray: rgb(97, 110, 124);
     flex-direction: row;
     gap: 30px;
     font-size: 1rem;
+    height: 30px;
+    margin-bottom: 0;
 
     .profile-page-count-info{
         display: flex;
@@ -184,10 +187,12 @@ $gray: rgb(97, 110, 124);
         .profile-page-count{
             font-weight: bold;
             padding-right: 5px;
+            margin-bottom: 0;
         }
         .profile-page-count-button{
             text-align: right;
-            color: $gray
+            color: $gray;
+            margin-bottom: 0;
         }
         .profile-page-count-button:hover{
             text-decoration: underline;
@@ -196,6 +201,11 @@ $gray: rgb(97, 110, 124);
     }
     
     
+}
+
+#profile-page-bio{
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .profile-page-username{

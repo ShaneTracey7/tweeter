@@ -24,7 +24,9 @@
 
 <div (click)="showConvo()" [style]="setStyle()"class="message">
         
-    <img class="message-img" src="{{ convo.otherUser.pic}}" alt="profile"/>
+    <img class="message-img" (mouseover)="showModal(this)" (mouseout)="hideModal(timer)" src="{{ this.service.setUrl(convo.otherUser.pic)}}" alt="profile"/>
+    
+    <profile-modal [inMain]="true" [(show)]='show_modal' [mcc]="mcc" [profile]='convo.otherUser'></profile-modal> 
 
     <div class="message-content">
 

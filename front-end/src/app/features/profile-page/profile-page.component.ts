@@ -56,6 +56,7 @@ export class ProfilePageComponent extends CoreComponent{
   media: Post [] = [] //array of Post objs of following
   mediaUsers: Profile [] = []; //needed for profile modal
 
+  showep: boolean = false; //condition to show edit profile modal or not
 
 
   //needed to ensure when logging into a different account, correct data displays
@@ -207,7 +208,7 @@ export class ProfilePageComponent extends CoreComponent{
         }
       else
         {
-          this.user = new Profile(resultData.pic,resultData.username,resultData.acc_name,"",0,0)
+          this.user = new Profile(resultData.pic,resultData.username,resultData.acc_name,resultData.bio,resultData.following_count,resultData.follower_count)
           this.isValid = true;
         }
     });
@@ -947,4 +948,11 @@ convertDBInfo(arr_type: string)
     }
  }
   */
+
+ showEPModal()
+ {
+  this.showep = true;
+  console.log('showing edit profile modal');
+ }
+
 }

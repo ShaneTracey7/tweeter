@@ -145,14 +145,16 @@ export class Profile {
     username: string;
     acc_name: string;
     bio: string;
+    //header_pic: string;
     follow_count: string;
     follower_count: string;
 
-    constructor(p: string, u: string, a: string, b: string, fc: number, frc: number) {
+    constructor(p: string, u: string, a: string, b: string,/*hp:string,*/ fc: number, frc: number) {
         this.pic = p;
         this.username = u;
         this.acc_name = a;
         this.bio = b;
+        //this.header_pic = hp;
         this.follow_count = shortenNum(fc); 
         this.follower_count = shortenNum(frc); 
       }

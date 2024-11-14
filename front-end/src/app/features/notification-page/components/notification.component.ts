@@ -33,7 +33,7 @@ showModal(obj:NotificationComponent)
         }
         else
         {
-          //obj.modal_profile = new Profile(post.profile, post.username,post.acc_name,'bio',0,0);
+          obj.modal_profile = globalObj.notification.profile_from;
           obj.show_modal = true;
           obj.mcc.changeOpenModal(true);
         }

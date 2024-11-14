@@ -3,6 +3,8 @@ import { CoreComponent } from '../../core/core.component';
 import { CoreService } from '../../core/core-service.service';
 import { ActivatedRoute } from '@angular/router';
 import { Convo, Profile } from '../../core/data';
+import { TweetService } from '../../core/tweet-service';
+import { AuthService } from '../../core/auth.service';
 
 @Component({
   selector: 'app-message-page',
@@ -14,6 +16,11 @@ export class MessagePageComponent extends CoreComponent{
 convo_clicked: boolean = false; //true: shows seleected converstion, false: shows 'select a message blurb'
 selectedConvo: Convo = new Convo(new Profile('','','','',0,0),[]); //selected convo
 messagePageComponent = this;
+
+constructor(authService: AuthService, route: ActivatedRoute, service: CoreService, public tweetService: TweetService)
+{
+  super(authService,route,service);
+}
 
 setConvo(name: string)
 {
