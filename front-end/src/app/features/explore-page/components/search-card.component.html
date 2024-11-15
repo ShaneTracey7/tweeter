@@ -1,14 +1,34 @@
 <!-- only used within searchPage.html-->
-<div class="searchCard">
 
-    <div class="sc-content">
-        <div class="sc-textgroup">
-            <p id="sc-category" class="sc-text">{{ searchTopic.category }}</p>
-            <p class="sc-text"> Trending </p>
+<div *ngIf="inSearch; else notInSearch">
+    <div class="searchCard" id="searchCardSearch">
+
+        <div class="sc-content">
+           <div class="sc-textgroup">
+               <img id="search-card-magnifier" [src]="service.setUrl('magnifier.svg')" alt="magnifying glass"/>
+               <div id="sc-search-text-container">
+                    <p class="sc-search-text" id="sc-search-text-topic">{{ searchTopic.topic }}</p>
+                    <p class="sc-search-text">{{ searchTopic.category }}</p>
+               </div>
+           </div>
         </div>
-        <h3 class="sc-topic"> {{ searchTopic.topic }}</h3>
-        <p class="sc-text"> {{ searchTopic.postNum }} posts</p>
+
+    </div>
+</div>
+
+<ng-template #notInSearch>
+    <div class="searchCard">
+
+        <div class="sc-content">
+           <div class="sc-textgroup">
+               <p id="sc-category" class="sc-text">{{ searchTopic.category }}</p>
+               <p class="sc-text"> Trending </p>
+           </div>
+           <h3 class="sc-topic"> {{ searchTopic.topic }}</h3>
+           <p class="sc-text"> {{ searchTopic.postNum }} posts</p>
+        </div>
+
+        <img id="sc-elip" class="elip" data-toggle="tooltip" data-placement="bottom" title="More" [src]="service.setUrl('ellipsis.png')" />
     </div>
 
-    <img id="sc-elip" class="elip" data-toggle="tooltip" data-placement="bottom" title="More" [src]="service.setUrl('ellipsis.png')" />
-</div>
+</ng-template>

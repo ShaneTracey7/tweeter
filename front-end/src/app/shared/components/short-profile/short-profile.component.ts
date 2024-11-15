@@ -15,6 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ShortProfileComponent{
 
+  //@Input() in
   @Input() profile = new Profile('','','','',0,0);
   @Input() page: string = ""; //what current_page is being displayed
   //@Output() openmodalChangeS = new EventEmitter<boolean>();

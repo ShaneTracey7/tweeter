@@ -16,7 +16,7 @@ $gray-font: rgb(97, 110, 124);
     gap: 0px;
     z-index: 4;//was commented out
     width: 100%;
-    min-width: 400px;
+    //min-width: 400px;
     max-width: 700px;
    // margin-left: 20%;
    // margin-top: 10%;
@@ -34,15 +34,34 @@ $gray-font: rgb(97, 110, 124);
 
   #search-bar-clear-button{
     position: relative;
-    height: 18px;
-    width:18px;
+    height: 25px;
+    width:25px;
     z-index: 2;//was commented out
     //top:-40px;
     //left: 460px;
     top: 10px;
-    right: 30px;
+    right: 40px;
     //margin-left: -50px;
 
+  }
+
+  hr{
+    margin:5px;
+  }
+
+  #go-to-container{
+    font-size: 0.9rem;
+    text-align: left;
+    height: 50px;
+    width: 100%;
+
+    #go-to-text{
+      padding-left:15px;
+      padding-top: 15px;
+    }
+  }
+  #go-to-container:hover{
+    background-color: $bg-color-hover-main;
   }
 
   #default-text{

@@ -1,39 +1,46 @@
 
 <form id="search-form" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
     <div id="search-bar-and-button">
-        <input id="search-searchbar" (focus)="focus = true" (blur)="focus = false" type="text" placeholder="Search" formControlName="inquiry" maxlength="40" required>
+        <input id="search-searchbar" (focus)="focus = true" (blur)="handleBlur()" type="text" placeholder="Search" formControlName="inquiry" maxlength="40" required>
         <div *ngIf="searchForm.value.inquiry != ''">
-            <img id="search-bar-clear-button" (click)="handleClear()" [src]="service.setUrl('cross-fill.svg')" alt="cross"/> 
+            <img id="search-bar-clear-button" (click)="handleClear()" [src]="service.setUrl('cross-fill.png')" alt="cross"/> 
             <!-- will change to 'cross-fill.png'-->
         </div>
     </div>
 
     <div *ngIf="focus">
         
-        <div id="searchBarModal" class="">
+        <div id="searchBarModal" class="" (mouseover)="modalFlag = true" (mouseout)="modalFlag =false">
 
 
 
             <div *ngIf="searchForm.value.inquiry != ''; else emptyInput">
 
             <!--3 queries max-->
+            <!--
             <div *ngFor="let query of queryList">
                 <div>
                     <img id="" [src]="service.setUrl('magnifier.svg')" alt="magnifying glass"/>
                     <p>{{query}}</p>
                 </div>
             </div>
+            -->
+            <app-search-card 
+            *ngFor="let topic of queryList"
+            [searchTopic]="topic" [inSearch]="true">
+            </app-search-card>
 
-            <hr> <!-- separation line-->
-
+            <div *ngIf="queryList.length > 0 && userList.length > 0">
+                <hr> <!-- separation line-->
+            </div>
             <!--10 users max -->
             <short-profile
             *ngFor="let profile of userList"
             [profile]="profile">
             </short-profile>
 
-            <div>
-                <p>Go to &commat;{{searchForm.value.inquiry}}</p>
+            <div id="go-to-container" (click)="handleGoTo()">
+                <p id="go-to-text">Go to &commat;{{searchForm.value.inquiry}}</p>
             </div>
 
             </div>

@@ -4,7 +4,7 @@
    <div id="p-modal"[style]="setModalPosition()" (mouseleave)="hideModal()" class="profileModal">
 
         <div class="pm-header">
-            <img id="p-img"src={{this.service.setUrl(profile.pic)}} class="pm-img" alt="profile">
+            <img (click)="handleUsernameClick()" id="p-img"src={{this.service.setUrl(profile.pic)}} class="pm-img" alt="profile">
             <div *ngIf="this.profile.acc_name != this.service_acc_name">
                 <div *ngIf="f_check == 'Follow'; else following">
                     <button class="pm-button">{{f_check}}</button>

@@ -1,18 +1,52 @@
+$bg-color-hover-main: rgba(0, 0, 0, 0.030);
+$bg-color-hover-nav-tool-bar: rgba(0, 0, 0, 0.090);
+$twitter-blue: #1DA1F2;
+$gray-font: rgb(97, 110, 124);
+
 
 .searchCard {
     width: 100%;
     //border: 1px solid blue;
   }
+#searchCardSearch{
+  height: 60px;
+}
 
   #search-form{
     height: 50px;
     width:85%;
     max-width: 500px;
-    margin-top: 4px;
+    margin-top: 10px;
     margin-left: 20px;
   }
 
-  
+  #search-card-magnifier{
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+  }
+
+  #sc-search-text-container{
+    display:flex;
+    flex-direction: column;
+    gap:0;
+    font-size: 0.9rem;
+    color: $gray-font;
+    margin:0;
+    margin-left: 10px;
+    padding:0;
+  }
+
+  #sc-search-text-topic{
+    color: black;
+    font-weight: bold;
+  }
+  .sc-search-text{
+    padding:0;
+    margin:0;
+  }
+
 
   #search-tab1, #search-tab2, #search-tab3, #search-tab4, #search-tab5 {
     width: 20%;

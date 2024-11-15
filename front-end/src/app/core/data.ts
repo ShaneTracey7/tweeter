@@ -462,7 +462,14 @@ export function createNewsSearchTopics(){
     topics.push( new SearchTopic('Food', 'Macoroni', 60000));
     topics.push( new SearchTopic('Sports', 'McJesus', 120550));
     topics.push(new SearchTopic('Art', 'Banksy', 7903));
-    
+    topics.push(new SearchTopic('Art', 'monkey', 7903));
+    topics.push( new SearchTopic('Music', 'ceelo green', 12005));
+    topics.push( new SearchTopic('Music', 'drake', 100));
+    topics.push( new SearchTopic('Food', 'bacon', 60000));
+    topics.push( new SearchTopic('Sports', 'Lions', 120550));
+    topics.push( new SearchTopic('Sports', 'tevin', 120550));
+    topics.push(new SearchTopic('Art', 'teller', 7903));
+    topics.push(new SearchTopic('Art', 'davinci', 7903));
     return topics;
 }
 

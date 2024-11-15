@@ -13,5 +13,6 @@ import { ExplorePageComponent } from '../explore-page.component';
 })
 export class SearchCardComponent extends ExplorePageComponent{
 @Input () searchTopic = new SearchTopic('','',0);
+@Input () inSearch: boolean = false;
  
 }

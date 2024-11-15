@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
-import { Profile } from "../../../core/data";
+import { createNewsSearchTopics, Profile, SearchTopic } from "../../../core/data";
 import { CoreService } from "../../../core/core-service.service";
 import { HttpClient } from "@angular/common/http";
 
@@ -37,20 +37,26 @@ wordlist: string [] = ['hello','goodbye','good','dog','boy','toy','fleece','baco
 
 
 focus:boolean = false;
+modalFlag:boolean = false;
 
 DBUserFeed: any [] = [];
 userList: Profile [] = [];
-queryList: string [] = [];
+DBTopicFeed: any [] = [];
+queryList: SearchTopic [] = [];
+queryList2: string [] = [];
 
 searchForm = this.formBuilder.group({
   inquiry: ['', [Validators.required]],
   });
   
-  constructor(private formBuilder: FormBuilder, public service: CoreService, private http: HttpClient) {}
+  constructor(private formBuilder: FormBuilder, public service: CoreService, private http: HttpClient) 
+  {}
+  
   
   ngOnInit()
   {
     this.onChanges();
+    this.convertQueryFeed();
   }
  
 
@@ -67,6 +73,7 @@ searchForm = this.formBuilder.group({
         {
           this.userList = [];
           this.queryList = [];
+          this.queryList2 = [];
         }
         console.log("value: " + val);
       });
@@ -92,21 +99,30 @@ searchForm = this.formBuilder.group({
     {
     }
 
-    handleClear()
-    {
-      this.searchForm.reset();
-      this.searchForm.value.inquiry = '';
-    }
+    
 
 
-    testCheck(str: string)
+    testCheck2(str: string)
     {
-      this.queryList = [];
+      //this.queryList = [];
+      this.queryList2 = [];
       this.wordlist.forEach(word =>{
         
         if(word.startsWith(str))
         {
-          this.queryList.push(word);
+          this.queryList2.push(word);
+        }
+      });
+    }
+    testCheck(str: string)
+    {
+      //this.queryList = [];
+      this.queryList = [];
+      this.DBTopicFeed.forEach(t =>{
+        
+        if(t.topic.startsWith(str))
+        {
+          this.queryList.push(t);
         }
       });
     }
@@ -154,6 +170,12 @@ searchForm = this.formBuilder.group({
     }
   }
 
+
+  convertQueryFeed()
+  {
+    this.DBTopicFeed = createNewsSearchTopics();
+  }
+
   convertUserFeed()
   {   
     //clear feed
@@ -167,5 +189,33 @@ searchForm = this.formBuilder.group({
       }
   }
 
+  //when 'go to @<insert-inquiry-value>' is clicked
+  handleGoTo()
+  {
+    let route = "/tweeter/Profile/" + this.searchForm.value.inquiry;
+    this.service.setCurrentPage('OtherProfile');
+    this.service.router.navigate([route]);
+  }
+
+  //when search bar unfocused(blurred)
+  handleBlur()
+  {
+    if(this.modalFlag)
+    {
+      this.focus = true;
+      //this.modalFlag =false;
+    }
+    else
+    {
+      this.focus = false;
+    }
+  }
+
+  handleClear()
+    {
+      this.focus = false;
+      this.searchForm.reset();
+      this.searchForm.value.inquiry = '';
+    }
 }
   
