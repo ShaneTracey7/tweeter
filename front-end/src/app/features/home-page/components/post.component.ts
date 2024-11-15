@@ -545,10 +545,23 @@ grayReaction()
   }
   handleCommentClick()
   {
-    //Go to post page OR will show a modal of tweet + tweet form in a vertical stack
-    console.log("going to post page");
-    var route = '/tweeter/Post/' + this.post.id;
-    this.service.router.navigate([route]); 
+    if(this.focused)
+      {
+        console.log("Already on post page");
+      }
+      else if(this.inThread)
+      {
+        console.log("switching focused post");
+        this.inThread = false;
+        //this.focused = true;
+        this.setNewPostPageData();
+      }
+      else
+      {
+        console.log("going to post page");
+        var route = '/tweeter/Post/' + this.post.id;
+        this.service.router.navigate([route]); 
+      }
   }
 
 

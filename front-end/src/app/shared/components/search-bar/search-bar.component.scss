@@ -1,0 +1,60 @@
+$bg-color-hover-main: rgba(0, 0, 0, 0.030);
+$bg-color-hover-nav-tool-bar: rgba(0, 0, 0, 0.090);
+$twitter-blue: #1DA1F2;
+$gray-font: rgb(97, 110, 124);
+
+#searchBarModal{
+    position: relative; //new
+    //display: none;
+    //top: 100px; //test
+    //left: 100px; //test
+    //border: 2px solid red;
+    //position:fixed;
+    display: flex;
+    overflow-y: scroll;
+    flex-direction: column;
+    gap: 0px;
+    z-index: 4;//was commented out
+    width: 100%;
+    min-width: 400px;
+    max-width: 700px;
+   // margin-left: 20%;
+   // margin-top: 10%;
+    height:fit-content;
+    max-height: 500px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.500);
+    padding: 5px;
+  }
+
+  #search-form{
+    width: 100%;
+  }
+
+  #search-bar-clear-button{
+    position: relative;
+    height: 18px;
+    width:18px;
+    z-index: 2;//was commented out
+    //top:-40px;
+    //left: 460px;
+    top: 10px;
+    right: 30px;
+    //margin-left: -50px;
+
+  }
+
+  #default-text{
+    font-size: 0.9rem;
+    color: $gray-font;
+    margin:0;
+    text-align: center;
+    margin-top: 12px;
+    margin-bottom: 50px;
+  }
+
+  #search-bar-and-button{
+    display: flex;
+    flex-direction: row;
+  }

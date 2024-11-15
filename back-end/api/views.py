@@ -500,9 +500,24 @@ def userApi(request,id=id):
         user_serializer = UserSerializer(data=user_data)
         if user_serializer.is_valid():
             username_input = user_serializer.data['username']
-            acc_name_input = user_serializer.data['acc_name']
+            acc_name_input = user_serializer.data['acc_name']   
             password_input = user_serializer.data['password']
-            if username_input == 'check':  #check uniqueness of acc_name
+            if username_input == 'getUserSearch':  #getting users to populate search modal
+                all_users = User.objects.all()
+                user_arr = []
+                count = 0
+                for user in all_users:
+                    if user.acc_name.startswith(acc_name_input) or user.username.startswith(acc_name_input):
+                        user_arr.append(user)
+                        count = count + 1
+                        if count == 10:
+                            break
+                if count == 0:
+                    return JsonResponse("No users",safe=False)
+                else:
+                    user_serializer = UserSerializer(user_arr,many=True) #NEW
+                    return JsonResponse(user_serializer.data,safe=False)
+            elif username_input == 'check':  #check uniqueness of acc_name
                 result = User.objects.filter(acc_name=acc_name_input)
                 if result.exists():
                     return JsonResponse("Not Unique",safe=False)
