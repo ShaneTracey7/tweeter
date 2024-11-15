@@ -1,8 +1,12 @@
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { createNewsSearchTopics, Profile, SearchTopic } from "../../../core/data";
 import { CoreService } from "../../../core/core-service.service";
 import { HttpClient } from "@angular/common/http";
+import { ProfilePageComponent } from "../../../features/profile-page/profile-page.component";
+import { TweetService } from "../../../core/tweet-service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { AuthService } from "../../../core/auth.service";
 
 @Component({
 
@@ -33,6 +37,8 @@ on submit,
 
 
 */
+@Input() ppg = new ProfilePageComponent(this.router,this.http,this.authService,this.route,this.service,this.tweetService)
+
 wordlist: string [] = ['hello','goodbye','good','dog','boy','toy','fleece','bacon','shake','hands','bands', 'bowl','hair', 'but', 'cut', 'what', 'shut', 'mutt', 'wear','orange','yellow',  'blue', 'green', 'red', 'purple', 'oval', 'office', 'olive', 'john', 'bear', 'cat', 'fish', 'salmon', 'burger', 'her', 'she', 'chocolate', 'milk', 'axe', 'zebra', 'mormon', 'harmonica', 'melody', 'arial', 'trival','beach', 'steak', 'street', 'sign'];
 
 
@@ -49,8 +55,9 @@ searchForm = this.formBuilder.group({
   inquiry: ['', [Validators.required]],
   });
   
-  constructor(private formBuilder: FormBuilder, public service: CoreService, private http: HttpClient) 
-  {}
+  constructor(private formBuilder: FormBuilder, public service: CoreService, public http: HttpClient, public router: Router, public authService: AuthService, public route: ActivatedRoute, public tweetService: TweetService) {}
+  //constructor(private formBuilder: FormBuilder, public service: CoreService, private http: HttpClient) {}
+  
   
   
   ngOnInit()
@@ -192,9 +199,18 @@ searchForm = this.formBuilder.group({
   //when 'go to @<insert-inquiry-value>' is clicked
   handleGoTo()
   {
+    if(this.service.current_page == "Profile" || this.service.current_page == "OtherProfile")
+    {
+    //this is a work in progress
+    //this.ppg.goToSearchProfile(this.searchForm.value.inquiry ?? '');
+    }
+    else
+    {
     let route = "/tweeter/Profile/" + this.searchForm.value.inquiry;
     this.service.setCurrentPage('OtherProfile');
     this.service.router.navigate([route]);
+    }
+
   }
 
   //when search bar unfocused(blurred)

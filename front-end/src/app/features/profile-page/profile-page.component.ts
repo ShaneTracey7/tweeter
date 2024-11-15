@@ -524,6 +524,50 @@ export class ProfilePageComponent extends CoreComponent{
     this.router.navigate([this.backUrl]);
   }
 
+  //error with media and likes not populating properly coming up
+  //(i think it could be the timing of fucntions firing)
+  goToSearchProfile(str: string)
+  {
+    //implement case for if you go to the same profile you are already on
+
+    var url = "/tweeter/Profile";
+    this.acc_name = str; 
+    this.last_url_section = str;
+
+    if(this.service_acc_name == str)
+    {
+      this.service.setCurrentPage('Profile') 
+      this.service_page = 'Profile';
+    }
+    else
+    {
+      url = url + "/" + str;
+      this.service.setCurrentPage('OtherProfile') 
+      this.service_page = 'OtherProfile';
+    }
+
+    this.inFollowLists = false;
+
+    //clearing arrays before I append
+    this.posts = [];
+    this.postsUsers = [];
+    this.retweets = [];
+    this.retweetsUsers = [];
+    this.likes = [];
+    this.likesUsers = [];
+    this.media = [];
+    this.mediaUsers = [];
+    this.followers = [];
+    this.following = [];
+
+    //navigate back to profile page
+    this.router.navigate([url]);
+    this.setUpProfileDataDB();
+    this.arrs = [this.posts,this.retweets,this.likes, this.media];
+    this.setLiked();
+    this.setRetweeted();
+  }
+
   setUpProfileDataDB()
   {
     let globalObj = this;
@@ -747,6 +791,7 @@ convertDBInfo(arr_type: string)
  //either 'posts' or 'retweets' or 'likes'
  convertDBInfoPosts(arr_type: string)
  {   
+  
    if( arr_type == 'posts' && this.DBPosts.length > 0)
    {
      for (let i = 0; i < this.DBPosts.length;i++) {

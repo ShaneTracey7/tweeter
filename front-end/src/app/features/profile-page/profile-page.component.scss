@@ -228,16 +228,17 @@ $gray: rgb(97, 110, 124);
 }*/
   
   #profile-searchbar{
-    width: 89%;
+    width: 100%;
     max-width: 350px; /*new */
-    margin-left:8%;
     margin-right:auto;
     font-size: 0.95rem;
   }
 
   #profile-form {
+    width: 89%;
     height: 50px;
-    margin-top: 4px;
+    margin-left:8%;
+    margin-top: 5px;
     position:sticky;
     position: -webkit-sticky;
     top: 0;
@@ -246,7 +247,7 @@ $gray: rgb(97, 110, 124);
 
   @media only screen and (min-width: 1250px) {
   
-    #profile-searchbar{
+    #profile-form{
       margin-left:5%;
     }
   }
