@@ -43,7 +43,9 @@ wordlist: string [] = ['hello','goodbye','good','dog','boy','toy','fleece','baco
 
 
 focus:boolean = false;
+blur: boolean = true;
 modalFlag:boolean = false;
+
 
 DBUserFeed: any [] = [];
 userList: Profile [] = [];
@@ -201,21 +203,34 @@ searchForm = this.formBuilder.group({
   {
     if(this.service.current_page == "Profile" || this.service.current_page == "OtherProfile")
     {
-    //this is a work in progress
-    //this.ppg.goToSearchProfile(this.searchForm.value.inquiry ?? '');
+      this.ppg.goToSearchProfile(this.searchForm.value.inquiry ?? ''/*, this*/);
+       this.handleClear()//hide search bar modal and clear
     }
     else
     {
-    let route = "/tweeter/Profile/" + this.searchForm.value.inquiry;
-    this.service.setCurrentPage('OtherProfile');
-    this.service.router.navigate([route]);
+      let route = "/tweeter/Profile/" + this.searchForm.value.inquiry;
+      this.service.setCurrentPage('OtherProfile');
+      this.service.router.navigate([route]);
     }
 
+  }
+
+  //called when false 
+  handleMouseLeave()
+  {
+    this.modalFlag = false
+
+    if(this.blur)
+      {
+        this.focus = false;
+      }  
   }
 
   //when search bar unfocused(blurred)
   handleBlur()
   {
+    this.blur =true;
+
     if(this.modalFlag)
     {
       this.focus = true;

@@ -6,6 +6,7 @@ import {Post, Profile, elon} from '../../core/data'
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../core/auth.service';
 import { TweetService } from '../../core/tweet-service';
+import { SearchBarComponent } from '../../shared/components/search-bar/search-bar.component';
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
@@ -516,7 +517,8 @@ export class ProfilePageComponent extends CoreComponent{
 
     //set arrs again
     //this.setUpProfileDataDB(); //might have to call this
-    this.arrs = [this.posts,this.retweets,this.likes, this.media];
+    this.arrs = [this.posts,this.postsUsers,this.retweets,this.retweetsUsers,this.likes,this.likesUsers, this.media,this.mediaUsers];
+    
     this.setLiked();
     this.setRetweeted();
 
@@ -526,9 +528,27 @@ export class ProfilePageComponent extends CoreComponent{
 
   //error with media and likes not populating properly coming up
   //(i think it could be the timing of fucntions firing)
-  goToSearchProfile(str: string)
+  goToSearchProfile(str: string/*, searchBar: SearchBarComponent*/)
   {
     //implement case for if you go to the same profile you are already on
+    var arr = window.location.pathname.split("/");
+    let l_url_section = arr.pop() ??"error";
+    if(str == this.service_acc_name && l_url_section == 'Profile')
+    {
+      //do nothing
+      console.log('Already on page');
+      
+      //searchBar.focus = false;
+      return;
+    }
+    else if(str == l_url_section)
+    {
+      //do nothing
+      console.log('Already on page');
+      
+      //searchBar.focus = false;
+      return;
+    }
 
     var url = "/tweeter/Profile";
     this.acc_name = str; 
@@ -538,6 +558,7 @@ export class ProfilePageComponent extends CoreComponent{
     {
       this.service.setCurrentPage('Profile') 
       this.service_page = 'Profile';
+      this.last_url_section = 'Profile';
     }
     else
     {
@@ -563,7 +584,8 @@ export class ProfilePageComponent extends CoreComponent{
     //navigate back to profile page
     this.router.navigate([url]);
     this.setUpProfileDataDB();
-    this.arrs = [this.posts,this.retweets,this.likes, this.media];
+    this.arrs = [this.posts,this.postsUsers,this.retweets,this.retweetsUsers,this.likes,this.likesUsers, this.media,this.mediaUsers];
+    //this.arrs = [this.posts,this.retweets,this.likes, this.media];
     this.setLiked();
     this.setRetweeted();
   }

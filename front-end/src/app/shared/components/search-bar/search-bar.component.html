@@ -1,7 +1,7 @@
 
 <form id="search-form" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
     <div id="search-bar-and-button">
-        <input id="search-searchbar" (focus)="focus = true" (blur)="handleBlur()" type="text" placeholder="Search" formControlName="inquiry" maxlength="40" required>
+        <input id="search-searchbar" (focus)="focus=true;blur=false" (blur)="handleBlur()" type="text" placeholder="Search" formControlName="inquiry" maxlength="40" required>
         <div *ngIf="searchForm.value.inquiry != ''">
             <img id="search-bar-clear-button" (click)="handleClear()" [src]="service.setUrl('cross-fill.png')" alt="cross"/> 
             <!-- will change to 'cross-fill.png'-->
@@ -10,7 +10,7 @@
 
     <div *ngIf="focus">
         
-        <div id="searchBarModal" class="" (mouseover)="modalFlag = true" (mouseout)="modalFlag =false">
+        <div id="searchBarModal" class="" (mouseenter)="modalFlag = true" (mouseleave)="handleMouseLeave()">
 
 
 
@@ -36,7 +36,7 @@
             <!--10 users max -->
             <short-profile
             *ngFor="let profile of userList"
-            [profile]="profile">
+            [profile]="profile" [(mshow)]="focus" [inSearch]="true" [ppg]="ppg">
             </short-profile>
 
             <div id="go-to-container" (click)="handleGoTo()">

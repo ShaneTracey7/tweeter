@@ -7,7 +7,10 @@ import { CoreService } from '../../../core/core-service.service';
 import { MainContentComponent } from '../main-content/main-content.component';
 import { TweetService } from '../../../core/tweet-service';
 import { AuthService } from '../../../core/auth.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ProfilePageComponent } from '../../../features/profile-page/profile-page.component';
+import { HttpClient } from '@angular/common/http';
+import { SearchBarComponent } from '../search-bar/search-bar.component';
 @Component({
 
   selector: 'short-profile',
@@ -15,7 +18,10 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ShortProfileComponent{
 
-  //@Input() in
+  @Input () mshow: boolean = false; //show search bar modal
+  @Output() mshowChange = new EventEmitter<boolean>();
+  @Input () inSearch: boolean = false; //in search bar modal
+  @Input() ppg = new ProfilePageComponent(this.router,this.http,this.authService,this.route,this.service,this.tweetService)
   @Input() profile = new Profile('','','','',0,0);
   @Input() page: string = ""; //what current_page is being displayed
   //@Output() openmodalChangeS = new EventEmitter<boolean>();
@@ -30,7 +36,7 @@ export class ShortProfileComponent{
 
   f_check: string = "Follow";
 
-  constructor(public service: CoreService, public tweetService: TweetService, public authService: AuthService, public route: ActivatedRoute){
+  constructor(public service: CoreService, public tweetService: TweetService, public authService: AuthService, public route: ActivatedRoute,public http: HttpClient, public router: Router){
     this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";
     this.setInfo();
 
@@ -75,10 +81,19 @@ export class ShortProfileComponent{
 
   goToProfile(timer:any)
   {
+    this.mshowChange.emit(false); //hide search bar modal
+    
+    if(this.inSearch) //if inside of search bar modal
+    {
+      this.handleGoTo();
+    }
+    else
+    {
     this.service.router.navigate(['/tweeter/Profile/' + this.profile.acc_name]);
     this.service.setCurrentPage('OtherProfile');
     this.service.routeToChild('posts'); //NEW
     clearTimeout(timer);
+    }
   }
 
   //shows modal if mouse is over profile pic for long enough
@@ -151,4 +166,28 @@ export class ShortProfileComponent{
           this.scc.changeOpenModal(true);
         }
     }*/
-}
+
+  handleGoTo()
+  {
+    if(this.service.current_page == "Profile" || this.service.current_page == "OtherProfile")
+    {
+    //this is a work in progress
+    this.ppg.goToSearchProfile(this.profile.acc_name);
+    }
+    else
+    {
+      if(this.service_acc_name == this.profile.acc_name)
+        {
+          let route = "/tweeter/Profile";
+          this.service.setCurrentPage('Profile');
+          this.service.router.navigate([route]);
+        }
+        else
+        {
+          let route = "/tweeter/Profile/" + this.profile.acc_name;
+          this.service.setCurrentPage('OtherProfile');
+          this.service.router.navigate([route]);
+        }
+    }
+  }
+} 
