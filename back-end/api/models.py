@@ -103,23 +103,32 @@ class Notification(models.Model):
 
 
 #was able to get user from tweet, aka convo from message
-#class Convo(models.Model):
-#    user1 = models.ForeignKey(User, on_delete=models.CASCADE)
-#    user2 = models.ForeignKey(User, on_delete=models.CASCADE)
-
-#    def __str__(self):
- #       return f"{self.id} {self.user1} {self.user2}"
+class Convo(models.Model):
+   user1 = models.ForeignKey(User, related_name='user1_convo_set', on_delete=models.CASCADE)
+   user2 = models.ForeignKey(User, related_name='user2_convo_set', on_delete=models.CASCADE)
+    
+   @classmethod
+   def create(cls,user1,user2):
+       convo = cls(user1=user1,user2=user2)
+       return convo
+   
+   def __str__(self):
+       return f"{self.id} {self.user1} {self.user2}"
 
 # can i get UserMessage if i have instance of convo (opposed to convo id)
-#class UserMessage(models.Model):
- #   user1_sent = models.BooleanField()
-    #from_user = models.ForeignKey(User, on_delete=models.CASCADE)
- #   text = models.CharField(max_length = 100)
- #   date = models.DateTimeField()
- #   convo = models.ForeignKey(Convo, on_delete=models.CASCADE)
+class UserMessage(models.Model):
+    convo = models.ForeignKey(Convo, on_delete=models.CASCADE)
+    text = models.CharField(max_length = 100)
+    date = models.DateTimeField()
+    user1_sent = models.BooleanField()
 
- #   def __str__(self):
-  #      return f"{self.id} {self.convo} {self.user1_sent} {self.} {self.text} {self.date}"
+    @classmethod
+    def create(cls,convo,text,date,user1_sent):
+       usermessage = cls(convo=convo,text=text,date=date,user1_sent=user1_sent)
+       return usermessage
+
+    def __str__(self):
+       return f"{self.id} {self.convo} {self.text} {self.date} {self.user1_sent}"
     
     #display get all convos -> arr of messages[date, who sent, text] should be able to get message from convo id
 

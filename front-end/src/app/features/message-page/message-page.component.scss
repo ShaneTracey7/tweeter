@@ -277,13 +277,128 @@ border: 1px solid lightgray;
     background-color: #1a8cd3;
   }
 
+/******************************* New Message Modal ***********************************/
 
+#new-message-modal{
+  //display: none;
+  //top: 100px; //test
+  //left: 100px; //test
+  min-height: 400px;
+  height: 90%;
+  position:fixed;
+  display: flex;
+  overflow-y: scroll;
+  flex-direction: column;
+  gap: 0px;
+  z-index: 3;//was commented out
+  width: 70%;
+  //min-width: 400px;
+  max-width: 700px;
+  margin-left: 15%;
+  margin-top: 2%;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.200);
+  padding: 5px;
+}
 
+#nmm-icon-container
+{
+  margin-left: 5px;
+  height:35px;
+  width:35px;
+  border-radius: 50%;
+
+  #nmm-icon{
+    height:15px;
+    width:15px;
+    margin-top: 7.5px;
+    margin-left: 10px;
+  }
+}
+#nmm-icon-container:hover
+{
+  background-color: $bg-color-hover-nav-tool-bar;
+}
+#new-message-modal-icon
+{
+  height: 18px;
+  width: 18px;
+  margin-left: 15px;
+}
+
+#search-form
+{
+  width: 100%;
+  height: 100%;
+}
+
+#nm-modal-input{
+  width: 80%;
+  margin-right: auto;
+  background-image: unset;
+  background-position: unset;
+  background-size: unset;
+  padding: 12px 20px 12px 10px;
+  background-repeat: unset;
+  background-color: unset;
+  color: black;
+  border: 0px;
+  border-radius: unset;
+}
+
+#nm-modal-input:focus {
+  outline: 0px;
+  outline-offset: unset;
+  border: unset;
+  background-color: unset;
+  caret-color: black;
+}
+.user-list-content{
+  overflow-y: scroll;
+  width: 100%;
+  //min-height: 300px;
+  height: 100%;
+}
+#new-message-modal::-webkit-scrollbar {
+  display: none;
+}
+
+#nmm-button{
+  border: 0;
+  background-color: $gray-font;
+  color: white;
+  font-weight: bold;
+  font-size: 0.85rem;
+  border-radius: 15px;
+  width: fit-content;
+  height:fit-content;
+  padding: 5px 15px;
+  margin-right: 20px;
+}
+#nmm-title{
+  padding: 0;
+  margin:0;
+  margin-left: 30px;
+  margin-right: auto;
+  font-weight: bold;
+  color: black;
+  font-size: 1.3rem;
+}
 
 /* whole page */
 
 .lower-toolbar{
-    display: none;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+.upper-toolbar{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 50px;
+  align-items: center;
 }
 
 #message-form {
@@ -372,6 +487,10 @@ border: 1px solid lightgray;
 
 @media only screen and (min-width: 1080px) and (max-width: 1249px) {
   
+  #new-message-modal{
+    margin-left: 20%;
+  }
+
     .main-content {
       width: 390px;
     }
@@ -386,6 +505,10 @@ border: 1px solid lightgray;
   }
 
 @media only screen and (min-width: 1250px) {
+
+  #new-message-modal{
+    margin-left: 25%;
+  }
 
     .main-content {
         width: 390px;

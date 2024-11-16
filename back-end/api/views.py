@@ -2,11 +2,101 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
-from api.serializers import StudentSerializer, UserSerializer, TweetSerializer, MessageSerializer, FollowSerializer, LikeSerializer, RetweetSerializer, NotificationSerializer
-from api.models import Student, User, Tweet, Message, Follow, Like, Retweet, Notification
+from api.serializers import StudentSerializer, UserSerializer, TweetSerializer, MessageSerializer, FollowSerializer, LikeSerializer, RetweetSerializer, NotificationSerializer, UserMessageSerializer, ConvoSerializer
+from api.models import Student, User, Tweet, Message, Follow, Like, Retweet, Notification, Convo, UserMessage
 from rest_framework.renderers import JSONRenderer
 import json
 import datetime
+from django.db.models import Q
+
+
+@csrf_exempt
+def messageApi(request,id=id):
+
+    if request.method =='GET':
+        tweet = Tweet.objects.all()
+        tweet_serializer = TweetSerializer(tweet,many=True)
+        return JsonResponse(tweet_serializer.data,safe=False)
+
+    elif request.method =='POST':
+
+        #retrieve message from front end
+        message_data = JSONParser().parse(request)
+        # serialize message
+        message_serializer = MessageSerializer(data=message_data)
+        if message_serializer.is_valid():
+
+            acc_name_input1 = message_serializer.data['word']
+            acc_name_input2 = message_serializer.data['word2']
+            text_input = message_serializer.data['word3']
+            user1 = User.objects.get(acc_name=acc_name_input1)
+            user2 = User.objects.get(acc_name=acc_name_input2)
+
+            #get anothet input from message serializer
+            convo = Convo.create(user1,user2)
+            
+            print(convo)
+            convo.save()
+
+            message = UserMessage.create(convo,text_input,datetime.datetime.now(),True)
+            print(message)
+            message.save()
+
+            #tweet_serializer.save() #if user_serializer.is_valid():
+            return JsonResponse("Added Successfully",safe=False)
+        else: 
+            return JsonResponse("Failed to Add",safe=False)
+
+    elif request.method =='PUT': 
+        message_data = JSONParser().parse(request)
+
+        message_serializer = MessageSerializer(data=message_data)
+        if message_serializer.is_valid():
+            check = message_serializer.data['word']
+            acc_name_input = message_serializer.data['word2']
+            text_input = message_serializer.data['word3']
+            convo_id = message_serializer.data['num']            
+            if check == 'getConvos':
+                #get all tweets that user tweeted
+                user = User.objects.get(acc_name =acc_name_input)
+                #convos1 = Convo.objects.filter(user1=user)
+                convos = Convo.objects.filter(Q(user1=user) | Q(user2=user),)
+                
+                if convos.exists():
+                    messages = []
+                    for convo in convos:
+                        print(convo)
+                        m = UserMessage.objects.get(convo_id=convo.id)
+                        message_serializer = UserMessageSerializer(m,many=True)
+                        messages.append(message_serializer.data) #array of messages
+
+                    convo_serializer = ConvoSerializer(convos,many=True)
+                    return JsonResponse([convo_serializer.data,messages],safe=False)
+                else:
+                    return JsonResponse("No convos",safe=False)
+            elif check == 'addMessage':
+                
+                user1_sent = False
+                convo = Convo.objects.get(id=convo_id)
+                if convo.user1.acc_name == acc_name_input:
+                    user1_sent = True
+
+                message = UserMessage.create(convo,text_input,datetime.datetime.now(),user1_sent)
+                message.save()   
+                return JsonResponse("Added Successfully",safe=False)
+            else:
+                user = User.objects.get(id=convo_id)
+                #tweet = Tweet.objects.get(id=user_id)
+                #tweet_user = tweet.user
+                user_serializer = UserSerializer(user,many=False)
+                return JsonResponse(user_serializer.data,safe=False)
+        else:
+            return JsonResponse("Failed to Add",safe=False)
+    elif request.method =='DELETE':
+        tweet = Tweet.objects.get(id=id)
+        tweet.delete()
+        return JsonResponse("Deleted Successfully",safe=False)
+
 
 @csrf_exempt
 def tweetApi(request,id=id):
@@ -640,6 +730,22 @@ def followApi(request,id=id):
                     return JsonResponse(user_serializer.data,safe=False)
                     #follow_serializer = FollowSerializer(following,many=True)
                     #return JsonResponse(follow_serializer.data,safe=False)
+                else:
+                    return JsonResponse("No following",safe=False)
+            elif check == 'getDefaultList':
+                #return JsonResponse("inside getFollowing if",safe=False)
+                user = User.objects.get(acc_name=acc_name_input)
+                following = Follow.objects.filter(following=user)
+                if following.exists():
+                    followers = []
+                    count = 0
+                    for follow in following:
+                        followers.append(follow.follower)
+                        count = count + 1
+                        if count == 10:
+                            break
+                    user_serializer = UserSerializer(followers,many=True)
+                    return JsonResponse(user_serializer.data,safe=False)
                 else:
                     return JsonResponse("No following",safe=False)
             elif check == 'delete':

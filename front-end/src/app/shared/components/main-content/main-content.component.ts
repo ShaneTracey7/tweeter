@@ -46,8 +46,8 @@ export class MainContentComponent {
   //forYouFeed = this.createForYouFeed(); //any posts
 
   //message page data
-  messages = createMessages();
-  convos = createConversations();
+  //messages = createMessages();
+  //convos = createConversations();
 
   //notification page data
   allNotifications = createAllNotifications();

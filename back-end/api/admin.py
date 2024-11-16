@@ -1,5 +1,5 @@
 from django.contrib import admin
-from api.models import Student, User, Tweet, Follow, Like, Retweet, Notification
+from api.models import Convo, Student, User, Tweet, Follow, Like, Retweet, Notification, UserMessage
 
 # Register your models here.
 admin.site.register(Student)
@@ -34,6 +34,16 @@ class NotificationAdmin(admin.ModelAdmin):
   list_display = ("id","post_id","type","user_to","user_from")
 
 admin.site.register(Notification, NotificationAdmin)
+
+class ConvoAdmin(admin.ModelAdmin):
+  list_display = ("id","user1","user2")
+
+admin.site.register(Convo, ConvoAdmin)
+
+class UserMessageAdmin(admin.ModelAdmin):
+  list_display = ("id","convo","text","date","user1_sent")
+
+admin.site.register(UserMessage, UserMessageAdmin)
 
 #class TweetReactionAdmin(admin.ModelAdmin):
  # list_display = ("tweet", "likes", "comments", "retweets", "engagements")

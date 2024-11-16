@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from api.models import Student, User, Tweet, Follow, Like, Retweet, Notification
+from api.models import Convo, Student, User, Tweet, Follow, Like, Retweet, Notification, UserMessage
 
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -34,6 +34,16 @@ class RetweetSerializer(serializers.ModelSerializer):
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
+        fields = '__all__'
+
+class ConvoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Convo
+        fields = '__all__'
+
+class UserMessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserMessage
         fields = '__all__'
 
 class MessageSerializer(serializers.Serializer):

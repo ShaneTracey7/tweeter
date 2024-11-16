@@ -31,6 +31,7 @@ import { ProfilePageComponent } from '../features/profile-page/profile-page.comp
 import { PostPageComponent } from '../features/post-page/post-page.component';
 import { EditProfileModalComponent } from '../features/profile-page/components/edit-profile-modal.component';
 import { SearchBarComponent } from '../shared/components/search-bar/search-bar.component';
+import { NewMessageModalComponent } from '../features/message-page/components/new-message-modal.component';
 
 
 
@@ -58,6 +59,7 @@ import { SearchBarComponent } from '../shared/components/search-bar/search-bar.c
     PostPageComponent,
     EditProfileModalComponent,
     SearchBarComponent,
+    NewMessageModalComponent,
     
   ],
   imports: [

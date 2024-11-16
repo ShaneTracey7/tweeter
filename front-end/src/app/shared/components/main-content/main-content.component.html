@@ -123,7 +123,7 @@
 -->
 <div *ngIf="page == 'Messages'">
   <app-message [mpc]="mpc" [mcc]="mcc"
-    *ngFor="let convo of convos"
+    *ngFor="let convo of data[0]"
     [convo]="convo">
   </app-message>
 </div>

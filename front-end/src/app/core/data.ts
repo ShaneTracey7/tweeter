@@ -530,6 +530,18 @@ export function createAllProfiles(){
     profiles.push(new Profile(elon, 'shane', 'sugarshay5', 'Uwin | 2022 Grad | Mallards', 200, 150));
     profiles.push(new Profile(elon, 'jon', 'jonbon', 'half way there!', 2305, 5000));
     profiles.push(new Profile(elon, 'emmy', 'emmy345', 'Life is ruff!', 150, 4500));
+    profiles.push(new Profile(elon, 'Shane', 'sugarshay5', 'Uwin | 2022 Grad | Mallards', 200, 150));
+    profiles.push(new Profile(elon, 'barry', 'cuddlyBar', 'always be the best bear you can be!', 2305, 5000));
+    profiles.push(new Profile(elon, 'Hanna', 'hanbanana22', 'I am the best girlfriend in the world!', 150, 4500));
+    profiles.push(new Profile(elon, 'shane', 'sugarshay5', 'Uwin | 2022 Grad | Mallards', 200, 150));
+    profiles.push(new Profile(elon, 'jon', 'jonbon', 'half way there!', 2305, 5000));
+    profiles.push(new Profile(elon, 'emmy', 'emmy345', 'Life is ruff!', 150, 4500));
+    profiles.push(new Profile(elon, 'Shane', 'sugarshay5', 'Uwin | 2022 Grad | Mallards', 200, 150));
+    profiles.push(new Profile(elon, 'barry', 'cuddlyBar', 'always be the best bear you can be!', 2305, 5000));
+    profiles.push(new Profile(elon, 'Hanna', 'hanbanana22', 'I am the best girlfriend in the world!', 150, 4500));
+    profiles.push(new Profile(elon, 'shane', 'sugarshay5', 'Uwin | 2022 Grad | Mallards', 200, 150));
+    profiles.push(new Profile(elon, 'jon', 'jonbon', 'half way there!', 2305, 5000));
+    profiles.push(new Profile(elon, 'emmy', 'emmy345', 'Life is ruff!', 150, 4500));
     
     return profiles;
 }

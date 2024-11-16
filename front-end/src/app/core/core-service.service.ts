@@ -37,7 +37,7 @@ export class CoreService {
   DBFollowing: any [] = []; //raw array of User following from DB
   following: Profile [] = [] //array of Profile objs of following
 
-  constructor(public route: ActivatedRoute, public router: Router,private http: HttpClient) { 
+  constructor(public route: ActivatedRoute, public router: Router,public http: HttpClient) { 
     //this.current_page = this.route.snapshot.url.toString();
     //window.location.reload();
     this.username = localStorage.getItem('username') ?? "badToken"; 
