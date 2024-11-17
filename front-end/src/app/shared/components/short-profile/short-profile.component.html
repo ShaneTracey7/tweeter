@@ -1,5 +1,5 @@
 <!-- Used when searching and for secondary content panes-->
-<div id="shortProfile">
+<div id="shortProfile" (click)="handleSelected()">
     <!--<a (click)="service.setCurrentPage('Explore')" routerLink="/tweeter/Explore" class="pane-more">Show more</a>-->
     
     <img (click)="goToProfile(timer)" id="spi" (mouseenter)="showModal(profile, this)" (mouseleave)="hideModal(timer)" class="shortProfile-img" src={{this.service.setUrl(profile.pic)}} alt="profile"/>
@@ -7,15 +7,25 @@
     <div id="shortProfile-text">
         <h3 (click)="goToProfile(timer)" id="shortProfile-username"> {{ profile.username }} </h3>
         <p id="shortProfile-accountname">&commat;{{ profile.acc_name }}</p>
+        <div *ngIf="inNewMessage && f_check == 'Following'">
+            <div id="sp-following-container">
+            <img id="following-icon" [src]="service.setUrl('user-fill-gray.png')" />
+            <p id="shortProfile-accountname">Following</p>
+            </div>
+        </div>
+
     </div>
     <!-- {% if button == "yes" %} -->
-        <div *ngIf="this.profile.acc_name != this.service_acc_name">
+        <div *ngIf="this.profile.acc_name != this.service_acc_name && !inNewMessage">
             <div *ngIf="f_check == 'Follow'; else following">
                <button class="shortProfile-button">{{f_check}}</button>
             </div>
             <ng-template #following>
                 <button id="shortProfile-button-following" class="shortProfile-button">{{f_check}}</button>
             </ng-template>
+        </div>
+        <div *ngIf="inNewMessage && isSelected">
+            <img id="selected-checkmark"[src]="service.setUrl('checkmark-blue.png')"/>
         </div>
             <!-- <button id="shortProfile-button">{{f_check}}</button> -->
     <!--{% endif %} -->

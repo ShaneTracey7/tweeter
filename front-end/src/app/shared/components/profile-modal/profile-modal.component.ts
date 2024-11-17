@@ -7,6 +7,8 @@ import { TweetService } from '../../../core/tweet-service';
 import { MainContentComponent } from '../main-content/main-content.component';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../core/auth.service';
+import { MessagePageComponent } from '../../../features/message-page/message-page.component';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
 
@@ -21,7 +23,8 @@ export class ProfileModalComponent {
   @Output() showChange = new EventEmitter<boolean>();
   @Input() scc:SecondaryContentComponent = new SecondaryContentComponent(this.service); //needed to check if any open modals
   @Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService,this.service,this.authService,this.route); //NEW
-
+  @Input() mpc:MessagePageComponent = new MessagePageComponent(this.formBuilder,this.authService,this.route,this.service,this.tweetService);
+  
   //modal_profile = this.profile;
 
   original_x: number = 0;
@@ -32,7 +35,7 @@ export class ProfileModalComponent {
 
   service_acc_name: string = "";
   
-  constructor(public service: CoreService, public tweetService: TweetService, public authService: AuthService, public route: ActivatedRoute){
+  constructor(public formBuilder: FormBuilder,public service: CoreService, public tweetService: TweetService, public authService: AuthService, public route: ActivatedRoute){
     this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";
     this.setInfo();
     //this.setFCheck();
@@ -96,6 +99,7 @@ export class ProfileModalComponent {
      this.showChange.emit(this.show);
      this.scc.changeOpenModal(false);
      this.mcc.changeOpenModal(false);
+     this.mpc.changeOpenModal(false);
     }
 
     handleFollowClick(str: string)

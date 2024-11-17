@@ -14,13 +14,14 @@ import { MainContentComponent } from '../../../shared/components/main-content/ma
 })
 export class MessageComponent extends MessagePageComponent{
 @Input () message = new MessageCard('','','','','');
-@Input () convo = new Convo(new Profile('','','','',0,0),[]);
-@Input() mpc:MessagePageComponent = new MessagePageComponent(this.authService, this.route,this.service,this.tweetService);
+@Input () convo = new Convo(0,new Profile('','','','',0,0),[], new Date());
+@Input() mpc:MessagePageComponent = new MessagePageComponent(this.formBuilder, this.authService, this.route,this.service,this.tweetService);
 @Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService,this.service,this.authService,this.route);
 @Input () c_c: boolean = false;
 selected: boolean = false;
 timer:any;
 show_modal: boolean = false;
+showElip: boolean = false;
   showConvo()
   {
     //this.c_c = true;
@@ -81,43 +82,21 @@ show_modal: boolean = false;
 
   }
 
-  showModal2(obj:MessageComponent)
-  {
-
-    let globalObj =this;
-
-    obj.timer = setTimeout( function(){
-      //insert logic here
-      if(obj.show_modal || obj.mcc.openmodal)
-        {
-          //console.log("show: " + obj.show_modal + " openModal: " + obj.mcc.openmodal);
-        }
-        else
-        {
-        
-          obj.show_modal = true;
-          obj.mcc.changeOpenModal(true);
-        }
-
-    }, 1000);
-}
 showModal(obj:MessageComponent)
   {
 
-    let globalObj =this;
-
     obj.timer = setTimeout( function(){
       //insert logic here
-      if(obj.show_modal || obj.mcc.openmodal)
+      if(obj.show_modal || obj.mpc.openmodal)
         {
-          console.log("show: " + obj.show_modal + " openModal: " + obj.mcc.openmodal);
+          console.log("show: " + obj.show_modal + " openModal: " + obj.mpc.openmodal);
         }
         else
         {
           
           //obj.modal_profile = new Profile(post.profile, post.username,post.acc_name,'bio',0,0);
           obj.show_modal = true;
-          obj.mcc.changeOpenModal(true);
+          obj.mpc.changeOpenModal(true);
         }
 
     }, 1000);

@@ -11,6 +11,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProfilePageComponent } from '../../../features/profile-page/profile-page.component';
 import { HttpClient } from '@angular/common/http';
 import { SearchBarComponent } from '../search-bar/search-bar.component';
+import { MessagePageComponent } from '../../../features/message-page/message-page.component';
+import { FormBuilder } from '@angular/forms';
 @Component({
 
   selector: 'short-profile',
@@ -18,6 +20,9 @@ import { SearchBarComponent } from '../search-bar/search-bar.component';
 })
 export class ShortProfileComponent{
 
+  @Input () selectedUser: string = ''; //acc_name of selected user
+  @Output() selectedUserChange = new EventEmitter<string>();
+  @Input () inNewMessage: boolean = false; //show search bar modal
   @Input () mshow: boolean = false; //show search bar modal
   @Output() mshowChange = new EventEmitter<boolean>();
   @Input () inSearch: boolean = false; //in search bar modal
@@ -29,17 +34,18 @@ export class ShortProfileComponent{
   @Input() upc: any = '';
   @Input() scc:SecondaryContentComponent = new SecondaryContentComponent(this.service);
   @Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService,this.service,this.authService,this.route);
+  
   show_modal: boolean = false;
   modal_profile = this.profile;
   timer:any;
   service_acc_name: string = "";
 
   f_check: string = "Follow";
+  isSelected: boolean = false;
 
   constructor(public service: CoreService, public tweetService: TweetService, public authService: AuthService, public route: ActivatedRoute,public http: HttpClient, public router: Router){
     this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";
     this.setInfo();
-
   }
 
   setInfo()
@@ -72,6 +78,10 @@ export class ShortProfileComponent{
   {
     if(this.service.isFollower(this.profile.acc_name)){
       this.f_check = "Following";
+      if(this.inNewMessage)
+      {
+        document.getElementById("shortProfile")!.style.height = "80px";
+      }
     }
     else
     {
@@ -83,7 +93,12 @@ export class ShortProfileComponent{
   {
     this.mshowChange.emit(false); //hide search bar modal
     
-    if(this.inSearch) //if inside of search bar modal
+    if(this.inNewMessage)
+    {
+      //do nothing
+      return;
+    }
+    else if(this.inSearch) //if inside of search bar modal
     {
       this.handleGoTo();
     }
@@ -99,6 +114,11 @@ export class ShortProfileComponent{
   //shows modal if mouse is over profile pic for long enough
   showModal(profile: Profile, obj:ShortProfileComponent)
   {
+    if(this.inNewMessage)
+    {
+      //do nothing
+      return;
+    }
 
     obj.timer = setTimeout( function(){
       //insert logic here
@@ -149,6 +169,11 @@ export class ShortProfileComponent{
   //prevents modal from appearing if mouse isnt over profile pic long enough
   hideModal(timer:any)
   {
+    if(this.inNewMessage)
+      {
+        //do nothing
+        return;
+      }
     clearTimeout(timer);
   }
 
@@ -188,6 +213,28 @@ export class ShortProfileComponent{
           this.service.setCurrentPage('OtherProfile');
           this.service.router.navigate([route]);
         }
+    }
+  }
+
+  handleSelected()
+  {
+    if(this.inNewMessage)
+    {
+      if(this.selectedUser != '')
+      {
+        if(this.isSelected)
+        {
+          this.isSelected = false;
+          this.selectedUser = '';
+          this.selectedUserChange.emit(this.selectedUser);
+        }
+      }
+      else
+      {
+        this.isSelected = true;
+        this.selectedUser = this.profile.acc_name;
+        this.selectedUserChange.emit(this.selectedUser);
+      }
     }
   }
 } 

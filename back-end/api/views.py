@@ -28,7 +28,7 @@ def messageApi(request,id=id):
 
             acc_name_input1 = message_serializer.data['word']
             acc_name_input2 = message_serializer.data['word2']
-            text_input = message_serializer.data['word3']
+            #text_input = message_serializer.data['word3']
             user1 = User.objects.get(acc_name=acc_name_input1)
             user2 = User.objects.get(acc_name=acc_name_input2)
 
@@ -38,9 +38,9 @@ def messageApi(request,id=id):
             print(convo)
             convo.save()
 
-            message = UserMessage.create(convo,text_input,datetime.datetime.now(),True)
-            print(message)
-            message.save()
+            #message = UserMessage.create(convo,text_input,datetime.datetime.now(),True)
+            #print(message)
+            #message.save()
 
             #tweet_serializer.save() #if user_serializer.is_valid():
             return JsonResponse("Added Successfully",safe=False)
@@ -59,19 +59,27 @@ def messageApi(request,id=id):
             if check == 'getConvos':
                 #get all tweets that user tweeted
                 user = User.objects.get(acc_name =acc_name_input)
-                #convos1 = Convo.objects.filter(user1=user)
+                #convos = Convo.objects.filter(user1=user)
                 convos = Convo.objects.filter(Q(user1=user) | Q(user2=user),)
                 
                 if convos.exists():
-                    messages = []
+                    #messages = []
+                    users = []
+                    ids = []
                     for convo in convos:
-                        print(convo)
-                        m = UserMessage.objects.get(convo_id=convo.id)
-                        message_serializer = UserMessageSerializer(m,many=True)
-                        messages.append(message_serializer.data) #array of messages
+                        ids.append(convo.id)
+                        if convo.user1.acc_name == acc_name_input:
+                            users.append(convo.user2)
+                        else:
+                            users.append(convo.user1)
+                        #this part involvong messages doesn't work
+                        #m = UserMessage.objects.get(convo_id=convo.id)
+                        #message_serializer = UserMessageSerializer(m,many=True)
+                        #messages.append(message_serializer.data) #array of messages
 
-                    convo_serializer = ConvoSerializer(convos,many=True)
-                    return JsonResponse([convo_serializer.data,messages],safe=False)
+                    #convo_serializer = ConvoSerializer(convos,many=True)
+                    user_serializer = UserSerializer(users,many=True)
+                    return JsonResponse([ids,user_serializer.data,[]],safe=False)
                 else:
                     return JsonResponse("No convos",safe=False)
             elif check == 'addMessage':
@@ -593,11 +601,13 @@ def userApi(request,id=id):
             acc_name_input = user_serializer.data['acc_name']   
             password_input = user_serializer.data['password']
             if username_input == 'getUserSearch':  #getting users to populate search modal
-                all_users = User.objects.all()
+                str_input = password_input
+                #get all users excluding logged in user
+                all_users = User.objects.exclude(acc_name=acc_name_input)
                 user_arr = []
                 count = 0
                 for user in all_users:
-                    if user.acc_name.startswith(acc_name_input) or user.username.startswith(acc_name_input):
+                    if user.acc_name.startswith(str_input) or user.username.startswith(str_input):
                         user_arr.append(user)
                         count = count + 1
                         if count == 10:

@@ -6,10 +6,15 @@
             <div class="toolbar">
                 <div class="upper-toolbar">
                     <div id="nmm-icon-container">
-                        <img id="nmm-icon"[src]="service.setUrl('cross.svg')"/>
+                        <img (click)="hideModal()" id="nmm-icon"[src]="service.setUrl('cross.svg')"/>
                     </div>
                     <p id="nmm-title">New Message</p>
-                    <button id="nmm-button">Next</button>
+                    <div *ngIf="selectedUser != ''; else notSelected">
+                        <button type='submit' class="nmm-button" id="nmm-button-selected" >Next</button>
+                    </div>
+                    <ng-template #notSelected>
+                        <button type='submit' class="nmm-button">Next</button>
+                    </ng-template>
                 </div>
                 <div class="lower-toolbar">
                     <img id="new-message-modal-icon" [src]="service.setUrl('magnifier.svg')"/>
@@ -21,13 +26,13 @@
                 <div *ngIf="searchForm.value.inquiry != ''; else emptyList">
                     <short-profile
                     *ngFor="let profile of userList"
-                    [profile]="profile">
+                    [profile]="profile" [inNewMessage]="true" [(selectedUser)]="selectedUser">
                     </short-profile>
                 </div>
                 <ng-template #emptyList>
                     <short-profile
                     *ngFor="let profile of defaultList"
-                    [profile]="profile">
+                    [profile]="profile" [inNewMessage]="true" [(selectedUser)]="selectedUser">
                     </short-profile>
                 </ng-template>
             </div>

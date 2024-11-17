@@ -22,11 +22,11 @@
 </div>
 -->
 
-<div (click)="showConvo()" [style]="setStyle()"class="message">
+<div (click)="showConvo()" [style]="setStyle()"class="message" (mouseenter)="showElip = true" (mouseleave)="showElip = false" >
         
     <img class="message-img" (mouseover)="showModal(this)" (mouseout)="hideModal(timer)" src="{{ this.service.setUrl(convo.otherUser.pic)}}" alt="profile"/>
     
-    <profile-modal [inMain]="true" [(show)]='show_modal' [mcc]="mcc" [profile]='convo.otherUser'></profile-modal> 
+    <profile-modal [inMain]="true" [(show)]='show_modal' [mpc]="mpc" [profile]='convo.otherUser'></profile-modal> 
 
     <div class="message-content">
 
@@ -34,12 +34,16 @@
             <p class="message-username">{{ convo.otherUser.username }}</p>
             <p class="message-accountname">&commat;{{ convo.otherUser.acc_name }}</p>
             <p class="message-date"> {{convo.getLastMessageDate()}}</p>
-        </div>          <!--convo.getLastMessageDate()-->
+                                        <!--convo.getLastMessageDate()-->
+            <div *ngIf="showElip">
+                <img id="message-elip" class="elip" data-toggle="tooltip" data-placement="bottom" title="More" [src]="service.setUrl('ellipsis.png')" alt="more"/>
+            </div>
+        </div>          
 
         <p class="message-text"> {{ convo.getLastMessage() }}</p>
 
     </div>
 
-    <img id="message-elip" class="elip" data-toggle="tooltip" data-placement="bottom" title="More" [src]="service.setUrl('ellipsis.png')" alt="more"/>
+    
     <div id="tab" [style]="showTab()" ></div>
 </div>

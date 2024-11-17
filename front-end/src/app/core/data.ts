@@ -218,27 +218,56 @@ export class Message {
 }
 
 export class Convo {
+    id: number;
+    startDate: Date;
     otherUser: Profile; //maybe change to type Profile
     messages: Message [];
    
-    constructor(u: Profile, m: Message []) {
+    constructor(id: number, u: Profile, m: Message [], d: Date) {
+        this.id = id;
         this.otherUser = u;
         this.messages = m;
+        this.startDate =d;
       }
 
     getLastMessage()
     {
-       return this.messages[(this.messages.length-1)].text;
+        if(this.messages.length > 0)
+        {
+            return this.messages[(this.messages.length-1)].text;
+        }
+        else
+        {
+            return '';
+        }
     }
 
     getLastMessageDate()
     {
-    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        let date = this.messages[(this.messages.length-1)].date;
+        let today = new Date();
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+        var date;
+        if(this.messages.length > 0)
+        {      
+            date = this.messages[(this.messages.length-1)].date;
+        }
+        else
+        {
+            date = this.startDate;
+        }
         let month = monthNames[(date.getMonth())];
 
-       return month + " " + date.getDate() + " " + date.getFullYear();
+        if(today.getFullYear() == date.getFullYear())
+        {
+            return month + " " + date.getDate();
+        }
+        else
+        {
+            return month + " " + date.getDate() + " " + date.getFullYear();
+        }
+       
     }
 
 }
@@ -264,7 +293,7 @@ export function createConversations(){
     m1.push(new Message("would you like to go to the movies?", true, new Date));
     m1.push(new Message("I sure would, thank you", false, new Date));
 
-    convos.push(new Convo(p1, m1));
+    convos.push(new Convo(0,p1, m1, new Date()));
 
     let m2 = new Array<Message>;
     let p2 = new Profile(elon,'gerry','theTEACHER3','bio', 0,0);
@@ -273,7 +302,7 @@ export function createConversations(){
     m2.push(new Message("Don't lie to me, boy", false, new Date));
     m2.push(new Message("Ok sorry i just procrastinated.", true, new Date));
 
-    convos.push(new Convo(p2, m2));
+    convos.push(new Convo(0,p2, m2, new Date()));
 
     let m3 = new Array<Message>;
     let p3 = new Profile(elon,'bart','therealbartsimpson','bio', 0,0);
@@ -282,7 +311,7 @@ export function createConversations(){
     m3.push(new Message("oh nice, i got a scooter", false, new Date));
     m3.push(new Message("skateboard > scooters 4life", true, new Date));
 
-    convos.push(new Convo(p3, m3));
+    convos.push(new Convo(0,p3, m3, new Date()));
 
     return convos;
 

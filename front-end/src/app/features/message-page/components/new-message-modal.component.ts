@@ -3,6 +3,10 @@ import { createAllProfiles, Profile } from "../../../core/data";
 import { FormBuilder, Validators } from "@angular/forms";
 import { CoreService } from "../../../core/core-service.service";
 import { HttpClient } from "@angular/common/http";
+import { MessagePageComponent } from "../message-page.component";
+import { AuthService } from "../../../core/auth.service";
+import { ActivatedRoute } from "@angular/router";
+import { TweetService } from "../../../core/tweet-service";
 
 @Component({
 
@@ -15,7 +19,10 @@ import { HttpClient } from "@angular/common/http";
   
  @Input() show: boolean = false;
  @Output() showChange = new EventEmitter<boolean>(); //not in use rn
-
+ //@Input() mpc: any = ''; //might cause issues
+ @Input() mpc: MessagePageComponent = new MessagePageComponent(this.formBuilder, this.authService, this.route, this.service, this.tweetService);
+  selectedUser: string = ''; //account name of selected user
+  
   DBUserFeed: any [] = [];
   userList: Profile [] = [];
 
@@ -28,7 +35,7 @@ import { HttpClient } from "@angular/common/http";
     inquiry: ['', [Validators.required]],
     });
     
-    constructor(private formBuilder: FormBuilder, public service: CoreService, public http: HttpClient) 
+    constructor(private formBuilder: FormBuilder, public service: CoreService, public http: HttpClient, public authService: AuthService, public route: ActivatedRoute, public tweetService: TweetService) 
     {
         this.service_acc_name = '';
         this.defaultList = [];
@@ -48,6 +55,7 @@ import { HttpClient } from "@angular/common/http";
           if((val?.length?? 0 )> 1)
           {
             //insert logic to set userList and queryList
+            
             this.getDBUserFeed(val?? '');
   
           }
@@ -55,16 +63,25 @@ import { HttpClient } from "@angular/common/http";
           {
             this.userList = [];
           }
+          this.selectedUser = ''; //necessary
           console.log("value: " + val);
         });
       }
 
       onSubmit(){
   
-        if(this.searchForm.valid)
+        if(/*this.searchForm.valid && */this.selectedUser != '')
         {
-    
-            
+          //hide modal
+          this.hideModal();
+
+          //create convo in Db
+          this.mpc.createDBConvo(this.service_acc_name,this.selectedUser);
+          //refresh message arrays in main component(so new convo pops up there)
+          this.mpc.getConvos();
+          //set new convo to selected, so secondary component shows view of convo
+
+
           console.log("submitted");
         }
         else
@@ -109,8 +126,8 @@ import { HttpClient } from "@angular/common/http";
           {
             "username" : 'getUserSearch',
             "email" : 'e',
-            "acc_name" : str,//current value of input
-            "password" : 'p',
+            "acc_name" : this.service_acc_name,
+            "password" : str,//current value of input
             "pic" : "p", //new 
             "header_pic" : "p",
             "bio" : "b",
@@ -170,5 +187,9 @@ import { HttpClient } from "@angular/common/http";
         }
     }
   }
-  
+  hideModal()
+  {
+    this.show =false;
+    this.showChange.emit(false);
+  }
 }
