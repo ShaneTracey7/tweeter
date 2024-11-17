@@ -78,7 +78,7 @@ import { TweetService } from "../../../core/tweet-service";
           //create convo in Db
           this.mpc.createDBConvo(this.service_acc_name,this.selectedUser);
           //refresh message arrays in main component(so new convo pops up there)
-          this.mpc.getConvos();
+          //this.mpc.getConvos();
           //set new convo to selected, so secondary component shows view of convo
 
 

@@ -28,7 +28,7 @@
     
         <app-message [mpc]="this"
           *ngFor="let convo of arr[0]"
-          [convo]="convo">
+          [convo]="convo" [(selectedM)]="selected">
         </app-message>
       <!--
     <main-content [data]=arr [mpc]='this' [page]=service.current_page></main-content>

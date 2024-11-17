@@ -57,4 +57,3 @@ class MessageSerializer(serializers.Serializer):
  #   class Meta:
   #      model = TweetReactions
    #     fields = '__all__'
-

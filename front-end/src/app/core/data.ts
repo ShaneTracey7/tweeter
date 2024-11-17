@@ -51,9 +51,7 @@ export class Post {
     
       toString(): string
       {
-        
         return " " + this.id + " " + this.profile + " "+ this.username + " " + this.acc_name + " " +this.e_time + " " +this.text + " " +this.image + " " + this.comments + " " +this.retweets + " "+this.likes + " "+this.views + " ";
-      
     }
 }
 
@@ -215,6 +213,11 @@ export class Message {
         return month + " " + this.date.getDate() + " " + this.date.getFullYear() + " " + this.date.getHours()+":"+minStr + " " + suffix;
       }
 
+      toString(): string
+      {
+        return " " + this.text + " " + this.isSender + " "+ this.date+ " ";
+    }
+
 }
 
 export class Convo {
@@ -234,6 +237,7 @@ export class Convo {
     {
         if(this.messages.length > 0)
         {
+            console.log('has a message');
             return this.messages[(this.messages.length-1)].text;
         }
         else
@@ -248,25 +252,45 @@ export class Convo {
         const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-        var date;
+        var date;//: Date;
+        var month;
         if(this.messages.length > 0)
-        {      
-            date = this.messages[(this.messages.length-1)].date;
+        {   
+            //console.log('has a date');
+            date = new Date(this.messages[(this.messages.length-1)].date);
+            console.log('has a date: ' + date);
+            console.log('has a client side: ' + today);
+            month = monthNames[(date.getMonth())];
+
+           // console.log('has a date(condition): ');// + today.getFullYear() + " " + date.getFullYear());
+            if(today.getFullYear() == date.getFullYear())
+                {
+                    console.log('has a date: ' + month + " " + date.getDate());
+                    return month + " " + date.getDate();
+                }
+            else
+                {   console.log('has a date: ' + month + " " + date.getDate() + " " + date.getFullYear());
+                    return month + " " + date.getDate() + " " + date.getFullYear();
+                }
+            
         }
         else
         {
             date = this.startDate;
-        }
-        let month = monthNames[(date.getMonth())];
+            month = monthNames[(date.getMonth())];
 
-        if(today.getFullYear() == date.getFullYear())
-        {
-            return month + " " + date.getDate();
+            if(today.getFullYear() == date.getFullYear())
+                {
+                    return month + " " + date.getDate();
+                }
+                else
+                {
+                    return month + " " + date.getDate() + " " + date.getFullYear();
+                }
         }
-        else
-        {
-            return month + " " + date.getDate() + " " + date.getFullYear();
-        }
+        //let month = monthNames[(date.getMonth())];
+
+        
        
     }
 

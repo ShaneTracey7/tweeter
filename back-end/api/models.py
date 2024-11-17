@@ -1,5 +1,5 @@
 from django.db import models
-from typing import Optional
+from typing import List, Optional
 import datetime
 
 class Student(models.Model):
@@ -120,11 +120,11 @@ class UserMessage(models.Model):
     convo = models.ForeignKey(Convo, on_delete=models.CASCADE)
     text = models.CharField(max_length = 100)
     date = models.DateTimeField()
-    user1_sent = models.BooleanField()
+    sender = models.CharField(max_length = 40, default="")
 
     @classmethod
-    def create(cls,convo,text,date,user1_sent):
-       usermessage = cls(convo=convo,text=text,date=date,user1_sent=user1_sent)
+    def create(cls,convo,text,date,sender):
+       usermessage = cls(convo=convo,text=text,date=date,sender=sender)
        return usermessage
 
     def __str__(self):
@@ -146,6 +146,8 @@ class Message():
      #   self.num = num
      #   self.word = word
         
+#class UserMessageArr():
+ #   arr: List[UserMessage]
 
         
        

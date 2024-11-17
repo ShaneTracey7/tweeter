@@ -18,6 +18,7 @@ show: boolean = false; // show/hide new message modal
 
 convo_clicked: boolean = false; //true: shows seleected converstion, false: shows 'select a message blurb'
 selectedConvo: Convo = new Convo(0,new Profile('','','','',0,0),[],new Date()); //selected convo
+selected: boolean = false; //only needed for message component
 service_acc_name: string;
 arr: any [] = [];
 
@@ -43,7 +44,7 @@ ngOnInit()
 this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";
 
 //this.convos = createConversations();
- this.getConvos();
+ this.getConvos(false);
  //this.arr = [this.convos];
 }
 
@@ -94,6 +95,7 @@ createDBConvo(user1: string, user2: string/*, text: string*/)
           }
         else
           {
+            this.getConvos(true); //refreshes data with new convo
             console.log("Successful Database Retrieval");
           }
       });
@@ -119,13 +121,38 @@ createDBMessage(convo_id: number, sent_acc_name: string,text: string)
           }
         else
           {
+            let newMessage = new Message(text,true,new Date());
+            this.selectedConvo.messages.push(newMessage);
             console.log("Successful Database Retrieval");
           }
       });
 }
 
-getConvos()
+getConvoIds()
+{
+  var bad_ids: number [] = []
+  this.convos.forEach((c) => {
+    bad_ids.push(c.id)
+});
+  return bad_ids;
+}
+
+convoIDCheck(bad_ids: number [])
   {
+    this.convos.forEach((c,index) => {
+
+      if(!bad_ids.includes(c.id))
+      {
+        this.selectedConvo = c;
+        this.convo_clicked = true;
+        this.selected = true;
+      }
+  });
+  }
+
+getConvos(check: boolean)
+  {
+    let bad_ids: number [] = this.getConvoIds();
   
     let requestBody =
     {
@@ -149,8 +176,8 @@ getConvos()
           console.log("Successful Database Retrieval");
           this.DBConvos = resultData[0];
           this.DBUsers = resultData[1];
-          //this.DBMessages = resultData[2];
-          this.convertDBConvos();
+          this.DBMessages = resultData[2];
+          this.convertDBConvos(bad_ids, check);
         }
     });
   }
@@ -201,21 +228,79 @@ getConvos()
           }
     }
   }
-  convertDBConvos()
+
+  
+
+  convertDBConvos(bad_ids: number [], check: boolean)
   {  
     this.convos = [];
     let c_length = (this.DBUsers.length) -1;
     this.DBUsers.forEach((u,index) => {
-      
+      console.log("index: " + index);
       let user = new Profile(u.pic,u.username,u.acc_name,u.bio,u.following_count,u.follower_count);
 
-      var c = new Convo(this.DBConvos[index],user,[], new Date());
-      this.convos.push(c);
+      let messages: Message [] = [];
+      let message_arr: any [] = this.DBMessages[index];
+
+      if(message_arr[0] == 0)
+      {
+        let id:number = this.DBConvos[index];
+        let date: Date = new Date();
+        let arr: Message [] = []
+        var c = new Convo(id,user,arr, date);
+        this.convos.push(c);
+        if(index == c_length)
+        {
+          //console.log("alternate set arr");
+          this.arr = [this.convos];
+          if(check)
+          {
+            this.convoIDCheck(bad_ids);
+          }
+          
+        }
+        //console.log("index: " + index)
+        return;
+      }
+
+      let m_length = (message_arr.length) -1;
+      message_arr.forEach((m,i) => {
+        console.log("i: " + i);
+        if(m.sender == this.service_acc_name)//need to fix (rn theres no way of knowing if who user1 is)
+        {
+          console.log("m.text: "+ m.text + " m.date: " + m.date);
+          let message = new Message(m.text,true,new Date (m.date))
+          console.log("message: "+ message);
+          messages.push(message);
+        }
+        else
+        {
+          console.log("m.text: "+ m.text);
+          let message = new Message(m.text,false,new Date (m.date))
+          messages.push(message);
+        }
+        if(i == m_length)
+          { console.log("messages[0]: " + messages[0].text);
+            let id:number = this.DBConvos[index];
+            let date: Date = new Date();
+            console.log("messages: "+ messages);
+            var c = new Convo(id,user,messages, date);
+            this.convos.push(c);
+            console.log("pushed to convo");
+          }
+        
+      });
       if(index == c_length)
         {
+          
           this.arr = [this.convos];
+          if(check)
+            {
+              this.convoIDCheck(bad_ids);
+            }
         }
       });
+      console.log("arr " + this.arr);
   }
 
   //opens up new message modal

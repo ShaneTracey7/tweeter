@@ -63,7 +63,7 @@ def messageApi(request,id=id):
                 convos = Convo.objects.filter(Q(user1=user) | Q(user2=user),)
                 
                 if convos.exists():
-                    #messages = []
+                    messages = []
                     users = []
                     ids = []
                     for convo in convos:
@@ -73,23 +73,26 @@ def messageApi(request,id=id):
                         else:
                             users.append(convo.user1)
                         #this part involvong messages doesn't work
-                        #m = UserMessage.objects.get(convo_id=convo.id)
-                        #message_serializer = UserMessageSerializer(m,many=True)
-                        #messages.append(message_serializer.data) #array of messages
-
+                        m = UserMessage.objects.filter(convo_id=convo.id)
+                        if m.exists():
+                            message_serializer1 = UserMessageSerializer(m,many=True)
+                            messages.append(message_serializer1.data) #array of messages
+                        else:
+                            messages.append([0])
+                    #message_serializer = UserMessageSerializer(messages,many=True)
                     #convo_serializer = ConvoSerializer(convos,many=True)
                     user_serializer = UserSerializer(users,many=True)
-                    return JsonResponse([ids,user_serializer.data,[]],safe=False)
+                    return JsonResponse([ids,user_serializer.data,messages],safe=False)
                 else:
                     return JsonResponse("No convos",safe=False)
             elif check == 'addMessage':
                 
-                user1_sent = False
+                #user1_sent = False
                 convo = Convo.objects.get(id=convo_id)
-                if convo.user1.acc_name == acc_name_input:
-                    user1_sent = True
+                #if convo.user1.acc_name == acc_name_input:
+                  #  user1_sent = True
 
-                message = UserMessage.create(convo,text_input,datetime.datetime.now(),user1_sent)
+                message = UserMessage.create(convo,text_input,datetime.datetime.now(),acc_name_input)
                 message.save()   
                 return JsonResponse("Added Successfully",safe=False)
             else:
