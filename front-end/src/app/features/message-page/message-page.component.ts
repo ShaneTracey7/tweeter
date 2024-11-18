@@ -21,6 +21,7 @@ selectedConvo: Convo = new Convo(0,new Profile('','','','',0,0),[],new Date()); 
 selected: boolean = false; //only needed for message component
 service_acc_name: string;
 arr: any [] = [];
+emptyConvo = new Convo(0,new Profile('','','','',0,0),[], new Date());
 
 DBConvos: any [] = []; //array of convo_ids
 DBUsers: any [] = []; 
@@ -76,12 +77,12 @@ setSCStyle()
     }
 }
 
-createDBConvo(user1: string, user2: string/*, text: string*/)
+createDBConvo(thisUser: string, otherUser: string/*, text: string*/)
 {
   let requestBody =
     {
-      "word" : user1, //account name
-      "word2" : user2, //account name
+      "word" : thisUser, //user1
+      "word2" : otherUser, //user2
       //"word3" : text, //message text //dont need when initially creating convo
     };
 
@@ -93,6 +94,16 @@ createDBConvo(user1: string, user2: string/*, text: string*/)
           {
             console.log("Unsuccessful Database Retrieval");
           }
+        else if(resultData == 'Convo already exists')
+        {
+          //dont create convo
+
+          //select convo that it is by acc_name inside of message component (pass a prop) make onchange for that prop
+          this.findConvo(otherUser); //sets selectedConvo
+          this.convo_clicked = true;
+          this.selected = true;
+          
+        }
         else
           {
             this.getConvos(true); //refreshes data with new convo
@@ -101,6 +112,15 @@ createDBConvo(user1: string, user2: string/*, text: string*/)
       });
 }
 
+findConvo(otherUser: string)
+{
+  this.convos.forEach(convo => {
+      if(convo.otherUser.acc_name == otherUser)
+      {
+        this.selectedConvo = convo;
+      }  
+  });
+}
 createDBMessage(convo_id: number, sent_acc_name: string,text: string)
 {
   let requestBody =

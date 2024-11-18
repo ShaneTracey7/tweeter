@@ -34,15 +34,17 @@ def messageApi(request,id=id):
 
             #get anothet input from message serializer
             convo = Convo.create(user1,user2)
+
+            DBconvo1 = Convo.objects.filter(user1=user1, user2=user2)
+            DBconvo2 = Convo.objects.filter(user1=user2, user2=user1)
             
-            print(convo)
-            convo.save()
+           
+            if DBconvo1.exists() or DBconvo2.exists():
+                return JsonResponse("Convo already exists",safe=False)
+            else:
+                print(convo)
+                convo.save()
 
-            #message = UserMessage.create(convo,text_input,datetime.datetime.now(),True)
-            #print(message)
-            #message.save()
-
-            #tweet_serializer.save() #if user_serializer.is_valid():
             return JsonResponse("Added Successfully",safe=False)
         else: 
             return JsonResponse("Failed to Add",safe=False)
@@ -591,7 +593,11 @@ def userApi(request,id=id):
                 #user_serializer = UserSerializer(user,many=False)
                 #return JsonResponse(user_serializer.data,safe=False)
             #else:
-            user_serializer.save() #if user_serializer.is_valid():
+            us = user_serializer.data
+            #acc_name = message_serializer.data['']
+            user = User.create(us['username'],us['email'],us['acc_name'],us['password'],us['pic'],us['header_pic'],'',us['follower_count'],us['following_count'])
+            user.save()
+            #user_serializer.save() #if user_serializer.is_valid():
             return JsonResponse("Added Successfully",safe=False)
         else: 
             return JsonResponse("Failed to Add",safe=False)

@@ -22,6 +22,11 @@ class User(models.Model):
     follower_count = models.IntegerField(default=0)
     following_count = models.IntegerField(default=0)
 
+    @classmethod
+    def create(cls,username,email,acc_name,password,pic,header_pic,bio,follower_count,following_count):
+        user = cls(username=username,email=email,acc_name=acc_name,password=password,pic=pic,header_pic=header_pic,bio=bio,follower_count=follower_count,following_count=following_count)
+        return user
+    
     def __str__(self):
         return f"{self.id} {self.username} {self.email} {self.acc_name} {self.password} {self.pic}"
     

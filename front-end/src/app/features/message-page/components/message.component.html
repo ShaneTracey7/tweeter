@@ -22,11 +22,25 @@
 </div>
 -->
 
-<div id="whole-message"(click)="showConvo()" [style]="setStyle()"class="message" (mouseenter)="showElip = true" (mouseleave)="showElip = false" >
+<div id="whole-message"(click)="showConvo()" [style]="setStyle()"class="message" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()" >
         
     <img class="message-img" (mouseover)="showModal(this)" (mouseout)="hideModal(timer)" src="{{ this.service.setUrl(convo.otherUser.pic)}}" alt="profile"/>
     
     <profile-modal [inMain]="true" [(show)]='show_modal' [mpc]="mpc" [profile]='convo.otherUser'></profile-modal> 
+
+    <!-- ELIP MODAL-->
+    <div *ngIf="showElipModal">
+        <div id="elip-modal">
+            <div class="elip-modal-contiainer">
+                <img [src]="service.setUrl('pin.svg')" class="elip-modal-img">
+                <p>Pin Conversation</p>
+            </div>
+            <div class="elip-modal-contiainer">
+                <img [src]="service.setUrl('trash-red.png')" class="elip-modal-img">
+                <p>Delete Conversation</p>
+            </div>
+        </div>
+    </div>
 
     <div class="message-content">
 
@@ -36,7 +50,7 @@
             <p class="message-date"> {{this.lastDate}}</p>
                                         <!--convo.getLastMessageDate()-->
             <div *ngIf="showElip">
-                <img id="message-elip" class="elip" data-toggle="tooltip" data-placement="bottom" title="More" [src]="service.setUrl('ellipsis.png')" alt="more"/>
+                <img (click)="handleElipClick()" id="message-elip" class="elip" data-toggle="tooltip" data-placement="bottom" title="More" [src]="service.setUrl('ellipsis.png')" alt="more"/>
             </div>
         </div>          
 

@@ -80,10 +80,24 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) {
        "password" : obj.signupForm.value.password1,
        "pic" :  "default-profile-pic.jpg",
        "header_pic" : "default-header-pic.jpg",
-       "bio" : "",
+       "bio" : "b",
        "follower_count": 0,
        "following_count": 0,
      };
+
+     /*
+    username = models.CharField(max_length = 35)
+    email= models.CharField(max_length = 35)
+    acc_name = models.CharField(max_length = 35)
+    password = models.CharField(max_length = 35)
+    pic = models.CharField(max_length = 100)
+    header_pic = models.CharField(max_length = 100, default="") #default is default-header.jpg
+    bio = models.CharField(max_length = 100, default="")
+    follower_count = models.IntegerField(default=0)
+    following_count = models.IntegerField(default=0)
+     */
+
+
      obj.http.post("http://127.0.0.1:8000/user",userData).subscribe((resultData: any)=>
      {
          console.log(resultData);

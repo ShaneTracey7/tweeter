@@ -22,12 +22,15 @@ export class MessageComponent extends MessagePageComponent{
 @Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService,this.service,this.authService,this.route);
 @Input () c_c: boolean = false;
 @Input () selectedM: boolean = false;
-@Output() selectedMChange = new EventEmitter<boolean>();
+//@Output() selectedMChange = new EventEmitter<boolean>();
 
+@Input () selectedAcc: string = '';
+tabStyle: string = "backgroundColor: 'transparent'";
 isSelected: boolean = false;
 timer:any;
 show_modal: boolean = false;
 showElip: boolean = false;
+showElipModal: boolean = false; 
 lastMessage: string = '';
 lastDate: string = '';
 
@@ -36,6 +39,7 @@ lastDate: string = '';
     this.lastDate = this.convo.getLastMessageDate()
   }
 
+  
   showConvo()
   {
     //this.c_c = true;
@@ -46,19 +50,37 @@ lastDate: string = '';
             this.mpc.convo_clicked = false; //this doesn't change the message page component html ngif
             console.log("convo clicked: " + this.c_c);
             this.isSelected = false;
+            this.mpc.selectedConvo = this.emptyConvo;
+            //this.tabStyle = "backgroundColor: 'transparent'";
           }
         else
           {
+            if(this.convo.otherUser.acc_name == this.selectedAcc)
+            {
+              this.isSelected = false;
+              this.mpc.convo_clicked = false;
+              this.mpc.selectedConvo = this.emptyConvo;
+              //this.selectedMChange.emit(false);
+              console.log('this.convo.otherUser.acc_name == this.selectedAcc');
+            }
+            else
+            {
+              this.isSelected = false;
+              console.log('this.convo.otherUser.acc_name != this.selectedAcc');
+            }
+            /*
             if(this.selectedM)
             {
               this.isSelected = true;
               //document stuff doesn't work here
-              document.getElementById("tab")!.style.backgroundColor = '#1DA1F2';
-              document.getElementById("whole-message")!.style.backgroundColor = 'rgba(148, 173, 188, 0.2)';
+              //document.getElementById("tab")!.style.backgroundColor = '#1DA1F2';
+              //document.getElementById("whole-message")!.style.backgroundColor = 'rgba(148, 173, 188, 0.2)';
               this.mpc.selectedConvo = this.convo;
               this.selectedMChange.emit(false);
+              //this.tabStyle = "backgroundColor: '#1DA1F2'";
             }
-            console.log('this is wy this isn;t working');
+            */
+            
             //do nothing, can't select message if another is already selected
           }
       
@@ -69,12 +91,13 @@ lastDate: string = '';
       console.log("convo clicked: " + this.c_c);
       this.isSelected = true;
       this.mpc.selectedConvo = this.convo;
+      //this.tabStyle = "backgroundColor: '#1DA1F2'";
     }
   }
 //#1DA1F2
   setStyle()
   {
-    if(this.isSelected)
+    if(this.isSelected || this.convo.otherUser.acc_name == this.selectedAcc)
       {
         return {
           backgroundColor: 'rgba(148, 173, 188, 0.2)',
@@ -82,16 +105,25 @@ lastDate: string = '';
       }
     else
     {
-      return {
-        //backgroundColor: 'white',
-      };
+      if (this.showElip)
+      {
+        return {
+          backgroundColor: 'rgba(0, 0, 0, 0.030)',
+        };
+      }
+      else
+      {
+        return {
+          backgroundColor: 'white',
+        };
+      }
     }
 
   }
 
   showTab()
   {
-    if(this.isSelected)
+    if(this.isSelected || this.convo.otherUser.acc_name == this.selectedAcc)
       {
         return {
           backgroundColor: '#1DA1F2',
@@ -129,5 +161,19 @@ showModal(obj:MessageComponent)
   hideModal(timer:any)
   {
     clearTimeout(timer);
+  }
+
+  onMouseEnter()
+  {
+    this.showElip = true;
+  }
+  onMouseLeave()
+  {
+    this.showElip = false;
+  }
+
+  handleElipClick()
+  {
+    this.showElipModal = true;
   }
 }
