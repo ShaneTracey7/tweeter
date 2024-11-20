@@ -42,6 +42,10 @@ lastDate: string = '';
   
   showConvo()
   {
+    if(this.showElipModal)
+    {
+      return;
+    }
     //this.c_c = true;
     if(this.mpc.convo_clicked)
       {
@@ -174,6 +178,49 @@ showModal(obj:MessageComponent)
 
   handleElipClick()
   {
-    this.showElipModal = true;
+    this.showElipModal = !this.showElipModal;
+  }
+
+  handleDeleteClick()
+  {
+    //delete conversation
+    this.deleteDBConvo();
+    
+    //reset/refresh convo list
+    let c = this.convo; 
+    
+    console.log("convos b4: " + this.mpc.convos);
+
+    this.mpc.convos = this.mpc.convos.filter(function(convo) {
+      return convo !== c
+  });
+
+    this.mpc.arr = [this.mpc.convos];
+
+  console.log("convos after: " + this.mpc.convos);
+
+  }
+
+  deleteDBConvo()
+  {
+    let requestBody =
+      {
+        "word" : 'deleteConvo', //check
+        "num" : this.convo.id, //convo id
+      };
+
+    this.service.http.put("http://127.0.0.1:8000/message",requestBody).subscribe((resultData: any)=>
+      {
+        console.log(resultData);
+        
+        if(resultData == 'Deleted Successfully')
+          {
+        
+          }
+        else // Failed to Add
+          {
+            
+          }
+      });
   }
 }

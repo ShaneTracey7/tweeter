@@ -202,55 +202,6 @@ getConvos(check: boolean)
     });
   }
 
-  //i think this is good now
-  convertDBConvos1()
-  {  
-    let c_length = (this.DBConvos.length) -1;
-    this.DBConvos.forEach((convo,index) => {
-
-      var m_arr: Message[] = []; 
-      let messages: any [] = this.DBMessages[index];   
-      let length = (messages.length) -1; 
-      messages.forEach((message,index) => {
-        let m = new Message(message.text,message.isSender, message.date);
-        m_arr.push(m);
-        if(index == length)
-        {
-          var c = new Convo(0,convo.otherUser,messages, new Date());
-          this.convos.push(c);
-        }
-      });
-      if(index == c_length)
-        {
-          this.arr = [this.convos];
-        }
-    });
-  }
-  convertDBConvos2()
-  {  
-    let c_length = this.DBConvos.length;
-    for(let i = 0; i < c_length; i+2)
-    {
-      if(this.DBConvos[i].acc_name == this.service_acc_name)
-        {
-  
-          var c = new Convo(0,this.DBConvos[i+1],[], new Date());
-          this.convos.push(c);
-        }
-        else
-        {
-          var c = new Convo(0,this.DBConvos[i],[],new Date());
-          this.convos.push(c);
-        }
-        if(i == (c_length-2))
-          {
-            this.arr = [this.convos];
-          }
-    }
-  }
-
-  
-
   convertDBConvos(bad_ids: number [], check: boolean)
   {  
     this.convos = [];
@@ -326,7 +277,11 @@ getConvos(check: boolean)
   //opens up new message modal
   handleNewMessageClick()
   {
-    this.show = true;
+    if(!this.convo_clicked)
+      {
+        this.show = true;
+      }
+    
   }
   handleSentMessage()
   {

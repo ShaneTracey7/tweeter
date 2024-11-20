@@ -188,7 +188,7 @@ import { TweetService } from "../../../core/tweet-service";
   }
   hideModal()
   {
-    this.show =false;
+    this.show = false;
     this.showChange.emit(false);
   }
 }

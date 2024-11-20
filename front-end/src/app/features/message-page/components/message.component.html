@@ -28,19 +28,7 @@
     
     <profile-modal [inMain]="true" [(show)]='show_modal' [mpc]="mpc" [profile]='convo.otherUser'></profile-modal> 
 
-    <!-- ELIP MODAL-->
-    <div *ngIf="showElipModal">
-        <div id="elip-modal">
-            <div class="elip-modal-contiainer">
-                <img [src]="service.setUrl('pin.svg')" class="elip-modal-img">
-                <p>Pin Conversation</p>
-            </div>
-            <div class="elip-modal-contiainer">
-                <img [src]="service.setUrl('trash-red.png')" class="elip-modal-img">
-                <p>Delete Conversation</p>
-            </div>
-        </div>
-    </div>
+
 
     <div class="message-content">
 
@@ -58,6 +46,23 @@
 
     </div>
 
+        <!-- ELIP MODAL-->
     
-    <div id="tab" [style]="showTab()" ></div>
+        <div *ngIf="showElipModal">
+            <div id="elip-modal">
+                <div class="elip-modal-container">
+                    <img [src]="service.setUrl('pin.svg')">
+                    <p>Pin Conversation</p>
+                </div>
+
+                <hr>
+
+                <div id="elip-modal-delete-container" class="elip-modal-container">
+                    <img [src]="service.setUrl('trash-red.png')">
+                    <p (click)="handleDeleteClick()" id="delete-text" >Delete Conversation</p>
+                </div>
+            </div>
+        </div>
+    
+        <div id="tab" [style]="showTab()" ></div>
 </div>

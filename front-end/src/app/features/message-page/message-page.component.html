@@ -9,7 +9,7 @@
       <h1 class="page-title"> Messages </h1>
       <div class="title-icons">
         <img class="toolbar-icon" [src]="service.setUrl('cog.svg')" alt="cog"/>
-        <img id="eplus-icon" [src]="service.setUrl('envelope-plus.svg')"alt="plus"/>
+        <img id="eplus-icon" (click)="handleNewMessageClick()" [src]="service.setUrl('envelope-plus.svg')"alt="plus"/>
       </div>
         
       </div>

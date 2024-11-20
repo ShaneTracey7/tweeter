@@ -88,15 +88,22 @@ def messageApi(request,id=id):
                 else:
                     return JsonResponse("No convos",safe=False)
             elif check == 'addMessage':
-                
-                #user1_sent = False
                 convo = Convo.objects.get(id=convo_id)
-                #if convo.user1.acc_name == acc_name_input:
-                  #  user1_sent = True
-
+                
                 message = UserMessage.create(convo,text_input,datetime.datetime.now(),acc_name_input)
                 message.save()   
                 return JsonResponse("Added Successfully",safe=False)
+                
+            elif check == 'deleteConvo':
+
+                convo = Convo.objects.get(id=convo_id)
+                messages = UserMessage.objects.filter(convo_id=convo)
+
+                for message in messages:
+                    message.delete()
+
+                convo.delete()
+                return JsonResponse("Deleted Successfully",safe=False)
             else:
                 user = User.objects.get(id=convo_id)
                 #tweet = Tweet.objects.get(id=user_id)
