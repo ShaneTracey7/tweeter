@@ -62,7 +62,8 @@ INSTALLED_APPS = [
     'bootstrap5',
     'whitenoise.runserver_nostatic',
     
-    'api.apps.ApiConfig'
+    'api.apps.ApiConfig',
+    'gdstorage',
 ]
 
 MIDDLEWARE = [
@@ -85,6 +86,13 @@ CORS_ALLOW_ALL_HEADERS=True
 CORS_ALLOWED_ORIGINS = [
 "http://localhost:4200",
 ]
+
+#
+# Google Drive Storage Settings
+#
+
+GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = PROJECT_ROOT + '/google/template.json'
+#GOOGLE_DRIVE_STORAGE_MEDIA_ROOT = '<base google drive path for file uploads>' # OPTIONAL
 
 ROOT_URLCONF = 'tweeter.urls'
 

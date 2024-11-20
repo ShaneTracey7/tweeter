@@ -170,6 +170,21 @@ class Message():
     #def __str__(self):
      #   return f"{self.tweet} {self.likes} {self.comments} {self.retweets} {self.engagements}"
 
+#---NEW---
+from gdstorage.storage import GoogleDriveStorage
 
+# Define Google Drive Storage
+gd_storage = GoogleDriveStorage()
     
     
+class Test(models.Model):
+    test_name = models.CharField(max_length=200)
+    test_file = models.FileField(storage=gd_storage)
+    #test_image = models.ImageField(storage=gd_storage)
+    @classmethod
+    def create(cls,test_name,test_file):
+       test = cls(test_name=test_name,test_file=test_file)
+       return test
+
+    def __str__(self):
+       return f"{self.id} {self.test_name}"

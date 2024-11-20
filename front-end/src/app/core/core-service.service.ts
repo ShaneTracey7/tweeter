@@ -410,4 +410,17 @@ isFollower(acc_name: string)
 }
 
 
-  }
+
+
+//called upon click of tweeter img of navbar
+testFunction()
+{
+
+  this.http.get("http://127.0.0.1:8000/message").subscribe((resultData: any)=>
+  {
+      console.log(resultData);
+  });
+
+}
+
+}

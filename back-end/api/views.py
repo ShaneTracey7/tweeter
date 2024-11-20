@@ -3,21 +3,40 @@ from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
 from api.serializers import StudentSerializer, UserSerializer, TweetSerializer, MessageSerializer, FollowSerializer, LikeSerializer, RetweetSerializer, NotificationSerializer, UserMessageSerializer, ConvoSerializer
-from api.models import Student, User, Tweet, Message, Follow, Like, Retweet, Notification, Convo, UserMessage
+from api.models import Student, Test, User, Tweet, Message, Follow, Like, Retweet, Notification, Convo, UserMessage
 from rest_framework.renderers import JSONRenderer
 import json
 import datetime
 from django.db.models import Q
 
-
 @csrf_exempt
 def messageApi(request,id=id):
 
-    if request.method =='GET':
-        tweet = Tweet.objects.all()
-        tweet_serializer = TweetSerializer(tweet,many=True)
-        return JsonResponse(tweet_serializer.data,safe=False)
+    #if request.method =='GET':
+    #    tweet = Tweet.objects.all()
+     #   tweet_serializer = TweetSerializer(tweet,many=True)
+     #   return JsonResponse(tweet_serializer.data,safe=False)
+    
+   # if request.method =='GET':
+        
+     #   f = open("test.txt", "r")
+     #   test = Test.create('first-test',f)
+     #   test.save()
 
+        #tweet_serializer = TweetSerializer(tweet,many=True)
+     #   return JsonResponse('saved to google drive',safe=False)
+
+    if request.method =='GET':
+        
+        tests = Test.objects.all()
+        
+        for test in tests:
+           print(test.test_file)
+           #with open(test.test_file) as f:
+          #      print(f.readline())
+
+        return JsonResponse('saved to google drive',safe=False)
+    
     elif request.method =='POST':
 
         #retrieve message from front end

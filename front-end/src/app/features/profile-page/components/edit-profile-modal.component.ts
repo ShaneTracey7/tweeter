@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output, SimpleChanges } from "@angular/core";
 import { CoreService } from "../../../core/core-service.service";
 import { Profile } from "../../../core/data";
 import { FormBuilder, Validators } from "@angular/forms";
@@ -22,17 +22,89 @@ import { HttpClient } from "@angular/common/http";
 
     editProfileForm: any;
 
-    profile_pic_url: string = '';
-    header_pic_url: string = '';
+    //profile_pic_url: string;// = '';
+    //header_pic_url: string;// = '';
     
     constructor(public service: CoreService,private formBuilder: FormBuilder,private http: HttpClient){
       this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";
 
       this.editProfileForm = this.formBuilder.group({
         bio: [this.profile.bio, [Validators.maxLength(99)]],
+        profile_pic: [],
+        header_pic: [],
         });
+        
+        this.onChanges();
+       // let file;// = document.getElementById('profile-img-upload')?.files;
+        
     }
+
+    //temporarily (only for when inside modal) changes picture
+    onChanges(): void {
+      this.editProfileForm.get('profile_pic')?.valueChanges.subscribe((val: any) => {
+        console.log("change in value: " + val);
+        
+        if(String(val) != "" )
+        {
+          const file = (<HTMLInputElement>document.getElementById("profile-img-upload"))!.files;//.files![0]
+
+          if (file != null)
+          {
+            console.log("value: " + URL.createObjectURL(file[0]));
+            //this.profile.pic = URL.createObjectURL(file[0]);
+            let pp_img = (<HTMLInputElement>document.getElementById("edit-profile-p-image"))!;
+            pp_img.src = URL.createObjectURL(file[0]);
+            
+          }
+        }
+        else
+        {
+          //doesn't do anything (cuz value doesn't change)
+          let pp_img = (<HTMLInputElement>document.getElementById("edit-profile-p-image"))!;
+          pp_img.src = this.service.setUrl(this.profile.pic)  
+          //this.profile.pic = this.service.setUrl(this.profile.pic);
+        }
+        
+      });
+      this.editProfileForm.get('header_pic')?.valueChanges.subscribe((val: any) => {
+        console.log("change in value: " + val);
+        
+        if(String(val) != "" )
+        {
+          const file = (<HTMLInputElement>document.getElementById("header-img-upload"))!.files;//.files![0]
+
+          if (file != null)
+          {
+            console.log("value: " + URL.createObjectURL(file[0]));
+            //this.profile.pic = URL.createObjectURL(file[0]);
+            let hp_img = (<HTMLInputElement>document.getElementById("edit-profile-bg-image"))!;
+            hp_img.src = URL.createObjectURL(file[0]);
+            
+          }
+        }
+        else
+        {
+          
+        }
+        
+      });
+    }
+
+/* //DOESNT WORK
+    ngOnChanges(changes: SimpleChanges){
   
+      if (changes['profile']) {
+        console.log("**ngOnChanges**");
+        let pp_img = (<HTMLInputElement>document.getElementById("edit-profile-p-image"))!;
+            //if(file[0] != null){
+            pp_img.src = this.service.setUrl(this.profile.pic);
+      }
+  }
+  */
+    
+  
+
+
     hideModal()
       {
        this.showep = false;
