@@ -67,7 +67,7 @@
       <div *ngIf="last_url_section == 'Profile'; else otherProfile">
       <!--<div *ngIf="last_url_section == 'Profile' && service.other_profile_flag == false; else otherProfile">-->
 
-        <img id="profile-bg-image" [src]="elon" alt="background-image"/>
+        <img id="profile-bg-image" [src]="this.service.setUrl(this.user.header_pic)" alt="background-image"/>
         <div id="profile-row1">
           <img id="profile-p-image" [src]="this.service.setUrl(this.user.pic)" alt="profile-image"/>
           <button class="profile-page-button" id="edit-profile-button" (click)="showEPModal()"  >Edit profile</button>
@@ -75,7 +75,7 @@
       </div>
 
       <ng-template #otherProfile>
-        <img id="profile-bg-image" [src]="elon" alt="background-image"/>
+        <img id="profile-bg-image" [src]="this.service.setUrl(this.user.header_pic)" alt="background-image"/>
         <div id="profile-row1">
           <img id="profile-p-image" [src]="this.service.setUrl(this.user.pic)" alt="profile-image"/>
           <div *ngIf="isFollow; else notFollowing">

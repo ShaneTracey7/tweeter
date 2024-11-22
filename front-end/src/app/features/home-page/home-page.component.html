@@ -29,6 +29,14 @@
   </div>
 
 <!-- main content add here-->
+
+<div>
+  <button (click)="service.handleGetAll()">Get All</button>
+  <button (click)="service.handleUploadImage()"> Upload Image</button>
+  <button (click)="service.handleDeleteImage()">Delete Image</button>
+  <!--<button (click)="service.handleGetImage()">Get Image</button> -->
+  <!--<button (click)="changeImage()">change Image</button> -->
+</div>
 <div class="empty-post">
 
   <div id="form-status-message-good" *ngIf="this.submit_flag == 2"> Tweet Added!</div>

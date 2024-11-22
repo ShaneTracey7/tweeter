@@ -1,42 +1,105 @@
+import os
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
-from api.serializers import StudentSerializer, UserSerializer, TweetSerializer, MessageSerializer, FollowSerializer, LikeSerializer, RetweetSerializer, NotificationSerializer, UserMessageSerializer, ConvoSerializer
-from api.models import Student, Test, User, Tweet, Message, Follow, Like, Retweet, Notification, Convo, UserMessage
+from api.serializers import ImageSerializer, StudentSerializer, UserSerializer, TweetSerializer, MessageSerializer, FollowSerializer, LikeSerializer, RetweetSerializer, NotificationSerializer, UserMessageSerializer, ConvoSerializer
+from api.models import Image, Student, User, Tweet, Message, Follow, Like, Retweet, Notification, Convo, UserMessage
 from rest_framework.renderers import JSONRenderer
 import json
 import datetime
 from django.db.models import Q
 
+from django.db import models
+
+
+#from django.core.files.base import File
+from django.core.files import File
+
 @csrf_exempt
-def messageApi(request,id=id):
-
-    #if request.method =='GET':
-    #    tweet = Tweet.objects.all()
-     #   tweet_serializer = TweetSerializer(tweet,many=True)
-     #   return JsonResponse(tweet_serializer.data,safe=False)
-    
-   # if request.method =='GET':
-        
-     #   f = open("test.txt", "r")
-     #   test = Test.create('first-test',f)
-     #   test.save()
-
-        #tweet_serializer = TweetSerializer(tweet,many=True)
-     #   return JsonResponse('saved to google drive',safe=False)
+def imageApi(request,id=id):
 
     if request.method =='GET':
         
-        tests = Test.objects.all()
+        images = Image.objects.all()
         
-        for test in tests:
-           print(test.test_file)
-           #with open(test.test_file) as f:
-          #      print(f.readline())
-
+        for image in images:
+           #imf = models.ImageField(image.image_file)
+           print(image.image_file.url)
+           #print(image.image_file.url)
+           print(image.image_file.storage.url('back-arrow.svg'))
+           #print(image.image_file.storage.exists('test_image_QEZCUMQ.png'))
+           #print(image.image_file.storage.delete('test_image_QEZCUMQ.png'))
+           #print(image.image_file.storage.exists('test_image_QEZCUMQ.png'))
+          
+           
         return JsonResponse('saved to google drive',safe=False)
     
+
+    elif request.method =='POST':
+        print('b4 img')
+        img = request.FILES.get('image_file')
+        #check = request.FILES.get('image_name') Need to find how to recieve extra data to handle where image url is gonna be set to
+        print(check)
+        myFile = File(img)
+        image = Image.create('testfromfrontend',myFile)
+        image.save()
+
+        #set image url to tweet or user's 'pic' or 'header_pic'
+
+        print(img)
+        print('after img')
+        return JsonResponse('Saved to google drive',safe=False)
+        #else:
+            #print('image_serializer is not valid')
+            #return JsonResponse("Failed to Add",safe=False)
+        
+    elif request.method =='PUT': 
+        #retrieve message from front end
+        message_data = JSONParser().parse(request)
+        # serialize message
+        message_serializer = MessageSerializer(data=message_data)
+        if message_serializer.is_valid():
+            check = message_serializer.data['word']
+            image_name_input = message_serializer.data['word2']
+            if check == 'deleteImage':
+                #image_name_input includes file type
+                x = image_name_input.split(".") 
+                image_name_short = x[0]
+                image = Image.objects.get(image_name=image_name_short)
+                print(image.image_file)#.encoding
+                
+                image.image_file.storage.delete(image_name_input)
+                image.delete()
+                return JsonResponse("Image successfully deleted",safe=False)
+            elif check == 'deleteAllImages':
+                images = Image.objects.all()
+                images.delete()
+                return JsonResponse("All Images successfully deleted",safe=False)
+            if check == 'getImage':
+                image = Image.objects.get(image_name=image_name_input)
+                print(image)
+                url = image.image_file.url
+                print(url)
+                return JsonResponse(url,safe=False)
+            else:
+                return JsonResponse("Check is false",safe=False)
+            
+        return JsonResponse("Failed to Add",safe=False)
+    
+    elif request.method =='DELETE':
+        return JsonResponse("Deleted Successfully",safe=False)
+
+
+
+@csrf_exempt
+def messageApi(request,id=id):
+
+    if request.method =='GET':
+        tweet = Tweet.objects.all()
+        tweet_serializer = TweetSerializer(tweet,many=True)
+        return JsonResponse(tweet_serializer.data,safe=False)
+     
     elif request.method =='POST':
 
         #retrieve message from front end

@@ -13,11 +13,11 @@ import { PostComponent } from '../../home-page/components/post.component';
 
 })
 export class NotificationComponent extends NotificationPageComponent{
-@Input () notification = new Notification2('',new Profile('','','','',0,0), new Post(0,'','','', new Date(),'','',0,0,0,0) );
+@Input () notification = new Notification2('',new Profile('','','','','',0,0), new Post(0,'','','', new Date(),'','',0,0,0,0) );
 @Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService,this.service,this.authService,this.route);
 
 show_modal: boolean = false;
-modal_profile = new Profile('','','','',0,0);
+modal_profile = new Profile('','','','','',0,0);
 timer:any;
 
 showModal(obj:NotificationComponent)

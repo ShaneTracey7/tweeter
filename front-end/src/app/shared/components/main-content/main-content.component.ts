@@ -17,7 +17,7 @@ export class MainContentComponent {
   @Input() upc: any = ''; //universal page component
   //testing
   @Input() data: any [] = []; //what tab is being displayed
-  @Input() user: Profile = new Profile('','','','',0,0);
+  @Input() user: Profile = new Profile('','','','','',0,0);
 
   @Input() tab: string = ""; //what tab is being displayed
   @Input() page: string = ""; //what current_page is being displayed

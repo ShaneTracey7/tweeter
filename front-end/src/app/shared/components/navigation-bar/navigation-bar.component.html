@@ -6,7 +6,7 @@
     <!-- Links -->
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a (click)="service.testFunction()" id="tweeter-navbar" class="nav-link" routerLink="/tweeter/Home">
+        <a (click)="handleNavigation('Home','foryou')" id="tweeter-navbar" class="nav-link" routerLink="/tweeter/Home">
         <!--<a (click)="handleNavigation('Home','foryou')" id="tweeter-navbar" class="nav-link" routerLink="/tweeter/Home"> -->
           <img id="tnb" class="navbaricons" [src]="service.setUrl('tweeter-logo-blue.png')" alt="Logo"/>
         </a>
@@ -59,7 +59,8 @@
 
       <div id="bottom-nav"> 
         <div id="profile-nav" (click)="showModal()">
-          <img id="profile-nav-img" [src]="service.setUrl(pic)" alt="elon"/>
+          <img id="profile-nav-img" [src]='service.setUrl(pic)' alt="user-profile"/>
+          <!-- <img id="profile-nav-img" [src]="service.setUrl(pic)" alt="user-profile"/> -->
           <div id="profile-nav-text">
             <p id="profile-nav-username"> {{username}} </p>
             <p id="profile-nav-accountname"> &#64;{{acc_name}} </p>

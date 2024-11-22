@@ -1,5 +1,5 @@
 from django.contrib import admin
-from api.models import Convo, Student, Test, User, Tweet, Follow, Like, Retweet, Notification, UserMessage
+from api.models import Convo, Image, Student, User, Tweet, Follow, Like, Retweet, Notification, UserMessage
 
 # Register your models here.
 admin.site.register(Student)
@@ -48,10 +48,10 @@ admin.site.register(UserMessage, UserMessageAdmin)
 
 
 #---NEW---
-class TestAdmin(admin.ModelAdmin):
-  list_display = ("id","test_name","test_file")
+class ImageAdmin(admin.ModelAdmin):
+  list_display = ("id","image_name","image_file")
 
-admin.site.register(Test, TestAdmin)
+admin.site.register(Image, ImageAdmin)
 
 #class TweetReactionAdmin(admin.ModelAdmin):
  # list_display = ("tweet", "likes", "comments", "retweets", "engagements")

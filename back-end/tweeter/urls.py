@@ -29,6 +29,7 @@ from api import views
 
 urlpatterns = [
     
+    re_path(r'^image$',views.imageApi),
     re_path(r'^message$',views.messageApi),
     #re_path(r'^notification/(.*)$',views.likeApi),
     re_path(r'^notification$',views.notificationApi),

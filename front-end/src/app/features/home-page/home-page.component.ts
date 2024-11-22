@@ -18,6 +18,8 @@ import { Post, Profile } from '../../core/data';
 })
 export class HomePageComponent extends CoreComponent{
   
+
+  //home_pic_url: string = 
   //needed to ensure when logging into a different account, correct data displays
   service_acc_name: string;
   
@@ -39,6 +41,10 @@ export class HomePageComponent extends CoreComponent{
 
   DBFollowing: any [] = []; //raw array of User following from DB
   following: Profile [] = [] //array of Profile objs of following
+
+
+  //only for testing 
+  image_test: string = '';
 
 constructor(authService: AuthService, route: ActivatedRoute, service: CoreService,public http: HttpClient, public tweetService: TweetService, public formBuilder: FormBuilder )
 {
@@ -62,6 +68,75 @@ ngOnInit()
   this.setFUF();
 }
 
+handleGetImage()
+{
+  let responseBody = { 
+    "word": 'getImage',
+    "word2": 'test_image2',//image name without file type
+  }
+
+  this.http.put("http://127.0.0.1:8000/image", responseBody).subscribe((resultData: any)=>
+    {
+        console.log(resultData);
+        if(resultData == 'Check is false' || resultData == 'Failed to Add')
+        {
+          this.image_test = '';
+        }
+        else
+        {
+          let arr = resultData.split('=');
+          let url_id = arr[1].replace('&export','');
+          this.image_test = url_id;
+          console.log(url_id);
+          //return url_id;
+        }
+
+    });
+
+}
+/*
+changeImage()
+{
+  this.updateImageAsync()
+  //this.handleGetImage();
+}
+
+//only need for testing
+
+updateImageAsync()
+  {
+    let globalObj = this;
+    globalObj.handleGetImage();
+   // while (test == undefined)
+   // {
+      //do nothing
+   // }
+   
+    //console.log(url_id);
+        const postPromise = new Promise<any>(function (resolve, reject) {
+          setTimeout(() => {
+            reject("We didn't get a response")
+          }, 5000) // 5 secs
+
+          setTimeout(() => {
+            console.log("image_test" + globalObj.image_test);
+            globalObj.home_pic_url = 'https://drive.google.com/thumbnail?id=' + globalObj.image_test;//works!
+            //console.log(globalObj.home_pic_url);
+            resolve('we got a response');
+          }, 3000) // 0 secs
+
+        })
+        async function myAsync(){
+          try{
+            postPromise;
+          }
+          catch (error) {
+            console.error('Promise rejected with error: ' + error);
+          }
+        }
+        myAsync();
+  }
+*/
 //******************************************************* */
 
 //gets all tweets(from DB) and adds them to DBfeed array
@@ -78,7 +153,7 @@ getDBForYouFeed()
 presetUserFeed()
 {
   this.DBfeed.forEach(() => {
-    var u = new Profile("", "", "", "", 0, 0);
+    var u = new Profile("","", "", "", "", 0, 0);
     this.UserFeed.push(u)
   });
 }
@@ -99,7 +174,7 @@ getDBForYouFeedUsers()
     this.http.put("http://127.0.0.1:8000/tweet",requestBody).subscribe((resultData: any)=>
     {
         //var u = new Profile(resultData.pic, resultData.username, resultData.acc_name, "bio", 100, 200);
-        var u = new Profile(resultData.pic, resultData.username, resultData.acc_name, resultData.bio, resultData.following_count, resultData.follower_count);
+        var u = new Profile(resultData.pic,resultData.header_pic, resultData.username, resultData.acc_name, resultData.bio, resultData.following_count, resultData.follower_count);
         this.UserFeed.splice(index, 1, u);
 
     });

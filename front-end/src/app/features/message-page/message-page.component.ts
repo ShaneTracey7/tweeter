@@ -17,11 +17,11 @@ export class MessagePageComponent extends CoreComponent{
 show: boolean = false; // show/hide new message modal
 
 convo_clicked: boolean = false; //true: shows seleected converstion, false: shows 'select a message blurb'
-selectedConvo: Convo = new Convo(0,new Profile('','','','',0,0),[],new Date()); //selected convo
+selectedConvo: Convo = new Convo(0,new Profile('','','','','',0,0),[],new Date()); //selected convo
 selected: boolean = false; //only needed for message component
 service_acc_name: string;
 arr: any [] = [];
-emptyConvo = new Convo(0,new Profile('','','','',0,0),[], new Date());
+emptyConvo = new Convo(0,new Profile('','','','','',0,0),[], new Date());
 
 DBConvos: any [] = []; //array of convo_ids
 DBUsers: any [] = []; 
@@ -208,7 +208,7 @@ getConvos(check: boolean)
     let c_length = (this.DBUsers.length) -1;
     this.DBUsers.forEach((u,index) => {
       console.log("index: " + index);
-      let user = new Profile(u.pic,u.username,u.acc_name,u.bio,u.following_count,u.follower_count);
+      let user = new Profile(u.pic,u.header_pic,u.username,u.acc_name,u.bio,u.following_count,u.follower_count);
 
       let messages: Message [] = [];
       let message_arr: any [] = this.DBMessages[index];

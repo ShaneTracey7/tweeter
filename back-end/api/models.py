@@ -18,7 +18,7 @@ class User(models.Model):
     password = models.CharField(max_length = 35)
     pic = models.CharField(max_length = 100)
     header_pic = models.CharField(max_length = 100, default="") #default is default-header.jpg
-    bio = models.CharField(max_length = 100, default="")
+    bio = models.CharField(max_length = 100, default="") #increase max-length
     follower_count = models.IntegerField(default=0)
     following_count = models.IntegerField(default=0)
 
@@ -177,14 +177,16 @@ from gdstorage.storage import GoogleDriveStorage
 gd_storage = GoogleDriveStorage()
     
     
-class Test(models.Model):
-    test_name = models.CharField(max_length=200)
-    test_file = models.FileField(storage=gd_storage)
+class Image(models.Model):
+    # naming scheme: ex: 'hanna_banna-profile.png' <acc_name>-<profile>/<header>/<post_id>
+    image_name = models.CharField(max_length=200) 
+    #image_file = models.FileField(storage=gd_storage)
+    image_file = models.ImageField(storage=gd_storage)
     #test_image = models.ImageField(storage=gd_storage)
     @classmethod
-    def create(cls,test_name,test_file):
-       test = cls(test_name=test_name,test_file=test_file)
-       return test
+    def create(cls,image_name,image_file):
+       image = cls(image_name=image_name,image_file=image_file)
+       return image
 
     def __str__(self):
-       return f"{self.id} {self.test_name}"
+       return f"{self.id} {self.image_name} {self.image_file}"

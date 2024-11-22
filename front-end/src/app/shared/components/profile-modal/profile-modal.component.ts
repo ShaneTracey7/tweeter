@@ -17,7 +17,7 @@ import { FormBuilder } from '@angular/forms';
 })
 export class ProfileModalComponent {
 
-  @Input() profile = new Profile('','','','',0,0);
+  @Input() profile = new Profile('','','','','',0,0);
   @Input() show: boolean = false; //used to be false
   @Input() inMain: boolean = false;
   @Output() showChange = new EventEmitter<boolean>();

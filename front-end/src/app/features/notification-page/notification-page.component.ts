@@ -117,7 +117,7 @@ export class NotificationPageComponent extends CoreComponent{
    */
       for(let i = 0; i < this.DBfeed[0].length; i++)
       {
-        var profile_from = new Profile(this.DBfeed[1][i].pic,this.DBfeed[1][i].username,this.DBfeed[1][i].acc_name, this.DBfeed[1][i].bio, this.DBfeed[1][i].following_count,this.DBfeed[1][i].follower_count);
+        var profile_from = new Profile(this.DBfeed[1][i].pic,this.DBfeed[1][i].header_pic,this.DBfeed[1][i].username,this.DBfeed[1][i].acc_name, this.DBfeed[1][i].bio, this.DBfeed[1][i].following_count,this.DBfeed[1][i].follower_count);
         var type = this.DBfeed[0][i];
         var tweetDB = this.DBfeed[2][i];
         var tweet = new Post(tweetDB.id,tweetDB.pic,tweetDB.username,tweetDB.acc_name,tweetDB.date_created,tweetDB.text_content,'',tweetDB.comments, tweetDB.retweets,tweetDB.likes, tweetDB.engagements)

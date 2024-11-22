@@ -199,7 +199,7 @@ getDBForYouFeed()
 presetUserFeed()
 {
   this.DBfeed.forEach(() => {
-    var u = new Profile("", "", "", "", 0, 0);
+    var u = new Profile("","","", "", "", 0, 0);
     this.UserFeed.push(u)
   });
 }
@@ -223,7 +223,7 @@ getDBForYouFeedUsers()
     this.http.put("http://127.0.0.1:8000/tweet",requestBody).subscribe((resultData: any)=>
     {
         //var u = new Profile(this.elon, resultData.username, resultData.acc_name, "bio", 100, 200);
-        var u = new Profile(resultData.pic, resultData.username, resultData.acc_name, "bio", 100, 200);
+        var u = new Profile(resultData.pic, resultData.header_pic,resultData.username, resultData.acc_name, "bio", 100, 200);
         this.UserFeed.splice(index, 1, u);
          //this.UserFeed.push(u) //this is the issue, being added to array out of order(because loop completed b4 http requests are processed)
 

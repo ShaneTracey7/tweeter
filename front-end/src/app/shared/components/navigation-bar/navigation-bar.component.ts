@@ -19,6 +19,7 @@ export class NavigationBarComponent{
   username: string;
   acc_name: string;
   pic: string;
+  test_string: string = 'https://drive.google.com/thumbnail?id=1XGsuMIuIV9l2gi7TDs80OT6a-v7ccR7o&sz=w1000'
 
   constructor(private router: Router, private authService: AuthService, public service: CoreService) {
     

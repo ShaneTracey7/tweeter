@@ -27,7 +27,7 @@ export class ShortProfileComponent{
   @Output() mshowChange = new EventEmitter<boolean>();
   @Input () inSearch: boolean = false; //in search bar modal
   @Input() ppg = new ProfilePageComponent(this.router,this.http,this.authService,this.route,this.service,this.tweetService)
-  @Input() profile = new Profile('','','','',0,0);
+  @Input() profile = new Profile('','','','','',0,0);
   @Input() page: string = ""; //what current_page is being displayed
   //@Output() openmodalChangeS = new EventEmitter<boolean>();
   //@Output() openmodalChangeM = new EventEmitter<boolean>();

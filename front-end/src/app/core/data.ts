@@ -140,19 +140,19 @@ function shortenNum(num: number): string {
 
 export class Profile {
     pic: string; //url
+    header_pic: string; //ur;
     username: string;
     acc_name: string;
     bio: string;
-    //header_pic: string;
     follow_count: string;
     follower_count: string;
 
-    constructor(p: string, u: string, a: string, b: string,/*hp:string,*/ fc: number, frc: number) {
+    constructor(p: string, hp:string, u: string, a: string, b: string, fc: number, frc: number) {
         this.pic = p;
+        this.header_pic = hp;
         this.username = u;
         this.acc_name = a;
         this.bio = b;
-        //this.header_pic = hp;
         this.follow_count = shortenNum(fc); 
         this.follower_count = shortenNum(frc); 
       }
@@ -303,7 +303,7 @@ export function createConversations(){
     var convos = new Array<Convo>;
     
     let m1 = new Array<Message>;
-    let p1 = new Profile(elon,'bobby','roberto23','bio', 0,0);
+    let p1 = new Profile(elon,elon,'bobby','roberto23','bio', 0,0);
     m1.push(new Message("hello, it's me", true, new Date));
     m1.push(new Message("howdy there", false, new Date));
     m1.push(new Message("would you like to go to the movies?", true, new Date));
@@ -320,7 +320,7 @@ export function createConversations(){
     convos.push(new Convo(0,p1, m1, new Date()));
 
     let m2 = new Array<Message>;
-    let p2 = new Profile(elon,'gerry','theTEACHER3','bio', 0,0);
+    let p2 = new Profile(elon,elon,'gerry','theTEACHER3','bio', 0,0);
     m2.push(new Message("hey, u handed in you work late", false, new Date));
     m2.push(new Message("hya my dog ate it, so i had to print it again", true, new Date));
     m2.push(new Message("Don't lie to me, boy", false, new Date));
@@ -329,7 +329,7 @@ export function createConversations(){
     convos.push(new Convo(0,p2, m2, new Date()));
 
     let m3 = new Array<Message>;
-    let p3 = new Profile(elon,'bart','therealbartsimpson','bio', 0,0);
+    let p3 = new Profile(elon,elon,'bart','therealbartsimpson','bio', 0,0);
     m3.push(new Message("hows it goin?", false, new Date));
     m3.push(new Message("It aint too bad, just skateboarding", true, new Date));
     m3.push(new Message("oh nice, i got a scooter", false, new Date));
@@ -562,9 +562,9 @@ export function createProfiles(){
     var profiles = new Array<Profile>;
  
     //appending instances to list
-    profiles.push(new Profile(elon, 'Shane', 'sugarshay5', 'Uwin | 2022 Grad | Mallards', 200, 150));
-    profiles.push(new Profile(elon, 'Barry', 'cuddlyBar', 'always be the best bear you can be!', 2305, 5000));
-    profiles.push(new Profile(elon, 'Hanna', 'hanbanana22', 'I am the best girlfriend in the world!', 150, 4500));
+    profiles.push(new Profile(elon,elon, 'Shane', 'sugarshay5', 'Uwin | 2022 Grad | Mallards', 200, 150));
+    profiles.push(new Profile(elon,elon, 'Barry', 'cuddlyBar', 'always be the best bear you can be!', 2305, 5000));
+    profiles.push(new Profile(elon,elon, 'Hanna', 'hanbanana22', 'I am the best girlfriend in the world!', 150, 4500));
     //profiles.push(new Profile(elon, 'Shane', 'sugarshay5', 'Uwin | 2022 Grad | Mallards', 200, 150));
    // profiles.push(new Profile(elon, 'Barry', 'cuddlyBar', 'always be the best bear you can be!', 2305, 5000));
    // profiles.push(new Profile(elon, 'Hanna', 'hanbanana22', 'I am the best girlfriend in the world!', 150, 4500));
@@ -577,24 +577,24 @@ export function createAllProfiles(){
     var profiles = new Array<Profile>;
  
     //appending instances to list
-    profiles.push(new Profile(elon, 'Shane', 'sugarshay5', 'Uwin | 2022 Grad | Mallards', 200, 150));
-    profiles.push(new Profile(elon, 'barry', 'cuddlyBar', 'always be the best bear you can be!', 2305, 5000));
-    profiles.push(new Profile(elon, 'Hanna', 'hanbanana22', 'I am the best girlfriend in the world!', 150, 4500));
-    profiles.push(new Profile(elon, 'shane', 'sugarshay5', 'Uwin | 2022 Grad | Mallards', 200, 150));
-    profiles.push(new Profile(elon, 'jon', 'jonbon', 'half way there!', 2305, 5000));
-    profiles.push(new Profile(elon, 'emmy', 'emmy345', 'Life is ruff!', 150, 4500));
-    profiles.push(new Profile(elon, 'Shane', 'sugarshay5', 'Uwin | 2022 Grad | Mallards', 200, 150));
-    profiles.push(new Profile(elon, 'barry', 'cuddlyBar', 'always be the best bear you can be!', 2305, 5000));
-    profiles.push(new Profile(elon, 'Hanna', 'hanbanana22', 'I am the best girlfriend in the world!', 150, 4500));
-    profiles.push(new Profile(elon, 'shane', 'sugarshay5', 'Uwin | 2022 Grad | Mallards', 200, 150));
-    profiles.push(new Profile(elon, 'jon', 'jonbon', 'half way there!', 2305, 5000));
-    profiles.push(new Profile(elon, 'emmy', 'emmy345', 'Life is ruff!', 150, 4500));
-    profiles.push(new Profile(elon, 'Shane', 'sugarshay5', 'Uwin | 2022 Grad | Mallards', 200, 150));
-    profiles.push(new Profile(elon, 'barry', 'cuddlyBar', 'always be the best bear you can be!', 2305, 5000));
-    profiles.push(new Profile(elon, 'Hanna', 'hanbanana22', 'I am the best girlfriend in the world!', 150, 4500));
-    profiles.push(new Profile(elon, 'shane', 'sugarshay5', 'Uwin | 2022 Grad | Mallards', 200, 150));
-    profiles.push(new Profile(elon, 'jon', 'jonbon', 'half way there!', 2305, 5000));
-    profiles.push(new Profile(elon, 'emmy', 'emmy345', 'Life is ruff!', 150, 4500));
+    profiles.push(new Profile(elon,elon, 'Shane', 'sugarshay5', 'Uwin | 2022 Grad | Mallards', 200, 150));
+    profiles.push(new Profile(elon,elon, 'barry', 'cuddlyBar', 'always be the best bear you can be!', 2305, 5000));
+    profiles.push(new Profile(elon,elon, 'Hanna', 'hanbanana22', 'I am the best girlfriend in the world!', 150, 4500));
+    profiles.push(new Profile(elon,elon, 'shane', 'sugarshay5', 'Uwin | 2022 Grad | Mallards', 200, 150));
+    profiles.push(new Profile(elon,elon, 'jon', 'jonbon', 'half way there!', 2305, 5000));
+    profiles.push(new Profile(elon,elon, 'emmy', 'emmy345', 'Life is ruff!', 150, 4500));
+    profiles.push(new Profile(elon,elon, 'Shane', 'sugarshay5', 'Uwin | 2022 Grad | Mallards', 200, 150));
+    profiles.push(new Profile(elon,elon, 'barry', 'cuddlyBar', 'always be the best bear you can be!', 2305, 5000));
+    profiles.push(new Profile(elon,elon, 'Hanna', 'hanbanana22', 'I am the best girlfriend in the world!', 150, 4500));
+    profiles.push(new Profile(elon,elon, 'shane', 'sugarshay5', 'Uwin | 2022 Grad | Mallards', 200, 150));
+    profiles.push(new Profile(elon,elon, 'jon', 'jonbon', 'half way there!', 2305, 5000));
+    profiles.push(new Profile(elon,elon, 'emmy', 'emmy345', 'Life is ruff!', 150, 4500));
+    profiles.push(new Profile(elon,elon, 'Shane', 'sugarshay5', 'Uwin | 2022 Grad | Mallards', 200, 150));
+    profiles.push(new Profile(elon,elon, 'barry', 'cuddlyBar', 'always be the best bear you can be!', 2305, 5000));
+    profiles.push(new Profile(elon,elon, 'Hanna', 'hanbanana22', 'I am the best girlfriend in the world!', 150, 4500));
+    profiles.push(new Profile(elon,elon, 'shane', 'sugarshay5', 'Uwin | 2022 Grad | Mallards', 200, 150));
+    profiles.push(new Profile(elon,elon, 'jon', 'jonbon', 'half way there!', 2305, 5000));
+    profiles.push(new Profile(elon,elon, 'emmy', 'emmy345', 'Life is ruff!', 150, 4500));
     
     return profiles;
 }
@@ -607,5 +607,5 @@ export function getProfile(username: string, profiles: Profile[]){
             return profile;
         }
    }
-    return new Profile('','','','',0,0);
+    return new Profile('','','','','',0,0);
  }

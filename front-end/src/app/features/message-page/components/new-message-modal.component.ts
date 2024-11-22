@@ -169,7 +169,7 @@ import { TweetService } from "../../../core/tweet-service";
         for (let i = 0; i < this.DBDefaultFeed.length;i++) 
         {
             let user = this.DBDefaultFeed[i];
-            var u = new Profile(user.pic, user.username, user.acc_name, user.bio, user.following_count, user.follower_count);
+            var u = new Profile(user.pic,user.header_pic, user.username, user.acc_name, user.bio, user.following_count, user.follower_count);
             this.defaultList.push(u);
         }
     }
@@ -181,7 +181,7 @@ import { TweetService } from "../../../core/tweet-service";
         for (let i = 0; i < this.DBUserFeed.length;i++) 
         {
             let user = this.DBUserFeed[i];
-            var u = new Profile(user.pic, user.username, user.acc_name, user.bio, user.following_count, user.follower_count);
+            var u = new Profile(user.pic,user.header_pic, user.username, user.acc_name, user.bio, user.following_count, user.follower_count);
             this.userList.push(u);
         }
     }

@@ -12,7 +12,7 @@ import { HttpClient } from "@angular/common/http";
   })
   export class EditProfileModalComponent {
   
-    @Input() profile = new Profile('','','','',0,0);
+    @Input() profile = new Profile('','','','','',0,0);
     @Input() showep: boolean = false; //used to be false
     @Output() showepChange = new EventEmitter<boolean>();
    
@@ -22,9 +22,9 @@ import { HttpClient } from "@angular/common/http";
 
     editProfileForm: any;
 
+    ci: any;
     //profile_pic_url: string;// = '';
     //header_pic_url: string;// = '';
-    
     constructor(public service: CoreService,private formBuilder: FormBuilder,private http: HttpClient){
       this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";
 
@@ -34,15 +34,81 @@ import { HttpClient } from "@angular/common/http";
         header_pic: [],
         });
         
-        this.onChanges();
+        //this.onChanges();
        // let file;// = document.getElementById('profile-img-upload')?.files;
-        
+        const imageEndpoint = 'http://127.0.0.1:8000/image' //might need to change this
+       const profileInput = document.querySelector('#profile-img-upload');
+       const createImage = async() => {
+        //event.preventDefault()
+        // if (profileInput != null)
+         let file = (<HTMLInputElement>document.getElementById("profile-img-upload"))!.files;//.files![0]
+  
+           if( file != null)
+           {
+             let image = file[0];
+             console.log("createImage: " + image)
+
+             
+             let formData = new FormData()
+             //formData.append('image_name','test_api_image')
+             formData.append('image_file',image)
+             //formData.append('media',image)
+            /*
+             let responseBody = {
+              "image_name": 'test', //name of image/file
+              "image_file": image, //may not be able to pass this
+            };
+             
+             this.http.post("http://127.0.0.1:8000/image",responseBody).subscribe((resultData: any)=>
+            {
+              console.log(resultData);
+            });
+            */
+             //formData.append('word','addImage')
+
+            //put my own request here
+            
+             let newImage = fetch(imageEndpoint,{
+              method: 'POST',
+              body: formData
+              
+             })//.then(response => response.json()).catch(error => {console.error(error)})
+
+           }
+           else
+           {
+            console.log("file != null");
+           }
+        }
+        this.ci = createImage;
     }
+
+    /*
+    createImage = () => {
+      // if (profileInput != null)
+       let file = (<HTMLInputElement>document.getElementById("profile-img-upload"))!.files;//.files![0]
+
+         if( file != null)
+         {
+           let image = file[0];
+           console.log("createImage: " + image)
+         }
+         else
+         {
+          console.log("file != null");
+         }
+      }*/
+    
+      onSubmit(){
+        console.log("in submit")
+          this.ci();
+        }
 
     //temporarily (only for when inside modal) changes picture
     onChanges(): void {
       this.editProfileForm.get('profile_pic')?.valueChanges.subscribe((val: any) => {
         console.log("change in value: " + val);
+        
         
         if(String(val) != "" )
         {
@@ -111,9 +177,10 @@ import { HttpClient } from "@angular/common/http";
        this.showepChange.emit(this.showep);
       }
 
-      onSubmit(){
 
-        if(this.editProfileForm.valid)
+      onSubmit2(){
+
+        if(this.editProfileForm.valid && this.editProfileForm.bio == "")
           {
             //enter logic here
             if(this.editProfileForm.bio != this.profile.bio)

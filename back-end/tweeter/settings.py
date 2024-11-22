@@ -91,6 +91,7 @@ CORS_ALLOWED_ORIGINS = [
 # Google Drive Storage Settings
 #
 
+
 GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = PROJECT_ROOT + '/google/template.json'
 #GOOGLE_DRIVE_STORAGE_MEDIA_ROOT = '<base google drive path for file uploads>' # OPTIONAL
 

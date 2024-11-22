@@ -250,7 +250,7 @@ convertUserFeed(current_user_acc_name: string)
     
     if(user.acc_name != current_user_acc_name) //this is issue current_user_acc_name =this.acc_name
       {
-        var u = new Profile(user.pic, user.username, user.acc_name, user.bio, user.following_count, user.follower_count);
+        var u = new Profile(user.pic,user.header_pic, user.username, user.acc_name, user.bio, user.following_count, user.follower_count);
         this.UserFeed.push(u);
         counter++;
       }
@@ -322,7 +322,7 @@ convertDBInfo(arr_type: string)
   {
     for (let i = 0; i < this.DBFollowing.length;i++) {
       let user = this.DBFollowing[i];
-      var u = new Profile(user.pic, user.username, user.acc_name, user.bio, user.following_count, user.follower_count); //need to find where to keep bio, and counts in db
+      var u = new Profile(user.pic, user.header_pic,user.username, user.acc_name, user.bio, user.following_count, user.follower_count); //need to find where to keep bio, and counts in db
       this.following.push(u);
     }
     
@@ -331,7 +331,7 @@ convertDBInfo(arr_type: string)
   {
     for (let i = 0; i < this.DBFollowers.length;i++) {
       let user = this.DBFollowers[i];
-      var u = new Profile(user.pic, user.username, user.acc_name, user.bio, user.following_count, user.follower_count); //need to find where to keep bio, and counts in db
+      var u = new Profile(user.pic,user.header_pic, user.username, user.acc_name, user.bio, user.following_count, user.follower_count); //need to find where to keep bio, and counts in db
       this.followers.push(u);
     }
    
@@ -412,14 +412,78 @@ isFollower(acc_name: string)
 
 
 
-//called upon click of tweeter img of navbar
-testFunction()
-{
 
-  this.http.get("http://127.0.0.1:8000/message").subscribe((resultData: any)=>
-  {
-      console.log(resultData);
-  });
+handleGetAll()
+{
+  this.http.get("http://127.0.0.1:8000/image").subscribe((resultData: any)=>
+    {
+        console.log(resultData);
+    });
+
+}
+
+//this does not work yet
+handleUploadImage()//post
+{
+  let responseBody = {
+    "word": 'test', //name of image/file
+  };
+
+  this.http.post("http://127.0.0.1:8000/image",responseBody).subscribe((resultData: any)=>
+    {
+        console.log(resultData);
+    });
+}
+  
+handleDeleteAllImages()//put
+{
+  let responseBody = {
+    "word": 'deleteAllImages',
+  }
+
+  this.http.put("http://127.0.0.1:8000/image", responseBody).subscribe((resultData: any)=>
+    {
+        console.log(resultData);
+    });
+}
+
+handleDeleteImage()//put
+{
+  let responseBody = { 
+    "word": 'deleteImage',
+    "word2": 'test_image.png',//image name with file type
+  }
+
+  this.http.put("http://127.0.0.1:8000/image", responseBody).subscribe((resultData: any)=>
+    {
+        console.log(resultData);
+    });
+}
+
+//'https://drive.google.com/thumbnail?id=1XGsuMIuIV9l2gi7TDs80OT6a-v7ccR7o&sz=w1000' //works!
+handleGetImage(): any
+{
+  let responseBody = { 
+    "word": 'getImage',
+    "word2": 'test_image2',//image name without file type
+  }
+
+  this.http.put("http://127.0.0.1:8000/image", responseBody).subscribe((resultData: any)=>
+    {
+        console.log(resultData);
+        if(resultData == 'Check is false' || resultData == 'Failed to Add')
+        {
+          return '';
+        }
+        else
+        {
+          let arr = resultData.split('=');
+          let url_id = arr[1].replace('&export','');
+          console.log(url_id);
+          return url_id;
+        }
+
+    });
 
 }
 

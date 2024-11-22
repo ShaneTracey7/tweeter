@@ -17,7 +17,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class MessageComponent extends MessagePageComponent{
 @Input () message = new MessageCard('','','','','');
-@Input () convo = new Convo(0,new Profile('','','','',0,0),[], new Date());
+@Input () convo = new Convo(0,new Profile('','','','','',0,0),[], new Date());
 @Input() mpc:MessagePageComponent = new MessagePageComponent(this.formBuilder, this.authService, this.route,this.service,this.tweetService);
 @Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService,this.service,this.authService,this.route);
 @Input () c_c: boolean = false;

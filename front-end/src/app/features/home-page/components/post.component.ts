@@ -19,7 +19,7 @@ export class PostComponent extends HomePageComponent{
 
 @Input () fp = new Post(0,'','','',new Date,'','',0,0,0,0); //focused post of post page component(only for reply thread posts)
 @Output() fpChange = new EventEmitter<Post>();
-@Input () fpuser = new Profile('','','','',0,0); //NEW
+@Input () fpuser = new Profile('','','','','',0,0); //NEW
 @Output() fpuserChange = new EventEmitter<Profile>(); //NEW
 @Input () comments: Post [] = []; //list of comments of post page component(only for reply thread posts)
 @Output() commentsChange = new EventEmitter<Post[]>();
@@ -30,7 +30,7 @@ newCommentUsers: Profile [] = [];
 DBUserfeed: any [] = [];
 DBPostfeed: any [] = [];
 
-@Input () user = new Profile('','','','',0,0);
+@Input () user = new Profile('','','','','',0,0);
 
 @Input () post = new Post(0,'','','',new Date,'','',0,0,0,0);
 @Input () focused = false; // true if post is being focused within post-page-component
@@ -39,7 +39,7 @@ DBPostfeed: any [] = [];
 //@Input() hpc: HomePageComponent = new HomePageComponent(this.authService,this.route,this.service,this.http,this.tweetService,this.formBuilder)
 @Input() upc: any = '';
 show_modal: boolean = false;
-modal_profile = new Profile('','','','',0,0);
+modal_profile = new Profile('','','','','',0,0);
 timer:any;
 liked: boolean = false; // true: if post is liked, false: if post isn't liked
 postLikeArr: number [] = [];
@@ -650,7 +650,7 @@ grayReaction()
 
       var tweet = new Post(reply.id,u[index].pic,u[index].username,u[index].acc_name,reply.date_created,reply.text_content,'',reply.comments, reply.retweets,reply.likes, reply.engagements);
         this.newComments.push(tweet);
-      var user = new Profile(u[index].pic,u[index].username,u[index].acc_name,u[index].bio,u[index].following_count,u[index].follower_count);
+      var user = new Profile(u[index].pic,u[index].header_pic,u[index].username,u[index].acc_name,u[index].bio,u[index].following_count,u[index].follower_count);
         this.newCommentUsers.push(user);
       });
   }

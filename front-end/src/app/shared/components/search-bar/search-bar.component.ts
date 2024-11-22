@@ -193,7 +193,7 @@ searchForm = this.formBuilder.group({
     for (let i = 0; i < this.DBUserFeed.length;i++) 
       {
         let user = this.DBUserFeed[i];
-        var u = new Profile(user.pic, user.username, user.acc_name, user.bio, user.following_count, user.follower_count);
+        var u = new Profile(user.pic,user.header_pic, user.username, user.acc_name, user.bio, user.following_count, user.follower_count);
         this.userList.push(u);
       }
   }
