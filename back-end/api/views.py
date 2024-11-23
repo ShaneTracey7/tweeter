@@ -19,40 +19,190 @@ from django.core.files import File
 @csrf_exempt
 def imageApi(request,id=id):
 
+    #this is mainly for testing
     if request.method =='GET':
         
-        images = Image.objects.all()
-        
-        for image in images:
+        #images = Image.objects.filter(image_name='testfromfrontend')
+
+            #image = Image.objects.get(image_name='test_image2')
+            #newimage = images[0].image_file
+            #image.image_file = newimage
+            #image.save()
+
+
+
+        #images = Image.objects.all()
+        image = Image.objects.get(image_name='test_image2')
+        #images = Image.objects.filter(image_name='testfromfrontend')
+       # for image in images:
+
+            #print(image.image_file.storage.get_valid_name(image.image_file.name))
+            #print(image.image_file.storage.listdir(image.image_file.name))
+            #print(image.image_file.storage.size(image.image_file.name))
+           #image.delete()
+           # print(image.image_file.storage.get_valid_name('tester11.png'))
+           # print(image.image_file.storage.listdir('tester11.png'))
+           # print(image.image_file.storage.size('tester11.png'))
+            #print(image.image_file.storage.location(image.image_file.name))
+        print(image.image_file.storage.exists('test_51.png'))
+        print(image.image_file.storage.delete('test_51.png'))
+        print(image.image_file.storage.exists('test_51.png'))
+            #print(image.image_file.storage.url(image.image_file.name))
+            #print(image.image_file.storage.delete(image.image_file.name))
+            #print(image.image_file.storage.exists(image.image_file.name))
+
            #imf = models.ImageField(image.image_file)
-           print(image.image_file.url)
+         #  print(image.image_file.url)
            #print(image.image_file.url)
-           print(image.image_file.storage.url('back-arrow.svg'))
+         #  print(image.image_file.storage.url('back-arrow.svg'))
            #print(image.image_file.storage.exists('test_image_QEZCUMQ.png'))
            #print(image.image_file.storage.delete('test_image_QEZCUMQ.png'))
            #print(image.image_file.storage.exists('test_image_QEZCUMQ.png'))
-          
+           #print(image.image_file.storage.get_valid_name())
+          # print(image.image_file.name)
+
+   #     try:
+        # only need to delete google drive instance and save new instance to Django
+   #         print('in try')
+            
+   #         images = Image.objects.filter(image_name='testfromfrontend')
+
+  #          image = Image.objects.get(image_name='test_image2')
+   #         newimage = images[0].image_file
+   #         print(newimage.storage.exists('back-arrow.svg'))
+            #print(newimage.storage.delete('back-arrow.svg'))
+   #         print(newimage.storage.exists('back-arrow.svg'))
+            
+            #print(image.delete())
+            #print(image.image_file.storage.exists('test_image.png'))
+            #print(image.image_file.storage.delete('test_image.png'))
+            #print(image.image_file.storage.exists('test_image.png'))
+            #dbImage.image_file.storage.delete(dbImage.image_file.name)
+            #dbImage.image_file = myFile2
+    #        print('end try')
+            #dbImage.save()
+ #       except Image.DoesNotExist:
+    #        print('in except')
+            # create new image instance and save to Django
+            #image2 = Image.create(image_db_name2,myFile2)
+            #image2.save()
+            #print('end except')
+
            
         return JsonResponse('saved to google drive',safe=False)
     
 
     elif request.method =='POST':
-        print('b4 img')
-        img = request.FILES.get('image_file')
-        #check = request.FILES.get('image_name') Need to find how to recieve extra data to handle where image url is gonna be set to
-        print(check)
-        myFile = File(img)
-        image = Image.create('testfromfrontend',myFile)
-        image.save()
 
-        #set image url to tweet or user's 'pic' or 'header_pic'
+        type_input = request.POST.get('type') # header, profile, tweet, both
+        acc_name_input = request.POST.get('acc_name') # account name of user
+        user = User.objects.get(acc_name = acc_name_input)
 
-        print(img)
-        print('after img')
-        return JsonResponse('Saved to google drive',safe=False)
-        #else:
-            #print('image_serializer is not valid')
-            #return JsonResponse("Failed to Add",safe=False)
+        print('type_input: ' + type_input)
+        if type_input == 'bio':
+            print('in bio case')
+            bio_input = request.POST.get('bio')
+            user.bio = bio_input
+            user.save()
+            return JsonResponse('Saved Bio',safe=False)
+        else:
+
+            img = request.FILES.get('image_file')
+            
+            bio_input = ''
+            #bio_check = type_input.find('bio')
+            if type_input == 'header bio' or type_input == 'profile bio' or type_input == 'both bio':
+                print('include bio')
+                bio_input = request.POST.get('bio')
+                #return JsonResponse('blah blah Bio',safe=False)
+
+            last_node = 'profile'
+            tweet_id_input = ''
+            if type_input == 'tweet':
+                print('include tweet')
+                tweet_id_input = request.POST.get('tweet_id') # 0 if profile/header
+                last_node = tweet_id_input
+
+            if type_input.find('header') != -1:
+                print('include header')
+                last_node = 'header'
+            #create and save image model
+            image2 = ''
+            if type_input.find('both') != -1:
+                print('include both')
+                img2 = request.FILES.get('image_file2') # header is always file2 if both are present
+                image_db_name2 = user.acc_name + '_' + 'header'
+                myFile2 = File(img2)
+                #check if file already exists
+                try:
+                    # only need to delete google drive instance and save new instance to Django
+                    dbImage = Image.objects.get(image_name=image_db_name2)
+                    dbImage.image_file.storage.delete(dbImage.image_file.name)
+                    dbImage.image_file = myFile2
+                    dbImage.save()
+                    image2 = dbImage #new
+                except Image.DoesNotExist:
+                    # create new image instance and save to Django
+                    i2 = Image.create(image_db_name2,myFile2)
+                    i2.save()
+                    image2 = i2 #new
+                last_node = 'profile'
+
+            image_db_name = user.acc_name + '_' + last_node
+            myFile = File(img)
+            image = ''
+            try:
+                print('img exists')
+                # only need to delete google drive instance and save new instance to Django
+                dbImage = Image.objects.get(image_name=image_db_name)
+                dbImage.image_file.storage.delete(dbImage.image_file.name)
+                dbImage.image_file = myFile
+                dbImage.save()
+                image = dbImage #new
+            except Image.DoesNotExist:
+                print('img doesnt exist')
+                # create new image instance and save to Django
+                i = Image.create(image_db_name,myFile)
+                i.save()
+                image = i #new
+            
+            prefix = 'https://drive.google.com/thumbnail?id='
+            suffix = '&sz=w1000' # idk if necessary yet
+
+            if type_input == 'both bio' or type_input == 'both':
+                print('include both')
+                #splice url to get google drive image id
+                url_list = image2.image_file.url.split('=')
+                id = url_list[1].replace('&export','')
+                print(id)
+                user.header_pic = prefix + id
+
+            #splice url to get google drive image id
+            url_list = image.image_file.url.split('=')
+            id = url_list[1].replace('&export','')
+            print(id)
+        
+            #set image url to tweet or user's 'pic' or 'header_pic'
+            print('b4')
+            print(type_input.find('profile'))
+            print('after')
+            if type_input.find('profile') != -1 or type_input.find('both')!= -1:
+                user.pic = prefix + id
+                if type_input.find('bio') != -1:
+                    user.bio = bio_input
+                user.save()
+            elif type_input.find('header') != -1 or type_input.find('both') != -1:
+                user.header_pic = prefix + id
+                if type_input.find('bio') != -1:
+                    user.bio = bio_input
+                user.save()
+            else: # tweet
+                if type_input == 'tweet':
+                    tid = int(tweet_id_input)
+                    tweet = Tweet.objects.get(id=tid)
+                    #tweet.pic = prefix + id #need to add that attribute in tweet model
+                    #tweet.save()
+            return JsonResponse('Saved to google drive',safe=False)
         
     elif request.method =='PUT': 
         #retrieve message from front end

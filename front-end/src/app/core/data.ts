@@ -9,12 +9,27 @@ export function getImgUrl(str:string)
     
     if(inDev == true)
         {
-            return "../../../../assets/images/" + str;
+            if(str.startsWith('http'))
+            {
+                return str;
+            }
+            else
+            {
+                return "../../../../assets/images/" + str;
+            }
+            
         }
             
     else
-        {    
-            return "/tweeter/assets/images/" + str; 
+        {   
+            if(str.startsWith('http'))
+            {
+                return str;
+            }
+            else
+            {
+                return "/tweeter/assets/images/" + str;
+            } 
         }
 }
 

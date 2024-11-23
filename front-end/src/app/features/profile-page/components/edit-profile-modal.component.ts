@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, SimpleChanges } from "@angular/core";
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from "@angular/core";
 import { CoreService } from "../../../core/core-service.service";
 import { Profile } from "../../../core/data";
 import { FormBuilder, Validators } from "@angular/forms";
@@ -10,7 +10,7 @@ import { HttpClient } from "@angular/common/http";
     templateUrl: './edit-profile-modal.component.html',
     styleUrl: '../profile-page.component.scss'
   })
-  export class EditProfileModalComponent {
+  export class EditProfileModalComponent implements OnChanges{
   
     @Input() profile = new Profile('','','','','',0,0);
     @Input() showep: boolean = false; //used to be false
@@ -22,52 +22,97 @@ import { HttpClient } from "@angular/common/http";
 
     editProfileForm: any;
 
-    ci: any;
+    updateBioFlag: boolean;
+
+    up: any; //makes const updateProfile global
+    image_type: string = '';
+    image_tweet_id: string = ''; // a number in of data type string(has to be string to pass into fromData)
     //profile_pic_url: string;// = '';
     //header_pic_url: string;// = '';
     constructor(public service: CoreService,private formBuilder: FormBuilder,private http: HttpClient){
       this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";
 
+      this.updateBioFlag = false;
+
+      //this.profile.bio
       this.editProfileForm = this.formBuilder.group({
-        bio: [this.profile.bio, [Validators.maxLength(99)]],
+        bio: ['', [Validators.maxLength(99)]],
         profile_pic: [],
         header_pic: [],
         });
         
-        //this.onChanges();
+        this.onChanges();
        // let file;// = document.getElementById('profile-img-upload')?.files;
-        const imageEndpoint = 'http://127.0.0.1:8000/image' //might need to change this
-       const profileInput = document.querySelector('#profile-img-upload');
-       const createImage = async() => {
+        const imageEndpoint = 'http://127.0.0.1:8000/image'; //might need to change this
+       //const profileInput = document.querySelector('#profile-img-upload');
+       const updateProfile = async() => {
         //event.preventDefault()
         // if (profileInput != null)
-         let file = (<HTMLInputElement>document.getElementById("profile-img-upload"))!.files;//.files![0]
-  
-           if( file != null)
-           {
-             let image = file[0];
-             console.log("createImage: " + image)
+         let profile_pic_input = (<HTMLInputElement>document.getElementById("profile-img-upload"))!.files;//.files![0]
+         let header_pic_input = (<HTMLInputElement>document.getElementById("header-img-upload"))!.files;//.files![0]
+           console.log("p: " + profile_pic_input?.item(0));
+           console.log("h: " + header_pic_input?.item(0));
 
-             
-             let formData = new FormData()
-             //formData.append('image_name','test_api_image')
-             formData.append('image_file',image)
-             //formData.append('media',image)
-            /*
-             let responseBody = {
-              "image_name": 'test', //name of image/file
-              "image_file": image, //may not be able to pass this
-            };
-             
-             this.http.post("http://127.0.0.1:8000/image",responseBody).subscribe((resultData: any)=>
+           if( profile_pic_input != null && profile_pic_input?.item(0) && header_pic_input != null && header_pic_input?.item(0))
             {
-              console.log(resultData);
-            });
-            */
-             //formData.append('word','addImage')
+              let image = profile_pic_input[0];
+              let image2 = header_pic_input[0];
+              let formData = new FormData();
+ 
+              formData.append('image_file',image);
+              console.log("image: " + image);
+              formData.append('image_file2',image2);
+              console.log("image2: " + image2);
+              
+              console.log("type: " + this.image_type);
+              formData.append('type',this.image_type);
+ 
+              console.log("acc_name: " + this.service_acc_name);
+              formData.append('acc_name',this.service_acc_name);
+ 
+              console.log("tweet_id: " + this.image_tweet_id);
+              formData.append('tweet_id',this.image_tweet_id); //string form of number
+ 
+              //optional
+              if(this.updateBioFlag)
+              {
+               formData.append('bio',this.editProfileForm.value.bio);
+               console.log("bio: " + this.editProfileForm.value.bio);
+              }
+ 
+              let newImage = fetch(imageEndpoint,{
+               method: 'POST',
+               body: formData
+               
+              })//.then(response => response.json()).catch(error => {console.error(error)})
+ 
+            }
 
-            //put my own request here
+         else if( profile_pic_input != null && profile_pic_input?.item(0) != null)
+           {
             
+             let image = profile_pic_input[0];
+             let formData = new FormData();
+
+             formData.append('image_file',image);
+             console.log("image: " + image);
+             
+             console.log("type: " + this.image_type);
+             formData.append('type',this.image_type);
+
+             console.log("acc_name: " + this.service_acc_name);
+             formData.append('acc_name',this.service_acc_name);
+
+             console.log("tweet_id: " + this.image_tweet_id);
+             formData.append('tweet_id',this.image_tweet_id); //string form of number
+
+             //optional
+             if(this.updateBioFlag)
+             {
+              formData.append('bio',this.editProfileForm.value.bio);
+              console.log("bio: " + this.editProfileForm.value.bio);
+             }
+
              let newImage = fetch(imageEndpoint,{
               method: 'POST',
               body: formData
@@ -75,34 +120,147 @@ import { HttpClient } from "@angular/common/http";
              })//.then(response => response.json()).catch(error => {console.error(error)})
 
            }
-           else
+       else if(header_pic_input != null && header_pic_input?.item(0) != null)
            {
-            console.log("file != null");
+          
+            let image = header_pic_input[0];
+            let formData = new FormData();
+
+            formData.append('image_file',image);
+            console.log("image: " + image);
+
+            console.log("type: " + this.image_type);
+            formData.append('type',this.image_type);
+
+            console.log("acc_name: " + this.service_acc_name);
+            formData.append('acc_name',this.service_acc_name);
+
+            console.log("tweet_id: " + this.image_tweet_id);
+            formData.append('tweet_id',this.image_tweet_id); //string form of number
+
+            //optional
+            if(this.updateBioFlag)
+              {
+               formData.append('bio',this.editProfileForm.value.bio);
+               console.log("bio: " + this.editProfileForm.value.bio);
+              }
+
+             let newImage = fetch(imageEndpoint,{
+             method: 'POST',
+             body: formData
+             
+            })
+          }
+           else // just bio updating
+           {
+            let formData = new FormData();
+
+            console.log("acc_name: " + this.service_acc_name);
+            formData.append('acc_name',this.service_acc_name);
+
+            formData.append('type',this.image_type);
+            console.log("type: " + this.image_type);
+
+            formData.append('bio',this.editProfileForm.value.bio);
+            console.log("bio: " + this.editProfileForm.value.bio);
+
+            let newImage = fetch(imageEndpoint,{
+              method: 'POST',
+              body: formData
+              
+             })
            }
         }
-        this.ci = createImage;
+        this.up = updateProfile;
+        this.updateBioFlag = false;
     }
 
-    /*
-    createImage = () => {
-      // if (profileInput != null)
-       let file = (<HTMLInputElement>document.getElementById("profile-img-upload"))!.files;//.files![0]
 
-         if( file != null)
-         {
-           let image = file[0];
-           console.log("createImage: " + image)
-         }
-         else
-         {
-          console.log("file != null");
-         }
-      }*/
+      ngOnChanges(changes: SimpleChanges){
+  
+        if (changes['profile']) {
+          console.log("**ngOnChanges**");
+          console.log('this.editProfileForm.value.bio b4 : ' + this.editProfileForm.value.bio)
+          this.editProfileForm.value.bio = this.profile.bio;
+          console.log('this.editProfileForm.value.bio after: ' + this.editProfileForm.value.bio)
+        }
+    }
     
+    getProfileBio()
+    {
+        setTimeout(() => {
+          return this.profile.bio
+        }, 1000) // 1 sec
+    }
+
+
       onSubmit(){
         console.log("in submit")
-          this.ci();
+        if(this.editProfileForm.valid)
+          {
+            console.log('valid submission');
+            console.log("this.editProfileForm.value.bio: " + this.editProfileForm.value.bio);
+            //enter logic here
+            if(this.editProfileForm.value.bio != this.profile.bio && this.editProfileForm.value.bio != "")
+              {
+                console.log('bio flag true');
+                  this.updateBioFlag = true;
+              }
+            else
+              {
+                console.log('bio flag false');
+                this.updateBioFlag = false;
+              }
+          
+          if (this.editProfileForm.value.profile_pic == null)
+          {
+            console.log('profile null')
+            
+            if(this.editProfileForm.value.header_pic != null) // just header
+            {
+              console.log('header not null')
+              this.image_type = this.updateBioFlag ? 'header bio' : 'header';
+              this.image_tweet_id = '0';
+              this.up();
+              return;
+            }
+            else // just bio
+            {
+              console.log('both null')
+              this.image_type = 'bio';
+              this.up();
+              return;
+            }
+          }
+          else //profile pic is not null
+          {
+            if(this.editProfileForm.value.header_pic != null) //both
+              {
+                //need to figure out how to change 2 images
+                console.log('both')
+                this.image_type = this.updateBioFlag ? 'both bio' : 'both';
+                this.image_tweet_id = '0';
+                this.up();
+                return;
+              }
+              else // just profile
+              {
+                console.log('header null')
+                this.image_type = this.updateBioFlag ? 'profile bio' : 'profile';
+                this.image_tweet_id = '0';
+                this.up();
+                return;
+              }
+          }
+          
         }
+      
+      else
+      {
+        console.log('invalid submission')
+      }
+      
+    }
 
     //temporarily (only for when inside modal) changes picture
     onChanges(): void {
@@ -132,6 +290,7 @@ import { HttpClient } from "@angular/common/http";
         }
         
       });
+
       this.editProfileForm.get('header_pic')?.valueChanges.subscribe((val: any) => {
         console.log("change in value: " + val);
         
@@ -156,23 +315,10 @@ import { HttpClient } from "@angular/common/http";
       });
     }
 
-/* //DOESNT WORK
-    ngOnChanges(changes: SimpleChanges){
-  
-      if (changes['profile']) {
-        console.log("**ngOnChanges**");
-        let pp_img = (<HTMLInputElement>document.getElementById("edit-profile-p-image"))!;
-            //if(file[0] != null){
-            pp_img.src = this.service.setUrl(this.profile.pic);
-      }
-  }
-  */
-    
-  
-
-
     hideModal()
       {
+       this.editProfileForm.reset();
+       this.updateBioFlag = false;
        this.showep = false;
        this.showepChange.emit(this.showep);
       }
