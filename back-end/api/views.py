@@ -412,8 +412,14 @@ def tweetApi(request,id=id):
             check = message_serializer.data['word']
             acc_name_input = message_serializer.data['word2']
             #return JsonResponse("ok",safe=False)
-            user_id = message_serializer.data['num']            
-            if check == 'getLikes':
+            user_id = message_serializer.data['num']
+            if check == 'incrementPostView':
+                #increment post views
+                tweet = Tweet.objects.get(id=user_id) # is post_id in this scenario
+                tweet.engagements = tweet.engagements + 1
+                tweet.save()
+                return JsonResponse("Successful increment!",safe=False)        
+            elif check == 'getLikes':
                 #get all tweets that user tweeted
                 user = User.objects.get(acc_name=acc_name_input)
                 likes = Like.objects.filter(user=user)
@@ -849,15 +855,20 @@ def userApi(request,id=id):
             acc_name_input = user_serializer.data['acc_name']   
             password_input = user_serializer.data['password']
             if username_input == 'getUserSearch':  #getting users to populate search modal
-                str_input = password_input
+                str_input = password_input # text input from search bar
                 #get all users excluding logged in user
                 all_users = User.objects.exclude(acc_name=acc_name_input)
+                #print('all users: ' + all_users) # new
                 user_arr = []
                 count = 0
                 for user in all_users:
+                    print('in loop ') # new
+                    print('count: ' + str(count)) # new
+                    print('str_input: ' + str_input)
                     if user.acc_name.startswith(str_input) or user.username.startswith(str_input):
                         user_arr.append(user)
                         count = count + 1
+                        
                         if count == 10:
                             break
                 if count == 0:

@@ -17,6 +17,8 @@ import { TweetService } from "../../../core/tweet-service";
   })
   export class NewMessageModalComponent {
   
+ @Input() postID: number = 0;
+ @Input() inPost: boolean = false;
  @Input() show: boolean = false;
  @Output() showChange = new EventEmitter<boolean>(); //not in use rn
  //@Input() mpc: any = ''; //might cause issues
@@ -75,6 +77,14 @@ import { TweetService } from "../../../core/tweet-service";
           //hide modal
           this.hideModal();
 
+          if(this.inPost)
+          {
+            this.service.shareID = this.postID;
+            this.service.shareUser = this.selectedUser;
+            this.service.router.navigate(['tweeter/Messages']);  
+          }
+          else
+          {
           //create convo in Db
           this.mpc.createDBConvo(this.service_acc_name,this.selectedUser);
 
@@ -82,6 +92,7 @@ import { TweetService } from "../../../core/tweet-service";
 
           this.selectedUser = ''; //necessary
           console.log("submitted");
+          }
         }
         else
         {
@@ -100,7 +111,7 @@ import { TweetService } from "../../../core/tweet-service";
           };
         this.http.put("http://127.0.0.1:8000/follow",requestBody).subscribe((resultData: any)=>
         {
-          if(resultData == 'Failed to Add' || resultData == 'No users' || resultData == 'check is else')
+          if(resultData == 'Failed to Add' || resultData == 'No following' || resultData == 'check is else')
             {
               console.log(resultData);
               this.defaultList = [];

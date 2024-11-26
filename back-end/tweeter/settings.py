@@ -90,8 +90,8 @@ CORS_ALLOWED_ORIGINS = [
 #
 # Google Drive Storage Settings
 #
-
-GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = PROJECT_ROOT + '/google/template.json'
+GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = PROJECT_ROOT + '/google/mystic-stream-442302-q8-6677be077f51.json'
+#GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = PROJECT_ROOT + '/google/template.json'
 #GOOGLE_DRIVE_STORAGE_MEDIA_ROOT = '<base google drive path for file uploads>' # OPTIONAL
 
 ROOT_URLCONF = 'tweeter.urls'

@@ -4,6 +4,22 @@ $bg-color-hover-nav-tool-bar: rgba(0, 0, 0, 0.090);
 $twitter-blue: #1DA1F2;
 $gray: rgb(97, 110, 124);
 
+
+#form-status-message-good{
+    color: white;
+    background-color: rgba(0, 128, 0, 0.6);
+    padding: 3px;
+    border-radius: 5px;
+    margin: 2px;
+  }
+  #form-status-message-bad{
+    color: white;
+    background-color: rgba(255, 0, 0, 0.6);
+    padding: 3px;
+    border-radius: 5px;
+    margin: 2px;
+  }
+
 input[type=file]
 {
     display:none;

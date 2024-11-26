@@ -51,6 +51,10 @@ like_count: number = 0; //test
 
 fromRefresh: boolean = false;
 
+showShareModal: boolean = false;
+
+showNewMessageModal: boolean = false;
+
 //testArr: any [] = []; //needed to force profile modal to work right
 
 override ngOnInit(): void {
@@ -530,6 +534,9 @@ grayReaction()
     }
     else if(this.inThread)
     {
+      //increment post views in db
+      this.incrementPostView()
+
       console.log("switching focused post");
       this.inThread = false;
       //this.focused = true;
@@ -537,6 +544,9 @@ grayReaction()
     }
     else
     {
+      //increment post views in db
+      this.incrementPostView()
+
       console.log("going to post page");
       var route = '/tweeter/Post/' + this.post.id;
       this.service.router.navigate([route]); 
@@ -562,6 +572,26 @@ grayReaction()
         var route = '/tweeter/Post/' + this.post.id;
         this.service.router.navigate([route]); 
       }
+  }
+
+  handleSendDMClick()
+  {
+    //needs to open new message modal
+    this.showNewMessageModal = true;
+    this.showShareModal = false;
+    
+  }
+  handleCopyTextClick()
+  {
+    //will not work when i host on github pages(would need to fix then)
+    let url = 'http://localhost:4200/tweeter/Post/' + this.post.id
+    // Copy the text inside the text field
+    navigator.clipboard.writeText(url);
+  }
+
+  handleShareClick()
+  {
+    this.showShareModal = !this.showShareModal;
   }
 
 
@@ -639,6 +669,18 @@ grayReaction()
             this.convertReplyFeed();
             console.log('Successful data base retrieval');
           }
+      });
+  }
+  incrementPostView()
+  {
+    let requestMessage =
+    {
+      'word': 'incrementPostView',
+      'num': this.post.id, 
+    };
+      this.http.put("http://127.0.0.1:8000/tweet",requestMessage).subscribe((resultData: any)=>
+      {
+        console.log(resultData);
       });
   }
 

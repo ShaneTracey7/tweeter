@@ -10,7 +10,7 @@ import { HttpClient } from "@angular/common/http";
     templateUrl: './edit-profile-modal.component.html',
     styleUrl: '../profile-page.component.scss'
   })
-  export class EditProfileModalComponent implements OnChanges{
+  export class EditProfileModalComponent {
   
     @Input() profile = new Profile('','','','','',0,0);
     @Input() showep: boolean = false; //used to be false
@@ -176,28 +176,12 @@ import { HttpClient } from "@angular/common/http";
     }
 
 
-      ngOnChanges(changes: SimpleChanges){
-  
-        if (changes['profile']) {
-          console.log("**ngOnChanges**");
-          console.log('this.editProfileForm.value.bio b4 : ' + this.editProfileForm.value.bio)
-          this.editProfileForm.value.bio = this.profile.bio;
-          console.log('this.editProfileForm.value.bio after: ' + this.editProfileForm.value.bio)
-        }
-    }
-    
-    getProfileBio()
-    {
-        setTimeout(() => {
-          return this.profile.bio
-        }, 1000) // 1 sec
-    }
-
-
       onSubmit(){
         console.log("in submit")
-        if(this.editProfileForm.valid)
+        // form is valid and at least one field is not empty
+        if(this.editProfileForm.valid && (!(this.editProfileForm.value.bio == "" || this.editProfileForm.value.bio == null) || this.editProfileForm.value.profile_pic != null || this.editProfileForm.value.header_pic != null))
           {
+            this.submit_flag = 2;
             console.log('valid submission');
             console.log("this.editProfileForm.value.bio: " + this.editProfileForm.value.bio);
             //enter logic here
@@ -257,6 +241,7 @@ import { HttpClient } from "@angular/common/http";
       
       else
       {
+        this.submit_flag = 1
         console.log('invalid submission')
       }
       
@@ -317,6 +302,7 @@ import { HttpClient } from "@angular/common/http";
 
     hideModal()
       {
+       this.submit_flag = 0;
        this.editProfileForm.reset();
        this.updateBioFlag = false;
        this.showep = false;

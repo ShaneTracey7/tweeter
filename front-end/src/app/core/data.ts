@@ -1,7 +1,7 @@
 
 
 
-
+//this is what i can play around with
 //only for switching from publishing to github pages to development
 export function getImgUrl(str:string)
 {
@@ -12,6 +12,21 @@ export function getImgUrl(str:string)
             if(str.startsWith('http'))
             {
                 return str;
+               /* if(localStorage.getItem('profile_pic') == null)
+                {
+
+                    //localStorage.getItem('profile_pic')
+                    //console.log('image not in local storage');
+                    return str;
+                }
+                else
+                {
+                    console.log('image in local storage');
+                    let dataImage = localStorage.getItem('profile_pic')
+                    return "data:image/png;base64," + dataImage;
+                    //return str;
+                }*/
+                
             }
             else
             {

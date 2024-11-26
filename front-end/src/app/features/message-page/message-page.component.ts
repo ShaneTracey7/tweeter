@@ -42,12 +42,44 @@ constructor(public formBuilder: FormBuilder,authService: AuthService, route: Act
 
 ngOnInit()
 {
-this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";
+  this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";
 
-//this.convos = createConversations();
- this.getConvos(false);
- //this.arr = [this.convos];
+  if(this.service.shareID != 0)
+    {
+      console.log('came from share');
+      
+      console.log(this.service.shareUser); //user to send tweet to
+      console.log(this.service.shareID); //post id of tweet
+      this.service.shareID = 0;
+
+      //set up convos
+      this.getConvos(false);
+
+      //create OR find convo & select/open convo
+      setTimeout(() => {
+        console.log('after 1 sec')
+        this.createDBConvo(this.service_acc_name, this.service.shareUser);
+      }, 1000) // 1 sec
+      
+      
+      // add tweet to convo (front and back end)
+      setTimeout(() => {
+        console.log('after 2 secs')
+        //this.createDBTweetMessage(this.selectedConvo.id, this.service_acc_name, this.service.shareID)
+        this.createDBMessage(this.selectedConvo.id, this.service_acc_name, 'this would be post info')
+      }, 2000) // 2 secs
+      console.log('after both, but no wait')
+
+    }
+  else //normal route
+  {
+    //this.convos = createConversations();
+    this.getConvos(false);
+    //this.arr = [this.convos];
+  }
+
 }
+
 
 
 setConvo(name: string)
@@ -142,6 +174,33 @@ createDBMessage(convo_id: number, sent_acc_name: string,text: string)
         else
           {
             let newMessage = new Message(text,true,new Date());
+            this.selectedConvo.messages.push(newMessage);
+            console.log("Successful Database Retrieval");
+          }
+      });
+}
+createDBTweetMessage(convo_id: number, sent_acc_name: string, post_id: number)
+{
+  let requestBody =
+    {
+      "word" : 'addTweetMessage', 
+      "word2" : sent_acc_name, // sent account name
+      "word3" : String(post_id), //post_id in string form
+      "num" : convo_id,
+
+    };
+    this.service.http.put("http://127.0.0.1:8000/message",requestBody).subscribe((resultData: any)=>
+      {
+        console.log(resultData);
+  
+        if(resultData == 'Failed to Add')
+          {
+            console.log("Unsuccessful Database Retrieval");
+          }
+        else
+          {
+            //need to update Message class to accept a tweet
+            let newMessage = new Message('',true,new Date());
             this.selectedConvo.messages.push(newMessage);
             console.log("Successful Database Retrieval");
           }

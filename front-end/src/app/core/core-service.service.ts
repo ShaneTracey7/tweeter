@@ -37,6 +37,10 @@ export class CoreService {
   DBFollowing: any [] = []; //raw array of User following from DB
   following: Profile [] = [] //array of Profile objs of following
 
+  
+  shareID: number = 0; //post id of tweet to send
+  shareUser: string = ''; //acc_name of user to send tweet to
+
   constructor(public route: ActivatedRoute, public router: Router,public http: HttpClient) { 
     //this.current_page = this.route.snapshot.url.toString();
     //window.location.reload();
@@ -487,4 +491,29 @@ handleGetImage(): any
 
 }
 
+/*
+//i dont think this works
+  tryLocalStorage()
+  {
+    let img = document.getElementById('post-elip'); //tweeter bird from navbar
+    let imgData = this.getBase64Image(img);
+    localStorage.setItem("profile_pic", imgData);
+   
+    //localStorage.setItem('profile_pic', 0)
+    console.log('in local storage');
+  }
+
+  getBase64Image(img: any) {
+    var canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+
+    var ctx = canvas.getContext("2d")!;
+    ctx.drawImage(img, 0, 0);
+
+    var dataURL = canvas.toDataURL("image/png");
+
+    return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+}
+*/
 }

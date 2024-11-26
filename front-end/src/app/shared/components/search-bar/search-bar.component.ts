@@ -52,6 +52,7 @@ userList: Profile [] = [];
 DBTopicFeed: any [] = [];
 queryList: SearchTopic [] = [];
 queryList2: string [] = [];
+service_acc_name: string = '';
 
 searchForm = this.formBuilder.group({
   inquiry: ['', [Validators.required]],
@@ -64,6 +65,7 @@ searchForm = this.formBuilder.group({
   
   ngOnInit()
   {
+    this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";  
     this.onChanges();
     this.convertQueryFeed();
   }
@@ -144,8 +146,8 @@ searchForm = this.formBuilder.group({
           {
             "username" : 'getUserSearch',
             "email" : 'e',
-            "acc_name" : str,//current value of input
-            "password" : 'p',
+            "acc_name" : this.service_acc_name, //logged in user's acc_name to exclude
+            "password" : str,//current value of input
             "pic" : "p", //new 
             "header_pic" : "p",
             "bio" : "b",

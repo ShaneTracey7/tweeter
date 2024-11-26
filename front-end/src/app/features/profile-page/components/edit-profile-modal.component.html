@@ -39,6 +39,9 @@
 
             <div class="modal-content-area">
 
+                <div id="form-status-message-bad" *ngIf="this.submit_flag == 1">No Changes Detected!</div>
+                <div id="form-status-message-good" *ngIf=" this.submit_flag == 2"> Profile Updated!</div>
+                                        <!-- this.editProfileForm.controls['bio'].untouched && -->
                 <div class="label-wrapper">  
                     <input type="text" id="username-input" value="{{this.profile.username}}" readonly>
                     <label>Username</label>

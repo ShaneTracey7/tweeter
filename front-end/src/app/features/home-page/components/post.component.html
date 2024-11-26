@@ -1,4 +1,4 @@
-
+<new-message-modal id="post-new-message-modal" [(show)]="showNewMessageModal" [inPost]="true" [postID]="post.id" ></new-message-modal>
 <!-- only used within homePage.html-->
 <div class="post">
 
@@ -88,9 +88,27 @@
                     
                     <button class="reaction-button" (mouseover)="colorReaction('share')" (mouseout)="grayReaction()">
                         <div class="icon-container" [style]="colorReactionBarBG('share')">
-                            <img class="reactionbaricons" [src]="colorReactionBarIcon('share')" alt="share"/>
+                            <img  (click)="handleShareClick()" class="reactionbaricons" [src]="colorReactionBarIcon('share')" alt="share"/>
                         </div>
                     </button> 
+
+                    <!-- Share MODAL-->
+                    <div *ngIf="showShareModal">
+                        <div id="share-modal">
+                            <div (click)="handleCopyTextClick()" class="share-modal-container">
+                                <img [src]="service.setUrl('chain.svg')">
+                                <p>Copy Link</p>
+                            </div>
+
+                            <hr>
+
+                            <div (click)="handleSendDMClick()" id="share-modal-delete-container" class="share-modal-container">
+                                <img [src]="service.setUrl('envelope.svg')">
+                                <p>Send Via Direct Message</p>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             
             </div>
