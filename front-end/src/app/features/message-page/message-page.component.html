@@ -55,14 +55,24 @@
 
                 <div *ngIf="message.isSender; else isReciever">
                     <div id="message-date-pair-sender" class="message-date-pair">
-                        <p id="message-sender" class="message-in-convo">{{message.text}}</p>
+                        <div *ngIf="message.text == ''; else justText">
+                            <app-post [post]="message.post!"></app-post>
+                        </div>
+                        <ng-template #justText> 
+                            <p id="message-sender" class="message-in-convo">{{message.text}}</p>
+                        </ng-template> 
                         <p id="date-sender"class="message-in-convo-date">{{message.getDateTime()}}</p>
                     </div>                    
                 </div>
             
                 <ng-template #isReciever> 
                     <div id="message-date-pair-reciever" class="message-date-pair">
-                        <p id="message-reciever" class="message-in-convo">{{message.text}}</p>
+                        <div *ngIf="message.text == ''; else justText2">
+                            <app-post [post]="message.post!"></app-post>
+                        </div>
+                        <ng-template #justText2>
+                            <p id="message-reciever" class="message-in-convo">{{message.text}}</p>
+                        </ng-template>
                         <p id="date-reciever" class="message-in-convo-date">{{message.getDateTime()}}</p>
                     </div>
                 </ng-template> 

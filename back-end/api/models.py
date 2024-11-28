@@ -124,16 +124,23 @@ class Convo(models.Model):
 class UserMessage(models.Model):
     convo = models.ForeignKey(Convo, on_delete=models.CASCADE)
     text = models.CharField(max_length = 100)
+    tweet = models.ForeignKey(Tweet, on_delete=models.CASCADE, null=True, blank=True, default=None) #optional
     date = models.DateTimeField()
     sender = models.CharField(max_length = 40, default="")
 
     @classmethod
-    def create(cls,convo,text,date,sender):
-       usermessage = cls(convo=convo,text=text,date=date,sender=sender)
+    def create(cls,convo,text,tweet, date,sender):
+       if text == '':
+           usermessage = cls(convo=convo,text=text,tweet=tweet,date=date,sender=sender)
+       else:
+        usermessage = cls(convo=convo,text=text,date=date,sender=sender)
        return usermessage
 
     def __str__(self):
-       return f"{self.id} {self.convo} {self.text} {self.date} {self.user1_sent}"
+       if self.text == '':
+           return f"{self.id} {self.convo} {self.text} {self.tweet} {self.date} {self.sender}"
+       else:
+           return f"{self.id} {self.convo} {self.text} {self.date} {self.sender}"
     
     #display get all convos -> arr of messages[date, who sent, text] should be able to get message from convo id
 

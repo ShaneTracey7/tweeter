@@ -197,15 +197,28 @@ export class Profile {
 }
 
 export class Message {
-    text: string;
-    isSender: boolean
-    date: Date;
+    //post?: Post; //this is always undefined for some reason
     
-   
-    constructor(t: string, is: boolean,d: Date ) {
+    text?: string;
+    post?: Post;
+    isSender: boolean;
+    date: Date;
+
+
+    constructor(t: string, p: Post, is: boolean,d: Date ) {
+        
+        var po = undefined;
+        if(p.id != 0)
+        {
+            console.log('**********is post in message constructor***************')
+            //console.log('post: ' + p)
+             po = p;
+        }
+       
+        this.text = t;
+        this.post = po;
         this.date = d;
         this.isSender = is;
-        this.text = t;
       }
 
       getDateTime()
@@ -245,7 +258,14 @@ export class Message {
 
       toString(): string
       {
-        return " " + this.text + " " + this.isSender + " "+ this.date+ " ";
+        if(this.text == "")
+        {
+            return " " + this.post + " " + this.isSender + " "+ this.date + " ";
+        }
+        else
+        {
+            return " " + this.text + " " + this.isSender + " "+ this.date+ " ";
+        }
     }
 
 }
@@ -268,7 +288,21 @@ export class Convo {
         if(this.messages.length > 0)
         {
             console.log('has a message');
-            return this.messages[(this.messages.length-1)].text;
+            if(this.messages[(this.messages.length-1)].text == '')
+            {
+                let message = this.messages[(this.messages.length-1)];
+                let post = message.post;
+                let sender = message.isSender ? 'You' : this.otherUser.username;
+                return sender + ' sent @' + post?.acc_name + 's post';
+                //You/<other acc_name> sent @<acc_name of who made the post>'s post
+                //etc. You sent @lebron_james23's post
+            }
+            else
+            {
+                return this.messages[(this.messages.length-1)].text;
+            }
+
+            
         }
         else
         {
@@ -329,41 +363,42 @@ export class Convo {
 //function that creates data for the for you feed (homePage)
 export function createConversations(){
 
+    let fakePost = new Post(0,'','','',new Date,'','',0,0,0,0);
     
     var convos = new Array<Convo>;
     
     let m1 = new Array<Message>;
     let p1 = new Profile(elon,elon,'bobby','roberto23','bio', 0,0);
-    m1.push(new Message("hello, it's me", true, new Date));
-    m1.push(new Message("howdy there", false, new Date));
-    m1.push(new Message("would you like to go to the movies?", true, new Date));
-    m1.push(new Message("I sure would, thank you", false, new Date));
-    m1.push(new Message("hello, it's me", true, new Date));
-    m1.push(new Message("howdy there", false, new Date));
-    m1.push(new Message("would you like to go to the movies?", true, new Date));
-    m1.push(new Message("I sure would, thank you", false, new Date));
-    m1.push(new Message("hello, it's me", true, new Date));
-    m1.push(new Message("howdy there", false, new Date));
-    m1.push(new Message("would you like to go to the movies?", true, new Date));
-    m1.push(new Message("I sure would, thank you", false, new Date));
+    m1.push(new Message("hello, it's me",fakePost, true, new Date));
+    m1.push(new Message("howdy there",fakePost, false, new Date));
+    m1.push(new Message("would you like to go to the movies?",fakePost, true, new Date));
+    m1.push(new Message("I sure would, thank you",fakePost, false, new Date));
+    m1.push(new Message("hello, it's me",fakePost, true, new Date));
+    m1.push(new Message("howdy there",fakePost, false, new Date));
+    m1.push(new Message("would you like to go to the movies?",fakePost, true, new Date));
+    m1.push(new Message("I sure would, thank you",fakePost, false, new Date));
+    m1.push(new Message("hello, it's me",fakePost, true, new Date));
+    m1.push(new Message("howdy there",fakePost, false, new Date));
+    m1.push(new Message("would you like to go to the movies?",fakePost, true, new Date));
+    m1.push(new Message("I sure would, thank you",fakePost, false, new Date));
 
     convos.push(new Convo(0,p1, m1, new Date()));
 
     let m2 = new Array<Message>;
     let p2 = new Profile(elon,elon,'gerry','theTEACHER3','bio', 0,0);
-    m2.push(new Message("hey, u handed in you work late", false, new Date));
-    m2.push(new Message("hya my dog ate it, so i had to print it again", true, new Date));
-    m2.push(new Message("Don't lie to me, boy", false, new Date));
-    m2.push(new Message("Ok sorry i just procrastinated.", true, new Date));
+    m2.push(new Message("hey, u handed in you work late",fakePost, false, new Date));
+    m2.push(new Message("hya my dog ate it, so i had to print it again",fakePost, true, new Date));
+    m2.push(new Message("Don't lie to me, boy",fakePost, false, new Date));
+    m2.push(new Message("Ok sorry i just procrastinated.",fakePost, true, new Date));
 
     convos.push(new Convo(0,p2, m2, new Date()));
 
     let m3 = new Array<Message>;
     let p3 = new Profile(elon,elon,'bart','therealbartsimpson','bio', 0,0);
-    m3.push(new Message("hows it goin?", false, new Date));
-    m3.push(new Message("It aint too bad, just skateboarding", true, new Date));
-    m3.push(new Message("oh nice, i got a scooter", false, new Date));
-    m3.push(new Message("skateboard > scooters 4life", true, new Date));
+    m3.push(new Message("hows it goin?",fakePost, false, new Date));
+    m3.push(new Message("It aint too bad, just skateboarding",fakePost, true, new Date));
+    m3.push(new Message("oh nice, i got a scooter",fakePost, false, new Date));
+    m3.push(new Message("skateboard > scooters 4life",fakePost, true, new Date));
 
     convos.push(new Convo(0,p3, m3, new Date()));
 

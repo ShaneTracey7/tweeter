@@ -35,7 +35,7 @@ lastMessage: string = '';
 lastDate: string = '';
 
   override ngOnInit(): void {
-    this.lastMessage = this.convo.getLastMessage();
+    this.lastMessage = this.convo.getLastMessage()!;
     this.lastDate = this.convo.getLastMessageDate()
   }
 

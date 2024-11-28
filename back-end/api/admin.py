@@ -41,7 +41,7 @@ class ConvoAdmin(admin.ModelAdmin):
 admin.site.register(Convo, ConvoAdmin)
 
 class UserMessageAdmin(admin.ModelAdmin):
-  list_display = ("id","convo","text","date","sender")
+  list_display = ("id","convo","text","tweet", "date","sender")
 
 admin.site.register(UserMessage, UserMessageAdmin)
 

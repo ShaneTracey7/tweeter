@@ -41,10 +41,12 @@ class ConvoSerializer(serializers.ModelSerializer):
         model = Convo
         fields = '__all__'
 
+# may have to alter this for optional 'tweet' field
 class UserMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserMessage
-        fields = '__all__'
+        fields = ['convo','text','date','sender']
+        #fields = '__all__'
 
 class MessageSerializer(serializers.Serializer):
     word = serializers.CharField(max_length=30)
