@@ -299,6 +299,7 @@ def messageApi(request,id=id):
                 if convos.exists():
                     messages = []
                     tweets = [] # array of array
+                    tweetUsers = [] # array of array
                     
                     users = []
                     ids = []
@@ -312,18 +313,27 @@ def messageApi(request,id=id):
                         m = UserMessage.objects.filter(convo_id=convo.id)
                         if m.exists():
                             tweet_messages = [] # array
+                            tweet_messages_users = [] # array
                             tweetFlag = False
                             for mes in m:
                                 if mes.text == '':
                                     tweet_serializer = TweetSerializer(mes.tweet,many=False)
                                     tweet_messages.append(tweet_serializer.data)
                                     tweetFlag = True
+                                    #new
+                                    user2_serializer = UserSerializer(mes.tweet.user,many=False)
+                                    tweet_messages_users.append(user2_serializer.data)
+
                                 else:
                                     tweet_messages.append(0)
+                                    tweet_messages_users.append(0) #new
                             if tweetFlag:
                                 tweets.append(tweet_messages) #array of tweets
+                                #new
+                                tweetUsers.append(tweet_messages_users) #array of users
                             else:
                                 tweets.append([0])
+                                tweetUsers.append([0])#new
                             message_serializer1 = UserMessageSerializer(m,many=True)
                             messages.append(message_serializer1.data) #array of messages
 
@@ -335,7 +345,7 @@ def messageApi(request,id=id):
                     user_serializer = UserSerializer(users,many=True)
                     #messages might not work when tweet is inside 
                     #might have to exclude tweet field from serializer
-                    return JsonResponse([ids,user_serializer.data,messages,tweets],safe=False)
+                    return JsonResponse([ids,user_serializer.data,messages,tweets,tweetUsers],safe=False)
                 else:
                     return JsonResponse("No convos",safe=False)
             elif check == 'addMessage':

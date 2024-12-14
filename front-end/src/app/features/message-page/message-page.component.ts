@@ -27,6 +27,7 @@ DBConvos: any [] = []; //array of convo_ids
 DBUsers: any [] = []; 
 DBMessages: any [] = [];
 DBTweets: any [] = []; //tweets in messages
+DBTweetUsers: any [] = []; //users of tweets in messages
 convos: Convo [] = [];
 
 
@@ -208,7 +209,7 @@ createDBTweetMessage(convo_id: number, sent_acc_name: string, post_id: number)
             let u = resultData[0]; //user
             let p = resultData[1]; //post
             //need to update Message class to accept a tweet
-            let post = new Post(p.id,u.pic,u.username,u.acc_name,p.date_created,p.text_content,p.image_content,p.comments,p.retweets,p.likes,p.engagements)
+            let post = new Post(p.id,u.pic,u.username,u.acc_name,p.date_created,p.text_content,p.image_content == 'empty' ? '': p.image_content,p.comments,p.retweets,p.likes,p.engagements)
             let newMessage = new Message('',post, true,new Date());
             this.selectedConvo.messages.push(newMessage);
             console.log("Successful Database Retrieval");
@@ -258,6 +259,7 @@ getConvos(check: boolean)
           this.DBUsers = [];
           this.DBMessages = [];
           this.DBTweets = [];
+          this.DBTweetUsers = [];
           console.log("Unsuccessful Database Retrieval");
         }
       else
@@ -267,6 +269,7 @@ getConvos(check: boolean)
           this.DBUsers = resultData[1];
           this.DBMessages = resultData[2];
           this.DBTweets = resultData[3];
+          this.DBTweetUsers = resultData[4];
           this.convertDBConvos(bad_ids, check);
         }
     });
@@ -339,11 +342,12 @@ id: number; //needed for accessing db tweets(posts)
     engagements = models.IntegerField()
     reply_id = models.IntegerField(default=0)
             */
-            let u = ''; // need to get user from db and set it to u
+            //let u = ''; // need to get user from db and set it to u
+            let u = this.DBTweetUsers[index][i];
             //let p = m.tweet;
             let p = this.DBTweets[index][i];
-            //let post = new Post(p.id,u.pic,u.username,u.acc_name,p.date_created,p.text_content,p.image_content,p.comments,p.retweets,p.likes,p.engagements)
-            let post = new Post(p.id,'url','username','accountname',p.date_created,p.text_content,'',p.comments,p.retweets,p.likes,p.engagements);
+            let post = new Post(p.id,u.pic,u.username,u.acc_name,p.date_created,p.text_content,p.image_content == 'empty' ? '': p.image_content,p.comments,p.retweets,p.likes,p.engagements)
+            //let post = new Post(p.id,'url','username','accountname',p.date_created,p.text_content,'',p.comments,p.retweets,p.likes,p.engagements);
             console.log("post in convert post:" + post);
             message = new Message('', post,true,new Date (m.date));
             console.log("message: "+ message);
@@ -364,10 +368,11 @@ id: number; //needed for accessing db tweets(posts)
           var message;
           if(m.text == '')
           {
-            let u = ''; // need to get user from db and set it to u
+            //let u = ''; // need to get user from db and set it to u
+            let u = this.DBTweetUsers[index][i];
             let p = this.DBTweets[index][i];
-            //let post = new Post(p.id,u.pic,u.username,u.acc_name,p.date_created,p.text_content,p.image_content,p.comments,p.retweets,p.likes,p.engagements)
-            let post = new Post(p.id,'url','username','accountname',p.date_created,p.text_content,p.image_content,p.comments,p.retweets,p.likes,p.engagements);
+            let post = new Post(p.id,u.pic,u.username,u.acc_name,p.date_created,p.text_content,p.image_content == 'empty' ? '': p.image_content,p.comments,p.retweets,p.likes,p.engagements)
+            //let post = new Post(p.id,'url','username','accountname',p.date_created,p.text_content,p.image_content,p.comments,p.retweets,p.likes,p.engagements);
             
             message = new Message('',post,false,new Date (m.date));
             console.log("post in convert post:" + post);

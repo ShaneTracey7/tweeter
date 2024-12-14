@@ -293,7 +293,7 @@ export class Convo {
                 let message = this.messages[(this.messages.length-1)];
                 let post = message.post;
                 let sender = message.isSender ? 'You' : this.otherUser.username;
-                return sender + ' sent @' + post?.acc_name + 's post';
+                return sender + ' sent @' + post?.acc_name + "'s post";
                 //You/<other acc_name> sent @<acc_name of who made the post>'s post
                 //etc. You sent @lebron_james23's post
             }

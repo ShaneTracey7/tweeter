@@ -14,6 +14,11 @@ import { MainContentComponent } from '../../../shared/components/main-content/ma
 export class PostComponent extends HomePageComponent{
 
 //new
+@Input() inConvo = false; 
+
+
+
+
 @Input () fparr = [0];
 @Output() fparrChange = new EventEmitter<any[]>();
 
@@ -63,8 +68,11 @@ override ngOnInit(): void {
   console.log("**ngOnInit**");
 
   //this.testArr = [0];
-
-  this.setPost()
+  if(!this.inConvo)
+  {
+    this.setPost();
+  }
+  
 
   this.modal_profile = this.user; //NEW
 
@@ -74,6 +82,8 @@ override ngOnInit(): void {
 
 ngOnChanges(changes: SimpleChanges){
   
+  if(!this.inConvo)
+  {
     if (changes['post']) {
       console.log("**ngOnChanges**");
       this.setPost();
@@ -84,6 +94,7 @@ ngOnChanges(changes: SimpleChanges){
       //this.testArr = [1];
       console.log("USER: "+ this.user);
     }
+  }
 }
 
 setPost()
