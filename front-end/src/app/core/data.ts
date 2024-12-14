@@ -201,22 +201,26 @@ export class Message {
     
     text?: string;
     post?: Post;
+    profile?: Profile;
     isSender: boolean;
     date: Date;
 
 
-    constructor(t: string, p: Post, is: boolean,d: Date ) {
+    constructor(t: string, p: Post,pr: Profile, is: boolean,d: Date ) {
         
         var po = undefined;
+        var pro = undefined;
         if(p.id != 0)
         {
             console.log('**********is post in message constructor***************')
             //console.log('post: ' + p)
              po = p;
+             pro = pr;
         }
        
         this.text = t;
         this.post = po;
+        this.profile = pro;
         this.date = d;
         this.isSender = is;
       }
@@ -364,41 +368,42 @@ export class Convo {
 export function createConversations(){
 
     let fakePost = new Post(0,'','','',new Date,'','',0,0,0,0);
-    
+    let fakeProfile = new Profile('','','','','',0,0);
+
     var convos = new Array<Convo>;
     
     let m1 = new Array<Message>;
     let p1 = new Profile(elon,elon,'bobby','roberto23','bio', 0,0);
-    m1.push(new Message("hello, it's me",fakePost, true, new Date));
-    m1.push(new Message("howdy there",fakePost, false, new Date));
-    m1.push(new Message("would you like to go to the movies?",fakePost, true, new Date));
-    m1.push(new Message("I sure would, thank you",fakePost, false, new Date));
-    m1.push(new Message("hello, it's me",fakePost, true, new Date));
-    m1.push(new Message("howdy there",fakePost, false, new Date));
-    m1.push(new Message("would you like to go to the movies?",fakePost, true, new Date));
-    m1.push(new Message("I sure would, thank you",fakePost, false, new Date));
-    m1.push(new Message("hello, it's me",fakePost, true, new Date));
-    m1.push(new Message("howdy there",fakePost, false, new Date));
-    m1.push(new Message("would you like to go to the movies?",fakePost, true, new Date));
-    m1.push(new Message("I sure would, thank you",fakePost, false, new Date));
+    m1.push(new Message("hello, it's me",fakePost,fakeProfile, true, new Date));
+    m1.push(new Message("howdy there",fakePost,fakeProfile, false, new Date));
+    m1.push(new Message("would you like to go to the movies?",fakePost,fakeProfile, true, new Date));
+    m1.push(new Message("I sure would, thank you",fakePost,fakeProfile, false, new Date));
+    m1.push(new Message("hello, it's me",fakePost,fakeProfile, true, new Date));
+    m1.push(new Message("howdy there",fakePost,fakeProfile, false, new Date));
+    m1.push(new Message("would you like to go to the movies?",fakePost,fakeProfile, true, new Date));
+    m1.push(new Message("I sure would, thank you",fakePost,fakeProfile, false, new Date));
+    m1.push(new Message("hello, it's me",fakePost,fakeProfile, true, new Date));
+    m1.push(new Message("howdy there",fakePost,fakeProfile, false, new Date));
+    m1.push(new Message("would you like to go to the movies?",fakePost,fakeProfile, true, new Date));
+    m1.push(new Message("I sure would, thank you",fakePost,fakeProfile, false, new Date));
 
     convos.push(new Convo(0,p1, m1, new Date()));
 
     let m2 = new Array<Message>;
     let p2 = new Profile(elon,elon,'gerry','theTEACHER3','bio', 0,0);
-    m2.push(new Message("hey, u handed in you work late",fakePost, false, new Date));
-    m2.push(new Message("hya my dog ate it, so i had to print it again",fakePost, true, new Date));
-    m2.push(new Message("Don't lie to me, boy",fakePost, false, new Date));
-    m2.push(new Message("Ok sorry i just procrastinated.",fakePost, true, new Date));
+    m2.push(new Message("hey, u handed in you work late",fakePost,fakeProfile, false, new Date));
+    m2.push(new Message("hya my dog ate it, so i had to print it again",fakePost,fakeProfile, true, new Date));
+    m2.push(new Message("Don't lie to me, boy",fakePost,fakeProfile, false, new Date));
+    m2.push(new Message("Ok sorry i just procrastinated.",fakePost,fakeProfile, true, new Date));
 
     convos.push(new Convo(0,p2, m2, new Date()));
 
     let m3 = new Array<Message>;
     let p3 = new Profile(elon,elon,'bart','therealbartsimpson','bio', 0,0);
-    m3.push(new Message("hows it goin?",fakePost, false, new Date));
-    m3.push(new Message("It aint too bad, just skateboarding",fakePost, true, new Date));
-    m3.push(new Message("oh nice, i got a scooter",fakePost, false, new Date));
-    m3.push(new Message("skateboard > scooters 4life",fakePost, true, new Date));
+    m3.push(new Message("hows it goin?",fakePost,fakeProfile, false, new Date));
+    m3.push(new Message("It aint too bad, just skateboarding",fakePost,fakeProfile,true, new Date));
+    m3.push(new Message("oh nice, i got a scooter",fakePost,fakeProfile, false, new Date));
+    m3.push(new Message("skateboard > scooters 4life",fakePost,fakeProfile, true, new Date));
 
     convos.push(new Convo(0,p3, m3, new Date()));
 

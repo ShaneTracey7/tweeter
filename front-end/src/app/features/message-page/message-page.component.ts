@@ -16,6 +16,7 @@ export class MessagePageComponent extends CoreComponent{
 
 show: boolean = false; // show/hide new message modal
 fakePost = new Post(0,'','','',new Date,'','',0,0,0,0);
+fakeProfile = new Profile('','','','','',0,0);
 convo_clicked: boolean = false; //true: shows seleected converstion, false: shows 'select a message blurb'
 selectedConvo: Convo = new Convo(0,new Profile('','','','','',0,0),[],new Date()); //selected convo
 selected: boolean = false; //only needed for message component
@@ -178,7 +179,7 @@ createDBMessage(convo_id: number, sent_acc_name: string,text: string)
           }
         else
           {
-            let newMessage = new Message(text,this.fakePost,true,new Date());
+            let newMessage = new Message(text,this.fakePost,this.fakeProfile,true,new Date());
             this.selectedConvo.messages.push(newMessage);
             console.log("Successful Database Retrieval");
           }
@@ -210,7 +211,8 @@ createDBTweetMessage(convo_id: number, sent_acc_name: string, post_id: number)
             let p = resultData[1]; //post
             //need to update Message class to accept a tweet
             let post = new Post(p.id,u.pic,u.username,u.acc_name,p.date_created,p.text_content,p.image_content == 'empty' ? '': p.image_content,p.comments,p.retweets,p.likes,p.engagements)
-            let newMessage = new Message('',post, true,new Date());
+            let profile = new Profile(u.pic,u.header_pic,u.username,u.acc_name,u.bio,u.following_count,u.follower_count);
+            let newMessage = new Message('',post,profile, true,new Date());
             this.selectedConvo.messages.push(newMessage);
             console.log("Successful Database Retrieval");
           }
@@ -348,14 +350,15 @@ id: number; //needed for accessing db tweets(posts)
             let p = this.DBTweets[index][i];
             let post = new Post(p.id,u.pic,u.username,u.acc_name,p.date_created,p.text_content,p.image_content == 'empty' ? '': p.image_content,p.comments,p.retweets,p.likes,p.engagements)
             //let post = new Post(p.id,'url','username','accountname',p.date_created,p.text_content,'',p.comments,p.retweets,p.likes,p.engagements);
+            let profile = new Profile(u.pic,u.header_pic,u.username,u.acc_name,u.bio,u.following_count,u.follower_count);
             console.log("post in convert post:" + post);
-            message = new Message('', post,true,new Date (m.date));
+            message = new Message('', post,profile,true,new Date (m.date));
             console.log("message: "+ message);
             console.log("message.post: " + message.post);
           }
           else
           {
-            message = new Message(m.text, this.fakePost,true,new Date (m.date))
+            message = new Message(m.text, this.fakePost,this.fakeProfile,true,new Date (m.date))
           }
           console.log("m.text: "+ m.text + " m.date: " + m.date);
           //let message = new Message(m.text, this.fakePost,true,new Date (m.date))
@@ -373,14 +376,14 @@ id: number; //needed for accessing db tweets(posts)
             let p = this.DBTweets[index][i];
             let post = new Post(p.id,u.pic,u.username,u.acc_name,p.date_created,p.text_content,p.image_content == 'empty' ? '': p.image_content,p.comments,p.retweets,p.likes,p.engagements)
             //let post = new Post(p.id,'url','username','accountname',p.date_created,p.text_content,p.image_content,p.comments,p.retweets,p.likes,p.engagements);
-            
-            message = new Message('',post,false,new Date (m.date));
+            let profile = new Profile(u.pic,u.header_pic,u.username,u.acc_name,u.bio,u.following_count,u.follower_count);
+            message = new Message('',post,profile,false,new Date (m.date));
             console.log("post in convert post:" + post);
             console.log("message: "+ message);
           }
           else
           {
-            message = new Message(m.text, this.fakePost,false,new Date (m.date));
+            message = new Message(m.text, this.fakePost,this.fakeProfile,false,new Date (m.date));
           }
           //let message = new Message(m.text, this.fakePost,false,new Date (m.date))
           messages.push(message);
