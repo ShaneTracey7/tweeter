@@ -497,6 +497,33 @@ def tweetApi(request,id=id):
                     return JsonResponse([tweet_serializer.data,user_serializer.data],safe=False)
                 else:
                     return JsonResponse("No retweets",safe=False)
+                
+            elif check == 'getFollowFeed':
+                #get all tweets from users that are followed 
+
+                user = User.objects.get(acc_name=acc_name_input)
+                #print('user: ' + user)
+                fs = Follow.objects.filter(following=user)
+                follow_list = []
+                if fs.exists():
+                    #get list of following user acc_names
+                    print('fs exists')
+                    for f in fs:
+                        follow_list.append(f.follower)
+                    print('after loop')
+                    feed = Tweet.objects.filter(user__in=follow_list)
+                    if feed.exists():
+                        print('feed exists')
+                        tweet_serializer = TweetSerializer(feed,many=True) #this line may not work
+                        return JsonResponse(tweet_serializer.data,safe=False)
+                    else:
+                        print('1')
+                        return JsonResponse("No tweets",safe=False)
+                    
+                else:
+                    print('2')
+                    return JsonResponse("No tweets",safe=False)
+                
             elif check == 'getPosts':
                 #get all tweets that user tweeted
                 user = User.objects.get(acc_name=acc_name_input)

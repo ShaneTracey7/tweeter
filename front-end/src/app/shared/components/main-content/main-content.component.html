@@ -3,10 +3,24 @@
   <div [ngSwitch]="tab">
     
     <div *ngSwitchCase="'following'">
-      <app-post [mcc]='mcc'
+      <!--<app-post [mcc]='mcc'
       *ngFor="let post of followingFeed"
       [post]="post" [upc]="upc">
-      </app-post>
+      </app-post>-->
+      <div *ngIf="data[2].length > 0; else emptyList">
+        <app-post [mcc]='mcc'
+        *ngFor="let post of data[2]; index as i"
+        [post]="post" [user]="data[3][i]" [upc]="upc">
+        </app-post>
+      </div>
+      
+      <ng-template #emptyList>
+          <div class="profile-empty-list">
+            <p class="profile-empty-list-title"> Your followers haven't posted</p>
+            <p class="profile-empty-list-body">Once they do, those posts will show up here.</p>
+         </div>
+      </ng-template>
+      
     </div>
 
     <div *ngSwitchDefault> 

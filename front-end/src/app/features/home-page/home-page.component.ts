@@ -36,6 +36,10 @@ export class HomePageComponent extends CoreComponent{
   FEfeed: Post [] = [];
   UserFeed: Profile [] = [];
 
+  DBFollowfeed: any [] = [];
+  FEFollowfeed: Post [] = [];
+  FollowUserFeed: Profile [] = [];
+
   DBFollowers: any [] = []; //raw array of User followers from DB
   followers: Profile [] = [] //array of Profile objs of followers
 
@@ -145,7 +149,33 @@ getDBForYouFeed()
     this.http.get("http://127.0.0.1:8000/tweet").subscribe((resultData: any)=>
     {
         //console.log(resultData);
+        console.log('getDBForYouFeed resultData: ' + resultData);
         this.DBfeed = resultData;
+    });
+}
+//gets all tweets from following(from DB) and adds them to DBFollowfeed array
+getDBFollowFeed()
+{   
+  let requestBody =
+  {
+    "word": 'getFollowFeed',
+    "word2": this.service_acc_name,
+  };
+
+    this.http.put("http://127.0.0.1:8000/tweet", requestBody).subscribe((resultData: any)=>
+    {
+        console.log('getDBFollowFeed resultData: ' + resultData);
+        console.log('getDBFollowFeed resultData: ' + resultData[0].text_content);
+        
+        if(resultData == "No tweets")
+        {
+          this.DBFollowfeed = [];
+        }
+        else
+        {
+          this.DBFollowfeed = resultData;
+        }
+        
     });
 }
 
@@ -155,6 +185,17 @@ presetUserFeed()
   this.DBfeed.forEach(() => {
     var u = new Profile("","", "", "", "", 0, 0);
     this.UserFeed.push(u)
+    
+  });
+}
+
+// Presets FollowUserFeed (needed to make sure profiles are added at the proper index)
+presetFollowUserFeed()
+{
+  this.DBFollowfeed.forEach(() => {
+    var u = new Profile("","", "", "", "", 0, 0);
+    this.FollowUserFeed.push(u)
+    console.log('post')
   });
 }
 
@@ -178,6 +219,31 @@ getDBForYouFeedUsers()
         this.UserFeed.splice(index, 1, u);
 
     });
+    console.log('fy index: '+ index);
+});
+}
+
+//gets all users from tweets(from DB) and creates a Profile object with them and adds them to FollowUserFeed array
+getDBFollowFeedUsers()
+{
+  this.presetFollowUserFeed();
+  //this goes in any order
+  this.DBFollowfeed.forEach((tweet,index) => {
+
+    let requestBody =
+    {
+      "word": 'w',
+      "num": tweet.user,
+    };
+
+    this.http.put("http://127.0.0.1:8000/tweet",requestBody).subscribe((resultData: any)=>
+    {
+        //var u = new Profile(resultData.pic, resultData.username, resultData.acc_name, "bio", 100, 200);
+        var u = new Profile(resultData.pic,resultData.header_pic, resultData.username, resultData.acc_name, resultData.bio, resultData.following_count, resultData.follower_count);
+        this.FollowUserFeed.splice(index, 1, u);
+
+    });
+    console.log('f index: '+ index);
 });
 }
 
@@ -192,6 +258,18 @@ convertForYouFeed()
       //need to use 'this.DBfeed[index].image_content' when i figure out how to upload images
         var p = new Post(tweet.id,this.UserFeed[index].pic, this.UserFeed[index].username, this.UserFeed[index].acc_name,this.DBfeed[index].date_created, this.DBfeed[index].text_content, '', this.DBfeed[index].comments.toString(), this.DBfeed[index].retweets.toString(), this.DBfeed[index].likes.toString(), this.DBfeed[index].engagements.toString()); 
         this.FEfeed.push(p);       
+    });
+}
+
+//creates Post objects using data from DBFeed and UserFeed arrays and adds them to FEfeed array
+convertFollowFeed()
+{   
+
+    this.DBFollowfeed.forEach((tweet,index) => {
+      
+      //need to use 'this.DBfeed[index].image_content' when i figure out how to upload images
+        var p = new Post(tweet.id,this.FollowUserFeed[index].pic, this.FollowUserFeed[index].username, this.FollowUserFeed[index].acc_name,this.DBFollowfeed[index].date_created, this.DBFollowfeed[index].text_content, '', this.DBFollowfeed[index].comments.toString(), this.DBFollowfeed[index].retweets.toString(), this.DBFollowfeed[index].likes.toString(), this.DBFollowfeed[index].engagements.toString()); 
+        this.FEFollowfeed.push(p);       
     });
 }
 
@@ -247,6 +325,57 @@ createForYouFeed()
         }
         myAsync();
   }
+  //gets data for 'Follow'feed, calls the 3 above functions using delays to ensure all the data is available, when accessed
+createFollowFeed()
+  {
+    let globalObj = this;
+
+        const postPromise = new Promise<any>(function (resolve, reject) {
+          setTimeout(() => {
+            reject("We didn't get a response")
+          }, 5000) // 5 secs
+
+          setTimeout(() => {
+            globalObj.getDBFollowFeed();
+            resolve('we got a response');
+          }, 0) // 0 secs
+        })
+
+        const postPromise2 = new Promise<any>(function (resolve, reject) {
+          setTimeout(() => {
+            reject("We didn't get a response")
+          }, 8000) // 5 secs
+
+          setTimeout(() => {
+            globalObj.getDBFollowFeedUsers();
+            resolve('we got a response');
+          }, 500) // 0.5 secs
+        })
+
+        const checkPromise = new Promise<any>(function (resolve, reject) {
+          setTimeout(() => {
+            reject("We didn't check")
+          }, 10000) //8 secs
+
+          setTimeout(() => {
+            globalObj.convertFollowFeed();
+            resolve('we checked');
+          }, 1000) // 1 sec
+        })
+        
+        async function myAsync(){
+          //console.log("inside myAsync");
+          try{
+            postPromise;
+            postPromise2;
+            await checkPromise;
+          }
+          catch (error) {
+            console.error('Promise rejected with error: ' + error);
+          }
+        }
+        myAsync();
+  }
 
 setFUF()
   {
@@ -259,6 +388,7 @@ setFUF()
 
           setTimeout(() => {
             globalObj.createForYouFeed();
+            globalObj.createFollowFeed(); //new
             resolve('we got a response');
           }, 0) // 0 secs
         })
@@ -266,12 +396,15 @@ setFUF()
         const postPromise2 = new Promise<any>(function (resolve, reject) {
           setTimeout(() => {
             reject("We didn't get a response")
-          }, 5000) // 5 secs
+          }, 8000) // 5 secs
 
           setTimeout(() => {
             //globalObj.arrs = [globalObj.FEfeed];
-            globalObj.arrs = [globalObj.FEfeed, globalObj.UserFeed];
-            console.log("Arrs HP in ngOnoInit:" + globalObj.arrs[0])
+            globalObj.arrs = [globalObj.FEfeed, globalObj.UserFeed, globalObj.FEFollowfeed, globalObj.FollowUserFeed];
+            console.log("Arrs HP1 in ngOnoInit:" + globalObj.arrs[0])
+            console.log("Arrs HP2 in ngOnoInit:" + globalObj.arrs[1])
+            console.log("Arrs HP3 in ngOnoInit:" + globalObj.arrs[2])
+            console.log("Arrs HP4 in ngOnoInit:" + globalObj.arrs[3])
             resolve('we got a response');
           }, 2000) // 0 secs
 
