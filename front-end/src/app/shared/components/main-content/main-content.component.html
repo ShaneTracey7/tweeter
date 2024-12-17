@@ -61,40 +61,73 @@
   {% endfor %}
 </ng-template>
 -->
-
-<div *ngIf="page == 'Explore'">
+<div *ngIf="page == 'Explore' || page == 'OtherExplore'">
   <div [ngSwitch]="tab">
     <div *ngSwitchCase="'trending'">
       <app-search-card
-        *ngFor="let searchTopic of trendingSearchTopics"
+        *ngFor="let searchTopic of data[1]"
         [searchTopic]="searchTopic">
       </app-search-card>
     </div>
 
     <div *ngSwitchCase="'news'">
       <app-search-card
-        *ngFor="let searchTopic of newsSearchTopics"
+        *ngFor="let searchTopic of data[2]"
         [searchTopic]="searchTopic">
       </app-search-card>
     </div>
 
     <div *ngSwitchCase="'sports'">
       <app-search-card
-        *ngFor="let searchTopic of sportsSearchTopics"
+        *ngFor="let searchTopic of data[3]"
         [searchTopic]="searchTopic">
       </app-search-card>
     </div>
 
     <div *ngSwitchCase="'entertainment'">
       <app-search-card
-        *ngFor="let searchTopic of entertainmentSearchTopics"
+        *ngFor="let searchTopic of data[4]"
         [searchTopic]="searchTopic">
       </app-search-card>
     </div>
 
+    <div *ngSwitchCase="'latest'">
+      <div class="profile-empty-list" *ngIf="data[0] == ''; else notEmpty1">
+        <p class="profile-empty-list-title"> No results for "{{query}}""</p>
+        <p class="profile-empty-list-body">Try searching for something else</p>
+      </div>
+      <ng-template #notEmpty1>
+        <app-post
+        *ngFor="let post of data[0]; index as i"
+        [post]="post" [user]="data[1][i]" [upc]="upc">
+        </app-post>
+      </ng-template>
+    </div>
+    <div *ngSwitchCase="'people'">
+      <div class="profile-empty-list" *ngIf="data[2] == ''; else notEmpty2">
+        <p class="profile-empty-list-title"> No results for "{{query}}""</p>
+        <p class="profile-empty-list-body">Try searching for something else</p>
+      </div>
+      <ng-template #notEmpty2>
+        <short-profile [mcc]= 'this'
+      *ngFor="let profile of data[2]"
+      [profile]="profile">
+      </short-profile>
+      </ng-template>
+    </div>
+    <div *ngSwitchCase="'media'">
+      <div class="profile-empty-list" *ngIf="data[3] == ''; else notEmpty3">
+        <p class="profile-empty-list-title"> No results for "{{query}}""</p>
+        <p class="profile-empty-list-body">Try searching for something else</p>
+      </div>
+      <ng-template #notEmpty3>
+        <!-- not implementing media atm-->
+      </ng-template>
+    </div>
+
     <div *ngSwitchDefault> <!-- foryou -->
       <app-search-card
-        *ngFor="let searchTopic of forYouSearchTopics"
+        *ngFor="let searchTopic of data[0]"
         [searchTopic]="searchTopic">
       </app-search-card>
     </div>

@@ -401,10 +401,10 @@ setFUF()
           setTimeout(() => {
             //globalObj.arrs = [globalObj.FEfeed];
             globalObj.arrs = [globalObj.FEfeed, globalObj.UserFeed, globalObj.FEFollowfeed, globalObj.FollowUserFeed];
-            console.log("Arrs HP1 in ngOnoInit:" + globalObj.arrs[0])
-            console.log("Arrs HP2 in ngOnoInit:" + globalObj.arrs[1])
-            console.log("Arrs HP3 in ngOnoInit:" + globalObj.arrs[2])
-            console.log("Arrs HP4 in ngOnoInit:" + globalObj.arrs[3])
+            //console.log("Arrs HP1 in ngOnoInit:" + globalObj.arrs[0])
+            //console.log("Arrs HP2 in ngOnoInit:" + globalObj.arrs[1])
+            //console.log("Arrs HP3 in ngOnoInit:" + globalObj.arrs[2])
+            //console.log("Arrs HP4 in ngOnoInit:" + globalObj.arrs[3])
             resolve('we got a response');
           }, 2000) // 0 secs
 

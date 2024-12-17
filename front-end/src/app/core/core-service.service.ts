@@ -126,7 +126,7 @@ routeToChild(str: string){
     */
   
     this.current_tab = str;
-    if (str == "foryou" || str == "all" || str == "posts" || str == 'followers')
+    if (str == "foryou" || str == "all" || str == "posts" || str == 'followers'|| str == 'latest')
       {
         this.marker1= true; 
         this.marker2= false;
@@ -134,7 +134,7 @@ routeToChild(str: string){
         this.marker4= false; 
         this.marker5= false; 
       }
-    else if(str == "following" || str == "trending" || str == "verified" || str == "retweets")//|| str == "replies")
+    else if(str == "following" || str == "trending" || str == "verified" || str == "retweets" || str == 'people')//|| str == "replies")
       {
         this.marker1= false; 
         this.marker2= true;

@@ -36,6 +36,15 @@ const routes: Routes = [
         component: ExplorePageComponent,
         canActivate : [PermissionsService],
         title: 'Explore',
+        children: [
+          {
+            path: '**',
+            component: ExplorePageComponent,
+            canActivate : [PermissionsService],
+            title: 'Explore',
+            
+          },
+        ],
       },
       {
         path: 'Notifications',

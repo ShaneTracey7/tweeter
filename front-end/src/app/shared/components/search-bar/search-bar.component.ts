@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output, SimpleChanges } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { createNewsSearchTopics, Profile, SearchTopic } from "../../../core/data";
 import { CoreService } from "../../../core/core-service.service";
@@ -37,6 +37,16 @@ on submit,
 
 
 */
+@Input() defaultValue: string = '';
+@Input() inActiveSearch: boolean = false;
+@Output() inActiveSearchChange = new EventEmitter<boolean>();
+
+@Input() data: any = [];
+@Output() dataChange = new EventEmitter<any>();
+
+@Input() query: string = '';
+@Output() queryChange = new EventEmitter<any>();
+
 @Input() ppg = new ProfilePageComponent(this.router,this.http,this.authService,this.route,this.service,this.tweetService)
 
 wordlist: string [] = ['hello','goodbye','good','dog','boy','toy','fleece','bacon','shake','hands','bands', 'bowl','hair', 'but', 'cut', 'what', 'shut', 'mutt', 'wear','orange','yellow',  'blue', 'green', 'red', 'purple', 'oval', 'office', 'olive', 'john', 'bear', 'cat', 'fish', 'salmon', 'burger', 'her', 'she', 'chocolate', 'milk', 'axe', 'zebra', 'mormon', 'harmonica', 'melody', 'arial', 'trival','beach', 'steak', 'street', 'sign'];
@@ -54,17 +64,22 @@ queryList: SearchTopic [] = [];
 queryList2: string [] = [];
 service_acc_name: string = '';
 
-searchForm = this.formBuilder.group({
-  inquiry: ['', [Validators.required]],
-  });
+searchForm = this.formBuilder.group({inquiry:[''],});
   
-  constructor(private formBuilder: FormBuilder, public service: CoreService, public http: HttpClient, public router: Router, public authService: AuthService, public route: ActivatedRoute, public tweetService: TweetService) {}
+  constructor(private formBuilder: FormBuilder, public service: CoreService, public http: HttpClient, public router: Router, public authService: AuthService, public route: ActivatedRoute, public tweetService: TweetService) 
+  {
+    //this.searchForm = this.formBuilder.group({inquiry:[''],});
+  }
   //constructor(private formBuilder: FormBuilder, public service: CoreService, private http: HttpClient) {}
   
   
   
   ngOnInit()
   {
+   this.searchForm = this.formBuilder.group({
+      inquiry: [this.defaultValue, [Validators.required]],
+      });
+
     this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";  
     this.onChanges();
     this.convertQueryFeed();
@@ -73,7 +88,7 @@ searchForm = this.formBuilder.group({
 
     onChanges(): void {
       this.searchForm.get('inquiry')?.valueChanges.subscribe(val => {
-        if((val?.length?? 0 )> 1)
+        if((val?.length?? 0 )> 2)
         {
           //insert logic to set userList and queryList
           this.testCheck(val?? '');
@@ -90,13 +105,47 @@ searchForm = this.formBuilder.group({
       });
     }
   
+    ngOnChanges(changes: SimpleChanges){
+      
+        if (changes['defaultValue']) {
+          console.log("**ngOnChanges**");
+          if(this.defaultValue == '!@#$%^&*()_+')
+          {
+            this.focus = false;
+            this.searchForm.reset();
+            this.searchForm.value.inquiry = '';
+          }
+        }
+    }
+
     onSubmit(){
   
       if(this.searchForm.valid)
       {
-  
-          
-        console.log("submitted");
+        //hide modal
+        this.modalFlag = false;
+        this.inActiveSearch = true;
+        this.inActiveSearchChange.emit(this.inActiveSearch);
+
+        //do all the db calls from here to populate the arrays
+
+        //one for latest (get posts [0] and users [1])
+
+        //one for people (get users [2])
+        this.userList = [];
+        this.getDBUserFeed(this.searchForm.value.inquiry?? '');
+
+        //none for media [3] is always empty
+
+        setTimeout(() => {
+          this.dataChange.emit(['','',this.userList,'']);
+          this.queryChange.emit(this.searchForm.value.inquiry);
+          this.router.navigate(['tweeter/Explore/' + this.searchForm.value.inquiry]); //new
+          console.log("submitted");
+        }, 1000) // 1 sec
+        
+
+        
       }
       else
       {
@@ -104,6 +153,15 @@ searchForm = this.formBuilder.group({
       }
     
       
+    }
+
+
+    // functionality needed for when search cards are clicked from search bars that are not the main one in explore
+    handleEnter()
+    {
+      this.searchForm.value.inquiry = 'hanna';
+      let search_input = <HTMLInputElement>document.getElementById("search-searchbar");
+      search_input!.value = "hanna";
     }
 
     hideModal()
@@ -129,13 +187,26 @@ searchForm = this.formBuilder.group({
     {
       //this.queryList = [];
       this.queryList = [];
-      this.DBTopicFeed.forEach(t =>{
+      /*this.DBTopicFeed.forEach((t) =>{
         
         if(t.topic.startsWith(str))
         {
           this.queryList.push(t);
         }
-      });
+      });*/
+      var count = 0;
+      for(const t of this.DBTopicFeed)
+      {
+        if(count == 3)
+        {
+          return;
+        }
+        if(t.topic.startsWith(str))
+          {
+            this.queryList.push(t);
+            count++;
+          }
+      }
     }
 
   getDBUserFeed(str:string)

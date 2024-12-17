@@ -3,7 +3,8 @@
     <div id="search-bar-and-button">
         <input id="search-searchbar" (focus)="focus=true;blur=false" (blur)="handleBlur()" type="text" placeholder="Search" formControlName="inquiry" maxlength="40" required>
         <div *ngIf="searchForm.value.inquiry != ''">
-            <img id="search-bar-clear-button" (click)="handleClear()" [src]="service.setUrl('cross-fill.png')" alt="cross"/> 
+            <img id="search-bar-clear-button" (click)="handleClear()" [src]="service.setUrl('cross-fill.png')" alt="cross"/>
+
             <!-- will change to 'cross-fill.png'-->
         </div>
     </div>

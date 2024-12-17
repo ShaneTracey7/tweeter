@@ -5,8 +5,10 @@
       <div class="upper-toolbar">
       <!-- upper toolbar add here-->
 
-
-<search-bar id="search-form"></search-bar>
+        <div *ngIf="inActiveSearch" id="profile-arrow-container" class="title-icons">
+            <img id="profile-arrow" (click)="goBack()" class="toolbar-icon" [src]="service.setUrl('back-arrow.svg')" alt="back-arrow"/>
+        </div>
+        <search-bar id="search-form" [defaultValue]="query" [(inActiveSearch)]="inActiveSearch" [(data)]="arr" [(query)]="query"></search-bar>
 <!--
         <form id="search-form">
             <input id="search-searchbar" type="text" placeholder="Search">
@@ -19,49 +21,81 @@
         </div>
 
       </div>
-      <div class="lower-toolbar">
-<!-- lower toolbar add here-->
 
-        <div id="search-tab1" class="toolbar-tabs">
-            <div class="tab-container">
-                <button (click)="service.routeToChild('foryou')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(1)"> For you</button>
-                <div class="tab-item" id="marker" [style]="service.displayMarker(1)"></div>
+        
+
+        <div *ngIf="inActiveSearch; else notInSearch">
+            <div class="lower-toolbar">
+                <!-- lower toolbar add here-->
+            <div id="search-tab1" class="toolbar-tabs">
+                <div class="tab-container">
+                    <button (click)="service.routeToChild('latest')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(1)"> Latest</button>
+                    <div class="tab-item" id="marker" [style]="service.displayMarker(1)"></div>
+                    </div>
+            </div>
+  
+            <div id="search-tab2" class="toolbar-tabs">
+                <div class="tab-container">
+                    <button (click)="service.routeToChild('people')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(2)"> People</button>
+                    <div class="tab-item" id="marker" [style]="service.displayMarker(2)"></div>
                 </div>
-        </div>
+            </div>
   
-        <div id="search-tab2" class="toolbar-tabs">
-            <div class="tab-container">
-                <button (click)="service.routeToChild('trending')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(2)"> Trending</button>
-                <div class="tab-item" id="marker" [style]="service.displayMarker(2)"></div>
+            <div id="search-tab3" class="toolbar-tabs">
+                <div class="tab-container">
+                    <button (click)="service.routeToChild('media')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(3)"> Media</button>
+                    <div class="tab-item" id="marker" [style]="service.displayMarker(3)"></div>
+                </div>
             </div>
         </div>
-  
-        <div id="search-tab3" class="toolbar-tabs">
-            <div class="tab-container">
-                <button (click)="service.routeToChild('news')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(3)"> News</button>
-                <div class="tab-item" id="marker" [style]="service.displayMarker(3)"></div>
-            </div>
-        </div>
-  
-        <div id="search-tab4" class="toolbar-tabs">
-            <div class="tab-container">
-                <button (click)="service.routeToChild('sports')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(4)"> Sports</button>
-                <div class="tab-item" id="marker" [style]="service.displayMarker(4)"></div>
-            </div>
-        </div>
-  
-        <div id="search-tab5" class="toolbar-tabs">
-            <div class="tab-container">
-                <button (click)="service.routeToChild('entertainment')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(5)"> Entertainment</button>
-                <div class="tab-item" id="marker" [style]="service.displayMarker(5)"></div>
-            </div>
         </div>
 
-      </div>
+        <ng-template #notInSearch>
+            <div class="lower-toolbar">
+                <!-- lower toolbar add here-->
+            <div id="search-tab1" class="toolbar-tabs">
+                <div class="tab-container">
+                    <button (click)="service.routeToChild('foryou')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(1)"> For you</button>
+                    <div class="tab-item" id="marker" [style]="service.displayMarker(1)"></div>
+                    </div>
+            </div>
+  
+            <div id="search-tab2" class="toolbar-tabs">
+                <div class="tab-container">
+                    <button (click)="service.routeToChild('trending')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(2)"> Trending</button>
+                    <div class="tab-item" id="marker" [style]="service.displayMarker(2)"></div>
+                </div>
+            </div>
+  
+            <div id="search-tab3" class="toolbar-tabs">
+                <div class="tab-container">
+                    <button (click)="service.routeToChild('news')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(3)"> News</button>
+                    <div class="tab-item" id="marker" [style]="service.displayMarker(3)"></div>
+                </div>
+            </div>
+  
+            <div id="search-tab4" class="toolbar-tabs">
+                <div class="tab-container">
+                    <button (click)="service.routeToChild('sports')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(4)"> Sports</button>
+                    <div class="tab-item" id="marker" [style]="service.displayMarker(4)"></div>
+                </div>
+            </div>
+  
+            <div id="search-tab5" class="toolbar-tabs">
+                <div class="tab-container">
+                    <button (click)="service.routeToChild('entertainment')" class="tab-item" id="tab-text" [style]="service.getMarkerStyles(5)"> Entertainment</button>
+                    <div class="tab-item" id="marker" [style]="service.displayMarker(5)"></div>
+                </div>
+            </div>
+        </div>
+        </ng-template>
+
+
+      <!--  </div> -->
     </div>
 
 <!-- main content add here-->
-<main-content [page]=service.current_page [tab]=service.current_tab></main-content>
+<main-content [page]=service_page [tab]=service.current_tab [query]="query" [data]="arr"></main-content>
 <!--
     {% for topic in topics %}
     {% include "searchCard.html" with obj=topic %}
