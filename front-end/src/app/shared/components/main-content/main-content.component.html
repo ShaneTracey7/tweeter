@@ -63,37 +63,43 @@
 -->
 <div *ngIf="page == 'Explore' || page == 'OtherExplore'">
   <div [ngSwitch]="tab">
+    <div *ngSwitchCase="'foryou'">
+      <app-search-card
+        *ngFor="let searchTopic of data[0]"
+        [searchTopic]="searchTopic" [epc]="upc">
+      </app-search-card>
+    </div>
     <div *ngSwitchCase="'trending'">
       <app-search-card
         *ngFor="let searchTopic of data[1]"
-        [searchTopic]="searchTopic">
+        [searchTopic]="searchTopic" [epc]="upc">
       </app-search-card>
     </div>
 
     <div *ngSwitchCase="'news'">
       <app-search-card
         *ngFor="let searchTopic of data[2]"
-        [searchTopic]="searchTopic">
+        [searchTopic]="searchTopic" [epc]="upc">
       </app-search-card>
     </div>
 
     <div *ngSwitchCase="'sports'">
       <app-search-card
         *ngFor="let searchTopic of data[3]"
-        [searchTopic]="searchTopic">
+        [searchTopic]="searchTopic" [epc]="upc">
       </app-search-card>
     </div>
 
     <div *ngSwitchCase="'entertainment'">
       <app-search-card
         *ngFor="let searchTopic of data[4]"
-        [searchTopic]="searchTopic">
+        [searchTopic]="searchTopic" [epc]="upc">
       </app-search-card>
     </div>
 
     <div *ngSwitchCase="'latest'">
       <div class="profile-empty-list" *ngIf="data[0] == ''; else notEmpty1">
-        <p class="profile-empty-list-title"> No results for "{{query}}""</p>
+        <p class="profile-empty-list-title"> No results for "{{query}}"</p>
         <p class="profile-empty-list-body">Try searching for something else</p>
       </div>
       <ng-template #notEmpty1>
@@ -105,7 +111,7 @@
     </div>
     <div *ngSwitchCase="'people'">
       <div class="profile-empty-list" *ngIf="data[2] == ''; else notEmpty2">
-        <p class="profile-empty-list-title"> No results for "{{query}}""</p>
+        <p class="profile-empty-list-title"> No results for "{{query}}"</p>
         <p class="profile-empty-list-body">Try searching for something else</p>
       </div>
       <ng-template #notEmpty2>
@@ -117,18 +123,20 @@
     </div>
     <div *ngSwitchCase="'media'">
       <div class="profile-empty-list" *ngIf="data[3] == ''; else notEmpty3">
-        <p class="profile-empty-list-title"> No results for "{{query}}""</p>
+        <p class="profile-empty-list-title"> No results for "{{query}}"</p>
         <p class="profile-empty-list-body">Try searching for something else</p>
       </div>
       <ng-template #notEmpty3>
         <!-- not implementing media atm-->
       </ng-template>
     </div>
-
-    <div *ngSwitchDefault> <!-- foryou -->
+    <div *ngSwitchCase="'blank'">
+      <!-- nothing-->
+      </div>
+    <div *ngSwitchDefault> 
       <app-search-card
         *ngFor="let searchTopic of data[0]"
-        [searchTopic]="searchTopic">
+        [searchTopic]="searchTopic" [epc]="upc">
       </app-search-card>
     </div>
   </div>
@@ -137,24 +145,37 @@
   <div [ngSwitch]="tab">
 
     <div *ngSwitchCase="'verified'">
-      <app-notification
-      *ngFor="let notification of data[0]"
-      [notification]="notification" [mcc]="this">
-      </app-notification>
+      <div class="profile-empty-list">
+        <p class="profile-empty-list-title"> Nothing to see here — yet</p>
+        <p class="profile-empty-list-body">Likes, mentions, reposts, and a whole lot more — when it comes from a verified account, you’ll find it here.</p>
+      </div>
     </div>
 
     <div *ngSwitchCase="'mentions'">
-      <app-notification
-      *ngFor="let notification of data[0]"
-      [notification]="notification">
-      </app-notification>
+      <div class="profile-empty-list" *ngIf="data[1] == null; else notEmpty">
+        <p class="profile-empty-list-title"> You have no mentions</p>
+        <p class="profile-empty-list-body">Once you get some, they will show up here</p>
+      </div>
+      <ng-template #notEmpty>
+        <app-post
+        *ngFor="let post of data[1]; index as i"
+        [post]="post" [user]="data[2][i]" [upc]="upc">
+        </app-post>
+      </ng-template>
     </div>
     
     <div *ngSwitchDefault> <!-- 'all'-->
-      <app-notification
+      <div class="profile-empty-list" *ngIf="data[0] == ''; else notEmpty2">
+        <p class="profile-empty-list-title"> You have no notifications</p>
+        <p class="profile-empty-list-body">Once you get some, they will show up here</p>
+      </div>
+      <ng-template #notEmpty2>
+        <app-notification
       *ngFor="let notification of data[0]"
       [notification]="notification">
     </app-notification>
+      </ng-template>
+      
     </div>
 
   </div>

@@ -98,6 +98,10 @@ export class CoreService {
     if (this.cp_style == check) {
       return this.setUrl(str + "-fill.svg");
     }
+    else if(this.cp_style == 'OtherExplore' && str == 'Explore')
+      {
+        return this.setUrl(str + "-fill.svg");
+      }
     else{
       return this.setUrl(str + ".svg");
     }
@@ -109,6 +113,12 @@ export class CoreService {
         fontWeight: 'bold',
       };
     }
+    else if(this.cp_style == 'OtherExplore' && str == 'Explore')
+      {
+        return {
+          fontWeight: 'bold',
+        };
+      }
     else{
       return{
         fontWeight: 'normal'

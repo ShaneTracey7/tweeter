@@ -65,6 +65,11 @@ export class CoreComponent{
           this.service.current_page = 'Post';
           this.service.cp_style = 'Post';
         }
+        /*else if(second_last == 'Explore') //new
+        {
+          this.service.current_page = 'OtherExplore';
+          this.service.cp_style = 'OtherExplore';
+        }*/
         else
         {
           //could be set to ''

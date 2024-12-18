@@ -938,7 +938,9 @@ def userApi(request,id=id):
                     print('in loop ') # new
                     print('count: ' + str(count)) # new
                     print('str_input: ' + str_input)
-                    if user.acc_name.startswith(str_input) or user.username.startswith(str_input):
+                    lowerAccname = user.acc_name.lower()
+                    lowerUsername = user.username.lower()
+                    if lowerAccname.startswith(str_input) or lowerUsername.startswith(str_input):
                         user_arr.append(user)
                         count = count + 1
                         
@@ -949,6 +951,21 @@ def userApi(request,id=id):
                 else:
                     user_serializer = UserSerializer(user_arr,many=True) #NEW
                     return JsonResponse(user_serializer.data,safe=False)
+            elif username_input == 'getPostSearch':  #getting post data as a search result
+                str_input = password_input # text input from search bar
+                #get all users excluding logged in user
+                posts = Tweet.objects.filter(text_content__contains=str_input).order_by('-date_created')
+                if posts.exists():
+
+                    users = []
+                    for post in posts:
+                        users.append(post.user)
+
+                    tweet_serializer = TweetSerializer(posts,many=True) 
+                    user_serializer = UserSerializer(users,many=True) 
+                    return JsonResponse([tweet_serializer.data,user_serializer.data],safe=False)
+                else:
+                    return JsonResponse("No posts",safe=False)
             elif username_input == 'check':  #check uniqueness of acc_name
                 result = User.objects.filter(acc_name=acc_name_input)
                 if result.exists():
