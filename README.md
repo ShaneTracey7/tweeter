@@ -16,7 +16,7 @@ Post Interacting:
 Users can comment, like, or retweet any posts they like in a way to communicate to others publicly.
 
 Following:
-Users can follow their friends and accounts they find interesting. Posts from these accounts will populate their feed.
+Users can follow their friends and accounts they find interesting. Posts from these accounts will populate their following feed.
 
 Direct Messaging:
 Users can communicate with others more privately, through direct messages.
@@ -31,6 +31,10 @@ Users can express themselves through how they customize their profile (profile p
 Tools:
 
 -VS Code for programming the front-end and back-end
+
+-Git for version control
+
+- Google Draw for creating custom icons/logos
 
 -iconmonstr for most of the icons: https://iconmonstr.com
 
