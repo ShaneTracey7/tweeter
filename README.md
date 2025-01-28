@@ -34,7 +34,7 @@ Tools:
 
 -Git for version control
 
-- Google Draw for creating custom icons/logos
+-Google Draw for creating custom icons/logos
 
 -iconmonstr for most of the icons: https://iconmonstr.com
 
