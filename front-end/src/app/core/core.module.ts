@@ -1,13 +1,9 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 
 import { CoreRoutingModule } from './core-routing.module';
 import { CoreComponent } from './core.component';
 import { CrudComponent } from '../crud/crud.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-
-
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 
 import { CommonModule } from '@angular/common';
@@ -64,11 +60,9 @@ import { NewMessageModalComponent } from '../features/message-page/components/ne
   ],
   imports: [
     RouterModule,
-    //BrowserModule,
     CoreRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    //HttpClientModule,
     RouterLink, 
     RouterLinkActive,
     CommonModule

@@ -17,7 +17,7 @@ class User(models.Model):
     acc_name = models.CharField(max_length = 35)
     password = models.CharField(max_length = 35)
     pic = models.CharField(max_length = 100)
-    header_pic = models.CharField(max_length = 100, default="") #default is default-header.jpg
+    header_pic = models.CharField(max_length = 100, default="default-header-pic.png") #default is default-header.jpg
     bio = models.CharField(max_length = 100, default="") #increase max-length
     follower_count = models.IntegerField(default=0)
     following_count = models.IntegerField(default=0)

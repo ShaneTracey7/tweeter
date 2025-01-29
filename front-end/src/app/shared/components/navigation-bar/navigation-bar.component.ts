@@ -41,29 +41,29 @@ export class NavigationBarComponent{
     this.service.routeToChild(tab);
   }
 
-  //works
+  //handles routing when 'Profile' navbar button is clicked (mainly prevents unneccessary routing)
   handleNavigationP(page: string, tab: string)
   {
     let arr = window.location.pathname.split("/");
     let check1 = arr.pop();
     let check2 = arr.pop();
     let check3 = arr.pop();
-    if(check1 == 'Profile' || check2 == 'Profile' && check1 == 'followers' || check2 == 'Profile' && check1 == 'followering' ) //is already on profile page
+    if(check1 == 'Profile' || check2 == 'Profile' && check1 == 'followers' || check2 == 'Profile' && check1 == 'following' ) //is already on profile page
     {
-      this.service.other_profile_flag = false;
+      //this.service.other_profile_flag = false;
       console.log("was on Profile");
     }
     else 
     {
       if(check3 == 'Profile' || check2 == 'Profile' && (check1 != 'followers' && check1 != 'following')) // is already on OtherProfile
       {
-        this.service.other_profile_flag = true;
+        //this.service.other_profile_flag = true;
         console.log("was on OtherProfile");
         //this.router.navigate(['/tweeter/Profile']); 
       }
       else // is already on neither
       {
-        this.service.other_profile_flag = false;
+        //this.service.other_profile_flag = false;
         this.service.setCurrentPage(page);
         this.service.routeToChild(tab);
         console.log("not on Profile or OtherProfile");

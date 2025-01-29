@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, SimpleChanges} from '@angular/core';
 import { HomePageComponent } from '../home-page.component';
-import { Post, Profile, createAllProfiles, getProfile } from '../../../core/data';
+import { Post, Profile, getProfile } from '../../../core/data';
 import { MainContentComponent } from '../../../shared/components/main-content/main-content.component';
 
 

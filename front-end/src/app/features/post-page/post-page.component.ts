@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../core/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { TweetService } from '../../core/tweet-service';
-import { Notification2, Post, Profile } from '../../core/data';
+import { Notification, Post, Profile } from '../../core/data';
 import { FormBuilder,Validators } from '@angular/forms';
 
 @Component({

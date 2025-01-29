@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../core/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { TweetService } from '../../core/tweet-service';
-import { Notification2, Post, Profile } from '../../core/data';
+import { Notification, Post, Profile } from '../../core/data';
 
 @Component({
   selector: 'app-notification-page',
@@ -18,7 +18,7 @@ export class NotificationPageComponent extends CoreComponent{
   service_acc_name: string;
   arrs: any[] = []; //testing to feed into main component
   DBfeed: any [] = [];
-  notificationFeed: Notification2 [] = [];
+  notificationFeed: Notification [] = [];
 
   constructor(authService: AuthService, route: ActivatedRoute, service: CoreService,public http: HttpClient, public tweetService: TweetService)
   {
@@ -135,7 +135,7 @@ export class NotificationPageComponent extends CoreComponent{
           text = profile_from.username + " retweeted your post!";
         }
         //need to use 'this.DBfeed[index].image_content' when i figure out how to upload images
-         var n = new Notification2(type, profile_from, tweet);
+         var n = new Notification(type, profile_from, tweet);
          this.notificationFeed.push(n);      
       }
       /*

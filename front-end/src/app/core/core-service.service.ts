@@ -10,26 +10,23 @@ import { HttpClient } from "@angular/common/http";
 export class CoreService {
 
      //used for toolbar tabs
-  marker1= true; //foryou/all
-  marker2= false; //following/trending/verified
-  marker3= false;//mentions/news
+  marker1= true; //foryou/all/latest
+  marker2= false; //following/trending/verified/people
+  marker3= false;//mentions/news/media
   marker4= false;//sports
   marker5= false;//entertainment
 
-  current_tab: string = "";
-  current_page: string =  "";
-  cp_style: string = "";
+  current_tab: string = ""; //tab that user is on
+  current_page: string =  ""; //page that is being displayed
+  cp_style: string = ""; //page that is being displayed (for styling purposes)
 
-  username: string; 
-  acc_name: string;
+  username: string; //logged-in user's username
+  acc_name: string; //logged-in user's account name (or @)
 
-  validUser: boolean = false;
+  //validUser: boolean = false; idk if this is in use
 
-  
-  DBUsers: any [] = [];
-  UserFeed: Profile [] = [];
-
-  other_profile_flag = false; //not really in use, (was part of profile button of navbar functionality implementation)
+  DBUsers: any [] = []; //raw array of all Users from DB
+  UserFeed: Profile [] = [];//array of Profile objs of all users
 
   DBFollowers: any [] = []; //raw array of User followers from DB
   followers: Profile [] = [] //array of Profile objs of followers
@@ -42,12 +39,10 @@ export class CoreService {
   shareUser: string = ''; //acc_name of user to send tweet to
 
   constructor(public route: ActivatedRoute, public router: Router,public http: HttpClient) { 
-    //this.current_page = this.route.snapshot.url.toString();
-    //window.location.reload();
+  
     this.username = localStorage.getItem('username') ?? "badToken"; 
     this.acc_name = localStorage.getItem('acc_name') ?? "badToken";
     this.createUserFeed(false, "");
-    //console.log("current user acc_name: "+ this.acc_name);
 
     //new
     this.getFollowers();
@@ -68,6 +63,7 @@ export class CoreService {
     return getImgUrl(str);
   }
 
+  // sets the current page value and selects the first tab
   setCurrentPage(str: string)
   {
     const tmp = str;
@@ -82,6 +78,8 @@ export class CoreService {
     console.log("logging page: " + this.current_page);
   }
 
+
+  //sets correct image (bold or normal) for navbar buttons
   boldNavbarIcon(str: string) {
     var check;
 
@@ -107,6 +105,7 @@ export class CoreService {
     }
   }
 
+  //sets correct font styling (bold or normal) for navbar buttons
   boldNavbarItem(str: string) {
     if (this.cp_style == str) {
       return {
@@ -125,15 +124,9 @@ export class CoreService {
       }
     }
   }
-  
+
+//sets the current tab and which tab should be focused (has the blue marker visible)
 routeToChild(str: string){
-  
-  /*
-    if(str != "foryou" && str != "all")
-      {
-        this.router.navigate([str], {relativeTo:this.route});
-      }
-    */
   
     this.current_tab = str;
     if (str == "foryou" || str == "all" || str == "posts" || str == 'followers'|| str == 'latest')
@@ -187,6 +180,7 @@ routeToChild(str: string){
       
   }
 
+  //styles tab text when selected
   getMarkerStyles(num: Number) {
     var marker;
 
@@ -214,6 +208,7 @@ routeToChild(str: string){
     }
   }
 
+  //displays tab marker (blue line) when selected
   displayMarker(num: Number)
   {
     var marker;
@@ -249,13 +244,16 @@ getAllDBUsers()
     });
 }
 
-//creates Post objects using data from DBFeed and UserFeed arrays and adds them to FEfeed array
+//creates Profile objects using data from DBUsers and adds them to UserFeed array
 convertUserFeed(current_user_acc_name: string)
 {   
   //current_user_acc_name
 
   //clear UserFeed
   this.UserFeed = [];
+
+  //reverse order
+  this.DBUsers.reverse();
 
   let counter = 0;
 
@@ -352,6 +350,7 @@ convertDBInfo(arr_type: string)
   }  
 }
 
+//sets DBFollowers with a list of followers that the logged-in user has
 getFollowers()
   {
 
@@ -381,6 +380,7 @@ getFollowers()
     });
   }
 
+  //sets DBFollowing with a list of users that the logged-in user follows
   getFollowing()
   {
     
@@ -410,7 +410,7 @@ getFollowers()
     });
   }
 
-
+//check if 'acc_name' user is a follower
 isFollower(acc_name: string)
 {
   for(var i = 0; i < this.following.length; i++)
@@ -424,32 +424,21 @@ isFollower(acc_name: string)
 }
 
 
+/****************** TEST FUNCTIONS FOR ImageAPI (Google) *********************8*/
 
-
-
+//used for testing imageApi
+/* NOT IN USE */
 handleGetAll()
 {
   this.http.get("http://127.0.0.1:8000/image").subscribe((resultData: any)=>
     {
         console.log(resultData);
     });
-
 }
 
-//this does not work yet
-handleUploadImage()//post
-{
-  let responseBody = {
-    "word": 'test', //name of image/file
-  };
-
-  this.http.post("http://127.0.0.1:8000/image",responseBody).subscribe((resultData: any)=>
-    {
-        console.log(resultData);
-    });
-}
-  
-handleDeleteAllImages()//put
+//used for testing imageApi
+/* NOT IN USE */
+handleDeleteAllImages()
 {
   let responseBody = {
     "word": 'deleteAllImages',
@@ -461,11 +450,13 @@ handleDeleteAllImages()//put
     });
 }
 
-handleDeleteImage()//put
+//used for testing imageApi
+/* NOT IN USE */
+handleDeleteImage(image_name: string)
 {
   let responseBody = { 
     "word": 'deleteImage',
-    "word2": 'test_image.png',//image name with file type
+    "word2": image_name,//image name with file type (ex. test.png)
   }
 
   this.http.put("http://127.0.0.1:8000/image", responseBody).subscribe((resultData: any)=>
@@ -474,12 +465,14 @@ handleDeleteImage()//put
     });
 }
 
-//'https://drive.google.com/thumbnail?id=1XGsuMIuIV9l2gi7TDs80OT6a-v7ccR7o&sz=w1000' //works!
+//used for testing imageApi
+/* NOT IN USE */
 handleGetImage(): any
 {
   let responseBody = { 
     "word": 'getImage',
     "word2": 'test_image2',//image name without file type
+    //'https://drive.google.com/thumbnail?id= <insert id> &sz=w1000' //format works!
   }
 
   this.http.put("http://127.0.0.1:8000/image", responseBody).subscribe((resultData: any)=>
@@ -501,29 +494,4 @@ handleGetImage(): any
 
 }
 
-/*
-//i dont think this works
-  tryLocalStorage()
-  {
-    let img = document.getElementById('post-elip'); //tweeter bird from navbar
-    let imgData = this.getBase64Image(img);
-    localStorage.setItem("profile_pic", imgData);
-   
-    //localStorage.setItem('profile_pic', 0)
-    console.log('in local storage');
-  }
-
-  getBase64Image(img: any) {
-    var canvas = document.createElement("canvas");
-    canvas.width = img.width;
-    canvas.height = img.height;
-
-    var ctx = canvas.getContext("2d")!;
-    ctx.drawImage(img, 0, 0);
-
-    var dataURL = canvas.toDataURL("image/png");
-
-    return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-}
-*/
 }

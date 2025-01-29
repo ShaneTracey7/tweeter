@@ -1,5 +1,5 @@
 import { Component, Input} from '@angular/core';
-import { Notification, Notification2, Post, Profile, createAllProfiles, getProfile } from '../../../core/data';
+import { Notification, Post, Profile, getProfile } from '../../../core/data';
 import { NotificationPageComponent } from '../notification-page.component';
 import { MainContentComponent } from '../../../shared/components/main-content/main-content.component';
 import { PostComponent } from '../../home-page/components/post.component';
@@ -13,7 +13,7 @@ import { PostComponent } from '../../home-page/components/post.component';
 
 })
 export class NotificationComponent extends NotificationPageComponent{
-@Input () notification = new Notification2('',new Profile('','','','','',0,0), new Post(0,'','','', new Date(),'','',0,0,0,0) );
+@Input () notification = new Notification('',new Profile('','','','','',0,0), new Post(0,'','','', new Date(),'','',0,0,0,0) );
 @Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService,this.service,this.authService,this.route);
 
 show_modal: boolean = false;

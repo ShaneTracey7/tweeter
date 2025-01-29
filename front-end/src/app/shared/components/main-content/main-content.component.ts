@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { AppComponent } from '../../../app.component';
-import { createAllNotifications, createConversations, createEntertainmentSearchTopics, createFollowingFeed, createForYouSearchTopics, createMentionsNotifications, createMessages, createNewsSearchTopics, createSportsSearchTopics, createTrendingSearchTopics, createVerifiedNotifications, Profile } from '../../../core/data';
+import {createEntertainmentSearchTopics, createForYouSearchTopics , createNewsSearchTopics, createSportsSearchTopics, createTrendingSearchTopics, Profile } from '../../../core/data';
 import { TweetService } from '../../../core/tweet-service';
 import { MessagePageComponent } from '../../../features/message-page/message-page.component';
 import { CoreService } from '../../../core/core-service.service';
@@ -43,19 +43,6 @@ export class MainContentComponent {
     console.log("page:" + this.page)
   }
 
-  //home page data
-  followingFeed = createFollowingFeed(); //only posts from following
-  //forYouFeed = this.createForYouFeed(); //any posts
-
-  //message page data
-  //messages = createMessages();
-  //convos = createConversations();
-
-  //notification page data
-  allNotifications = createAllNotifications();
-  verifiedNotifications = createVerifiedNotifications();
-  mentionsNotifications = createMentionsNotifications();
-
   //explore page data
   forYouSearchTopics = createForYouSearchTopics();
   trendingSearchTopics = createTrendingSearchTopics();
@@ -68,7 +55,6 @@ export class MainContentComponent {
   followingProfiles = [];
 
   // global page data
-
 
   //to ensure only one modal is visible at a time
   openmodal: boolean = false;

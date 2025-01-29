@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { createAllProfiles, Profile } from "../../../core/data";
+import { Profile } from "../../../core/data";
 import { FormBuilder, Validators } from "@angular/forms";
 import { CoreService } from "../../../core/core-service.service";
 import { HttpClient } from "@angular/common/http";

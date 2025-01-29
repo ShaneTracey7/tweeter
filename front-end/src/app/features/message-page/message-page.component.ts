@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CoreComponent } from '../../core/core.component';
 import { CoreService } from '../../core/core-service.service';
 import { ActivatedRoute } from '@angular/router';
-import { Convo, createConversations, createMessages, Message, Post, Profile } from '../../core/data';
+import { Convo ,Message, Post, Profile } from '../../core/data';
 import { TweetService } from '../../core/tweet-service';
 import { AuthService } from '../../core/auth.service';
 import { FormBuilder, Validators } from '@angular/forms';

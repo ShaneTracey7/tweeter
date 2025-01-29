@@ -8,6 +8,7 @@ import { TweetService } from '../../core/tweet-service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Post, Profile } from '../../core/data';
 
+import { By, Builder, Browser } from 'selenium-webdriver';
 @Component({
 
   selector: 'app-home-page',
@@ -59,6 +60,42 @@ constructor(authService: AuthService, route: ActivatedRoute, service: CoreServic
   this.retweet_ids = [];
   //this.last_like_ids = [];
 }
+
+//testing web scraping capabilities with selenium
+
+/*selTest(){
+  //const {By, Builder, Browser } = require('selenium-webdriver');
+  
+  (async function firstTest() {
+    let driver;
+    
+    try {
+      driver = await new Builder().forBrowser(Browser.CHROME).build();
+      //await driver.get('https://www.selenium.dev/selenium/web/web-form.html');
+    
+      //let title = await driver.getTitle();
+    
+      //await driver.manage().setTimeouts({implicit: 500});
+    
+      //let textBox = await driver.findElement(By.name('my-text'));
+      //let submitButton = await driver.findElement(By.css('button'));
+    
+      //await textBox.sendKeys('Selenium');
+      //await submitButton.click();
+    
+      //let message = await driver.findElement(By.id('message'));
+      //let value = await message.getText();
+    } catch (e) {
+      console.log(e)
+    } finally {
+      //await driver!.quit();
+    }
+  }())
+}*/
+
+
+
+
 
 //passed a hpc to post, so it's going off the correct instance
 
@@ -400,7 +437,9 @@ setFUF()
 
           setTimeout(() => {
             //globalObj.arrs = [globalObj.FEfeed];
-            globalObj.arrs = [globalObj.FEfeed, globalObj.UserFeed, globalObj.FEFollowfeed, globalObj.FollowUserFeed];
+            globalObj.arrs = [globalObj.FEfeed.reverse(), globalObj.UserFeed.reverse(), globalObj.FEFollowfeed, globalObj.FollowUserFeed];
+            //reverse FEfeed and UserFeed
+            
             //console.log("Arrs HP1 in ngOnoInit:" + globalObj.arrs[0])
             //console.log("Arrs HP2 in ngOnoInit:" + globalObj.arrs[1])
             //console.log("Arrs HP3 in ngOnoInit:" + globalObj.arrs[2])
@@ -632,3 +671,7 @@ tweetForm = this.formBuilder.group({
   }
 
 }
+function selTest() {
+  throw new Error('Function not implemented.');
+}
+

@@ -6,40 +6,23 @@ import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  /*standalone: true,*/
+
   selector: 'core-component',
   templateUrl: './core.component.html',
   styleUrl: './core.component.scss',
-  /*imports: [HomePageComponent, NavigationBarComponent, RouterModule]*/
 })
 export class CoreComponent{
   title = 'front-end';
- 
-  /*
-  constructor(public route: ActivatedRoute, public service: CoreService) {
-    
-    this.service.current_page = this.route.snapshot.url.toString();
-    this.service.cp_style = this.route.snapshot.url.toString();
-   
-    }
-*/
-  //username: string;  
-  //acc_name: string; 
+
   constructor(public authService: AuthService, public route: ActivatedRoute, public service: CoreService) {
     
-    //this.service.current_page = this.route.snapshot.url.toString();
-    //this.service.cp_style = this.route.snapshot.url.toString();
-    //this.username = "";
-    //this.acc_name = "";
     var arr = window.location.pathname.split("/");
     let last_url_section = arr.pop() ??"error";
     let second_last = arr.pop() ??"error";
 
-    
+    //sets current page and cp_style
     if ( last_url_section == 'Home' || last_url_section == 'Explore' || last_url_section == 'Notifications' || last_url_section == 'Messages' || last_url_section == 'Profile')
-    {
-      //this.service.current_page = last_url_section;
-      //this.service.setCurrentPage(last_url_section);
+    { 
 
       this.service.current_page = last_url_section;
       this.service.cp_style = last_url_section;
@@ -52,7 +35,6 @@ export class CoreComponent{
             {
               this.service.current_page = 'ProfileFollow';
               this.service.cp_style = 'ProfileFollow';
-              //this.service.setCurrentPage('ProfileFollow');
             }
             else
             {
@@ -72,22 +54,10 @@ export class CoreComponent{
         }*/
         else
         {
-          //could be set to ''
           this.service.current_page = last_url_section;
           this.service.cp_style = last_url_section;
         }
     }
 
     }
-
-    
-  /*ngOnInit() {  
-    //this.username = localStorage.getItem('username') ?? "badToken";
-   //this.acc_name = localStorage.getItem('acc_name') ?? "badToken";  
-    //console.log(this.username); 
-
-   
-
-   
-  } */
 }

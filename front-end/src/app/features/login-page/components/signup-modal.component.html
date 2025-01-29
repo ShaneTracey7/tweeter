@@ -132,13 +132,13 @@
                     <div class="error-message" *ngIf="submit_flag == 1 && password_flag ==1">Passwords do not match!</div> 
                 </div>
 
-
+                <!-- for testing
                 <p> {{ this.signupForm.value | json}} valid: {{ signupForm.valid}}</p>
 
                 <div *ngFor="let userItem of UserArray">
                     <p>{{userItem.name}} {{userItem.email}} {{userItem.acc_name}} {{userItem.username}} {{userItem.password}}</p>
                 </div>
-
+                    -->
             </div>
 
             <div id="modal-footer">             <!-- [disabled]="!signupForm.valid" -->

@@ -840,6 +840,11 @@ $cancel-red: #f51616;
     /*width: 10px;
     border: 5px 5px;*/
   }
+  .modal-content-area::-webkit-scrollbar {
+    display: none;
+      /*width: 10px;
+      border: 5px 5px;*/
+    }
   
   /* Track */
   .secondary-content::-webkit-scrollbar-track {

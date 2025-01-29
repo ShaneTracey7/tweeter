@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { AppComponent } from '../../../app.component';
-import { createProfiles, createSecondarySearchTopics} from '../../../core/data';
+import { createSecondarySearchTopics} from '../../../core/data';
 import { CoreService } from '../../../core/core-service.service';
 @Component({
   /*standalone: true,*/
