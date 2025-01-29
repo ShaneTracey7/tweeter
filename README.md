@@ -41,4 +41,5 @@ Tools:
 -ran front-end and back-end from my laptop's terminal during development(front-end moved to GitHubPages and back-end being hosted elsewhere)
 
 
+https://github.com/user-attachments/assets/06baf1e7-c6ca-4835-a120-26183c97158d
 
