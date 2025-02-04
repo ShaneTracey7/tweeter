@@ -1,5 +1,5 @@
 
-Visit my Twitter clone, Tweeter: 
+Watch the video demo of my Twitter clone, Tweeter: https://youtu.be/7Zml1f_6K6A
 
 Purpose:
 
@@ -38,8 +38,9 @@ Tools:
 
 -iconmonstr for most of the icons: https://iconmonstr.com
 
--ran front-end and back-end from my laptop's terminal during development(front-end moved to GitHubPages and back-end being hosted elsewhere)
+-ran front-end and back-end from my laptop's terminal during development
 
 Video Demo:
 
+https://youtu.be/7Zml1f_6K6A
 
