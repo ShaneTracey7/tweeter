@@ -15,6 +15,9 @@ Users can post about whatever they like, ex. to show support for their favorite 
 Post Interacting:
 Users can comment, like, or retweet any posts they like in a way to communicate to others publicly.
 
+Threads:
+Users can reply to other posts (creating a thread of posts)
+
 Following:
 Users can follow their friends and accounts they find interesting. Posts from these accounts will populate their following feed.
 
