@@ -1,4 +1,3 @@
-$bg-color-hover-main: rgba(0, 0, 0, 0.030);
 $bg-color-hover-nav-tool-bar: rgba(0, 0, 0, 0.090);
 $twitter-blue: #1DA1F2;
 $gray-font: rgb(97, 110, 124);
@@ -151,7 +150,7 @@ $gray-font: rgb(97, 110, 124);
     outline: 0;
     border: 2px solid $twitter-blue
   }
-  //need to find out how to do this for sibling element (label has to be blue)
+  
   select:focus + label{
     color: $twitter-blue;
   }
@@ -242,7 +241,7 @@ $gray-font: rgb(97, 110, 124);
     outline: 0;
     border: 2px solid $twitter-blue
   }
-
+/*
   #username-input{
     padding-right: 20px;
   }
@@ -252,7 +251,7 @@ $gray-font: rgb(97, 110, 124);
   }
   #password-input2{
     padding-right: 40px;
-  }
+  }*/
 }
 
 #dob-blurb{
@@ -283,17 +282,17 @@ $gray-font: rgb(97, 110, 124);
 
   #modal-login-button{
     background-color: $gray-font;
-  }
+  }/*
   #modal-login-button:hover{
     background-color: rgba(97, 110, 124, 0.800);
-  }
+  }*/
 
   #modal-signup-button{
     background-color: $twitter-blue;
-  }
+  }/*
   #modal-signup-button:hover{
     background-color: #1da0f2cb;
-  }
+  }*/
   .modal-footer-button{
     color: white;
     background-color: $gray-font;
@@ -304,10 +303,10 @@ $gray-font: rgb(97, 110, 124);
     border-radius: 25px;
     border: 0;
   }
-
+/*
   #modal-login-button:hover{
     background-color: rgba(97, 110, 124, 0.800);
-  }
+  }*/
 
   #footer-blurb{
     width: 450px;

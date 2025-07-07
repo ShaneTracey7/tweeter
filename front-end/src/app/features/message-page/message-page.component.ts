@@ -11,7 +11,8 @@ import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-message-page',
   templateUrl: './message-page.component.html',
-  styleUrl: './message-page.component.scss'
+  /*styleUrl: './message-page.component.scss'*/
+  styleUrls: ['./message-page.component.scss', 'message-page-styles2.scss'],
 })
 export class MessagePageComponent extends CoreComponent{
 

@@ -4,16 +4,6 @@ $twitter-blue: #1DA1F2;
 $gray-font: rgb(97, 110, 124);
 $cancel-red: #f51616;
 
-#elip-div{
-  margin-left: auto;
-}
-
-#post-new-message-modal{
-  position: absolute;
-  top: 80px;
-  left: 11%;
-}
-
 #share-modal{
   position:relative;
   display: flex;
@@ -74,92 +64,7 @@ $cancel-red: #f51616;
   color: $gray-font;
   margin-left: 7px;
 }
-.reactionbar-line{
-  margin-top: 0;
-  margin-bottom: 0;
-}
 
-#user-accname-stack{
-  display: flex;
-  flex-direction: column;
-  margin-left: 20px;
-}
-
-#test-block{
-  display:flex;
-  flex-direction: row;
-}
-
-/* post styling */
-.reactionbar{
-  display:flex;
-  flex-direction: row;
-  align-items: center;
-  height: 45px;
-  margin-left: 7px;
-
-}
-
-.reaction-button{
-  height:35px;
-  width: fit-content;
-  min-width: 35px;
-  border: 0;
-  background-color: transparent;
-  padding: 0;
-  margin: 0;
-}
-
-img.reactionbaricons{
-    width: 18px;
-    height: 18px;
-  }
-
-.icon-container{
-  display: inline;
-  align-items: center;
-  justify-content: center;
-  padding: 7px;
-  background-color: transparent;
-  border-radius: 50%;
-  height: fit-content;
-}
-
-#post-profile-img{
-    margin: 0;
-  }
-.post-text{
-  margin-top: 10px;
-  margin-bottom: 5px;
-  margin-left: 7px;
-}
-.post-image{
-  margin-right: 15px;
-  margin-left: 7px;
-  max-height: 500px;
-  height:fit-content;
-  width: fit-content;
-  max-width: 98%;
-  border-radius: 15px;
-  border: 1px solid lightgray;
-
-}
-
-#post-username:hover {
-  text-decoration: underline;
-}
-
-  .post-content-container{
-    display: inline;
-    width: 100%;
-  }
-
-  .post-profile-container{
-    margin-top: 12px;
-    margin-left: 17px;
-    width: fit-content;
-    height: fit-content;  
-  }
 
   .post-heading{
     display:flex;
@@ -218,46 +123,7 @@ img.reactionbaricons{
     background-color: $bg-color-hover-main;
   }
   
-  .reactiongroup {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: left;
-    height: 40px;
-    width: 21%;
-  }
-
-  #last-rc {
-    width: 14%;
-    justify-content: center;
-    align-items: center;
-    //gap: 5px;
-    margin-right: 5px;
-  }
-
-  .reactionbarvalues {
-    display: inline-flex;
-    margin: 0px;
-    font-size: 0.85rem;
-    vertical-align: middle;
-    align-items: center;
-  }
-
-  .post-content{
-    margin-left: 7px;
-  }
-
-  .post {
-    width: 100%;
-    display: inline-flex;
-    height: fit-content;
-  }
-
-  .e-post-stack{
-    display: inline-flex;
-    height: fit-content;
-    width: 100%;
-  }
+  
 
   .empty-post{
     padding-top: 5px;
@@ -351,38 +217,6 @@ img.reactionbaricons{
     .e-icon-container:hover{
       background-color: #1da0f22f;
     }
-  }
-
-  #home-searchbar{
-    width: 100%;
-    max-width: 350px;
-    margin-right:auto;
-    font-size: 0.95rem;
-  }
-
-  #home-form {
-    width: 89%;
-    height: 50px;
-    margin-left:8%;
-    margin-top: 5px;
-    position:sticky;
-    position: -webkit-sticky;
-    top: 0;
-    background-color: white;
-  }
-
-  #home-tab1, #home-tab2{
-    width:50%;
-  }
-  
-  .lower-toolbar {
-    display: none;
-  }
-
-  .toolbar-icon {
-
-    margin-left: 10px;
-    margin-bottom: 0px;
   }
 
   /* always keep media conditional css at bottom, otherwise, css won't work properly */
