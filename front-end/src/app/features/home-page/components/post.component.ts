@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output, SimpleChanges} from '@angular/c
 import { HomePageComponent } from '../home-page.component';
 import { Post, Profile, getProfile } from '../../../core/data';
 import { MainContentComponent } from '../../../shared/components/main-content/main-content.component';
-
+import { environment } from '../../../../environments/environment';
 
 @Component({
 
@@ -232,7 +232,7 @@ handleRetweet()
     console.log("this.hpc.service_acc_name: " +this.upc.service_acc_name);
     console.log("this.post.id: " + this.post.id);
 
-    this.http.post("http://127.0.0.1:8000/retweet",requestBody).subscribe((resultData: any)=>
+    this.http.post(environment.apiUrl + "/retweet",requestBody).subscribe((resultData: any)=>
     {
         //console.log(resultData);
     
@@ -267,7 +267,7 @@ handleRetweet()
     };
     console.log("this.post.id: " + this.post.id);
 
-    this.http.put("http://127.0.0.1:8000/retweet",requestBody).subscribe((resultData: any)=>
+    this.http.put(environment.apiUrl + "/retweet",requestBody).subscribe((resultData: any)=>
     {
       //console.log(resultData);
 
@@ -311,7 +311,7 @@ handleLike()
     console.log("this.hpc.service_acc_name: " +this.upc.service_acc_name);
     console.log("this.post.id: " + this.post.id);
 
-    this.http.post("http://127.0.0.1:8000/like",requestBody).subscribe((resultData: any)=>
+    this.http.post(environment.apiUrl + "/like",requestBody).subscribe((resultData: any)=>
     {
         //console.log(resultData);
     
@@ -345,7 +345,7 @@ handleLike()
     };
     console.log("this.post.id: " + this.post.id);
 
-    this.http.put("http://127.0.0.1:8000/like",requestBody).subscribe((resultData: any)=>
+    this.http.put(environment.apiUrl + "/like",requestBody).subscribe((resultData: any)=>
     {
       //console.log(resultData);
 
@@ -595,7 +595,7 @@ grayReaction()
   handleCopyTextClick()
   {
     //will not work when i host on github pages(would need to fix then)
-    let url = 'http://localhost:4200/tweeter/Post/' + this.post.id
+    let url = environment.frontEndUrl + '/tweeter/Post/' + this.post.id
     // Copy the text inside the text field
     navigator.clipboard.writeText(url);
   }
@@ -659,7 +659,7 @@ grayReaction()
       'word': 'getReplies',
       'num': this.post.id, 
     };
-      this.http.put("http://127.0.0.1:8000/tweet",requestMessage).subscribe((resultData: any)=>
+      this.http.put(environment.apiUrl + "/tweet",requestMessage).subscribe((resultData: any)=>
       {
         if(resultData == 'Failed to Add' || resultData == 'No replies' || resultData == 'check is else')
           {
@@ -689,7 +689,7 @@ grayReaction()
       'word': 'incrementPostView',
       'num': this.post.id, 
     };
-      this.http.put("http://127.0.0.1:8000/tweet",requestMessage).subscribe((resultData: any)=>
+      this.http.put(environment.apiUrl + "/tweet",requestMessage).subscribe((resultData: any)=>
       {
         console.log(resultData);
       });

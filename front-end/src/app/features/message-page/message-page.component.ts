@@ -6,6 +6,7 @@ import { Convo ,Message, Post, Profile } from '../../core/data';
 import { TweetService } from '../../core/tweet-service';
 import { AuthService } from '../../core/auth.service';
 import { FormBuilder, Validators } from '@angular/forms';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-message-page',
@@ -124,7 +125,7 @@ createDBConvo(thisUser: string, otherUser: string/*, text: string*/)
       //"word3" : text, //message text //dont need when initially creating convo
     };
 
-    this.service.http.post("http://127.0.0.1:8000/message",requestBody).subscribe((resultData: any)=>
+    this.service.http.post(environment.apiUrl + "/message",requestBody).subscribe((resultData: any)=>
       {
         console.log(resultData);
   
@@ -169,7 +170,7 @@ createDBMessage(convo_id: number, sent_acc_name: string,text: string)
       "num" : convo_id,
 
     };
-    this.service.http.put("http://127.0.0.1:8000/message",requestBody).subscribe((resultData: any)=>
+    this.service.http.put(environment.apiUrl + "/message",requestBody).subscribe((resultData: any)=>
       {
         console.log(resultData);
   
@@ -197,7 +198,7 @@ createDBTweetMessage(convo_id: number, sent_acc_name: string, post_id: number)
     };
     console.log("******** pid" + post_id + " ********");
     console.log("******** spid" + String(post_id) + " ********");
-    this.service.http.put("http://127.0.0.1:8000/message",requestBody).subscribe((resultData: any)=>
+    this.service.http.put(environment.apiUrl + "/message",requestBody).subscribe((resultData: any)=>
       {
         console.log(resultData);
   
@@ -251,7 +252,7 @@ getConvos(check: boolean)
       "word2" : this.service_acc_name,
     };
 
-    this.service.http.put("http://127.0.0.1:8000/message",requestBody).subscribe((resultData: any)=>
+    this.service.http.put(environment.apiUrl +"/message",requestBody).subscribe((resultData: any)=>
     {
       //console.log(resultData[0][0].acc_name);
 

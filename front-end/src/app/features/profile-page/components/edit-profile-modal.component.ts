@@ -3,6 +3,7 @@ import { CoreService } from "../../../core/core-service.service";
 import { Profile } from "../../../core/data";
 import { FormBuilder, Validators } from "@angular/forms";
 import { HttpClient } from "@angular/common/http";
+import { environment } from "../../../../environments/environment";
 
 @Component({
 
@@ -43,7 +44,7 @@ import { HttpClient } from "@angular/common/http";
         
         this.onChanges();
        // let file;// = document.getElementById('profile-img-upload')?.files;
-        const imageEndpoint = 'http://127.0.0.1:8000/image'; //might need to change this
+        const imageEndpoint = environment.apiUrl + '/image'; //might need to change this
        //const profileInput = document.querySelector('#profile-img-upload');
        const updateProfile = async() => {
         //event.preventDefault()
@@ -353,7 +354,7 @@ import { HttpClient } from "@angular/common/http";
             "following_count" : 0,
           };
 
-            this.http.put("http://127.0.0.1:8000/user",requestBody).subscribe((resultData: any)=>
+            this.http.put(environment.apiUrl +"/user",requestBody).subscribe((resultData: any)=>
             {
                 console.log(resultData);
               if(resultData == 'Failed to Add')

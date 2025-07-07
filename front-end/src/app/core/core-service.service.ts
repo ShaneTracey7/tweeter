@@ -2,6 +2,7 @@ import { Injectable} from "@angular/core";
 import { Profile, getImgUrl } from "./data";
 import { ActivatedRoute, Router} from "@angular/router";
 import { HttpClient } from "@angular/common/http";
+import { environment } from "../../environments/environment";
 
 //@Injectable()
 @Injectable({
@@ -237,7 +238,7 @@ routeToChild(str: string){
 //gets all users(from DB) and adds them to DBUsers array
 getAllDBUsers()
 {
-    this.http.get("http://127.0.0.1:8000/user").subscribe((resultData: any)=>
+    this.http.get(environment.apiUrl + "/user").subscribe((resultData: any)=>
     {
         console.log(resultData);
         this.DBUsers = resultData;
@@ -360,7 +361,7 @@ getFollowers()
       "word2" : this.acc_name,
     };
 
-    this.http.put("http://127.0.0.1:8000/follow",requestBody).subscribe((resultData: any)=>
+    this.http.put(environment.apiUrl + "/follow",requestBody).subscribe((resultData: any)=>
     {
       console.log(resultData);
 
@@ -390,7 +391,7 @@ getFollowers()
       "word2" : this.acc_name,
     };
 
-    this.http.put("http://127.0.0.1:8000/follow",requestBody).subscribe((resultData: any)=>
+    this.http.put(environment.apiUrl + "/follow",requestBody).subscribe((resultData: any)=>
     {
       console.log(resultData);
 
@@ -430,7 +431,7 @@ isFollower(acc_name: string)
 /* NOT IN USE */
 handleGetAll()
 {
-  this.http.get("http://127.0.0.1:8000/image").subscribe((resultData: any)=>
+  this.http.get(environment.apiUrl +"/image").subscribe((resultData: any)=>
     {
         console.log(resultData);
     });
@@ -444,7 +445,7 @@ handleDeleteAllImages()
     "word": 'deleteAllImages',
   }
 
-  this.http.put("http://127.0.0.1:8000/image", responseBody).subscribe((resultData: any)=>
+  this.http.put(environment.apiUrl +"/image", responseBody).subscribe((resultData: any)=>
     {
         console.log(resultData);
     });
@@ -459,7 +460,7 @@ handleDeleteImage(image_name: string)
     "word2": image_name,//image name with file type (ex. test.png)
   }
 
-  this.http.put("http://127.0.0.1:8000/image", responseBody).subscribe((resultData: any)=>
+  this.http.put(environment.apiUrl +"/image", responseBody).subscribe((resultData: any)=>
     {
         console.log(resultData);
     });
@@ -475,7 +476,7 @@ handleGetImage(): any
     //'https://drive.google.com/thumbnail?id= <insert id> &sz=w1000' //format works!
   }
 
-  this.http.put("http://127.0.0.1:8000/image", responseBody).subscribe((resultData: any)=>
+  this.http.put(environment.apiUrl +"/image", responseBody).subscribe((resultData: any)=>
     {
         console.log(resultData);
         if(resultData == 'Check is false' || resultData == 'Failed to Add')

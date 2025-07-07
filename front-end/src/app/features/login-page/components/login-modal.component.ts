@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 //import { ILogin } from 'src/app/interfaces/login';  
 import { AuthService } from '../../../core/auth.service'
 import { CoreService } from '../../../core/core-service.service';
-
+import { environment } from '../../../../environments/environment';
 @Component({
 
   selector: 'login-modal',
@@ -96,7 +96,7 @@ loginForm = this.formBuilder.group({
       "following_count" : 0,
     };
 
-    obj.http.put("http://127.0.0.1:8000/user",requestBody).subscribe((resultData: any)=>
+    obj.http.put(environment.apiUrl +"/user",requestBody).subscribe((resultData: any)=>
     {
         console.log(resultData);
     

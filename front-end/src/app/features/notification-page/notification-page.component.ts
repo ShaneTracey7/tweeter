@@ -6,6 +6,7 @@ import { AuthService } from '../../core/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { TweetService } from '../../core/tweet-service';
 import { Notification, Post, Profile } from '../../core/data';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-notification-page',
@@ -81,7 +82,7 @@ export class NotificationPageComponent extends CoreComponent{
       'word': 'getNotifications',
       'word2': this.service_acc_name,
     };
-      this.http.put("http://127.0.0.1:8000/notification",requestMessage).subscribe((resultData: any)=>
+      this.http.put(environment.apiUrl + "/notification",requestMessage).subscribe((resultData: any)=>
       {
         if(resultData == 'Failed to Add' || resultData == 'No notifications' || resultData == 'check is else')
           {

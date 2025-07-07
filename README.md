@@ -1,5 +1,5 @@
 
-Visit my Twitter clone, Tweeter: 
+Watch the video demo of my Twitter clone, Tweeter: https://youtu.be/7Zml1f_6K6A
 
 Purpose:
 
@@ -14,6 +14,9 @@ Users can post about whatever they like, ex. to show support for their favorite 
 
 Post Interacting:
 Users can comment, like, or retweet any posts they like in a way to communicate to others publicly.
+
+Threads:
+Users can reply to other posts (creating a thread of posts)
 
 Following:
 Users can follow their friends and accounts they find interesting. Posts from these accounts will populate their following feed.
@@ -38,8 +41,9 @@ Tools:
 
 -iconmonstr for most of the icons: https://iconmonstr.com
 
--ran front-end and back-end from my laptop's terminal during development(front-end moved to GitHubPages and back-end being hosted elsewhere)
+-ran front-end and back-end from my laptop's terminal during development
 
 Video Demo:
 
+https://youtu.be/7Zml1f_6K6A
 

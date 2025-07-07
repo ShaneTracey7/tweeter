@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { TweetService } from '../../core/tweet-service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Post, Profile } from '../../core/data';
+import { environment } from '../../../environments/environment'; //import environment for apiUrl
 
 import { By, Builder, Browser } from 'selenium-webdriver';
 @Component({
@@ -116,7 +117,7 @@ handleGetImage()
     "word2": 'test_image2',//image name without file type
   }
 
-  this.http.put("http://127.0.0.1:8000/image", responseBody).subscribe((resultData: any)=>
+  this.http.put(environment.apiUrl + "/image", responseBody).subscribe((resultData: any)=>
     {
         console.log(resultData);
         if(resultData == 'Check is false' || resultData == 'Failed to Add')
@@ -183,7 +184,7 @@ updateImageAsync()
 //gets all tweets(from DB) and adds them to DBfeed array
 getDBForYouFeed()
 {
-    this.http.get("http://127.0.0.1:8000/tweet").subscribe((resultData: any)=>
+    this.http.get(environment.apiUrl + "/tweet").subscribe((resultData: any)=>
     {
         //console.log(resultData);
         console.log('getDBForYouFeed resultData: ' + resultData);
@@ -199,7 +200,7 @@ getDBFollowFeed()
     "word2": this.service_acc_name,
   };
 
-    this.http.put("http://127.0.0.1:8000/tweet", requestBody).subscribe((resultData: any)=>
+    this.http.put(environment.apiUrl + "/tweet", requestBody).subscribe((resultData: any)=>
     {
         console.log('getDBFollowFeed resultData: ' + resultData);
         console.log('getDBFollowFeed resultData: ' + resultData[0].text_content);
@@ -249,7 +250,7 @@ getDBForYouFeedUsers()
       "num": tweet.user,
     };
 
-    this.http.put("http://127.0.0.1:8000/tweet",requestBody).subscribe((resultData: any)=>
+    this.http.put( environment.apiUrl + "/tweet",requestBody).subscribe((resultData: any)=>
     {
         //var u = new Profile(resultData.pic, resultData.username, resultData.acc_name, "bio", 100, 200);
         var u = new Profile(resultData.pic,resultData.header_pic, resultData.username, resultData.acc_name, resultData.bio, resultData.following_count, resultData.follower_count);
@@ -273,7 +274,7 @@ getDBFollowFeedUsers()
       "num": tweet.user,
     };
 
-    this.http.put("http://127.0.0.1:8000/tweet",requestBody).subscribe((resultData: any)=>
+    this.http.put(environment.apiUrl + "/tweet",requestBody).subscribe((resultData: any)=>
     {
         //var u = new Profile(resultData.pic, resultData.username, resultData.acc_name, "bio", 100, 200);
         var u = new Profile(resultData.pic,resultData.header_pic, resultData.username, resultData.acc_name, resultData.bio, resultData.following_count, resultData.follower_count);
@@ -602,7 +603,7 @@ tweetForm = this.formBuilder.group({
       "retweets": 0,
       "engagements": 0,
       };
-      this.http.post("http://127.0.0.1:8000/tweet",postData).subscribe((resultData: any)=>
+      this.http.post(environment.apiUrl + "/tweet",postData).subscribe((resultData: any)=>
       {
           console.log(resultData);
       });

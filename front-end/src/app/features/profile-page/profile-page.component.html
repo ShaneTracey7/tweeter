@@ -67,6 +67,7 @@
       <div *ngIf="last_url_section == 'Profile'; else otherProfile">
       <!--<div *ngIf="last_url_section == 'Profile' && service.other_profile_flag == false; else otherProfile">-->
 
+                                          <!-- "this.service.setUrl(this.user.header_pic)" -->
         <img id="profile-bg-image" [src]="this.service.setUrl(this.user.header_pic)" alt="background-image"/>
         <div id="profile-row1">
           <img id="profile-p-image" [src]="this.service.setUrl(this.user.pic)" alt="profile-image"/>

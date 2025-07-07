@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter} from '@angular/core';
 import { getImgUrl } from '../../../core/data';
 import { FormControl, FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl, ValidationErrors, NgForm} from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import {environment} from '../../../../environments/environment';
 
 @Component({
 
@@ -50,7 +51,7 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) {
   //gets all users from database
   getAllUser()
   {
-    this.http.get("http://127.0.0.1:8000/user")
+    this.http.get(environment.apiUrl + "/user")
     .subscribe((resultData: any)=>
     {
         console.log(resultData);
@@ -59,7 +60,7 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) {
   }
   getAllUser2(obj: any)
   {
-    obj.http.get("http://127.0.0.1:8000/user")
+    obj.http.get(environment.apiUrl +"/user")
     .subscribe((resultData: any)=>
     {
         console.log(resultData);
@@ -98,7 +99,7 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) {
      */
 
 
-     obj.http.post("http://127.0.0.1:8000/user",userData).subscribe((resultData: any)=>
+     obj.http.post(environment.apiUrl +"/user",userData).subscribe((resultData: any)=>
      {
          console.log(resultData);
          obj.getAllUser2(obj);
@@ -124,7 +125,7 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) {
 
     };
 
-    obj.http.put("http://127.0.0.1:8000/user",requestBody).subscribe((resultData: any)=>
+    obj.http.put(environment.apiUrl +"/user",requestBody).subscribe((resultData: any)=>
     {
         console.log(resultData); //returns failed to add
 

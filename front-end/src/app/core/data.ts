@@ -31,6 +31,22 @@ export function getImgUrl(str:string)
         }
 }
 
+function setGoogleDriveImg()
+{
+    /*
+    doesn't work as is 
+    URL url = new URL("http://www.somesite.com/picture.jpg");
+
+    URLConnection urlCon = url.openConnection();
+    urlConn.setRequestProperty("Referer", "http://www.somesite.com");
+    urlConn.connect();
+
+    InputStream urlStream = urlCon.getInputStream();
+
+    Image image = ImageIO.read(urlStream);
+    */
+}
+
 //Global variables (for test data)
 export var elon: string = getImgUrl('elon.jpeg');
 

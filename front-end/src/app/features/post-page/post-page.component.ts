@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { TweetService } from '../../core/tweet-service';
 import { Notification, Post, Profile } from '../../core/data';
 import { FormBuilder,Validators } from '@angular/forms';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-post-page',
@@ -127,7 +128,7 @@ export class PostPageComponent extends CoreComponent{
       'word': 'getReplies',
       'num': this.p_id, 
     };
-      this.http.put("http://127.0.0.1:8000/tweet",requestMessage).subscribe((resultData: any)=>
+      this.http.put(environment.apiUrl + "/tweet",requestMessage).subscribe((resultData: any)=>
       {
         if(resultData == 'Failed to Add' || resultData == 'No replies' || resultData == 'check is else')
           {
@@ -212,7 +213,7 @@ getDBPost()
     'num': this.p_id, 
   };
 
-    this.http.put("http://127.0.0.1:8000/tweet",requestMessage).subscribe((resultData: any)=>
+    this.http.put(environment.apiUrl + "/tweet",requestMessage).subscribe((resultData: any)=>
     {
       if(resultData == 'Failed to Add' || resultData == 'No post')
         {

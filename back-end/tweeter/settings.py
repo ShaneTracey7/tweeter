@@ -14,6 +14,9 @@ import os
 #import dj_database_url
 from pathlib import Path
 
+from decouple import config
+import dj_database_url
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 #old
 #BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,13 +31,12 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-hi)-xtm@a*m8$@a8k!zy4dy2o+$z5x0v8y+8oamu4z6%&*et=y'
-
+SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
-ALLOWED_HOSTS = ['*']
-
+#DEBUG = False
+DEBUG = config("DEBUG", default=False, cast=bool)
+#ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['tweeter-back-end.onrender.com', 'localhost']
 
 # Application definition
 REST_FRAMEWORK = {
@@ -59,7 +61,7 @@ INSTALLED_APPS = [
     'content',
     'corsheaders',
     'rest_framework',
-    'bootstrap5',
+    #'bootstrap5',
     'whitenoise.runserver_nostatic',
     
     'api.apps.ApiConfig',
@@ -84,7 +86,7 @@ CORS_ALLOW_ALL_HEADERS=True
 
 """ https://shanetracey7.github.io, idk if that did anything"""
 CORS_ALLOWED_ORIGINS = [
-"http://localhost:4200",
+"http://localhost:4200","https://tweeter-front-end.vercel.app",
 ]
 
 #
@@ -119,13 +121,19 @@ WSGI_APPLICATION = 'tweeter.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+#    'default': {
+ #       'ENGINE': 'django.db.backends.sqlite3',
+  #      'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+   # }
+#}
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL'),
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
-
+#try connection steps directly from neon
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

@@ -7,6 +7,7 @@ import { AuthService } from '../../core/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { TweetService } from '../../core/tweet-service';
 import { createEntertainmentSearchTopics, createForYouSearchTopics, createNewsSearchTopics, createSportsSearchTopics, createTrendingSearchTopics, Post, Profile } from '../../core/data';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-explore-page',
@@ -134,7 +135,7 @@ export class ExplorePageComponent extends CoreComponent {
             'word2': str, //current value of input
           };
           */
-            this.http.put("http://127.0.0.1:8000/user",requestBody).subscribe((resultData: any)=>
+            this.http.put(environment.apiUrl + "/user",requestBody).subscribe((resultData: any)=>
             {
               if(resultData == 'Failed to Add' || resultData == 'No users' || resultData == 'check is else')
                 {
@@ -190,7 +191,7 @@ export class ExplorePageComponent extends CoreComponent {
             'word2': str, //current value of input
           };
           */
-            this.http.put("http://127.0.0.1:8000/user",requestBody).subscribe((resultData: any)=>
+            this.http.put(environment.apiUrl + "/user",requestBody).subscribe((resultData: any)=>
             {
               if(resultData == 'Failed to Add' || resultData == 'No posts' || resultData == 'check is else')
                 {

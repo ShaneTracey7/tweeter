@@ -7,6 +7,7 @@ import { ProfilePageComponent } from "../../../features/profile-page/profile-pag
 import { TweetService } from "../../../core/tweet-service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "../../../core/auth.service";
+import { environment } from "../../../../environments/environment";
 
 @Component({
 
@@ -246,7 +247,7 @@ searchForm = this.formBuilder.group({inquiry:[''],});
         'word2': str, //current value of input
       };
       */
-        this.http.put("http://127.0.0.1:8000/user",requestBody).subscribe((resultData: any)=>
+        this.http.put(environment.apiUrl +"/user",requestBody).subscribe((resultData: any)=>
         {
           if(resultData == 'Failed to Add' || resultData == 'No users' || resultData == 'check is else')
             {
@@ -308,7 +309,7 @@ searchForm = this.formBuilder.group({inquiry:[''],});
             'word2': str, //current value of input
           };
           */
-            this.http.put("http://127.0.0.1:8000/user",requestBody).subscribe((resultData: any)=>
+            this.http.put(environment.apiUrl + "/user",requestBody).subscribe((resultData: any)=>
             {
               if(resultData == 'Failed to Add' || resultData == 'No posts' || resultData == 'check is else')
                 {

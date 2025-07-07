@@ -7,6 +7,7 @@ import { MessagePageComponent } from "../message-page.component";
 import { AuthService } from "../../../core/auth.service";
 import { ActivatedRoute } from "@angular/router";
 import { TweetService } from "../../../core/tweet-service";
+import { environment } from "../../../../environments/environment";
 
 @Component({
 
@@ -109,7 +110,7 @@ import { TweetService } from "../../../core/tweet-service";
             'word': 'getDefaultList',
             'word2': this.service_acc_name,
           };
-        this.http.put("http://127.0.0.1:8000/follow",requestBody).subscribe((resultData: any)=>
+        this.http.put(environment.apiUrl + "/follow",requestBody).subscribe((resultData: any)=>
         {
           if(resultData == 'Failed to Add' || resultData == 'No following' || resultData == 'check is else')
             {
@@ -151,7 +152,7 @@ import { TweetService } from "../../../core/tweet-service";
         'word2': str, //current value of input
       };
       */
-        this.http.put("http://127.0.0.1:8000/user",requestBody).subscribe((resultData: any)=>
+        this.http.put(environment.apiUrl + "/user",requestBody).subscribe((resultData: any)=>
         {
           if(resultData == 'Failed to Add' || resultData == 'No users' || resultData == 'check is else')
             {

@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable} from "@angular/core";
 import { Post, getImgUrl, Profile } from "./data";
 import { FormBuilder, FormControl, Validators } from "@angular/forms";
-
+import {environment } from "../../environments/environment";
 
 @Injectable()
 export class TweetService {
@@ -107,7 +107,7 @@ getLikeIDsDB(ac:string)
       "word2": ac, 
     }
     
-  this.http.put("http://127.0.0.1:8000/like",requestMessage).subscribe((resultData: any)=>
+  this.http.put(environment.apiUrl + "/like",requestMessage).subscribe((resultData: any)=>
     {
         //console.log(resultData);
 
@@ -134,7 +134,7 @@ getRetweetIDsDB(ac:string)
       "word2": ac, 
     }
     
-  this.http.put("http://127.0.0.1:8000/retweet",requestMessage).subscribe((resultData: any)=>
+  this.http.put(environment.apiUrl +"/retweet",requestMessage).subscribe((resultData: any)=>
     {
         //console.log(resultData);
 
@@ -177,7 +177,7 @@ postTweet(acc_name: string, text_content: string, image_content: string, reply_i
     }
     console.log(requestMessage)
   
-  this.http.post("http://127.0.0.1:8000/tweet",requestMessage).subscribe((resultData: any)=>
+  this.http.post(environment.apiUrl +"/tweet",requestMessage).subscribe((resultData: any)=>
     {
         console.log(resultData);
     });
@@ -188,7 +188,7 @@ postTweet(acc_name: string, text_content: string, image_content: string, reply_i
 //gets all tweets(from DB) and adds them to DBfeed array
 getDBForYouFeed()
 {
-    this.http.get("http://127.0.0.1:8000/tweet").subscribe((resultData: any)=>
+    this.http.get(environment.apiUrl +"/tweet").subscribe((resultData: any)=>
     {
         //console.log(resultData);
         this.DBfeed = resultData;
@@ -220,7 +220,7 @@ getDBForYouFeedUsers()
       //"word": 'w',
     };
 
-    this.http.put("http://127.0.0.1:8000/tweet",requestBody).subscribe((resultData: any)=>
+    this.http.put(environment.apiUrl +"/tweet",requestBody).subscribe((resultData: any)=>
     {
         //var u = new Profile(this.elon, resultData.username, resultData.acc_name, "bio", 100, 200);
         var u = new Profile(resultData.pic, resultData.header_pic,resultData.username, resultData.acc_name, "bio", 100, 200);

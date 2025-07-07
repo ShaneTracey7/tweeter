@@ -7,6 +7,8 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../core/auth.service';
 import { TweetService } from '../../core/tweet-service';
 import { SearchBarComponent } from '../../shared/components/search-bar/search-bar.component';
+import { environment } from '../../../environments/environment';
+
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
@@ -198,7 +200,7 @@ export class ProfilePageComponent extends CoreComponent{
       "pic" : 'url', //new
     };
 
-    this.http.put("http://127.0.0.1:8000/user",requestBody).subscribe((resultData: any)=>
+    this.http.put(environment.apiUrl +"/user",requestBody).subscribe((resultData: any)=>
     {
         console.log(resultData);
     
@@ -228,7 +230,7 @@ export class ProfilePageComponent extends CoreComponent{
       "word2" : this.acc_name,
     };
 
-    this.http.put("http://127.0.0.1:8000/follow",requestBody).subscribe((resultData: any)=>
+    this.http.put(environment.apiUrl + "/follow",requestBody).subscribe((resultData: any)=>
     {
       console.log(resultData);
 
@@ -289,7 +291,7 @@ export class ProfilePageComponent extends CoreComponent{
       "word2" : this.acc_name,
     };
 
-    this.http.put("http://127.0.0.1:8000/follow",requestBody).subscribe((resultData: any)=>
+    this.http.put(environment.apiUrl +"/follow",requestBody).subscribe((resultData: any)=>
     {
       console.log(resultData);
 
@@ -328,7 +330,7 @@ export class ProfilePageComponent extends CoreComponent{
       "word2" : this.acc_name,
     };
 
-    this.http.put("http://127.0.0.1:8000/tweet",requestBody).subscribe((resultData: any)=>
+    this.http.put(environment.apiUrl +"/tweet",requestBody).subscribe((resultData: any)=>
     {
       //console.log("get posts result data: " + resultData[0].text_content);
 
@@ -368,7 +370,7 @@ export class ProfilePageComponent extends CoreComponent{
       "word2" : this.acc_name,
     };
 
-    this.http.put("http://127.0.0.1:8000/tweet",requestBody).subscribe((resultData: any)=>
+    this.http.put(environment.apiUrl +"/tweet",requestBody).subscribe((resultData: any)=>
     {
       //console.log("get likes result data: " + resultData[0].text_content);
 
@@ -407,7 +409,7 @@ export class ProfilePageComponent extends CoreComponent{
       "word2" : this.acc_name,
     };
 
-    this.http.put("http://127.0.0.1:8000/tweet",requestBody).subscribe((resultData: any)=>
+    this.http.put(environment.apiUrl +"/tweet",requestBody).subscribe((resultData: any)=>
     {
       //console.log("get retweets result data: " + resultData[0].text_content);
 
@@ -741,7 +743,7 @@ export class ProfilePageComponent extends CoreComponent{
       "word2" : this.service_acc_name,
     };
 
-    this.http.post("http://127.0.0.1:8000/follow",requestBody).subscribe((resultData: any)=>
+    this.http.post(environment.apiUrl +"/follow",requestBody).subscribe((resultData: any)=>
     {
       console.log(resultData);
       this.user.follower_count = String(Number(this.user.follower_count) + 1); //idk if this will work
@@ -757,7 +759,7 @@ export class ProfilePageComponent extends CoreComponent{
       "word3": this.acc_name,
     };
 
-    this.http.put("http://127.0.0.1:8000/follow",requestBody).subscribe((resultData: any)=>
+    this.http.put(environment.apiUrl +"/follow",requestBody).subscribe((resultData: any)=>
     {
       console.log(resultData);
       this.user.follower_count = String(Number(this.user.follower_count) + 1); //idk if this will work

@@ -5,7 +5,7 @@ import { MainContentComponent } from '../../../shared/components/main-content/ma
 import { FormBuilder } from '@angular/forms';
 import { AuthService } from '../../../core/auth.service';
 import { ActivatedRoute } from '@angular/router';
-
+import {environment} from '../../../../environments/environment';
 
 
 @Component({
@@ -209,7 +209,7 @@ showModal(obj:MessageComponent)
         "num" : this.convo.id, //convo id
       };
 
-    this.service.http.put("http://127.0.0.1:8000/message",requestBody).subscribe((resultData: any)=>
+    this.service.http.put(environment.apiUrl +"/message",requestBody).subscribe((resultData: any)=>
       {
         console.log(resultData);
         
