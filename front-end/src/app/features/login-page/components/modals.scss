@@ -1,4 +1,4 @@
-$bg-color-hover-nav-tool-bar: rgba(0, 0, 0, 0.090);
+//$bg-color-hover-nav-tool-bar: rgba(0, 0, 0, 0.090);
 $twitter-blue: #1DA1F2;
 $gray-font: rgb(97, 110, 124);
 
@@ -54,7 +54,7 @@ $gray-font: rgb(97, 110, 124);
     margin: 0;
     width: 100%;
   }
-
+/*
   #form-status-message-good{
     color: white;
     background-color: rgba(0, 128, 0, 0.6);
@@ -68,7 +68,7 @@ $gray-font: rgb(97, 110, 124);
     padding: 3px;
     border-radius: 5px;
     margin: 2px;
-  }
+  }*/
 
   .close-button-container{
     display: flex;
@@ -86,9 +86,10 @@ $gray-font: rgb(97, 110, 124);
       border: 0;
     }
 }
+/*
 .close-button-container:hover{
   background-color: $bg-color-hover-nav-tool-bar;
-}
+}*/
 
 .show-button-container{
   position: absolute; 
@@ -114,9 +115,10 @@ $gray-font: rgb(97, 110, 124);
   }
 
 }
+/*
 .show-button-container:hover{
   background-color: $bg-color-hover-nav-tool-bar;
-}
+}*/
 
 #signup-modal-content{
   height: 100%;
