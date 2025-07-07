@@ -26,20 +26,17 @@ $gray-font: rgb(97, 110, 124);
   background-color: white;
   border: 0;
   border-radius: 25px;
-
 }
 
 #modal-header{
   position: sticky;
   position: -webkit-sticky;
-  //top: 0;
   display: flex;
   flex-direction: column;
   min-height: fit-content;
   height: fit-content;
   width: 100%;
   align-items: center;
-  //border: 1px solid red;
   background-color: white;
   border-radius: 25px;
   margin: 0;
@@ -50,7 +47,6 @@ $gray-font: rgb(97, 110, 124);
       margin-left: 37%;
       margin-top: 5px;
     }
-
   }
   #modal-header-top{
     display: flex;
@@ -90,13 +86,11 @@ $gray-font: rgb(97, 110, 124);
       padding: 2px;
       border: 0;
     }
-
 }
 .close-button-container:hover{
   background-color: $bg-color-hover-nav-tool-bar;
 }
 
- 
 .show-button-container{
   position: absolute; 
   top: 50%; 
@@ -111,7 +105,6 @@ $gray-font: rgb(97, 110, 124);
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  //margin-left: 15px;
   
   #show-p-button{
 
@@ -164,28 +157,11 @@ $gray-font: rgb(97, 110, 124);
   }
 }
 
-
 .form-input-container{
   display: flex;
   flex-direction: column;
-  //justify-content: center;
   align-items: center;
 }
-/*
-.ng-pristine.ng-untouched.ng-invalid {
-  border: 1px solid lightgray;
-}
-.ng-valid{
-  border: 1px solid lightgray;
-}
-
-.ng-invalid.ng-touched.ng-pristine{
-  border: 2px solid red;
-}
-.ng-invalid.ng-touched.ng-dirty{
-  border: 2px solid red;
-}
-*/
 
 .error-message{
   color: red;
@@ -202,7 +178,6 @@ $gray-font: rgb(97, 110, 124);
   height: 250px;
   min-height: 100px;
   padding-top: 15px;
-  //min-height: fit-content;
   margin-bottom: auto;
   width: 100%;
   display: flex;
@@ -227,19 +202,12 @@ $gray-font: rgb(97, 110, 124);
         left: 10px;
         font-size: 0.8rem;
         color: lightgray;
-        //transform: translateY(-50%); 
       }
   }
   
   .password-input-container{
     position: relative; 
     display: inline-block;
-    //display: flex;
-    //flex-direction: row;
-    //justify-content: center;
-    //align-items: center;
-    //width: 525px;
-    //gap: 10px;
   }
 
   input{
@@ -261,7 +229,6 @@ $gray-font: rgb(97, 110, 124);
   input::placeholder{
     font-size: 1.2rem;
     color: $gray-font;
-    //margin-left: 10px;
     
   }
 
@@ -303,7 +270,6 @@ $gray-font: rgb(97, 110, 124);
     margin: 0;
   }
 }
-
 
 #modal-footer{
   display: flex;
@@ -362,8 +328,5 @@ $gray-font: rgb(97, 110, 124);
       padding: 0;
     }
   }
-
-
-
 }
 

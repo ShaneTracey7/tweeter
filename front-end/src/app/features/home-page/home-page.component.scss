@@ -1,12 +1,8 @@
-/* when making any changes, you will have to collectstatic after 
-and add html somewhere, to make them appear, try clicking another then come back and refresh
-*/
 $bg-color-hover-main: rgba(0, 0, 0, 0.030);
 $bg-color-hover-nav-tool-bar: rgba(0, 0, 0, 0.090);
 $twitter-blue: #1DA1F2;
 $gray-font: rgb(97, 110, 124);
 $cancel-red: #f51616;
-/********************* share modal ********************/
 
 #elip-div{
   margin-left: auto;
@@ -24,11 +20,10 @@ $cancel-red: #f51616;
   flex-direction: column;
   z-index: 2;
   background-color: white;
-  width: fit-content; //width: 200px;
+  width: fit-content; 
   height: fit-content;
   border-radius: 15px;
   box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.200);
-  //padding: 15px;
   margin-left: -230px;
   margin-top: 120px;
 
@@ -36,7 +31,6 @@ $cancel-red: #f51616;
     margin: 0;
     padding: 0;
   }
-
 
   #share-modal-delete-container{
     border-radius: 0 0 15px 15px;
@@ -158,16 +152,11 @@ img.reactionbaricons{
   .post-content-container{
     display: inline;
     width: 100%;
-    //margin-left: 7px;
-    //margin-right: 7px;
-    //padding-left: 7px;
-    //padding-right: 7px;
   }
 
   .post-profile-container{
     margin-top: 12px;
     margin-left: 17px;
-    //display: inline;
     width: fit-content;
     height: fit-content;  
   }
@@ -176,7 +165,7 @@ img.reactionbaricons{
     display:flex;
     flex-direction: row;
     align-items: center;
-    margin-left: 14px; //7px
+    margin-left: 14px;
     margin-top: 5px;
 
       #post-username{
@@ -201,7 +190,6 @@ img.reactionbaricons{
         content: ".";
         margin-left: 4px;
         margin-right: 4px;
-        //vertical-align: super;
       }
 
       #post-etime{
@@ -217,7 +205,6 @@ img.reactionbaricons{
         padding: 7px;
         border-radius: 20px;
       }
-
   }
 
   .post-profile{
@@ -263,7 +250,6 @@ img.reactionbaricons{
   .post {
     width: 100%;
     display: inline-flex;
-    //border-top: 1px solid lightgray;
     height: fit-content;
   }
 
@@ -275,7 +261,6 @@ img.reactionbaricons{
 
   .empty-post{
     padding-top: 5px;
-    //display: inline-flex;
     display:flex;
     flex-direction: column;
     height: fit-content;
@@ -290,7 +275,6 @@ img.reactionbaricons{
       padding-bottom: 20px;
       width: 100%;
       border-bottom: 1px solid lightgray;
-      //border: 2px solid green;
       overflow-wrap: normal;
     }
     #e-post-input::placeholder{
@@ -310,7 +294,6 @@ img.reactionbaricons{
       gap: 7px;
       width: 96%;
       height: 55px;
-      //margin: 5px;
     }
 
     #form-status-message-good{
@@ -372,8 +355,7 @@ img.reactionbaricons{
 
   #home-searchbar{
     width: 100%;
-    max-width: 350px; /*new */
-    
+    max-width: 350px;
     margin-right:auto;
     font-size: 0.95rem;
   }
@@ -406,29 +388,22 @@ img.reactionbaricons{
   /* always keep media conditional css at bottom, otherwise, css won't work properly */
 
 @media only screen and (min-width: 701px) and (max-width: 975px) {
-
     #post-new-message-modal{
       left: 18%;
     }
-
 }
 
 @media only screen and (min-width: 976px) and (max-width: 1079px) {
-
   #post-new-message-modal{
     left: 9%;
   }
 }
 
 @media only screen and (min-width: 1080px) and (max-width: 1249px) {
-
   #post-new-message-modal{
     left: 13%;
   }
-
 }
-
-
   @media only screen and (min-width: 1250px) {
 
     #home-form{
