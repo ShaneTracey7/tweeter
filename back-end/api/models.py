@@ -191,9 +191,9 @@ class Image(models.Model):
     #image_file = models.ImageField(storage=gd_storage)
     #test_image = models.ImageField(storage=gd_storage)
     @classmethod
-    def create(cls,image_name,image_file):
-       image = cls(image_name=image_name,image_file=image_file)
+    def create(cls,image_name):
+       image = cls(image_name=image_name)
        return image
 
     def __str__(self):
-       return f"{self.id} {self.image_name} {self.image_file}"
+       return f"{self.id} {self.image_name}"

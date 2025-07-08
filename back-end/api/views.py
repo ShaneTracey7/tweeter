@@ -19,6 +19,9 @@ from django.core.files import File
 @csrf_exempt
 def imageApi(request,id=id):
 
+    print('in image api')
+    """
+
     #this is mainly for testing
     if request.method =='GET':
         
@@ -88,7 +91,7 @@ def imageApi(request,id=id):
             #image2.save()
             #print('end except')
 
-           
+        
         return JsonResponse('saved to google drive',safe=False)
     
 
@@ -240,7 +243,7 @@ def imageApi(request,id=id):
     
     elif request.method =='DELETE':
         return JsonResponse("Deleted Successfully",safe=False)
-
+"""
 
 
 @csrf_exempt
