@@ -3,7 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
-from api.serializers import ImageSerializer, StudentSerializer, UserSerializer, TweetSerializer, MessageSerializer, FollowSerializer, LikeSerializer, RetweetSerializer, NotificationSerializer, UserMessageSerializer, ConvoSerializer
+from api.serializers import ImageSerializer, UserSerializer, TweetSerializer, MessageSerializer, FollowSerializer, LikeSerializer, RetweetSerializer, NotificationSerializer, UserMessageSerializer, ConvoSerializer
 from api.models import Image, Student, User, Tweet, Message, Follow, Like, Retweet, Notification, Convo, UserMessage
 from rest_framework.renderers import JSONRenderer
 import json
