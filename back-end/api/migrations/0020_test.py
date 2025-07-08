@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('test_name', models.CharField(max_length=200)),
-                ('test_file', models.FileField(storage=gdstorage.storage.GoogleDriveStorage(), upload_to='')),
+                ('test_file', models.FileField()),
             ],
         ),
     ]

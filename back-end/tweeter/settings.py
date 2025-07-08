@@ -31,7 +31,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config("SECRET_KEY")
+#SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = False
 DEBUG = config("DEBUG", default=False, cast=bool)
@@ -65,7 +65,7 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     
     'api.apps.ApiConfig',
-    'gdstorage',
+    #'gdstorage',
 ]
 
 MIDDLEWARE = [
@@ -92,7 +92,6 @@ CORS_ALLOWED_ORIGINS = [
 #
 # Google Drive Storage Settings
 #
-GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = PROJECT_ROOT + '/google/mystic-stream-442302-q8-6677be077f51.json'
 #GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = PROJECT_ROOT + '/google/template.json'
 #GOOGLE_DRIVE_STORAGE_MEDIA_ROOT = '<base google drive path for file uploads>' # OPTIONAL
 
@@ -126,12 +125,20 @@ WSGI_APPLICATION = 'tweeter.wsgi.application'
   #      'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
    # }
 #}
+"""
 DATABASES = {
     'default': dj_database_url.config(
         default=config('DATABASE_URL'),
         conn_max_age=600,
         ssl_require=True
     )
+}
+"""
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": "mydatabase",
+    }
 }
 #try connection steps directly from neon
 

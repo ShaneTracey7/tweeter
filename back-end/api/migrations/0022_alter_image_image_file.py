@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='image',
             name='image_file',
-            field=models.ImageField(storage=gdstorage.storage.GoogleDriveStorage(), upload_to=''),
+            field=models.ImageField(),
         ),
     ]
