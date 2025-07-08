@@ -49,7 +49,7 @@ admin.site.register(UserMessage, UserMessageAdmin)
 
 #---NEW---
 class ImageAdmin(admin.ModelAdmin):
-  list_display = ("id","image_name","image_file")
+  list_display = ("id","image_name")
 
 admin.site.register(Image, ImageAdmin)
 
