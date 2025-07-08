@@ -134,72 +134,73 @@ def imageApi(request,id=id):
                 image_db_name2 = user.acc_name + '_' + 'header'
                 myFile2 = File(img2)
                 #check if file already exists
-                try:
+                #try:
                     # only need to delete google drive instance and save new instance to Django
-                    dbImage = Image.objects.get(image_name=image_db_name2)
-                    dbImage.image_file.storage.delete(dbImage.image_file.name)
-                    dbImage.image_file = myFile2
-                    dbImage.save()
-                    image2 = dbImage #new
-                except Image.DoesNotExist:
+                    #dbImage = Image.objects.get(image_name=image_db_name2)
+                    #dbImage.image_file.storage.delete(dbImage.image_file.name)
+                    #dbImage.image_file = myFile2
+                    #dbImage.save()
+                    #image2 = dbImage #new
+
+                #except Image.DoesNotExist:
                     # create new image instance and save to Django
-                    i2 = Image.create(image_db_name2,myFile2)
-                    i2.save()
-                    image2 = i2 #new
+                    #i2 = Image.create(image_db_name2,myFile2)
+                    #i2.save()
+                    #image2 = i2 #new
                 last_node = 'profile'
 
             image_db_name = user.acc_name + '_' + last_node
             myFile = File(img)
             image = ''
-            try:
-                print('img exists')
+            #try:
+            #    print('img exists')
                 # only need to delete google drive instance and save new instance to Django
-                dbImage = Image.objects.get(image_name=image_db_name)
-                dbImage.image_file.storage.delete(dbImage.image_file.name)
-                dbImage.image_file = myFile
-                dbImage.save()
-                image = dbImage #new
-            except Image.DoesNotExist:
-                print('img doesnt exist')
+            #    dbImage = Image.objects.get(image_name=image_db_name)
+            #    dbImage.image_file.storage.delete(dbImage.image_file.name)
+            #    dbImage.image_file = myFile
+            #    dbImage.save()
+            #    image = dbImage #new
+            #except Image.DoesNotExist:
+            #    print('img doesnt exist')
                 # create new image instance and save to Django
-                i = Image.create(image_db_name,myFile)
-                i.save()
-                image = i #new
+            #    i = Image.create(image_db_name,myFile)
+            #    i.save()
+            #    image = i #new
             
             prefix = 'https://drive.google.com/thumbnail?id='
             suffix = '&sz=w1000' # idk if necessary yet
 
-            if type_input == 'both bio' or type_input == 'both':
-                print('include both')
-                #splice url to get google drive image id
-                url_list = image2.image_file.url.split('=')
-                id = url_list[1].replace('&export','')
-                print(id)
-                user.header_pic = prefix + id
+      #      if type_input == 'both bio' or type_input == 'both':
+      #          print('include both')
+      #          #splice url to get google drive image id
+      #          url_list = image2.image_file.url.split('=')
+      #          id = url_list[1].replace('&export','')
+      #          print(id)
+       #         user.header_pic = prefix + id
 
             #splice url to get google drive image id
-            url_list = image.image_file.url.split('=')
-            id = url_list[1].replace('&export','')
-            print(id)
+     #       url_list = image.image_file.url.split('=')
+      #      id = url_list[1].replace('&export','')
+      #      print(id)
         
             #set image url to tweet or user's 'pic' or 'header_pic'
-            print('b4')
-            print(type_input.find('profile'))
-            print('after')
-            if type_input.find('profile') != -1 or type_input.find('both')!= -1:
-                user.pic = prefix + id
-                if type_input.find('bio') != -1:
-                    user.bio = bio_input
-                user.save()
-            elif type_input.find('header') != -1 or type_input.find('both') != -1:
-                user.header_pic = prefix + id
-                if type_input.find('bio') != -1:
-                    user.bio = bio_input
-                user.save()
-            else: # tweet
-                if type_input == 'tweet':
-                    tid = int(tweet_id_input)
-                    tweet = Tweet.objects.get(id=tid)
+      #      print('b4')
+      #      print(type_input.find('profile'))
+      #      print('after')
+      #      if type_input.find('profile') != -1 or type_input.find('both')!= -1:
+      #          user.pic = prefix + id
+      #          if type_input.find('bio') != -1:
+      #              user.bio = bio_input
+      #          user.save()
+      #      elif type_input.find('header') != -1 or type_input.find('both') != -1:
+      #          user.header_pic = prefix + id
+      #          if type_input.find('bio') != -1:
+      #              user.bio = bio_input
+      #          user.save()
+       #     else: # tweet
+      #          if type_input == 'tweet':
+      ##              tid = int(tweet_id_input)
+      #              tweet = Tweet.objects.get(id=tid)
                     #tweet.pic = prefix + id #need to add that attribute in tweet model
                     #tweet.save()
             return JsonResponse('Saved to google drive',safe=False)
@@ -1169,40 +1170,6 @@ def followApi(request,id=id):
         follow = Follow.objects.get(id=id)
         follow.delete()
         return JsonResponse("Deleted Successfully",safe=False)
-
-
-@csrf_exempt
-def studentApi(request,id=id):
-    
-    if request.method =='GET':
-        student = Student.objects.all()
-        student_serializer = StudentSerializer(student,many=True)
-        return JsonResponse(student_serializer.data,safe=False)
-
-    elif request.method =='POST':
-        student_data = JSONParser().parse(request)
-        student_serializer = StudentSerializer(data=student_data)
-        if student_serializer.is_valid():
-            student_serializer.save()
-            return JsonResponse("Added Successfully",safe=False)
-        return JsonResponse("Failed to Add",safe=False)
-    
-    elif request.method =='PUT':
-        student_data = JSONParser().parse(request)
-        student = Student.objects.get(id=id)
-        student_serializer = StudentSerializer(student,data=student_data)
-        if student_serializer.is_valid():
-            student_serializer.save()
-            return JsonResponse("Updated Successfully",safe=False)
-        return JsonResponse("Failed to Update")
-    
-    elif request.method =='DELETE':
-        student = Student.objects.get(id=id)
-        student.delete()
-        return JsonResponse("Deleted Successfully",safe=False)
-
-    
-    
 
 """
 elif request.method =='POST':
