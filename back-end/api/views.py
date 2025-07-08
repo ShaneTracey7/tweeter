@@ -1132,48 +1132,39 @@ def followApi(request,id=id):
 
 
 
-
- #       message_serializer = MessageSerializer(data=message_data)
- #       if message_serializer.is_valid():
+"""
+        message_serializer = MessageSerializer(data=message_data)
+       if message_serializer.is_valid():
             
- #           check = message_serializer.data['word']
- #           acc_name_input = message_serializer.data['word2']
- #           if check == 'getFollowers':
- #               return JsonResponse("inside getFollowers if") 
- #               user = User.objects.get(acc_name=acc_name_input)
- #               followers = Follow.objects.filter(follower=user)
- #               if result.exists():
- #                   follow_serializer = FollowSerializer(followers,many=True)
- #                   return JsonResponse(follow_serializer.data,safe=False)
- #               else:
- #                   JsonResponse("No followers")
- #           elif check == 'getFollowing':
- #               return JsonResponse("inside getFollowing if") 
- #               user = User.objects.get(acc_name=acc_name_input)
- #               following = Follow.objects.filter(following=user)
- #               if result.exists():
- #                   follow_serializer = FollowSerializer(following,many=True)
- #                   return JsonResponse(follow_serializer.data,safe=False)
-#                else:
-#                    JsonResponse("No following")
-#        else:
-#            return JsonResponse("Failed to Add") 
-        #
-        #student = Student.objects.get(id=id)
-        #student_serializer = StudentSerializer(student,data=student_data)
-        #if student_serializer.is_valid():
-        #    student_serializer.save()
-        #    return JsonResponse("Updated Successfully",safe=False)
-        #return JsonResponse("Failed to Update")
-    
+            check = message_serializer.data['word']
+            acc_name_input = message_serializer.data['word2']
+            if check == 'getFollowers':
+                return JsonResponse("inside getFollowers if") 
+                user = User.objects.get(acc_name=acc_name_input)
+                followers = Follow.objects.filter(follower=user)
+                if result.exists():
+                    follow_serializer = FollowSerializer(followers,many=True)
+                    return JsonResponse(follow_serializer.data,safe=False)
+                else:
+                    JsonResponse("No followers")
+            elif check == 'getFollowing':
+                return JsonResponse("inside getFollowing if") 
+                user = User.objects.get(acc_name=acc_name_input)
+                following = Follow.objects.filter(following=user)
+                if result.exists():
+                    follow_serializer = FollowSerializer(following,many=True)
+                    return JsonResponse(follow_serializer.data,safe=False)
+                else:
+                    JsonResponse("No following")
+        else:
+            return JsonResponse("Failed to Add") 
+ 
     elif request.method =='DELETE':
         follow = Follow.objects.get(id=id)
         follow.delete()
         return JsonResponse("Deleted Successfully",safe=False)
 
-"""
-elif request.method =='POST':
-
+    elif request.method =='POST':
         #retrieve username from front end
         user_data = JSONParser().parse(request)
         # serialize username
