@@ -10,8 +10,8 @@
                     </div>
                     <img id="modal-logo" [src]="setUrl('tweeter-logo-blue.png')">
                 </div>
-                <div id="form-status-message-bad" *ngIf="this.signupForm.invalid && submit_flag == 1"> Account not created. Please fix incorrect inputs!</div>
-                <div id="form-status-message-good" *ngIf="this.signupForm.controls['username'].untouched && submit_flag == 2"> Account created successfully!</div>
+                <div id="form-status-message-bad-m" *ngIf="this.signupForm.invalid && submit_flag == 1"> Account not created. Please fix incorrect inputs!</div>
+                <div id="form-status-message-good-m" *ngIf="this.signupForm.controls['username'].untouched && submit_flag == 2"> Account created successfully!</div>
             </div>
 
             <div class="modal-content-area" id="signup-modal-content">

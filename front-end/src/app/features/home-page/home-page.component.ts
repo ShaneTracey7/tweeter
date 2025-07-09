@@ -545,7 +545,7 @@ setLiked()
   }
 
 tweetForm = this.formBuilder.group({
-  text_content: ['', [Validators.maxLength(181)]],
+  text_content: ['', [Validators.maxLength(100)]],//181
   });
 
   isValidInput2()
