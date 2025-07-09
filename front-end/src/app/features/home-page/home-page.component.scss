@@ -1,3 +1,6 @@
+
+@import './home-page-styles2.scss';
+
 $bg-color-hover-main: rgba(0, 0, 0, 0.030);
 $bg-color-hover-nav-tool-bar: rgba(0, 0, 0, 0.090);
 $twitter-blue: #1DA1F2;
@@ -8,7 +11,7 @@ img.reactionbaricons{
     width: 18px;
     height: 18px;
   }
-  
+
 #share-modal{
   position:relative;
   display: flex;

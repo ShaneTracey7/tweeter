@@ -34,7 +34,8 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config("SECRET_KEY")
+#SECRET_KEY = config("SECRET_KEY")
+SECRET_KEY = config("SECRET_KEY", default="django-insecure-hi)-xtm@a*m8$@a8k!zy4dy2o+$z5x0v8y+8oamu4z6%&*et=y")
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = False
 DEBUG = config("DEBUG", default=False, cast=bool)
@@ -88,7 +89,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_ALL_HEADERS=True
 
 CORS_ALLOWED_ORIGINS = [
-"https://thetweeters.netlify.app", #"http://localhost:4200",
+"https://thetweeters.netlify.app", "http://localhost:4200",
 ]
 
 #
@@ -149,7 +150,7 @@ DATABASES = {
 load_dotenv()
 
 # Replace the DATABASES section of your settings.py with this
-tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
+tmpPostgres = urlparse(os.getenv("DATABASE_URL",'postgresql://neondb_owner:npg_PxkFn1GM9Ogm@ep-flat-snow-a8pswr1n-pooler.eastus2.azure.neon.tech/neondb?sslmode=require&channel_binding=require'))
 
 DATABASES = {
     'default': {
