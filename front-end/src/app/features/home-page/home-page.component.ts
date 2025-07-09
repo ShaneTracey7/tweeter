@@ -14,8 +14,8 @@ import { By, Builder, Browser } from 'selenium-webdriver';
 
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
-  styleUrl: './home-page.component.scss',
-  /*styleUrls: ['./home-page.component.scss', 'home-page-styles2.scss'],*/
+  /*styleUrl: './home-page.component.scss',*/
+  styleUrls: ['./home-page.component.scss', 'home-page-styles2.scss'],
   //encapsulation: ViewEncapsulation.None
 /* HOPING the scope of this is just within home-page module, but it could be global */
 })
