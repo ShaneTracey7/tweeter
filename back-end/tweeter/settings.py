@@ -17,6 +17,9 @@ from pathlib import Path
 from decouple import config
 import dj_database_url
 
+from dotenv import load_dotenv
+from urllib.parse import urlparse, parse_qsl
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 #old
 #BASE_DIR = Path(__file__).resolve().parent.parent
@@ -85,7 +88,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_ALL_HEADERS=True
 
 CORS_ALLOWED_ORIGINS = [
-"http://localhost:4200","https://thetweeters.netlify.app",
+"https://thetweeters.netlify.app", #"http://localhost:4200",
 ]
 
 #
@@ -132,11 +135,31 @@ DATABASES = {
         ssl_require=True
     )
 }
-"""
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": "mydatabase",
+    }
+}
+"""
+# Add these at the top of your settings.py
+
+
+load_dotenv()
+
+# Replace the DATABASES section of your settings.py with this
+tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': tmpPostgres.path.replace('/', ''),
+        'USER': tmpPostgres.username,
+        'PASSWORD': tmpPostgres.password,
+        'HOST': tmpPostgres.hostname,
+        'PORT': 5432,
+        'OPTIONS': dict(parse_qsl(tmpPostgres.query)),
     }
 }
 #try connection steps directly from neon
