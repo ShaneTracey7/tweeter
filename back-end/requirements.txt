@@ -1,3 +1,4 @@
+
 asgiref==3.7.2
 cachetools==4.2.4
 certifi==2024.12.14
@@ -6,34 +7,34 @@ dj-database-url==2.3.0
 Django==5.0.2
 django-bootstrap5==25.1
 django-cors-headers==4.7.0
-django-googledrive-storage==1.6.0
 djangorestframework==3.16.0
-#google-api-core==2.10.2
-#google-api-python-client==2.173.0
-#google-auth==1.35.0
-#google-auth-httplib2==0.2.0
-#googleapis-common-protos==1.70.0
 gunicorn==23.0.0
 httplib2==0.22.0
 idna==3.10
 numpy==2.2.1
-#opencv-python==4.10.0.84
 packaging==25.0
 pillow==11.1.0
 protobuf==4.25.8
 psycopg2-binary==2.9.10
-pyasn1==0.6.1
-pyasn1_modules==0.4.2
 pyparsing==3.2.3
 python-dateutil==2.9.0.post0
 python-decouple==3.8
 python-dotenv==1.0.1
 requests==2.32.3
-rsa==4.9.1
 setuptools==80.9.0
 six==1.17.0
 sqlparse==0.4.4
 typing_extensions==4.12.2
-uritemplate==4.2.0
 urllib3==2.3.0
 whitenoise==6.8.2
+# django-googledrive-storage==1.6.0
+# google-api-core==2.10.2
+# google-api-python-client==2.173.0
+# google-auth==1.35.0
+# google-auth-httplib2==0.2.0
+# googleapis-common-protos==1.70.0
+# opencv-python==4.10.0.84
+# pyasn1==0.6.1
+# pyasn1_modules==0.4.2
+# rsa==4.9.1
+# uritemplate==4.2.0
