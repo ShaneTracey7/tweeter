@@ -1,11 +1,16 @@
-
-@import './message-page-styles2.scss';
-
 $bg-color-hover-main: rgba(0, 0, 0, 0.030);
 $bg-color-hover-nav-tool-bar: rgba(0, 0, 0, 0.090);
 $twitter-blue: #1DA1F2;
 $gray-font: rgb(97, 110, 124);
 $cancel-red: #f51616;
+
+.sc-content{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+  margin-bottom: auto;
+}
 
 /********************* Elip modal ********************/
 #elip-modal{

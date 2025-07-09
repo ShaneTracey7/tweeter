@@ -20,11 +20,11 @@ from django.core.files import File
 def imageApi(request,id=id):
 
     print('in image api')
-    """
+    
 
     #this is mainly for testing
     if request.method =='GET':
-        
+        """
         #images = Image.objects.filter(image_name='testfromfrontend')
 
             #image = Image.objects.get(image_name='test_image2')
@@ -91,13 +91,13 @@ def imageApi(request,id=id):
             #image2.save()
             #print('end except')
 
-        
+        """
         return JsonResponse('saved to google drive',safe=False)
     
 
     elif request.method =='POST':
 
-        type_input = request.POST.get('type') # header, profile, tweet, both
+        type_input = request.POST.get('type') # header, profile, tweet, bio, both
         acc_name_input = request.POST.get('acc_name') # account name of user
         user = User.objects.get(acc_name = acc_name_input)
 
@@ -109,7 +109,7 @@ def imageApi(request,id=id):
             user.save()
             return JsonResponse('Saved Bio',safe=False)
         else:
-
+            """
             img = request.FILES.get('image_file')
             
             bio_input = ''
@@ -206,9 +206,10 @@ def imageApi(request,id=id):
       #              tweet = Tweet.objects.get(id=tid)
                     #tweet.pic = prefix + id #need to add that attribute in tweet model
                     #tweet.save()
-            return JsonResponse('Saved to google drive',safe=False)
-        
-    elif request.method =='PUT': 
+            """      
+            return JsonResponse('Not bio',safe=False)
+        """    
+        elif request.method =='PUT': 
         #retrieve message from front end
         message_data = JSONParser().parse(request)
         # serialize message
@@ -240,10 +241,10 @@ def imageApi(request,id=id):
                 return JsonResponse("Check is false",safe=False)
             
         return JsonResponse("Failed to Add",safe=False)
-    
+        """
     elif request.method =='DELETE':
         return JsonResponse("Deleted Successfully",safe=False)
-"""
+
 
 
 @csrf_exempt
