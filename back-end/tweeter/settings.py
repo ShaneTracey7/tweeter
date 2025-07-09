@@ -34,8 +34,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = config("SECRET_KEY")
-SECRET_KEY = config("SECRET_KEY", default="django-insecure-hi)-xtm@a*m8$@a8k!zy4dy2o+$z5x0v8y+8oamu4z6%&*et=y")
+SECRET_KEY = config("SECRET_KEY", default="") #default=<secret key found in render environment variables> for local testing
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = False
 DEBUG = config("DEBUG", default=False, cast=bool)
@@ -119,39 +118,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'tweeter.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-#    'default': {
- #       'ENGINE': 'django.db.backends.sqlite3',
-  #      'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-   # }
-#}
-"""
-DATABASES = {
-    'default': dj_database_url.config(
-        default=config('DATABASE_URL'),
-        conn_max_age=600,
-        ssl_require=True
-    )
-}
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": "mydatabase",
-    }
-}
-"""
 # Add these at the top of your settings.py
-
 
 load_dotenv()
 
 # Replace the DATABASES section of your settings.py with this
-tmpPostgres = urlparse(os.getenv("DATABASE_URL",'postgresql://neondb_owner:npg_PxkFn1GM9Ogm@ep-flat-snow-a8pswr1n-pooler.eastus2.azure.neon.tech/neondb?sslmode=require&channel_binding=require'))
-
+tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
+#tmpPostgres = urlparse(os.getenv("DATABASE_URL",< insert database url from neon >)) for local testing
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
