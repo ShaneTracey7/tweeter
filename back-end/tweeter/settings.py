@@ -20,6 +20,7 @@ import dj_database_url
 from dotenv import load_dotenv
 from urllib.parse import urlparse, parse_qsl
 
+import cloudinary;
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 #old
 #BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,6 +42,11 @@ DEBUG = config("DEBUG", default=False, cast=bool)
 #ALLOWED_HOSTS = ['*']
 ALLOWED_HOSTS = ['tweeter-back-end.onrender.com', 'localhost']
 
+cloudinary.config( 
+  cloud_name = config('CLOUDINARY_CLOUD_NAME', default=""),
+  api_key    = config('CLOUDINARY_API_KEY', default=""),
+  api_secret = config('CLOUDINARY_API_SECRET', default="")
+)
 # Application definition
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
@@ -63,6 +69,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'content',
     'corsheaders',
+    'cloudinary',
     'rest_framework',
     #'bootstrap5',
     'whitenoise.runserver_nostatic',
@@ -97,6 +104,10 @@ CORS_ALLOWED_ORIGINS = [
 #GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = PROJECT_ROOT + '/google/template.json'
 #GOOGLE_DRIVE_STORAGE_MEDIA_ROOT = '<base google drive path for file uploads>' # OPTIONAL
 
+
+
+
+
 ROOT_URLCONF = 'tweeter.urls'
 
 TEMPLATES = [
@@ -123,7 +134,7 @@ WSGI_APPLICATION = 'tweeter.wsgi.application'
 load_dotenv()
 
 # Replace the DATABASES section of your settings.py with this
-tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
+tmpPostgres = urlparse(os.getenv("DATABASE_URL","")) #second param is defualt value for local testing
 #tmpPostgres = urlparse(os.getenv("DATABASE_URL",< insert database url from neon >)) for local testing
 DATABASES = {
     'default': {

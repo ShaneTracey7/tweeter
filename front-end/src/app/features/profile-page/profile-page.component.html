@@ -68,17 +68,17 @@
       <!--<div *ngIf="last_url_section == 'Profile' && service.other_profile_flag == false; else otherProfile">-->
 
                                           <!-- "this.service.setUrl(this.user.header_pic)" -->
-        <img id="profile-bg-image" [src]="this.service.setUrl(this.user.header_pic)" alt="background-image"/>
+        <img id="profile-bg-image" [src]="this.service.setHeaderUrl(this.user.header_pic)" alt="background-image"/>
         <div id="profile-row1">
-          <img id="profile-p-image" [src]="this.service.setUrl(this.user.pic)" alt="profile-image"/>
+          <img id="profile-p-image" [src]="this.service.setProfileUrl(this.user.pic)" alt="profile-image"/>
           <button class="profile-page-button" id="edit-profile-button" (click)="showEPModal()"  >Edit profile</button>
         </div>
       </div>
 
       <ng-template #otherProfile>
-        <img id="profile-bg-image" [src]="this.service.setUrl(this.user.header_pic)" alt="background-image"/>
+        <img id="profile-bg-image" [src]="this.service.setHeaderUrl(this.user.header_pic)" alt="background-image"/>
         <div id="profile-row1">
-          <img id="profile-p-image" [src]="this.service.setUrl(this.user.pic)" alt="profile-image"/>
+          <img id="profile-p-image" [src]="this.service.setProfileUrl(this.user.pic)" alt="profile-image"/>
           <div *ngIf="isFollow; else notFollowing">
             <button [style]="styleButton()" (click)="handleFollowClick()" class="profile-page-button" id="following-profile-button">Following</button>
           </div>

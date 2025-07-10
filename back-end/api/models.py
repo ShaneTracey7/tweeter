@@ -1,6 +1,7 @@
 from django.db import models
 from typing import List, Optional
 import datetime
+import cloudinary
 
 class Student(models.Model):
     name = models.CharField(max_length = 255)
@@ -10,14 +11,38 @@ class Student(models.Model):
     def __str__(self):
         return f"{self.name} {self.address} {self.fee}"
     
+class Image(models.Model):
+    # naming scheme: ex: 'hanna_banna-profile.png' <acc_name>-<profile>/<header>/<post_id>
+    #image_name = models.CharField(max_length=200) i dont think i need name anymore
+    image_url = models.URLField(blank=True, null=True)
+    image_public_id = models.CharField(max_length=200) #needed to delete image from cloudinary
+
+    @classmethod
+    def create(cls,image_url,image_public_id):
+       image = cls(image_url=image_url,image_public_id=image_public_id)
+       return image
+
+    def __str__(self):
+       return f"{self.id} {self.image_url} {self.image_public_id}"
+    
+    def delete(self, *args, **kwargs):
+        # Delete from Cloudinary first
+        if self.image_public_id:
+            cloudinary.uploader.destroy(self.image_public_id)
+
+        # Then delete from DB
+        super().delete(*args, **kwargs)
+
 class User(models.Model):
     #name = models.CharField(max_length = 35)
     username = models.CharField(max_length = 35)
     email= models.CharField(max_length = 35)
     acc_name = models.CharField(max_length = 35)
     password = models.CharField(max_length = 35)
-    pic = models.CharField(max_length = 100)
-    header_pic = models.CharField(max_length = 100, default="default-header-pic.png") #default is default-header.jpg
+    #pic = models.CharField(max_length = 100)
+    pic = models.ForeignKey(Image, on_delete=models.CASCADE, null=True, blank=True, related_name='profile_pics')
+    #header_pic = models.CharField(max_length = 100, default="default-header-pic.png") #default is default-header.jpg
+    header_pic = models.ForeignKey(Image, on_delete=models.CASCADE, null=True, blank=True, related_name='header_pics')
     bio = models.CharField(max_length = 100, default="") #increase max-length
     follower_count = models.IntegerField(default=0)
     following_count = models.IntegerField(default=0)
@@ -43,13 +68,15 @@ class Follow(models.Model):
     def __str__(self):
         return f"{self.id} {self.follower} {self.following}"
     
+    
 class Tweet(models.Model):
     #username = models.CharField(max_length = 35)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     #acc_name = models.CharField(max_length = 35) #probs only need to store this, and use a function to display user info
     date_created = models.DateTimeField()
     text_content = models.CharField(max_length = 280)
-    image_content = models.CharField(max_length = 35) #url to image (can alos look into ImageField)
+    #image_content = models.CharField(max_length = 35) #url to image (can alos look into ImageField)
+    image_content = models.ForeignKey(Image, on_delete=models.CASCADE, null=True, blank=True)
     likes = models.IntegerField()
     comments = models.IntegerField() # may not need this one
     retweets = models.IntegerField()
@@ -161,39 +188,5 @@ class Message():
 #class UserMessageArr():
  #   arr: List[UserMessage]
 
-        
-       
-
-
-
-#class TweetReactions(models.Model):
-    #may separate these and connect through keys
-    #tweet = models.ForeignKey(Tweet, on_delete=models.CASCADE)
-    #likes = models.IntegerField()
-    #comments = models.IntegerField() # may not need this one
-    #retweets = models.IntegerField()
-    #engagements = models.IntegerField()
-
-    #def __str__(self):
-     #   return f"{self.tweet} {self.likes} {self.comments} {self.retweets} {self.engagements}"
-
-#---NEW---
-#from gdstorage.storage import GoogleDriveStorage
-
-# Define Google Drive Storage
-#gd_storage = GoogleDriveStorage()
     
     
-class Image(models.Model):
-    # naming scheme: ex: 'hanna_banna-profile.png' <acc_name>-<profile>/<header>/<post_id>
-    image_name = models.CharField(max_length=200) 
-    #image_file = models.FileField(storage=gd_storage)
-    #image_file = models.ImageField(storage=gd_storage)
-    #test_image = models.ImageField(storage=gd_storage)
-    @classmethod
-    def create(cls,image_name):
-       image = cls(image_name=image_name)
-       return image
-
-    def __str__(self):
-       return f"{self.id} {self.image_name}"

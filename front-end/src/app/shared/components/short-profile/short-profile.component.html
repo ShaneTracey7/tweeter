@@ -2,7 +2,7 @@
 <div id="shortProfile" (click)="handleSelected()">
     <!--<a (click)="service.setCurrentPage('Explore')" routerLink="/tweeter/Explore" class="pane-more">Show more</a>-->
     
-    <img (click)="goToProfile(timer)" id="spi" (mouseenter)="showModal(profile, this)" (mouseleave)="hideModal(timer)" class="shortProfile-img" src={{this.service.setUrl(profile.pic)}} alt="profile"/>
+    <img (click)="goToProfile(timer)" id="spi" (mouseenter)="showModal(profile, this)" (mouseleave)="hideModal(timer)" class="shortProfile-img" src={{this.service.setProfileUrl(profile.pic)}} alt="profile"/>
     <!--<img id="spi" (mouseenter)="showModal(profile,this.show_modal,this.modal_profile,this.scc)" class="shortProfile-img" src={{profile.pic}} alt="profile"/>-->
     <div id="shortProfile-text">
         <h3 (click)="goToProfile(timer)" id="shortProfile-username"> {{ profile.username }} </h3>

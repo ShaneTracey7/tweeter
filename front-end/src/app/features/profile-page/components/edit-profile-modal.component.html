@@ -19,7 +19,7 @@
 
         
             <div id="edit-profile-row2">                  <!-- will be 'this.profile.header_pic'-->
-                <img id="edit-profile-bg-image" [src]="this.service.setUrl(this.profile.header_pic)" alt="background-image"/>
+                <img id="edit-profile-bg-image" [src]="this.service.setHeaderUrl(this.profile.header_pic)" alt="background-image"/>
                 <div id="camera-image-container-header" class="camera-image-container">
                     <label for="header-img-upload">
                         <img id="edit-profile-camera-image" (click)="handleClick('header')" [src]="this.service.setUrl('camera.png')" alt="camera-image"/>
@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div id="edit-profile-row1">
-                <img id="edit-profile-p-image" [src]="this.service.setUrl(this.profile.pic)" alt="profile-image"/>
+                <img id="edit-profile-p-image" [src]="this.service.setProfileUrl(this.profile.pic)" alt="profile-image"/>
                 <div class="camera-image-container">
                     <label for="profile-img-upload">
                         <img id="edit-profile-camera-image" (click)="handleClick('profile')" [src]="this.service.setUrl('camera.png')" alt="camera-image"/>

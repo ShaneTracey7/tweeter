@@ -1,5 +1,5 @@
 import { Injectable} from "@angular/core";
-import { Profile, getImgUrl } from "./data";
+import { Profile, getImgUrl, getHeaderImgUrl, getProfileImgUrl } from "./data";
 import { ActivatedRoute, Router} from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../environments/environment";
@@ -63,7 +63,14 @@ export class CoreService {
   {
     return getImgUrl(str);
   }
-
+  setProfileUrl(str: string)
+  {
+    return getProfileImgUrl(str);
+  }
+  setHeaderUrl(str: string)
+  {
+    return getHeaderImgUrl(str);
+  }
   // sets the current page value and selects the first tab
   setCurrentPage(str: string)
   {

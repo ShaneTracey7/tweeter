@@ -30,6 +30,60 @@ export function getImgUrl(str:string)
             } 
         }
 }
+export function getProfileImgUrl(str:string)
+{
+    let inDev = true; //might need to change this later
+    
+    if(inDev)
+        {
+            if(str == null)
+            {
+                return "../../../../assets/images/" + 'default-profile-pic.jpg';
+            }
+            else
+            {
+                return str;
+            }
+        }
+    else
+        {   
+            if(str == null)
+            {
+                return "/tweeter/assets/images/" + 'default-profile-pic.jpg'; //may need to fix path
+            }
+            else
+            {
+                return str;
+            } 
+        }
+}
+export function getHeaderImgUrl(str:string)
+{
+    let inDev = true; //might need to change this later
+    
+    if(inDev)
+        {
+            if(str == null)
+            {
+                return "../../../../assets/images/" + 'default-header-pic.png';
+            }
+            else
+            {
+                return str;
+            }
+        }
+    else
+        {   
+            if(str == null)
+            {
+                return "/tweeter/assets/images/" + 'default-header-pic.png'; //may need to fix path
+            }
+            else
+            {
+                return str;
+            } 
+        }
+}
 
 function setGoogleDriveImg()
 {

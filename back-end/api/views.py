@@ -9,7 +9,7 @@ from rest_framework.renderers import JSONRenderer
 import json
 import datetime
 from django.db.models import Q
-
+import cloudinary.uploader
 from django.db import models
 
 
@@ -97,119 +97,124 @@ def imageApi(request,id=id):
 
     elif request.method =='POST':
 
-        type_input = request.POST.get('type') # header, profile, tweet, bio, both
+        type_input = request.POST.get('type') # header, profile, tweet, bio, both, header bio, profile bio, both bio
         acc_name_input = request.POST.get('acc_name') # account name of user
         user = User.objects.get(acc_name = acc_name_input)
 
         print('type_input: ' + type_input)
+        tweet_id_input = ''
+
         if type_input == 'bio':
             print('in bio case')
             bio_input = request.POST.get('bio')
             user.bio = bio_input
             user.save()
             return JsonResponse('Saved Bio',safe=False)
+        
+        #might not need this because this should go through tweet api probs
+        elif type_input == 'tweet':
+              print('include tweet')
+              tweet_id_input = request.POST.get('tweet_id') # 0 if profile/header
+              t = Tweet.objects.get(id=tweet_id_input)
+
+              img = request.FILES.get('image_file')
+              upload_result = cloudinary.uploader.upload(img)
+              i1 = Image.create(upload_result["secure_url"],upload_result["public_id"])
+              
+              t.image_content = i1
+              t.save()
+              image_serializer = TweetSerializer(i1,many=False)
+              return JsonResponse(image_serializer.data,safe=False)
+
         else:
-            """
-            img = request.FILES.get('image_file')
+            #user.pic
+            #user.save()
+            #upload first image (either profile or header or both)
+            img1 = request.FILES.get('image_file')
+            upload_result = cloudinary.uploader.upload(img1)
+            i1 = Image.create(upload_result["secure_url"],upload_result["public_id"])
+            image_serializer = ImageSerializer(i1,many=False)
+            #return JsonResponse(image_serializer.data,safe=False)
             
+            #looks like i dont need to ensure the picture is different (checks in front-end for that)
+            #check if i need to add a bio
             bio_input = ''
             #bio_check = type_input.find('bio')
             if type_input == 'header bio' or type_input == 'profile bio' or type_input == 'both bio':
                 print('include bio')
                 bio_input = request.POST.get('bio')
-                #return JsonResponse('blah blah Bio',safe=False)
-
-            last_node = 'profile'
-            tweet_id_input = ''
-            if type_input == 'tweet':
-                print('include tweet')
-                tweet_id_input = request.POST.get('tweet_id') # 0 if profile/header
-                last_node = tweet_id_input
-
+                user.bio = bio_input
+            
+            #create and save image model
             if type_input.find('header') != -1:
                 print('include header')
-                last_node = 'header'
-            #create and save image model
-            image2 = ''
-            if type_input.find('both') != -1:
+                if user.header_pic: #if user already has a header pic on cloudinary (delete it)
+                    #old_public_id = user.header_pic.image_public_id
+                    #result = cloudinary.uploader.destroy(old_public_id)
+                    #print('deletion status:' + result)
+                    old_header_pic = user.header_pic
+                    old_header_pic.delete() #delete old header pic from django database
+                    user.header_pic = i1
+                else:
+                    user.header_pic = i1
+                
+                user.save() #save user with new image(s) and bio if applicable
+                return JsonResponse(image_serializer.data,safe=False)
+
+            elif type_input.find('profile') != -1:
+                print('include profile')
+                if user.pic: #if user already has a profile pic on cloudinary(delete it)
+                    #old_public_id = user.pic.image_public_id
+                    #result = cloudinary.uploader.destroy(old_public_id)
+                    #print('deletion status:' + result)
+                    old_pic = user.pic
+                    old_pic.delete() #delete old header pic from django database
+                    user.pic = i1
+                else:
+                    user.header_pic = i1
+                
+                user.save() #save user with new image(s) and bio if applicable
+                return JsonResponse(image_serializer.data,safe=False)
+            
+            elif type_input.find('both') != -1:
                 print('include both')
                 img2 = request.FILES.get('image_file2') # header is always file2 if both are present
-                image_db_name2 = user.acc_name + '_' + 'header'
-                myFile2 = File(img2)
-                #check if file already exists
-                #try:
-                    # only need to delete google drive instance and save new instance to Django
-                    #dbImage = Image.objects.get(image_name=image_db_name2)
-                    #dbImage.image_file.storage.delete(dbImage.image_file.name)
-                    #dbImage.image_file = myFile2
-                    #dbImage.save()
-                    #image2 = dbImage #new
-
-                #except Image.DoesNotExist:
-                    # create new image instance and save to Django
-                    #i2 = Image.create(image_db_name2,myFile2)
-                    #i2.save()
-                    #image2 = i2 #new
-                last_node = 'profile'
-
-            image_db_name = user.acc_name + '_' + last_node
-            myFile = File(img)
-            image = ''
-            #try:
-            #    print('img exists')
-                # only need to delete google drive instance and save new instance to Django
-            #    dbImage = Image.objects.get(image_name=image_db_name)
-            #    dbImage.image_file.storage.delete(dbImage.image_file.name)
-            #    dbImage.image_file = myFile
-            #    dbImage.save()
-            #    image = dbImage #new
-            #except Image.DoesNotExist:
-            #    print('img doesnt exist')
-                # create new image instance and save to Django
-            #    i = Image.create(image_db_name,myFile)
-            #    i.save()
-            #    image = i #new
+               
+                upload_result = cloudinary.uploader.upload(img2)
+                i2 = Image.create(upload_result["secure_url"],upload_result["public_id"])
+                image_serializer = ImageSerializer(i2,many=False)
+                
+                if user.pic: #if user already has a profile pic on cloudinary(delete it)
+                    #old_public_id = user.pic.image_public_id
+                    #result = cloudinary.uploader.destroy(old_public_id)
+                    #print('deletion status:' + result)
+                    old_pic = user.pic
+                    old_pic.delete() #delete old header pic from django database
+                    user.pic = i1
+                else:
+                    user.header_pic = i1
+                if user.header_pic: #if user already has a header pic on cloudinary (delete it)
+                    #old_public_id = user.header_pic.image_public_id
+                    #result = cloudinary.uploader.destroy(old_public_id)
+                    #print('deletion status:' + result)
+                    old_header_pic = user.header_pic
+                    old_header_pic.delete() #delete old header pic from django database
+                    user.header_pic = i2
+                else:
+                    user.header_pic = i2
+                
+                user.save() #save user with new image(s) and bio if applicable
+                return JsonResponse("Both images saved",safe=False)
             
-            prefix = 'https://drive.google.com/thumbnail?id='
-            suffix = '&sz=w1000' # idk if necessary yet
+            else:    
+                return JsonResponse('Image Api POST Error',safe=False)
+            
 
-      #      if type_input == 'both bio' or type_input == 'both':
-      #          print('include both')
-      #          #splice url to get google drive image id
-      #          url_list = image2.image_file.url.split('=')
-      #          id = url_list[1].replace('&export','')
-      #          print(id)
-       #         user.header_pic = prefix + id
 
-            #splice url to get google drive image id
-     #       url_list = image.image_file.url.split('=')
-      #      id = url_list[1].replace('&export','')
-      #      print(id)
-        
-            #set image url to tweet or user's 'pic' or 'header_pic'
-      #      print('b4')
-      #      print(type_input.find('profile'))
-      #      print('after')
-      #      if type_input.find('profile') != -1 or type_input.find('both')!= -1:
-      #          user.pic = prefix + id
-      #          if type_input.find('bio') != -1:
-      #              user.bio = bio_input
-      #          user.save()
-      #      elif type_input.find('header') != -1 or type_input.find('both') != -1:
-      #          user.header_pic = prefix + id
-      #          if type_input.find('bio') != -1:
-      #              user.bio = bio_input
-      #          user.save()
-       #     else: # tweet
-      #          if type_input == 'tweet':
-      ##              tid = int(tweet_id_input)
-      #              tweet = Tweet.objects.get(id=tid)
-                    #tweet.pic = prefix + id #need to add that attribute in tweet model
-                    #tweet.save()
-            """      
-            return JsonResponse('Not bio',safe=False)
-        """    
-        elif request.method =='PUT': 
+
+            # figure out what put is for, maybe delete
+            # i dont think there is ever a time when I would have to delete just an image (because images get deleted through account deletions and tweet deletions)
+    elif request.method =='PUT': 
         #retrieve message from front end
         message_data = JSONParser().parse(request)
         # serialize message
@@ -241,7 +246,7 @@ def imageApi(request,id=id):
                 return JsonResponse("Check is false",safe=False)
             
         return JsonResponse("Failed to Add",safe=False)
-        """
+        
     elif request.method =='DELETE':
         return JsonResponse("Deleted Successfully",safe=False)
 
@@ -918,7 +923,8 @@ def userApi(request,id=id):
             #else:
             us = user_serializer.data
             #acc_name = message_serializer.data['']
-            user = User.create(us['username'],us['email'],us['acc_name'],us['password'],us['pic'],us['header_pic'],'',us['follower_count'],us['following_count'])
+            #user = User.create(us['username'],us['email'],us['acc_name'],us['password'],us['pic'],us['header_pic'],'',us['follower_count'],us['following_count'])
+            user = User.create(us['username'],us['email'],us['acc_name'],us['password'],None,None,'',us['follower_count'],us['following_count'])
             user.save()
             #user_serializer.save() #if user_serializer.is_valid():
             return JsonResponse("Added Successfully",safe=False)
