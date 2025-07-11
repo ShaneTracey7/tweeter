@@ -137,50 +137,6 @@ handleGetImage()
     });
 
 }
-/*
-changeImage()
-{
-  this.updateImageAsync()
-  //this.handleGetImage();
-}
-
-//only need for testing
-
-updateImageAsync()
-  {
-    let globalObj = this;
-    globalObj.handleGetImage();
-   // while (test == undefined)
-   // {
-      //do nothing
-   // }
-   
-    //console.log(url_id);
-        const postPromise = new Promise<any>(function (resolve, reject) {
-          setTimeout(() => {
-            reject("We didn't get a response")
-          }, 5000) // 5 secs
-
-          setTimeout(() => {
-            console.log("image_test" + globalObj.image_test);
-            globalObj.home_pic_url = 'https://drive.google.com/thumbnail?id=' + globalObj.image_test;//works!
-            //console.log(globalObj.home_pic_url);
-            resolve('we got a response');
-          }, 3000) // 0 secs
-
-        })
-        async function myAsync(){
-          try{
-            postPromise;
-          }
-          catch (error) {
-            console.error('Promise rejected with error: ' + error);
-          }
-        }
-        myAsync();
-  }
-*/
-//******************************************************* */
 
 //gets all tweets(from DB) and adds them to DBfeed array
 getDBForYouFeed()
@@ -214,7 +170,6 @@ getDBFollowFeed()
         {
           this.DBFollowfeed = resultData;
         }
-        
     });
 }
 
@@ -224,7 +179,6 @@ presetUserFeed()
   this.DBfeed.forEach(() => {
     var u = new Profile("","", "", "", "", 0, 0);
     this.UserFeed.push(u)
-    
   });
 }
 
@@ -280,18 +234,14 @@ getDBFollowFeedUsers()
         //var u = new Profile(resultData.pic, resultData.username, resultData.acc_name, "bio", 100, 200);
         var u = new Profile(resultData.pic,resultData.header_pic, resultData.username, resultData.acc_name, resultData.bio, resultData.following_count, resultData.follower_count);
         this.FollowUserFeed.splice(index, 1, u);
-
     });
     console.log('f index: '+ index);
 });
 }
 
-
-
 //creates Post objects using data from DBFeed and UserFeed arrays and adds them to FEfeed array
 convertForYouFeed()
 {   
-
     this.DBfeed.forEach((tweet,index) => {
       
       //need to use 'this.DBfeed[index].image_content' when i figure out how to upload images
@@ -303,7 +253,6 @@ convertForYouFeed()
 //creates Post objects using data from DBFeed and UserFeed arrays and adds them to FEfeed array
 convertFollowFeed()
 {   
-
     this.DBFollowfeed.forEach((tweet,index) => {
       
       //need to use 'this.DBfeed[index].image_content' when i figure out how to upload images
@@ -598,7 +547,7 @@ tweetForm = this.formBuilder.group({
       "user": 20, //fake value
       "date_created": new Date(),
       "text_content": text_input,
-      "image_content": 'url',
+      "image_content": 'url', //will be null once set up
       "likes": 0,
       "comments": 0,
       "retweets": 0,

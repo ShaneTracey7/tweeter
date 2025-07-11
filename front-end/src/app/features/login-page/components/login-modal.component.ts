@@ -89,8 +89,8 @@ loginForm = this.formBuilder.group({
       "email" : 'e',
       "acc_name" : obj.loginForm.value.acc_name,
       "password" : obj.loginForm.value.password,
-      "pic" : "p", //new 
-      "header_pic" : "p",
+      "pic" : null, //new 
+      "header_pic" : null,
       "bio" : "b",
       "follower_count" : 0,
       "following_count" : 0,

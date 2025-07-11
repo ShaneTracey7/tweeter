@@ -197,7 +197,8 @@ export class ProfilePageComponent extends CoreComponent{
       "email" : 'e',
       "acc_name" : this.acc_name,
       "password" : 'p',
-      "pic" : 'url', //new
+      "pic" : null, 
+      //may need to add hedaer pic and other attributes
     };
 
     this.http.put(environment.apiUrl +"/user",requestBody).subscribe((resultData: any)=>

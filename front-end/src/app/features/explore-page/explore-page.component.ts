@@ -122,8 +122,8 @@ export class ExplorePageComponent extends CoreComponent {
                 "email" : 'e',
                 "acc_name" : this.service_acc_name, //logged in user's acc_name to exclude
                 "password" : str,//current value of input
-                "pic" : "p", //new 
-                "header_pic" : "p",
+                "pic" : null, //new 
+                "header_pic" : null,
                 "bio" : "b",
                 "follower_count" : 0,
                 "following_count" : 0,
@@ -178,8 +178,8 @@ export class ExplorePageComponent extends CoreComponent {
                 "email" : 'e',
                 "acc_name" : this.service_acc_name, //idk if this is needed anymore
                 "password" : str,//current value of input
-                "pic" : "p", //new 
-                "header_pic" : "p",
+                "pic" : null, //new 
+                "header_pic" : null,
                 "bio" : "b",
                 "follower_count" : 0,
                 "following_count" : 0,

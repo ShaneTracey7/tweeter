@@ -139,8 +139,8 @@ import { environment } from "../../../../environments/environment";
             "email" : 'e',
             "acc_name" : this.service_acc_name,
             "password" : str,//current value of input
-            "pic" : "p", //new 
-            "header_pic" : "p",
+            "pic" : null, //new 
+            "header_pic" : null,
             "bio" : "b",
             "follower_count" : 0,
             "following_count" : 0,
