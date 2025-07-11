@@ -117,8 +117,8 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) {
       "acc_name" : obj.signupForm.value.acc_name,
       
       "password" : 'p',
-      "pic" : 'pic', //new
-      "header_pic" : "hp",
+      "pic" : null, //new
+      "header_pic" : null,
       "bio" : "b",
       "follower_count": 0,
       "following_count": 0,
@@ -128,6 +128,7 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) {
     obj.http.put(environment.apiUrl +"/user",requestBody).subscribe((resultData: any)=>
     {
         console.log(resultData); //returns failed to add
+        //invalid if user_serializer.is_valid(): is false (check serializer to see if i messed anything up )
 
     if(resultData == "Unique")
       {
