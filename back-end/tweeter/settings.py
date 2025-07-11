@@ -20,7 +20,7 @@ import dj_database_url
 from dotenv import load_dotenv
 from urllib.parse import urlparse, parse_qsl
 
-import cloudinary;
+import cloudinary
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 #old
 #BASE_DIR = Path(__file__).resolve().parent.parent
