@@ -79,8 +79,8 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) {
        "email" : obj.signupForm.value.email,
        "acc_name" : obj.signupForm.value.acc_name,
        "password" : obj.signupForm.value.password1,
-       "pic" :  "default-profile-pic.jpg",
-       "header_pic" : "default-header-pic.png",
+       "pic" :  null,//"default-profile-pic.jpg",
+       "header_pic" : null,//"default-header-pic.png",
        "bio" : "b",
        "follower_count": 0,
        "following_count": 0,
@@ -127,7 +127,7 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) {
 
     obj.http.put(environment.apiUrl +"/user",requestBody).subscribe((resultData: any)=>
     {
-        console.log(resultData); //returns failed to add
+        console.log("front end result: " + resultData); //returns failed to add
         //invalid if user_serializer.is_valid(): is false (check serializer to see if i messed anything up )
 
     if(resultData == "Unique")
