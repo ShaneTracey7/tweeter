@@ -54,6 +54,7 @@ import { environment } from "../../../../environments/environment";
            console.log("p: " + profile_pic_input?.item(0));
            console.log("h: " + header_pic_input?.item(0));
 
+            //if both profile and header pic are selected
            if( profile_pic_input != null && profile_pic_input?.item(0) && header_pic_input != null && header_pic_input?.item(0))
             {
               let image = profile_pic_input[0];
@@ -88,7 +89,7 @@ import { environment } from "../../../../environments/environment";
               })//.then(response => response.json()).catch(error => {console.error(error)})
  
             }
-
+            //just profile pic
          else if( profile_pic_input != null && profile_pic_input?.item(0) != null)
            {
             
@@ -118,9 +119,12 @@ import { environment } from "../../../../environments/environment";
               method: 'POST',
               body: formData
               
-             })//.then(response => response.json()).catch(error => {console.error(error)})
+             }).then(response => response.json())
+              .then(data => console.log(data))
+              .catch(error => console.error(error));
 
            }
+           //just header pic
        else if(header_pic_input != null && header_pic_input?.item(0) != null)
            {
           
