@@ -136,7 +136,7 @@ def imageApi(request,id=id):
             
             i1 = Image.create(upload_result["secure_url"],upload_result["public_id"])
             i1.save()
-            return JsonResponse("image file is good",safe=False)
+            #return JsonResponse("image file is good",safe=False)
             image_serializer = ImageSerializer(i1,many=False)
             #return JsonResponse(image_serializer.data,safe=False)
             
@@ -186,7 +186,8 @@ def imageApi(request,id=id):
                
                 upload_result = cloudinary.uploader.upload(img2)
                 i2 = Image.create(upload_result["secure_url"],upload_result["public_id"])
-                image_serializer = ImageSerializer(i2,many=False)
+                i2.save()
+                #image_serializer2 = ImageSerializer(i2,many=False)
                 
                 if user.pic: #if user already has a profile pic on cloudinary(delete it)
                     #old_public_id = user.pic.image_public_id
