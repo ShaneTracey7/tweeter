@@ -285,7 +285,7 @@ getConvos(check: boolean)
     let c_length = (this.DBUsers.length) -1;
     this.DBUsers.forEach((u,index) => {
       console.log("index: " + index);
-      let user = new Profile(u.pic,u.header_pic,u.username,u.acc_name,u.bio,u.following_count,u.follower_count);
+      let user = new Profile(u.pic?.image_url,u.header_pic?.image_url,u.username,u.acc_name,u.bio,u.following_count,u.follower_count);
 
       let messages: Message [] = [];
       let message_arr: any [] = this.DBMessages[index];
@@ -352,7 +352,7 @@ id: number; //needed for accessing db tweets(posts)
             let p = this.DBTweets[index][i];
             let post = new Post(p.id,u.pic,u.username,u.acc_name,p.date_created,p.text_content,p.image_content == 'empty' ? '': p.image_content,p.comments,p.retweets,p.likes,p.engagements)
             //let post = new Post(p.id,'url','username','accountname',p.date_created,p.text_content,'',p.comments,p.retweets,p.likes,p.engagements);
-            let profile = new Profile(u.pic,u.header_pic,u.username,u.acc_name,u.bio,u.following_count,u.follower_count);
+            let profile = new Profile(u.pic?.image_url,u.header_pic?.image_url,u.username,u.acc_name,u.bio,u.following_count,u.follower_count);
             console.log("post in convert post:" + post);
             message = new Message('', post,profile,true,new Date (m.date));
             console.log("message: "+ message);
@@ -378,7 +378,7 @@ id: number; //needed for accessing db tweets(posts)
             let p = this.DBTweets[index][i];
             let post = new Post(p.id,u.pic,u.username,u.acc_name,p.date_created,p.text_content,p.image_content == 'empty' ? '': p.image_content,p.comments,p.retweets,p.likes,p.engagements)
             //let post = new Post(p.id,'url','username','accountname',p.date_created,p.text_content,p.image_content,p.comments,p.retweets,p.likes,p.engagements);
-            let profile = new Profile(u.pic,u.header_pic,u.username,u.acc_name,u.bio,u.following_count,u.follower_count);
+            let profile = new Profile(u.pic?.image_url,u.header_pic?.image_url,u.username,u.acc_name,u.bio,u.following_count,u.follower_count);
             message = new Message('',post,profile,false,new Date (m.date));
             console.log("post in convert post:" + post);
             console.log("message: "+ message);

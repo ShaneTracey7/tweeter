@@ -799,7 +799,7 @@ convertDBInfo(arr_type: string)
   {
     for (let i = 0; i < this.DBFollowing.length;i++) {
       let user = this.DBFollowing[i];
-      var u = new Profile(user.pic, user.header_pic,user.username, user.acc_name, user.bio, user.following_count, user.follower_count); //need to find where to keep bio, and counts in db
+      var u = new Profile(user.pic?.image_url, user.header_pic?.image_url,user.username, user.acc_name, user.bio, user.following_count, user.follower_count); //need to find where to keep bio, and counts in db
       this.following.push(u);
     }
     
@@ -808,7 +808,7 @@ convertDBInfo(arr_type: string)
   {
     for (let i = 0; i < this.DBFollowers.length;i++) {
       let user = this.DBFollowers[i];
-      var u = new Profile(user.pic, user.header_pic,user.username, user.acc_name, user.bio, user.following_count, user.follower_count); //need to find where to keep bio, and counts in db
+      var u = new Profile(user.pic?.image_url, user.header_pic?.image_url,user.username, user.acc_name, user.bio, user.following_count, user.follower_count); //need to find where to keep bio, and counts in db
       this.followers.push(u);
     }
    
@@ -826,7 +826,7 @@ convertDBInfo(arr_type: string)
        let user = this.DBPostsUsers[i]; //need to set this in dbcall
        var p = new Post(post.id,this.user.pic,this.user.username,this.user.acc_name, post.date_created, post.text_content, "", post.comments, post.retweets, post.likes, post.engagements); //need to find where to keep bio, and counts in db
        this.posts.push(p);
-       var u = new Profile(user.pic,user.header_pic,user.username,user.acc_name,user.bio,user.following_count,user.follower_count);
+       var u = new Profile(user.pic?.image_url,user.header_pic?.image_url,user.username,user.acc_name,user.bio,user.following_count,user.follower_count);
        this.postsUsers.push(u);
      }
    }
@@ -837,7 +837,7 @@ convertDBInfo(arr_type: string)
        let user = this.DBRetweetsUsers[i]
        var p = new Post(post.id,user.pic,user.username,user.acc_name, post.date_created, post.text_content, "", post.comments, post.retweets, post.likes, post.engagements); //need to find where to keep bio, and counts in db
        this.retweets.push(p);
-       var u = new Profile(user.pic,user.header_pic,user.username,user.acc_name,user.bio,user.following_count,user.follower_count);
+       var u = new Profile(user.pic?.image_url,user.header_pic?.image_url,user.username,user.acc_name,user.bio,user.following_count,user.follower_count);
        this.retweetsUsers.push(u);
      }
    }
@@ -848,7 +848,7 @@ convertDBInfo(arr_type: string)
         let user = this.DBLikesUsers[i]
         var p = new Post(post.id,user.pic,user.username,user.acc_name, post.date_created, post.text_content, "", post.comments, post.retweets, post.likes, post.engagements); //need to find where to keep bio, and counts in db
         this.likes.push(p);
-        var u = new Profile(user.pic,user.header_pic,user.username,user.acc_name,user.bio,user.following_count,user.follower_count);
+        var u = new Profile(user.pic?.image_url,user.header_pic?.image_url,user.username,user.acc_name,user.bio,user.following_count,user.follower_count);
        this.likesUsers.push(u);
       }
     }

@@ -136,7 +136,7 @@ loginForm = this.formBuilder.group({
 
                 localStorage.setItem('isLoggedIn', "true");
                 localStorage.setItem('username', globalObj.userDB.username ?? 'badToken');
-                localStorage.setItem('pic', globalObj.userDB.pic ?? '');
+                localStorage.setItem('pic', globalObj.userDB.pic?.image_url ?? '');
                 //localStorage.setItem('username', globalObj.u_value ?? 'badToken');
                 localStorage.setItem('acc_name', globalObj.loginForm.value.acc_name ?? 'badToken'); 
                 globalObj.loginForm.reset();
