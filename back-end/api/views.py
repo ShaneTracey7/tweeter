@@ -135,6 +135,7 @@ def imageApi(request,id=id):
             upload_result = cloudinary.uploader.upload(img1)
             
             i1 = Image.create(upload_result["secure_url"],upload_result["public_id"])
+            i1.save()
             return JsonResponse("image file is good",safe=False)
             image_serializer = ImageSerializer(i1,many=False)
             #return JsonResponse(image_serializer.data,safe=False)
