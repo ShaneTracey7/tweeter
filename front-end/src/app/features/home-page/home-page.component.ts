@@ -208,7 +208,7 @@ getDBForYouFeedUsers()
     this.http.put( environment.apiUrl + "/tweet",requestBody).subscribe((resultData: any)=>
     {
         //var u = new Profile(resultData.pic, resultData.username, resultData.acc_name, "bio", 100, 200);
-        var u = new Profile(resultData.pic?.image_url,resultData.header_pic?.image_url, resultData.username, resultData.acc_name, resultData.bio, resultData.following_count, resultData.follower_count);
+        var u = new Profile(resultData.pic,resultData.header_pic, resultData.username, resultData.acc_name, resultData.bio, resultData.following_count, resultData.follower_count);
         this.UserFeed.splice(index, 1, u);
 
     });
@@ -232,8 +232,9 @@ getDBFollowFeedUsers()
     this.http.put(environment.apiUrl + "/tweet",requestBody).subscribe((resultData: any)=>
     {
         //var u = new Profile(resultData.pic, resultData.username, resultData.acc_name, "bio", 100, 200);
-        var u = new Profile(resultData.pic?.image_url,resultData.header_pic?.image_url, resultData.username, resultData.acc_name, resultData.bio, resultData.following_count, resultData.follower_count);
+        var u = new Profile(resultData.pic,resultData.header_pic, resultData.username, resultData.acc_name, resultData.bio, resultData.following_count, resultData.follower_count);
         this.FollowUserFeed.splice(index, 1, u);
+        console.log('f index '+ index + ":" + resultData);
     });
     console.log('f index: '+ index);
 });
