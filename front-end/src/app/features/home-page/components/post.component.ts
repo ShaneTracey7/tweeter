@@ -701,9 +701,9 @@ grayReaction()
 
     this.DBPostfeed.forEach((reply,index) => {
 
-      var tweet = new Post(reply.id,u[index].pic,u[index].username,u[index].acc_name,reply.date_created,reply.text_content,'',reply.comments, reply.retweets,reply.likes, reply.engagements);
+      var tweet = new Post(reply.id,u[index].pic?.image_url,u[index].username,u[index].acc_name,reply.date_created,reply.text_content,'',reply.comments, reply.retweets,reply.likes, reply.engagements);
         this.newComments.push(tweet);
-      var user = new Profile(u[index].pic,u[index].header_pic,u[index].username,u[index].acc_name,u[index].bio,u[index].following_count,u[index].follower_count);
+      var user = new Profile(u[index].pic?.image_url,u[index].header_pic?.image_url,u[index].username,u[index].acc_name,u[index].bio,u[index].following_count,u[index].follower_count);
         this.newCommentUsers.push(user);
       });
   }

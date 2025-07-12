@@ -59,15 +59,15 @@ export class CoreService {
     console.log("ngOnDestroy called in core service");
   }
 
-  setUrl(str: string)
+  setUrl(str: string | null)
   {
     return getImgUrl(str);
   }
-  setProfileUrl(str: string)
+  setProfileUrl(str: string | null)
   {
     return getProfileImgUrl(str);
   }
-  setHeaderUrl(str: string)
+  setHeaderUrl(str: string | null)
   {
     return getHeaderImgUrl(str);
   }

@@ -3,13 +3,14 @@
 
 //sets images with correct url
 //only for switching from publishing to github pages to development
-export function getImgUrl(str:string)
+export function getImgUrl(str:string | null)
 {
     let inDev = true;
     
     if(inDev == true)
         {
-            if(str.startsWith('http'))
+            
+            if(str != null && str.startsWith('http'))
             {
                 return str;
             }
@@ -20,7 +21,7 @@ export function getImgUrl(str:string)
         }
     else
         {   
-            if(str.startsWith('http'))
+            if(str != null && str.startsWith('http'))
             {
                 return str;
             }
@@ -30,7 +31,7 @@ export function getImgUrl(str:string)
             } 
         }
 }
-export function getProfileImgUrl(str:string)
+export function getProfileImgUrl(str:string | null)
 {
     let inDev = true; //might need to change this later
     
@@ -57,7 +58,7 @@ export function getProfileImgUrl(str:string)
             } 
         }
 }
-export function getHeaderImgUrl(str:string)
+export function getHeaderImgUrl(str:string | null)
 {
     let inDev = true; //might need to change this later
     
@@ -106,18 +107,18 @@ export var elon: string = getImgUrl('elon.jpeg');
 
 export class Post {
     id: number; //needed for accessing db tweets(posts)
-    profile: string; //url
+    profile: string | null; //url
     username: string;
     acc_name: string; 
     e_time: Date;
     text: string;
-    image: string; //url
+    image: string | null; //url
     comments: string;
     retweets: string;
     likes: string;
     views: string;
 
-    constructor(id: number, p: string,u: string,a: string,e: Date,t: string,i: string,c: number,r: number,l: number,v: number) {
+    constructor(id: number, p: string | null,u: string,a: string,e: Date,t: string,i: string | null,c: number,r: number,l: number,v: number) {
         this.id = id;
         this.profile = p;
         this.username = u;
@@ -206,15 +207,15 @@ function shortenNum(num: number): string {
 }
 
 export class Profile {
-    pic: string; //url
-    header_pic: string; //ur;
+    pic: string | null; //image object
+    header_pic: string | null; //image_object
     username: string;
     acc_name: string;
     bio: string;
     follow_count: string;
     follower_count: string;
 
-    constructor(p: string, hp:string, u: string, a: string, b: string, fc: number, frc: number) {
+    constructor(p: string | null, hp:string | null, u: string, a: string, b: string, fc: number, frc: number) {
         this.pic = p;
         this.header_pic = hp;
         this.username = u;

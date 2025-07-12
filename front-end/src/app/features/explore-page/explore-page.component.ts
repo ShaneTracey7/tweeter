@@ -163,7 +163,7 @@ export class ExplorePageComponent extends CoreComponent {
         for (let i = 0; i < this.DBUserFeed.length;i++) 
           {
             let user = this.DBUserFeed[i];
-            var u = new Profile(user.pic,user.header_pic, user.username, user.acc_name, user.bio, user.following_count, user.follower_count);
+            var u = new Profile(user.pic?.image_url,user.header_pic?.image_url, user.username, user.acc_name, user.bio, user.following_count, user.follower_count);
             this.userList.push(u);
           }
       }
@@ -221,9 +221,9 @@ export class ExplorePageComponent extends CoreComponent {
           {
             let user = this.DBFeed[1][i];
             let post = this.DBFeed[0][i];
-            var u = new Profile(user.pic,user.header_pic, user.username, user.acc_name, user.bio, user.following_count, user.follower_count);
+            var u = new Profile(user.pic?.image_url,user.header_pic?.image_url, user.username, user.acc_name, user.bio, user.following_count, user.follower_count);
             this.postUserList.push(u);
-            var p = new Post(post.id,user.pic, user.username, user.acc_name,post.date_created, post.text_content, '', post.comments.toString(), post.retweets.toString(), post.likes.toString(), post.engagements.toString()); 
+            var p = new Post(post.id,user.pic?.image_url, user.username, user.acc_name,post.date_created, post.text_content, '', post.comments.toString(), post.retweets.toString(), post.likes.toString(), post.engagements.toString()); 
             this.postList.push(p);
           }
       }

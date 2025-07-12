@@ -177,7 +177,7 @@ getDBFollowFeed()
 presetUserFeed()
 {
   this.DBfeed.forEach(() => {
-    var u = new Profile("","", "", "", "", 0, 0);
+    var u = new Profile(null,null, "", "", "", 0, 0);
     this.UserFeed.push(u)
   });
 }
@@ -186,7 +186,7 @@ presetUserFeed()
 presetFollowUserFeed()
 {
   this.DBFollowfeed.forEach(() => {
-    var u = new Profile("","", "", "", "", 0, 0);
+    var u = new Profile(null,null, "", "", "", 0, 0);
     this.FollowUserFeed.push(u)
     console.log('post')
   });
@@ -208,7 +208,7 @@ getDBForYouFeedUsers()
     this.http.put( environment.apiUrl + "/tweet",requestBody).subscribe((resultData: any)=>
     {
         //var u = new Profile(resultData.pic, resultData.username, resultData.acc_name, "bio", 100, 200);
-        var u = new Profile(resultData.pic,resultData.header_pic, resultData.username, resultData.acc_name, resultData.bio, resultData.following_count, resultData.follower_count);
+        var u = new Profile(resultData.pic?.image_url,resultData.header_pic?.image_url, resultData.username, resultData.acc_name, resultData.bio, resultData.following_count, resultData.follower_count);
         this.UserFeed.splice(index, 1, u);
 
     });
@@ -232,7 +232,7 @@ getDBFollowFeedUsers()
     this.http.put(environment.apiUrl + "/tweet",requestBody).subscribe((resultData: any)=>
     {
         //var u = new Profile(resultData.pic, resultData.username, resultData.acc_name, "bio", 100, 200);
-        var u = new Profile(resultData.pic,resultData.header_pic, resultData.username, resultData.acc_name, resultData.bio, resultData.following_count, resultData.follower_count);
+        var u = new Profile(resultData.pic?.image_url,resultData.header_pic?.image_url, resultData.username, resultData.acc_name, resultData.bio, resultData.following_count, resultData.follower_count);
         this.FollowUserFeed.splice(index, 1, u);
     });
     console.log('f index: '+ index);
@@ -547,7 +547,7 @@ tweetForm = this.formBuilder.group({
       "user": 20, //fake value
       "date_created": new Date(),
       "text_content": text_input,
-      "image_content": 'url', //will be null once set up
+      "image_content": null, //will be null once set up
       "likes": 0,
       "comments": 0,
       "retweets": 0,
