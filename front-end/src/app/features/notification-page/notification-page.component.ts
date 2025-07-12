@@ -77,10 +77,12 @@ export class NotificationPageComponent extends CoreComponent{
   //gets all tweets(from DB) and adds them to DBfeed array
   getDBNotificationFeed()
   {
+    console.log("this.service_acc_name: " + this.service_acc_name);
     let requestMessage =
     {
       'word': 'getNotifications',
       'word2': this.service_acc_name,
+      'num': 0 //random
     };
       this.http.put(environment.apiUrl + "/notification",requestMessage).subscribe((resultData: any)=>
       {

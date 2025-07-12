@@ -23,7 +23,7 @@ export class TweetService {
 elon: string = getImgUrl('elon.jpeg');
 
 //validates tweet
-tweetValidated(text_content:string,image_content: string)
+tweetValidated(text_content:string,image_content: string | null)
 {
   if(text_content == "")
     {
@@ -155,12 +155,12 @@ getRetweetIDsDB(ac:string)
 
 
 //validates tweet and adds tweet to database
-postTweet(acc_name: string, text_content: string, image_content: string, reply_id: number)
+postTweet(acc_name: string, text_content: string, image_content: string | null, reply_id: number)
 {
 
   if (image_content == "")
     {
-      image_content = "empty"
+      image_content = null
     }
   console.log(text_content);
 
@@ -223,7 +223,7 @@ getDBForYouFeedUsers()
     this.http.put(environment.apiUrl +"/tweet",requestBody).subscribe((resultData: any)=>
     {
         //var u = new Profile(this.elon, resultData.username, resultData.acc_name, "bio", 100, 200);
-        var u = new Profile(resultData.pic, resultData.header_pic,resultData.username, resultData.acc_name, "bio", 100, 200);
+        var u = new Profile(resultData.pic?.image_url, resultData.header_pic?.image_url,resultData.username, resultData.acc_name, "bio", 100, 200);
         this.UserFeed.splice(index, 1, u);
          //this.UserFeed.push(u) //this is the issue, being added to array out of order(because loop completed b4 http requests are processed)
 
@@ -262,7 +262,7 @@ convertForYouFeed()
       
         //console.log("tweet id: " + tweet.id)
       //need to use 'this.DBfeed[index].image_content' when i figure out how to upload images
-        var p = new Post(tweet.id,this.UserFeed[index].pic, this.UserFeed[index].username, this.UserFeed[index].acc_name,this.DBfeed[index].date_created, this.DBfeed[index].text_content, '', this.DBfeed[index].comments.toString(), this.DBfeed[index].retweets.toString(), this.DBfeed[index].likes.toString(), this.DBfeed[index].engagements.toString()); 
+        var p = new Post(tweet.id,""/*this.UserFeed[index].pic?.image_url*/, this.UserFeed[index].username, this.UserFeed[index].acc_name,this.DBfeed[index].date_created, this.DBfeed[index].text_content, '', this.DBfeed[index].comments.toString(), this.DBfeed[index].retweets.toString(), this.DBfeed[index].likes.toString(), this.DBfeed[index].engagements.toString()); 
         this.FEfeed.push(p);       
     });
 }

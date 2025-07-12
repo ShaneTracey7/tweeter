@@ -61,8 +61,8 @@ class ImageSerializer(serializers.ModelSerializer):
         fields = '__all__'
     
 class UserSerializer(serializers.ModelSerializer):
-    pic = ImageSerializer(read_only=True)
-    header_pic = ImageSerializer(read_only=True)
+    #pic = ImageSerializer(read_only=True)    #has caused some issues im pretty sure
+    #header_pic = ImageSerializer(read_only=True)
 
     class Meta:
         model = User

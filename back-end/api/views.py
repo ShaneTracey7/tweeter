@@ -21,79 +21,9 @@ def imageApi(request,id=id):
 
     print('in image api')
     
-
     #this is mainly for testing
     if request.method =='GET':
-        """
-        #images = Image.objects.filter(image_name='testfromfrontend')
-
-            #image = Image.objects.get(image_name='test_image2')
-            #newimage = images[0].image_file
-            #image.image_file = newimage
-            #image.save()
-
-
-
-        #images = Image.objects.all()
-        image = Image.objects.get(image_name='test_image2')
-        #images = Image.objects.filter(image_name='testfromfrontend')
-       # for image in images:
-
-            #print(image.image_file.storage.get_valid_name(image.image_file.name))
-            #print(image.image_file.storage.listdir(image.image_file.name))
-            #print(image.image_file.storage.size(image.image_file.name))
-           #image.delete()
-           # print(image.image_file.storage.get_valid_name('tester11.png'))
-           # print(image.image_file.storage.listdir('tester11.png'))
-           # print(image.image_file.storage.size('tester11.png'))
-            #print(image.image_file.storage.location(image.image_file.name))
-        print(image.image_file.storage.exists('test_51.png'))
-        print(image.image_file.storage.delete('test_51.png'))
-        print(image.image_file.storage.exists('test_51.png'))
-            #print(image.image_file.storage.url(image.image_file.name))
-            #print(image.image_file.storage.delete(image.image_file.name))
-            #print(image.image_file.storage.exists(image.image_file.name))
-
-           #imf = models.ImageField(image.image_file)
-         #  print(image.image_file.url)
-           #print(image.image_file.url)
-         #  print(image.image_file.storage.url('back-arrow.svg'))
-           #print(image.image_file.storage.exists('test_image_QEZCUMQ.png'))
-           #print(image.image_file.storage.delete('test_image_QEZCUMQ.png'))
-           #print(image.image_file.storage.exists('test_image_QEZCUMQ.png'))
-           #print(image.image_file.storage.get_valid_name())
-          # print(image.image_file.name)
-
-   #     try:
-        # only need to delete google drive instance and save new instance to Django
-   #         print('in try')
-            
-   #         images = Image.objects.filter(image_name='testfromfrontend')
-
-  #          image = Image.objects.get(image_name='test_image2')
-   #         newimage = images[0].image_file
-   #         print(newimage.storage.exists('back-arrow.svg'))
-            #print(newimage.storage.delete('back-arrow.svg'))
-   #         print(newimage.storage.exists('back-arrow.svg'))
-            
-            #print(image.delete())
-            #print(image.image_file.storage.exists('test_image.png'))
-            #print(image.image_file.storage.delete('test_image.png'))
-            #print(image.image_file.storage.exists('test_image.png'))
-            #dbImage.image_file.storage.delete(dbImage.image_file.name)
-            #dbImage.image_file = myFile2
-    #        print('end try')
-            #dbImage.save()
- #       except Image.DoesNotExist:
-    #        print('in except')
-            # create new image instance and save to Django
-            #image2 = Image.create(image_db_name2,myFile2)
-            #image2.save()
-            #print('end except')
-
-        """
         return JsonResponse('saved to google drive',safe=False)
-    
 
     elif request.method =='POST':
 
@@ -111,24 +41,21 @@ def imageApi(request,id=id):
             user.save()
             return JsonResponse('Saved Bio',safe=False)
         
-        #might not need this because this should go through tweet api probs
+             #might not need this because this should go through tweet api probs
         elif type_input == 'tweet':
-              print('include tweet')
-              tweet_id_input = request.POST.get('tweet_id') # 0 if profile/header
-              t = Tweet.objects.get(id=tweet_id_input)
+            print('include tweet')
+            tweet_id_input = request.POST.get('tweet_id') # 0 if profile/header
+            t = Tweet.objects.get(id=tweet_id_input)
 
-              img = request.FILES.get('image_file')
-              upload_result = cloudinary.uploader.upload(img)
-              i1 = Image.create(upload_result["secure_url"],upload_result["public_id"])
+            img = request.FILES.get('image_file')
+            upload_result = cloudinary.uploader.upload(img)
+            i1 = Image.create(upload_result["secure_url"],upload_result["public_id"])
               
-              t.image_content = i1
-              t.save()
-              image_serializer = TweetSerializer(i1,many=False)
-              return JsonResponse(image_serializer.data,safe=False)
-
+            t.image_content = i1
+            t.save()
+            image_serializer = TweetSerializer(i1,many=False)
+            return JsonResponse(image_serializer.data,safe=False)
         else:
-            #user.pic
-            #user.save()
             #upload first image (either profile or header or both)
             img1 = request.FILES.get('image_file')
             
@@ -149,7 +76,7 @@ def imageApi(request,id=id):
                 bio_input = request.POST.get('bio')
                 user.bio = bio_input
             
-            #create and save image model
+                #create and save image model
             if type_input.find('header') != -1:
                 print('include header')
                 if user.header_pic: #if user already has a header pic on cloudinary (delete it)
@@ -163,7 +90,6 @@ def imageApi(request,id=id):
                 else:
                     user.header_pic = i1
                     user.save() #save user with new image(s) and bio if applicable
-                
                 return JsonResponse(image_serializer.data,safe=False)
 
             elif type_input.find('profile') != -1:
@@ -670,7 +596,7 @@ def notificationApi(request,id=id):
                         users.append(notification.user_from)
                         types.append(notification.type)
                         if notification.post_id == 0: # if notification is a follow
-                            tweets.append(Tweet.create(notification.user_from,datetime.datetime.now(),'','',0,0,0,0,0))
+                            tweets.append(Tweet.create(notification.user_from,datetime.datetime.now(),'',None,0,0,0,0,0))
                         else:
                             tweet = Tweet.objects.get(id=notification.post_id)
                             tweets.append(tweet)
