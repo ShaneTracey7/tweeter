@@ -1,10 +1,11 @@
 from rest_framework import serializers
 from api.models import Convo, Image, User, Tweet, Follow, Like, Retweet, Notification, UserMessage
-
+"""
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
+"""
 
 class TweetSerializer(serializers.ModelSerializer):
     class Meta:
@@ -58,3 +59,15 @@ class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
         fields = '__all__'
+    
+class UserSerializer(serializers.ModelSerializer):
+    pic = ImageSerializer(read_only=True)
+    header_pic = ImageSerializer(read_only=True)
+
+    class Meta:
+        model = User
+        fields = '__all__'
+        #[
+         #   'id', 'username', 'acc_name', 'bio', 'following_count', 'follower_count', 'email', 'password',
+         #   'pic', 'header_pic', # include other fields as needed
+        #]

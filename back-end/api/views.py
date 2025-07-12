@@ -159,10 +159,11 @@ def imageApi(request,id=id):
                     old_header_pic = user.header_pic
                     old_header_pic.delete() #delete old header pic from django database
                     user.header_pic = i1
+                    user.save() #save user with new image(s) and bio if applicable
                 else:
                     user.header_pic = i1
+                    user.save() #save user with new image(s) and bio if applicable
                 
-                user.save() #save user with new image(s) and bio if applicable
                 return JsonResponse(image_serializer.data,safe=False)
 
             elif type_input.find('profile') != -1:
@@ -174,10 +175,11 @@ def imageApi(request,id=id):
                     old_pic = user.pic
                     old_pic.delete() #delete old header pic from django database
                     user.pic = i1
+                    user.save() #save user with new image(s) and bio if applicable
                 else:
-                    user.header_pic = i1
+                    user.pic = i1
+                    user.save() #save user with new image(s) and bio if applicable
                 
-                user.save() #save user with new image(s) and bio if applicable
                 return JsonResponse(image_serializer.data,safe=False)
             
             elif type_input.find('both') != -1:
@@ -196,19 +198,31 @@ def imageApi(request,id=id):
                     old_pic = user.pic
                     old_pic.delete() #delete old header pic from django database
                     user.pic = i1
+                    if user.header_pic: #if user already has a header pic on cloudinary (delete it)
+                        #old_public_id = user.header_pic.image_public_id
+                        #result = cloudinary.uploader.destroy(old_public_id)
+                        #print('deletion status:' + result)
+                        old_header_pic = user.header_pic
+                        old_header_pic.delete() #delete old header pic from django database
+                        user.header_pic = i2
+                        user.save() #save user with new image(s) and bio if applicable
+                    else:
+                        user.header_pic = i2
+                        user.save() #save user with new image(s) and bio if applicable
                 else:
-                    user.header_pic = i1
-                if user.header_pic: #if user already has a header pic on cloudinary (delete it)
-                    #old_public_id = user.header_pic.image_public_id
-                    #result = cloudinary.uploader.destroy(old_public_id)
-                    #print('deletion status:' + result)
-                    old_header_pic = user.header_pic
-                    old_header_pic.delete() #delete old header pic from django database
-                    user.header_pic = i2
-                else:
-                    user.header_pic = i2
+                    user.pic = i1
+                    if user.header_pic: #if user already has a header pic on cloudinary (delete it)
+                        #old_public_id = user.header_pic.image_public_id
+                        #result = cloudinary.uploader.destroy(old_public_id)
+                        #print('deletion status:' + result)
+                        old_header_pic = user.header_pic
+                        old_header_pic.delete() #delete old header pic from django database
+                        user.header_pic = i2
+                        user.save() #save user with new image(s) and bio if applicable
+                    else:
+                        user.header_pic = i2
+                        user.save() #save user with new image(s) and bio if applicable
                 
-                user.save() #save user with new image(s) and bio if applicable
                 return JsonResponse("Both images saved",safe=False)
             
             else:    

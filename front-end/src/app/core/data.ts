@@ -63,7 +63,7 @@ export function getHeaderImgUrl(str:string)
     
     if(inDev)
         {
-            if(str == null)
+            if(str == null || str == "")
             {
                 return "../../../../assets/images/" + 'default-header-pic.png';
             }
@@ -74,7 +74,7 @@ export function getHeaderImgUrl(str:string)
         }
     else
         {   
-            if(str == null)
+            if(str == null || str == "")
             {
                 return "/tweeter/assets/images/" + 'default-header-pic.png'; //may need to fix path
             }

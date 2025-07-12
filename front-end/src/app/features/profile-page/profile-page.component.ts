@@ -204,6 +204,8 @@ export class ProfilePageComponent extends CoreComponent{
     this.http.put(environment.apiUrl +"/user",requestBody).subscribe((resultData: any)=>
     {
         console.log(resultData);
+        console.log("resultData: " + resultData.pic?.image_url);
+        console.log("resultData: " + resultData.header_pic?.image_url);
     
         if(resultData == "User doesn't exist" || resultData == "Failed to Add")
         {
@@ -212,7 +214,7 @@ export class ProfilePageComponent extends CoreComponent{
         }
       else
         {
-          this.user = new Profile(resultData.pic,resultData.header_pic,resultData.username,resultData.acc_name,resultData.bio,resultData.following_count,resultData.follower_count)
+          this.user = new Profile(resultData.pic?.image_url,resultData.header_pic?.image_url,resultData.username,resultData.acc_name,resultData.bio,resultData.following_count,resultData.follower_count)
           this.isValid = true;
         }
     });
