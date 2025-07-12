@@ -392,6 +392,9 @@ getFollowers()
           }
       });
     }
+    else{
+      console.log("acc_name is not set, cannot get followers");
+    }
   }
 
   //sets DBFollowing with a list of users that the logged-in user follows
@@ -423,6 +426,9 @@ getFollowers()
             this.convertDBInfo('following');
           }
       });
+    }
+    else{
+      console.log("acc_name is not set, cannot get following");
     }
   }
 
