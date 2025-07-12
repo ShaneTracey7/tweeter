@@ -36,7 +36,7 @@ export function getProfileImgUrl(str:string)
     
     if(inDev)
         {
-            if(str == null)
+            if(str == null || str == "")
             {
                 return "../../../../assets/images/" + 'default-profile-pic.jpg';
             }
@@ -47,7 +47,7 @@ export function getProfileImgUrl(str:string)
         }
     else
         {   
-            if(str == null)
+            if(str == null|| str == "")
             {
                 return "/tweeter/assets/images/" + 'default-profile-pic.jpg'; //may need to fix path
             }

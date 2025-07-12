@@ -247,7 +247,7 @@ getAllDBUsers()
 {
     this.http.get(environment.apiUrl + "/user").subscribe((resultData: any)=>
     {
-        console.log(resultData);
+        //console.log(resultData);
         this.DBUsers = resultData;
     });
 }
@@ -293,6 +293,10 @@ createUserFeed(outsideOfService: boolean, acc_name: string)
     else
     {
       ac = this.acc_name;
+    }
+    if(ac == "" || ac == "badToken" || ac == null)
+    {
+        return; //if acc_name is not set, do not proceed
     }
 
     let globalObj = this;
@@ -361,61 +365,65 @@ convertDBInfo(arr_type: string)
 //sets DBFollowers with a list of followers that the logged-in user has
 getFollowers()
   {
-
-    let requestBody =
+    if(this.acc_name != "" && this.acc_name != "badToken" && this.acc_name != null)
     {
-      "word" : 'getFollowers',
-      "word2" : this.acc_name,
-    };
+      let requestBody =
+      {
+        "word" : 'getFollowers',
+        "word2" : this.acc_name,
+      };
 
-    this.http.put(environment.apiUrl + "/follow",requestBody).subscribe((resultData: any)=>
-    {
-      console.log(resultData);
+      this.http.put(environment.apiUrl + "/follow",requestBody).subscribe((resultData: any)=>
+      {
+        console.log(resultData);
 
-      if(resultData == 'Failed to Add')
-        {
+        if(resultData == 'Failed to Add')
+          {
 
-        }
-      else if(resultData == 'No followers')
-        {
+          }
+        else if(resultData == 'No followers')
+          {
 
-        }
-      else
-        {
-          this.DBFollowers = resultData;
-          this.convertDBInfo('follower');
-        }
-    });
+          }
+        else
+          {
+            this.DBFollowers = resultData;
+            this.convertDBInfo('follower');
+          }
+      });
+    }
   }
 
   //sets DBFollowing with a list of users that the logged-in user follows
   getFollowing()
   {
-    
-    let requestBody =
+    if(this.acc_name != "" && this.acc_name != "badToken" && this.acc_name != null)
     {
-      "word" : "getFollowing",
-      "word2" : this.acc_name,
-    };
+      let requestBody =
+      {
+        "word" : "getFollowing",
+        "word2" : this.acc_name,
+      };
 
-    this.http.put(environment.apiUrl + "/follow",requestBody).subscribe((resultData: any)=>
-    {
-      console.log(resultData);
+      this.http.put(environment.apiUrl + "/follow",requestBody).subscribe((resultData: any)=>
+      {
+        console.log(resultData);
 
-      if(resultData == 'Failed to Add')
-        {
+        if(resultData == 'Failed to Add')
+          {
 
-        }
-      else if(resultData == 'No following')
-        {
+          }
+        else if(resultData == 'No following')
+          {
 
-        }
-      else
-        {
-          this.DBFollowing = resultData;
-          this.convertDBInfo('following');
-        }
-    });
+          }
+        else
+          {
+            this.DBFollowing = resultData;
+            this.convertDBInfo('following');
+          }
+      });
+    }
   }
 
 //check if 'acc_name' user is a follower
