@@ -131,6 +131,7 @@ def imageApi(request,id=id):
             #user.save()
             #upload first image (either profile or header or both)
             img1 = request.FILES.get('image_file')
+            return JsonResponse("image file is good",safe=False)
             upload_result = cloudinary.uploader.upload(img1)
             i1 = Image.create(upload_result["secure_url"],upload_result["public_id"])
             image_serializer = ImageSerializer(i1,many=False)

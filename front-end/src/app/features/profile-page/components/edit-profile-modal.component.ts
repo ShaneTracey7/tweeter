@@ -176,7 +176,6 @@ import { environment } from "../../../../environments/environment";
         this.updateBioFlag = false;
     }
 
-
       onSubmit(){
         console.log("in submit")
         // form is valid and at least one field is not empty
@@ -347,8 +346,8 @@ import { environment } from "../../../../environments/environment";
             "email" : 'e',
             "acc_name" : this.profile.acc_name,
             "password" : this.editProfileForm.value.bio,
-            "pic" : "p", //new 
-            "header_pic" : "p",
+            "pic" : null, //new 
+            "header_pic" : null,
             "bio" : "b",
             "follower_count" : 0,
             "following_count" : 0,
