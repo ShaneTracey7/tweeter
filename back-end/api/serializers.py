@@ -1,10 +1,9 @@
 from rest_framework import serializers
 from api.models import Convo, Image, User, Tweet, Follow, Like, Retweet, Notification, UserMessage
+
 """
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = '__all__'
+Serializers that have foreign keys to other models, need to be accessed differently in front-end.
+For example, obj.user wont default to return id, but obj.user.id will.
 """
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
