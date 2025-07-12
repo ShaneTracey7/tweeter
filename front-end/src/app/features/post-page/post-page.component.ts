@@ -21,9 +21,9 @@ export class PostPageComponent extends CoreComponent{
   pic: string;
   p_id: number;
   DBpost: any = '';
-  post: Post = new Post(0,'','','', new Date(),'','',0,0,0,0);
+  post: Post = new Post(0,null,'','', new Date(),'','',0,0,0,0);
   DBuser: any = '';
-  user: Profile = new Profile('','','','','',0,0);
+  user: Profile = new Profile(null,null,'','','',0,0);
   DBUserfeed: any [] = [];
   DBPostfeed: any [] = [];
 
@@ -158,7 +158,7 @@ export class PostPageComponent extends CoreComponent{
 
     this.DBPostfeed.forEach((reply,index) => {
 
-      var tweet = new Post(reply.id,u[index].pic,u[index].username,u[index].acc_name,reply.date_created,reply.text_content,'',reply.comments, reply.retweets,reply.likes, reply.engagements);
+      var tweet = new Post(reply.id,u[index].pic?.image_url,u[index].username,u[index].acc_name,reply.date_created,reply.text_content,'',reply.comments, reply.retweets,reply.likes, reply.engagements);
       this.comments.push(tweet);
       var user = new Profile(u[index].pic?.image_url,u[index].header_pic?.image_url,u[index].username,u[index].acc_name,u[index].bio,u[index].following_count,u[index].follower_count);
       this.commentUsers.push(user);
@@ -238,7 +238,7 @@ convertPost()
 {   
     let p = this.DBpost;
     let u = this.DBuser;
-    var tweet = new Post(p.id,u.pic,u.username,u.acc_name,p.date_created,p.text_content,'',p.comments, p.retweets,p.likes, p.engagements)
+    var tweet = new Post(p.id,u.pic?.image_url,u.username,u.acc_name,p.date_created,p.text_content,'',p.comments, p.retweets,p.likes, p.engagements)
     this.post = tweet;          
     var prof = new Profile(u.pic?.image_url,u.header_pic?.image_url,u.username,u.acc_name,u.bio,u.following_count,u.follower_count);
     //var prof = new Profile('pic','username','acc_name','bio',5,5);

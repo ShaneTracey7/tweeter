@@ -2,7 +2,6 @@
 $bg-color-hover-main: rgba(0, 0, 0, 0.030);
 $bg-color-hover-nav-tool-bar: rgba(0, 0, 0, 0.090);
 $twitter-blue: #1DA1F2;
-
 .notification {
     width: 100%;
     border-bottom: 1px solid lightgray;
@@ -91,6 +90,7 @@ $twitter-blue: #1DA1F2;
   #notification-form {
     width: 89%;
     height: 50px;
+    max-width: 350px;
     margin-left:8%;
     margin-top: 5px;
     position:sticky;

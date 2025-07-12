@@ -7,8 +7,8 @@ $twitter-blue: #1DA1F2;
 $gray: rgb(97, 110, 124);
 $gray-font: rgb(97, 110, 124);
 $cancel-red: #f51616;
-/* <----------------------------------------  search card  ----------------------------------------> */   
 
+/* <----------------------------------------  search card  ----------------------------------------> */   
 .searchCard{
     width:100%;
     height:fit-content;
@@ -1276,6 +1276,7 @@ border: 1px solid lightgray;
   #home-form {
     width: 89%;
     height: 50px;
+    max-width:350px;
     margin-left:8%;
     margin-top: 5px;
     position:sticky;
@@ -1371,6 +1372,17 @@ border: 1px solid lightgray;
   #modal-signup-button:hover{
     background-color: #1da0f2cb;
   }
+ #profile-form {
+    width: 89%;
+    height: 50px;
+    max-width: 350px;
+    margin-left:8%;
+    margin-top: 5px;
+    position:sticky;
+    position: -webkit-sticky;
+    top: 0;
+    background-color: white;
+  }
 
     /* always keep media conditional css at bottom, otherwise, css won't work properly */
     @media only screen and (max-width: 700px) {
@@ -1448,6 +1460,10 @@ border: 1px solid lightgray;
   @media only screen and (min-width: 1250px) {
   
       .panes{
+        margin-left:5%;
+      }
+      #profile-form
+      {
         margin-left:5%;
       }
   

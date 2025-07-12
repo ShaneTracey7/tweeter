@@ -824,7 +824,7 @@ convertDBInfo(arr_type: string)
      for (let i = 0; i < this.DBPosts.length;i++) {
        let post = this.DBPosts[i];
        let user = this.DBPostsUsers[i]; //need to set this in dbcall
-       var p = new Post(post.id,this.user.pic,this.user.username,this.user.acc_name, post.date_created, post.text_content, "", post.comments, post.retweets, post.likes, post.engagements); //need to find where to keep bio, and counts in db
+       var p = new Post(post.id,user.pic?.image_url,this.user.username,this.user.acc_name, post.date_created, post.text_content, "", post.comments, post.retweets, post.likes, post.engagements); //need to find where to keep bio, and counts in db
        this.posts.push(p);
        var u = new Profile(user.pic?.image_url,user.header_pic?.image_url,user.username,user.acc_name,user.bio,user.following_count,user.follower_count);
        this.postsUsers.push(u);
@@ -835,7 +835,7 @@ convertDBInfo(arr_type: string)
      for (let i = 0; i < this.DBRetweets.length;i++) {
        let post = this.DBRetweets[i];
        let user = this.DBRetweetsUsers[i]
-       var p = new Post(post.id,user.pic,user.username,user.acc_name, post.date_created, post.text_content, "", post.comments, post.retweets, post.likes, post.engagements); //need to find where to keep bio, and counts in db
+       var p = new Post(post.id,user.pic?.image_url,user.username,user.acc_name, post.date_created, post.text_content, "", post.comments, post.retweets, post.likes, post.engagements); //need to find where to keep bio, and counts in db
        this.retweets.push(p);
        var u = new Profile(user.pic?.image_url,user.header_pic?.image_url,user.username,user.acc_name,user.bio,user.following_count,user.follower_count);
        this.retweetsUsers.push(u);
@@ -846,7 +846,7 @@ convertDBInfo(arr_type: string)
       for (let i = 0; i < this.DBLikes.length;i++) {
         let post = this.DBLikes[i];
         let user = this.DBLikesUsers[i]
-        var p = new Post(post.id,user.pic,user.username,user.acc_name, post.date_created, post.text_content, "", post.comments, post.retweets, post.likes, post.engagements); //need to find where to keep bio, and counts in db
+        var p = new Post(post.id,user.pic?.image_url,user.username,user.acc_name, post.date_created, post.text_content, "", post.comments, post.retweets, post.likes, post.engagements); //need to find where to keep bio, and counts in db
         this.likes.push(p);
         var u = new Profile(user.pic?.image_url,user.header_pic?.image_url,user.username,user.acc_name,user.bio,user.following_count,user.follower_count);
        this.likesUsers.push(u);
