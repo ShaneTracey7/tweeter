@@ -6,39 +6,64 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = '__all__'
 """
+class ImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Image
+        fields = '__all__'
+    
+class UserSerializer(serializers.ModelSerializer):
+    pic = ImageSerializer(read_only=True,allow_null=True)    #has caused some issues im pretty sure
+    header_pic = ImageSerializer(read_only=True,allow_null=True)
+
+    class Meta:
+        model = User
+        fields = '__all__'
 
 class TweetSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    image_content = ImageSerializer(read_only=True,allow_null=True) 
     class Meta:
         model = Tweet
         fields = '__all__'
 
 class FollowSerializer(serializers.ModelSerializer):
+    follower = UserSerializer(read_only=True)
+    following = UserSerializer(read_only=True)
     class Meta:
         model = Follow
         fields = '__all__'
 
 class LikeSerializer(serializers.ModelSerializer):
+    #tweet = TweetSerializer(read_only=True)
+    user = UserSerializer(read_only=True)
     class Meta:
         model = Like
         fields = '__all__'
 
 class RetweetSerializer(serializers.ModelSerializer):
+    #tweet = TweetSerializer(read_only=True)
+    user = UserSerializer(read_only=True)
     class Meta:
         model = Retweet
         fields = '__all__'
 
 class NotificationSerializer(serializers.ModelSerializer):
+    user_to = UserSerializer(read_only=True)
+    user_from = UserSerializer(read_only=True)
     class Meta:
         model = Notification
         fields = '__all__'
 
 class ConvoSerializer(serializers.ModelSerializer):
+    user1 = UserSerializer(read_only=True)
+    user2 = UserSerializer(read_only=True)
     class Meta:
         model = Convo
         fields = '__all__'
 
 # may have to alter this for optional 'tweet' field
 class UserMessageSerializer(serializers.ModelSerializer):
+   #convo = ConvoSerializer(read_only=True)
     class Meta:
         model = UserMessage
         fields = ['convo','text','date','sender']
@@ -55,19 +80,3 @@ class MessageSerializer(serializers.Serializer):
  #   class Meta:
   #      model = TweetReactions
    #     fields = '__all__'
-class ImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Image
-        fields = '__all__'
-    
-class UserSerializer(serializers.ModelSerializer):
-    #pic = ImageSerializer(read_only=True)    #has caused some issues im pretty sure
-    #header_pic = ImageSerializer(read_only=True)
-
-    class Meta:
-        model = User
-        fields = '__all__'
-        #[
-         #   'id', 'username', 'acc_name', 'bio', 'following_count', 'follower_count', 'email', 'password',
-         #   'pic', 'header_pic', # include other fields as needed
-        #]
