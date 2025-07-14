@@ -87,10 +87,10 @@ only for testing image api (google)-->
 <!--<router-outlet name="followingFeed"></router-outlet>
 <router-outlet name="forYouFeed"></router-outlet>-->
 <!--<router-outlet ></router-outlet>-->
-<ng-template *ngIf="loadingFlag; else loading">
+<ng-template *ngIf="loadingFlag; else loaded">
   <p>loading . . .</p>
 </ng-template>
-<ng-template #loading>
+<ng-template #loaded>
   <main-content [data]=arrs [upc]=this [page]=service.current_page [tab]=service.current_tab></main-content>
 </ng-template>
 <!--
