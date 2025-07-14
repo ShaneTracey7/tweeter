@@ -33,6 +33,7 @@ export class HomePageComponent extends CoreComponent{
   retweet_ids: number [];
   //last_like_ids: number [];
 
+  feedFlag: boolean = false; //true if a feed has been set (needed to time when arrs is set properly)
   arrs: any[] = []; //testing to feed into main component
 
   DBfeed: any [] = [];
@@ -108,35 +109,14 @@ ngOnInit()
   this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";
   this.setLiked();
   this.setRetweeted();
-  this.setFUF();
+
+  //sets the feed to the ForYou feed
+  this.getDBForYouFeed();
+  this.getDBFollowFeed();
+
+  //this.setFUF();
 }
 
-handleGetImage()
-{
-  let responseBody = { 
-    "word": 'getImage',
-    "word2": 'test_image2',//image name without file type
-  }
-
-  this.http.put(environment.apiUrl + "/image", responseBody).subscribe((resultData: any)=>
-    {
-        console.log(resultData);
-        if(resultData == 'Check is false' || resultData == 'Failed to Add')
-        {
-          this.image_test = '';
-        }
-        else
-        {
-          let arr = resultData.split('=');
-          let url_id = arr[1].replace('&export','');
-          this.image_test = url_id;
-          console.log(url_id);
-          //return url_id;
-        }
-
-    });
-
-}
 
 //gets all tweets(from DB) and adds them to DBfeed array
 getDBForYouFeed()
@@ -145,7 +125,18 @@ getDBForYouFeed()
     {
         //console.log(resultData);
         console.log('getDBForYouFeed resultData: ' + resultData);
-        this.DBfeed = resultData;
+        if(resultData == "No tweets")
+        {
+          this.DBfeed = [];
+        }
+        else
+        {
+         this.DBfeed = resultData;
+        }
+
+      //new 
+      this.getDBForYouFeedUsers();
+
     });
 }
 //gets all tweets from following(from DB) and adds them to DBFollowfeed array
@@ -170,6 +161,9 @@ getDBFollowFeed()
         {
           this.DBFollowfeed = resultData;
         }
+
+        //new 
+        this.getDBFollowFeedUsers();
     });
 }
 
@@ -212,6 +206,12 @@ getDBForYouFeedUsers()
         this.UserFeed.splice(index, 1, u);
         console.log('f index '+ index + ":" + resultData);
 
+        //new
+        if(index == this.DBfeed.length - 1) //if last index
+        {
+          this.convertForYouFeed();
+        }
+
     });
     console.log('fy index: '+ index);
 });
@@ -236,6 +236,12 @@ getDBFollowFeedUsers()
         var u = new Profile(resultData.pic?.image_url,resultData.header_pic?.image_url, resultData.username, resultData.acc_name, resultData.bio, resultData.following_count, resultData.follower_count);
         this.FollowUserFeed.splice(index, 1, u);
         console.log('f index '+ index + ":" + resultData);
+
+        //new
+        if(index == this.DBFollowfeed.length - 1) //if last index
+        {
+          this.convertFollowFeed();
+        }
     });
     console.log('f index: '+ index);
 });
@@ -248,8 +254,29 @@ convertForYouFeed()
       
       //need to use 'this.DBfeed[index].image_content' when i figure out how to upload images
         var p = new Post(tweet.id,this.UserFeed[index].pic, this.UserFeed[index].username, this.UserFeed[index].acc_name,this.DBfeed[index].date_created, this.DBfeed[index].text_content, '', this.DBfeed[index].comments.toString(), this.DBfeed[index].retweets.toString(), this.DBfeed[index].likes.toString(), this.DBfeed[index].engagements.toString()); 
-        this.FEfeed.push(p);       
+        this.FEfeed.push(p); 
+
+        //new
+        if(index == this.DBfeed.length - 1) //if last index
+        {
+          console.log("test in loop");
+        }
+
     });
+    //new
+    //add to arrs
+    if(this.feedFlag)//true if following feed has been set, false if not
+    {
+      //set arrs to FEfeed and UserFeed
+      this.arrs = [this.FEfeed.reverse(), this.UserFeed.reverse(), this.FEFollowfeed, this.FollowUserFeed];
+    }
+    else
+    {
+      this.feedFlag = true; //set to true so it doesn't get set again
+    }
+    
+    
+    console.log("test");
 }
 
 //creates Post objects using data from DBFeed and UserFeed arrays and adds them to FEfeed array
@@ -259,12 +286,31 @@ convertFollowFeed()
       
       //need to use 'this.DBfeed[index].image_content' when i figure out how to upload images
         var p = new Post(tweet.id,this.FollowUserFeed[index].pic, this.FollowUserFeed[index].username, this.FollowUserFeed[index].acc_name,this.DBFollowfeed[index].date_created, this.DBFollowfeed[index].text_content, '', this.DBFollowfeed[index].comments.toString(), this.DBFollowfeed[index].retweets.toString(), this.DBFollowfeed[index].likes.toString(), this.DBFollowfeed[index].engagements.toString()); 
-        this.FEFollowfeed.push(p);       
+        this.FEFollowfeed.push(p);    
+        
+        //new
+        if(index == this.DBFollowfeed.length - 1) //if last index
+        {
+          console.log("test in loop");
+        }
     });
+
+    //new
+    //add to arrs
+    if(this.feedFlag)//true if following feed has been set, false if not
+    {
+      //set arrs to FEfeed and UserFeed
+      this.arrs = [this.FEfeed.reverse(), this.UserFeed.reverse(), this.FEFollowfeed, this.FollowUserFeed];
+    }
+    else
+    {
+      this.feedFlag = true; //set to true so it doesn't get set again
+    }
 }
 
 
 //gets data for 'ForYou'feed, calls the 3 above functions using delays to ensure all the data is available, when accessed
+//trying to use better logic and chain api calls rather than using setTimeout
 createForYouFeed()
   {
     let globalObj = this;
