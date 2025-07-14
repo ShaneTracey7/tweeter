@@ -166,8 +166,13 @@
 
     <!--</div> -->
 
-<!-- main content add here-->
-<main-content [upc]=this [user]=user [data]=arrs [page]=service.current_page [tab]=service.current_tab></main-content>
+<ng-container *ngIf="loadingFlag; else loaded"> <!---->
+  <spinner></spinner>
+</ng-container>
+<ng-template #loaded>
+  <!-- main content add here-->
+  <main-content [upc]=this [user]=user [data]=arrs [page]=service.current_page [tab]=service.current_tab></main-content>
+  </ng-template>
 <!--
     {% for notification in notifications %}
         {% include "notification.html" with obj=notification  %}

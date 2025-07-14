@@ -93,9 +93,13 @@
 
       <!--  </div> -->
     </div>
-
+<ng-container *ngIf="loadingFlag; else loaded">
+  <spinner></spinner>
+</ng-container>
+<ng-template #loaded>
 <!-- main content add here-->
 <main-content [page]=service_page [tab]=service.current_tab [query]="query" [data]="arr" [upc]="this"></main-content>
+</ng-template>
 <!--
     {% for topic in topics %}
     {% include "searchCard.html" with obj=topic %}

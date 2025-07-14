@@ -88,7 +88,7 @@ only for testing image api (google)-->
 <router-outlet name="forYouFeed"></router-outlet>-->
 <!--<router-outlet ></router-outlet>-->
 <ng-container *ngIf="loadingFlag; else loaded">
-  <p>Loading . . .</p>
+  <spinner></spinner>
 </ng-container>
 <ng-template #loaded>
   <main-content [data]=arrs [upc]=this [page]=service.current_page [tab]=service.current_tab></main-content>

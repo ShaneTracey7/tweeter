@@ -21,6 +21,8 @@ export class NotificationPageComponent extends CoreComponent{
   DBfeed: any [] = [];
   notificationFeed: Notification [] = [];
 
+  loadingFlag: boolean = true; //flag to show spinner while data is being fetched
+
   constructor(authService: AuthService, route: ActivatedRoute, service: CoreService,public http: HttpClient, public tweetService: TweetService)
   {
     super(authService,route,service);
@@ -56,6 +58,7 @@ export class NotificationPageComponent extends CoreComponent{
 
           setTimeout(() => {
             globalObj.arrs = [globalObj.notificationFeed];
+            globalObj.loadingFlag = false; //hide spinner after data is loaded
             console.log("Arrs NP in ngOnoInit:" + globalObj.arrs[0]);
             resolve('we got a response');
           }, 2000) // 0 secs

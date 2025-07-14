@@ -33,6 +33,8 @@ export class ExplorePageComponent extends CoreComponent {
    DBUserFeed: any [] = [];
    userList: Profile [] = [];
 
+   loadingFlag: boolean = true; //flag to show spinner while data is being fetched
+
    //explore page data
   forYouSearchTopics = createForYouSearchTopics();
   trendingSearchTopics = createTrendingSearchTopics();
@@ -97,7 +99,8 @@ export class ExplorePageComponent extends CoreComponent {
 
         setTimeout(() => {
           this.arr = [this.postList,this.postUserList,this.userList,''];
-        }, 1000) // 1 sec
+          this.loadingFlag = false; //hide spinner after data is loaded
+        }, 1500) // 1 sec
         
       }
       else
@@ -108,6 +111,7 @@ export class ExplorePageComponent extends CoreComponent {
         this.inActiveSearch = false;
 
         this.arr = [this.forYouSearchTopics,this.trendingSearchTopics, this.newsSearchTopics, this.sportsSearchTopics, this.entertainmentSearchTopics];
+        this.loadingFlag = false; //hide spinner after data is loaded
       }
 
     }
@@ -149,6 +153,7 @@ export class ExplorePageComponent extends CoreComponent {
                   this.DBUserFeed = resultData;
                   console.log(this.DBUserFeed);
                   this.convertUserFeed();
+                  
                   console.log('Successful data base retrieval');
                 }
             });

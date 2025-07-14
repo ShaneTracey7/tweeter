@@ -33,6 +33,7 @@ DBTweets: any [] = []; //tweets in messages
 DBTweetUsers: any [] = []; //users of tweets in messages
 convos: Convo [] = [];
 
+loadingFlag: boolean = true; //flag to show spinner while data is being fetched
 
 openmodal: boolean = false; //to ensure only one modal is visible at a time
 
@@ -265,6 +266,7 @@ getConvos(check: boolean)
           this.DBTweets = [];
           this.DBTweetUsers = [];
           console.log("Unsuccessful Database Retrieval");
+          this.loadingFlag = false; //hide spinner after data is loaded
         }
       else
         {
@@ -301,6 +303,7 @@ getConvos(check: boolean)
         {
           //console.log("alternate set arr");
           this.arr = [this.convos];
+          this.loadingFlag = false; //hide spinner after data is loaded
           if(check)
           {
             this.convoIDCheck(bad_ids);
@@ -405,6 +408,7 @@ id: number; //needed for accessing db tweets(posts)
         {
           
           this.arr = [this.convos];
+          this.loadingFlag = false; //hide spinner after data is loaded
           if(check)
             {
               this.convoIDCheck(bad_ids);

@@ -61,6 +61,7 @@ export class ProfilePageComponent extends CoreComponent{
 
   showep: boolean = false; //condition to show edit profile modal or not
 
+  loadingFlag: boolean = true; //flag to show spinner while data is being fetched
 
   //needed to ensure when logging into a different account, correct data displays
   service_acc_name: string;
@@ -116,6 +117,7 @@ export class ProfilePageComponent extends CoreComponent{
         this.username = this.service_username;
         this.setUpProfileDataDB();//this.checkUserInDB(); //to get user data
         this.arrs = [this.posts,this.postsUsers,this.retweets,this.retweetsUsers,this.likes,this.likesUsers, this.media,this.mediaUsers];
+        //^^^^^ this should not be set here, most of the values arent set in time
         //this.arrs = [this.posts,this.retweets,this.likes, this.media];
         this.setLiked();
         this.setRetweeted();
@@ -713,6 +715,7 @@ export class ProfilePageComponent extends CoreComponent{
 
           setTimeout(() => {
             globalObj.getFollowingCount();
+            globalObj.loadingFlag = false; //set loading flag to false
             resolve('we got a response');
           }, 4000) // 2 secs
 

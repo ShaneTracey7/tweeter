@@ -28,6 +28,7 @@ import { PostPageComponent } from '../features/post-page/post-page.component';
 import { EditProfileModalComponent } from '../features/profile-page/components/edit-profile-modal.component';
 import { SearchBarComponent } from '../shared/components/search-bar/search-bar.component';
 import { NewMessageModalComponent } from '../features/message-page/components/new-message-modal.component';
+import { SpinnerComponent } from '../shared/components/spinner/spinner.component';
 
 
 
@@ -56,6 +57,7 @@ import { NewMessageModalComponent } from '../features/message-page/components/ne
     EditProfileModalComponent,
     SearchBarComponent,
     NewMessageModalComponent,
+    SpinnerComponent,
     
   ],
   imports: [

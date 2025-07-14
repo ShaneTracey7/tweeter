@@ -25,11 +25,15 @@
     </form>
 
     <!-- inspect element in browser, it says reflect home page-->
-    
+    <ng-container *ngIf="loadingFlag; else loaded">
+        <spinner></spinner>
+    </ng-container>
+    <ng-template #loaded>
         <app-message [mpc]="this"
           *ngFor="let convo of arr[0]"
           [convo]="convo" [selectedM]="selected" [selectedAcc]="selectedConvo.otherUser.acc_name">
         </app-message>
+    </ng-template>
       <!--
     <main-content [data]=arr [mpc]='this' [page]=service.current_page></main-content>
         -->
