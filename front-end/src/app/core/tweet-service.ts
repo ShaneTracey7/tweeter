@@ -16,7 +16,7 @@ export class TweetService {
     DBretweets: number [] = []; //just stores tweet/post id's
 
     constructor( private http: HttpClient, private formBuilder: FormBuilder ) {
-        this.createForYouFeed(); 
+        //this.createForYouFeed(); idk if this is needed
     }
 
 //Global variables (for test data)

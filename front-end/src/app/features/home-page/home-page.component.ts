@@ -31,7 +31,8 @@ export class HomePageComponent extends CoreComponent{
   like_ids: number [];
   retweet_ids: number [];
   //last_like_ids: number [];
-  loadingFlag: boolean = true; //true if loading, false if not
+  followLoadingFlag: boolean = true; //true if loading, false if not
+  foryouLoadingFlag: boolean = true; //true if loading, false if not
   feedFlag: boolean = false; //true if a feed has been set (needed to time when arrs is set properly)
   arrs: any[] = []; //testing to feed into main component
 
@@ -128,14 +129,16 @@ getDBForYouFeed()
         if(resultData == "No tweets")
         {
           this.DBfeed = [];
+          this.foryouLoadingFlag = false;
         }
         else
         {
-         this.DBfeed = resultData;
+          this.DBfeed = resultData;
+          //new 
+          this.getDBForYouFeedUsers();
         }
 
-      //new 
-      this.getDBForYouFeedUsers();
+      
 
     });
 }
@@ -156,14 +159,16 @@ getDBFollowFeed()
         if(resultData == "No tweets")
         {
           this.DBFollowfeed = [];
+          this.followLoadingFlag = false;
         }
         else
         {
           this.DBFollowfeed = resultData;
+          //new 
+          this.getDBFollowFeedUsers();
         }
 
-        //new 
-        this.getDBFollowFeedUsers();
+        
     });
 }
 
@@ -265,19 +270,20 @@ convertForYouFeed()
     });
     //new
     //add to arrs
+    this.foryouLoadingFlag = false;
+    console.log(" foryou test");
+    /*
     if(this.feedFlag)//true if following feed has been set, false if not
     {
       //set arrs to FEfeed and UserFeed
       this.arrs = [this.FEfeed.reverse(), this.UserFeed.reverse(), this.FEFollowfeed, this.FollowUserFeed];
       this.loadingFlag = false; //set to false so loading state doesn't show
+      console.log("set arrs in convertForYouFeed");
+
     }
-    else
-    {
-      this.feedFlag = true; //set to true so it doesn't get set again
-    }
-    
-    
-    console.log("test");
+    else{
+      this.feedFlag = true; //set to true so arrs can be set next time
+    }*/
 }
 
 //creates Post objects using data from DBFeed and UserFeed arrays and adds them to FEfeed array
@@ -298,16 +304,20 @@ convertFollowFeed()
 
     //new
     //add to arrs
+    this.followLoadingFlag = false;
+    console.log(" follow test");
+    /*
     if(this.feedFlag)//true if following feed has been set, false if not
     {
       //set arrs to FEfeed and UserFeed
       this.arrs = [this.FEfeed.reverse(), this.UserFeed.reverse(), this.FEFollowfeed, this.FollowUserFeed];
       this.loadingFlag = false; //set to false so loading state doesn't show
+       console.log("set arrs in convertFollowFeed");
     }
-    else
-    {
-      this.feedFlag = true; //set to true so it doesn't get set again
+    else{
+      this.feedFlag = true; //set to true so arrs can be set next time
     }
+      */
 }
 
 
@@ -462,8 +472,32 @@ setFUF()
         }
         myAsync();
   }
+setRetweeted()
+  {
+    let requestMessage =
+    {
+      "word": 'getRetweetIDs',
+      "word2": this.service_acc_name, 
+    }
+    
+  this.http.put(environment.apiUrl +"/retweet",requestMessage).subscribe((resultData: any)=>
+    {
+        //console.log(resultData);
 
-  setRetweeted()
+        if(resultData == 'Failed to Add' || resultData == 'No retweet ids' || resultData == 'check is else')
+        {
+          console.log("Did not get ID's");
+          console.log(resultData);
+          this.retweet_ids = [];
+        }
+        else //Successful
+        {
+          this.retweet_ids = resultData;
+          console.log(this.retweet_ids);
+        }
+    });
+  }
+  setRetweeted2()
   {
     let globalObj = this;
 
@@ -504,6 +538,31 @@ setFUF()
   }
 
 setLiked()
+  {
+    let requestMessage =
+    {
+      "word": 'getLikeIDs',
+      "word2": this.service_acc_name, 
+    }
+    
+  this.http.put(environment.apiUrl + "/like",requestMessage).subscribe((resultData: any)=>
+    {
+        //console.log(resultData);
+
+        if(resultData == 'Failed to Add' || resultData == 'No like ids' || resultData == 'check is else')
+        {
+          console.log("Did not get ID's");
+          console.log(resultData);
+          this.like_ids = [];
+        }
+        else //Successful
+        {
+          this.like_ids = resultData;
+          console.log(this.like_ids);
+        }
+    });
+  }
+setLiked2()
   {
     let globalObj = this;
 

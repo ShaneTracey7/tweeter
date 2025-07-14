@@ -87,11 +87,11 @@ only for testing image api (google)-->
 <!--<router-outlet name="followingFeed"></router-outlet>
 <router-outlet name="forYouFeed"></router-outlet>-->
 <!--<router-outlet ></router-outlet>-->
-<ng-container *ngIf="loadingFlag; else loaded">
+<ng-container *ngIf="followLoadingFlag || foryouLoadingFlag; else loaded">
   <spinner></spinner>
 </ng-container>
 <ng-template #loaded>
-  <main-content [data]=arrs [upc]=this [page]=service.current_page [tab]=service.current_tab></main-content>
+  <main-content [data]="[FEfeed.reverse(), UserFeed.reverse(), FEFollowfeed, FollowUserFeed]" [upc]=this [page]=service.current_page [tab]=service.current_tab></main-content><!-- [data]=arrs-->
 </ng-template>
 <!--
 {% for post in forYouFeed %}
