@@ -32,7 +32,7 @@ export class HomePageComponent extends CoreComponent{
   like_ids: number [];
   retweet_ids: number [];
   //last_like_ids: number [];
-
+  loadingFlag: boolean = false; //true if loading, false if not
   feedFlag: boolean = false; //true if a feed has been set (needed to time when arrs is set properly)
   arrs: any[] = []; //testing to feed into main component
 
@@ -104,6 +104,7 @@ constructor(authService: AuthService, route: ActivatedRoute, service: CoreServic
 
 ngOnInit()
 {
+  this.loadingFlag = true; //set to true so loading state shows
   console.log("ppg init service current page: " + this.service.current_page);
   this.pic = localStorage.getItem('pic') ?? "";
   this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";
@@ -269,6 +270,7 @@ convertForYouFeed()
     {
       //set arrs to FEfeed and UserFeed
       this.arrs = [this.FEfeed.reverse(), this.UserFeed.reverse(), this.FEFollowfeed, this.FollowUserFeed];
+      this.loadingFlag = false; //set to false so loading state doesn't show
     }
     else
     {
@@ -301,6 +303,7 @@ convertFollowFeed()
     {
       //set arrs to FEfeed and UserFeed
       this.arrs = [this.FEfeed.reverse(), this.UserFeed.reverse(), this.FEFollowfeed, this.FollowUserFeed];
+      this.loadingFlag = false; //set to false so loading state doesn't show
     }
     else
     {

@@ -7,20 +7,12 @@
       *ngFor="let post of followingFeed"
       [post]="post" [upc]="upc">
       </app-post>-->
-      <div *ngIf="!data ; else feedCheck">
-        <div class="loading-state">
-          <!-- You can replace this with a spinner or skeleton loader -->
-          <p>Loading feed...</p>
-        </div>
-      </div>
-      <ng-template #feedCheck>
         <div *ngIf="data[2]?.length > 0; else emptyList"> <!-- was data?.[2]?.length > 0 -->
           <app-post [mcc]='mcc'
           *ngFor="let post of data[2]; index as i"
           [post]="post" [user]="data[3][i]" [upc]="upc">
           </app-post>
         </div>
-      </ng-template>
       <ng-template #emptyList>
           <div class="profile-empty-list">
             <p class="profile-empty-list-title"> Your followers haven't posted</p>
@@ -31,20 +23,14 @@
     </div>
 
     <div *ngSwitchDefault> <!-- for you -->
-      <div *ngIf="!data ; else feedCheck2">
-        <div class="loading-state">
-          <!-- You can replace this with a spinner or skeleton loader -->
-          <p>Loading feed...</p>
-        </div>
-      </div>
-      <ng-template #feedCheck2>
+      
         <div *ngIf="data[0]?.length > 0; else emptyList2"> <!-- was data?.[2]?.length > 0 -->
           <app-post [mcc]='mcc'
             *ngFor="let post of data[0]; index as i"
             [post]="post" [user]="data[1][i]" [upc]="upc">
           </app-post>
         </div>
-      </ng-template>
+      
       <ng-template #emptyList2>
           <div class="profile-empty-list">
             <p class="profile-empty-list-title"> There are no posts</p>

@@ -87,7 +87,12 @@ only for testing image api (google)-->
 <!--<router-outlet name="followingFeed"></router-outlet>
 <router-outlet name="forYouFeed"></router-outlet>-->
 <!--<router-outlet ></router-outlet>-->
-<main-content [data]=arrs [upc]=this [page]=service.current_page [tab]=service.current_tab></main-content>
+<ng-template *ngIf="loadingFlag; else loading">
+  <p>loading . . .</p>
+</ng-template>
+<ng-template #loading>
+  <main-content [data]=arrs [upc]=this [page]=service.current_page [tab]=service.current_tab></main-content>
+</ng-template>
 <!--
 {% for post in forYouFeed %}
 {% include "post.html" with profile=post.profile username=post.username acc_name=post.acc_name e_time=post.e_time text=post.text image=post.image comments=post.comments retweets=post.retweets likes=post.likes  views=post.views %}
