@@ -25,7 +25,7 @@ p_value = "password";
 u_value = "username";
 userDB:any = []; //might not work like this
 
-submit_flag: number  = 0; // 0: not pressed, 1: pressed but not submitted, 2: pressed and submitted
+submit_flag: number  = 0; // 0: not pressed, 1: pressed but not submitted, 2: pressed and submitted, 3: loading(waiting for response form api)
 goodLogin: boolean = false; 
 
 
@@ -81,7 +81,9 @@ loginForm = this.formBuilder.group({
 
   credentialsCheck(obj: any)
   {
-  {
+  
+    obj.submit_flag = 3; //set loading state
+
     let requestBody =
     {
       //"name" : 'credentialsCheck',
@@ -103,17 +105,31 @@ loginForm = this.formBuilder.group({
         if(resultData == "AC doesn't exist" || resultData == "AC exists, P incorrect" || resultData == "Failed to Add")
         {
           this.goodLogin = false;
+          obj.submit_flag = 1;
+          console.log("form not submitted");
+                
         }
       else
         {
           obj.goodLogin = true;
-          //obj.u_value = resultData
           obj.userDB = resultData;
-        }
-    });
 
-    console.log('went thru credentials check')//testing
-    }
+          localStorage.setItem('isLoggedIn', "true");
+          localStorage.setItem('username', obj.userDB.username ?? 'badToken');
+          localStorage.setItem('pic', obj.userDB.pic?.image_url ?? '');
+          localStorage.setItem('acc_name', obj.loginForm.value.acc_name ?? 'badToken'); 
+          obj.loginForm.reset();
+
+          obj.submit_flag = 2;
+          console.log("form submitted");
+                
+          setTimeout(() => {
+            obj.service.routeToChild('foryou');
+            obj.router.navigate(['/tweeter']); 
+            }, 1000) // 1 sec
+        }
+        console.log('went thru credentials check')//testing
+    });
   }
 
 
@@ -121,7 +137,8 @@ loginForm = this.formBuilder.group({
 
     if(this.loginForm.valid)
       {
-
+        this.credentialsCheck(this);
+        /*
         let globalObj = this;
 
         const checkPromise = new Promise<any>(function (resolve, reject) {
@@ -143,7 +160,7 @@ loginForm = this.formBuilder.group({
                 //this.router.navigate([this.returnUrl]);
                 setTimeout(() => {
                 globalObj.service.routeToChild('foryou');
-                globalObj.router.navigate(['/tweeter']); //this is just (need to figure out a secure login)
+                globalObj.router.navigate(['/tweeter']); 
                 }, 1000) // 1 sec
               }
             else
@@ -172,11 +189,11 @@ loginForm = this.formBuilder.group({
           //console.log("end of myAsync");
         }
         myAsync();
-
+        */
       }
     else
     {
-      console.log("not submitted");
+      console.log("invalid form");
       this.submit_flag = 1;
     }
   

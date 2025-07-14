@@ -12,6 +12,7 @@
                 </div>
                 <div id="form-status-message-bad-m" *ngIf="this.submit_flag == 1">Incorrect account name or password!</div>
                 <div id="form-status-message-good-m" *ngIf="this.loginForm.controls['acc_name'].untouched && this.submit_flag == 2"> Login successful!</div>
+                <div id="form-status-message-loading-m" *ngIf="this.submit_flag == 3">Loading . . .</div>
             </div>
 
             <div class="modal-content-area" id="login-modal-content">
