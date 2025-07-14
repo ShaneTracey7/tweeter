@@ -270,6 +270,8 @@ convertForYouFeed()
     });
     //new
     //add to arrs
+    this.FEfeed.reverse();
+    this.UserFeed.reverse();
     this.foryouLoadingFlag = false;
     console.log(" foryou test");
     /*

@@ -91,7 +91,7 @@ only for testing image api (google)-->
   <spinner></spinner>
 </ng-container>
 <ng-template #loaded>
-  <main-content [data]="[FEfeed.reverse(), UserFeed.reverse(), FEFollowfeed, FollowUserFeed]" [upc]=this [page]=service.current_page [tab]=service.current_tab></main-content><!-- [data]=arrs-->
+  <main-content [data]="[FEfeed, UserFeed, FEFollowfeed, FollowUserFeed]" [upc]=this [page]=service.current_page [tab]=service.current_tab></main-content><!-- [data]=arrs-->
 </ng-template>
 <!--
 {% for post in forYouFeed %}
