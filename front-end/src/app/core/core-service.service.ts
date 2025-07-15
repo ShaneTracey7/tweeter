@@ -42,7 +42,9 @@ export class CoreService {
   ForYouUserFeed: Profile [] = []; //array of Profile objs of users in ForYou feed
   FollowFeed: Post [] = []; //array of Post objs of Follow feed
   FollowUserFeed: Profile [] = []; //array of Profile objs of users in Follow feed
-  
+  Likes: any = null; //array of ids
+  Retweets: any  = null; //array of ids
+
   shareID: number = 0; //post id of tweet to send
   shareUser: string = ''; //acc_name of user to send tweet to
 
@@ -429,6 +431,63 @@ createUserFeed2(acc_name: string): Observable<any[]> {
       }
 
       return this.UserFeed;
+    })
+  );
+}
+
+//NOT TESTED
+getDBLikes(acc_name: string): Observable<any[]> {
+
+  let requestMessage =
+    {
+      "word": 'getLikeIDs',
+      "word2": acc_name, 
+    }
+
+  return this.http.put<any>(environment.apiUrl + "/like", requestMessage).pipe(
+    map(resultData => {
+      if (!resultData ) {
+        this.Likes = [];
+        return [];
+      }
+      else if (resultData == 'No like ids' || resultData == 'check is else'|| resultData == 'Failed to Add') {
+        console.log("No like ids found");
+        this.Likes = [];
+        return [];
+      }
+      else
+      {
+        this.Likes = resultData;
+        return resultData
+      }
+    })
+  );
+}
+//NOT TESTED
+getDBRetweets(acc_name: string): Observable<any[]> {
+
+  let requestMessage =
+    {
+      "word": 'getRetweetIDs',
+      "word2": acc_name, 
+    }
+
+  return this.http.put<any>(environment.apiUrl + "/retweet", requestMessage).pipe(
+    map(resultData => {
+      if (!resultData ) {
+        this.Retweets = [];
+        return [];
+      }
+      else if (resultData == 'No retweet ids' || resultData == 'check is else'|| resultData == 'Failed to Add') {
+        console.log("No retweet ids found");
+        this.Retweets = [];
+        return [];
+      }
+      else
+      {
+        this.Retweets = resultData;
+        return resultData
+      }
     })
   );
 }

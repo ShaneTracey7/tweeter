@@ -107,8 +107,27 @@ ngOnInit()
       console.log("this.service.ForYouFeed is not null");
     }
 
-  this.setLiked();
-  this.setRetweeted();
+  
+    //NOT TESTED
+  if (this.service.Likes == null )
+  {
+    this.service.getDBRetweets(this.service_acc_name).subscribe(ids => {
+          console.log("retweet_ids", ids);
+          this.retweet_ids = ids;
+        });
+    this.service.getDBLikes(this.service_acc_name).subscribe(ids => {
+          console.log("like_ids", ids);
+          this.like_ids = ids;
+        });
+  }
+  else
+  {
+    this.retweet_ids = this.service.Retweets;
+    this.like_ids = this.service.Likes;
+  }
+
+  //this.setLiked();
+  //this.setRetweeted();
   
   //sets the feed to the ForYou tab 
   //this.getDBForYouFeed();
