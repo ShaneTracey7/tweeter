@@ -26,11 +26,24 @@ export class SecondaryContentComponent {
   {
     console.log("page b4 init:" + this.page)
     this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";  
-    this.createServiceUserFeed();
-    //this.service.createUserFeed(true,this.service_acc_name);
-    this.profiles = this.service.UserFeed;
-
     
+    //this.service.createUserFeed(true,this.service_acc_name);
+    console.log("this.service.UserFeed: " + this.service.UserFeed)
+    if (this.service.UserFeed == null || this.service.UserFeed.length < 1)
+      {
+        this.service.createUserFeed2(this.service_acc_name).subscribe(feed => {
+          console.log("UserFeed", feed);
+          this.profiles = feed;
+        });
+        //this.profiles = this.service.createUserFeed2(this.service_acc_name);
+        console.log("this.service.UserFeed == null");
+      }
+    else
+      {
+        
+        this.profiles = this.service.UserFeed;
+        console.log("this.service.UserFeed is not null");
+      }
   }
 
   ngOnChanges(changes: SimpleChanges)

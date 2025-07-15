@@ -355,7 +355,7 @@ def messageApi(request,id=id):
 def tweetApi(request,id=id):
 
     if request.method =='GET':
-        tweet = Tweet.objects.all()
+        tweet = Tweet.objects.all().order_by('-date_created') # '-' denotes descending order
 
        # tweet = Tweet.objects.get(id=1)
         #tweet_user = tweet.user
@@ -466,7 +466,7 @@ def tweetApi(request,id=id):
                     for f in fs:
                         follow_list.append(f.follower)
                     print('after loop')
-                    feed = Tweet.objects.filter(user__in=follow_list)
+                    feed = Tweet.objects.filter(user__in=follow_list).order_by('-date_created') #get all tweets from users that are followed
                     if feed.exists():
                         print('feed exists')
                         tweet_serializer = TweetSerializer(feed,many=True) #this line may not work

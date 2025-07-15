@@ -35,7 +35,7 @@ newCommentUsers: Profile [] = [];
 DBUserfeed: any [] = [];
 DBPostfeed: any [] = [];
 
-@Input () user = new Profile('','','','','',0,0);
+@Input () user = new Profile(null,null,'','','',0,0);
 
 @Input () post = new Post(0,'','','',new Date,'','',0,0,0,0);
 @Input () focused = false; // true if post is being focused within post-page-component
@@ -402,10 +402,15 @@ showTimeAndDate()
   }
   else
   {
+    if (hours == 0)
+    {
+      hours = 12;
+    }
+    
     meridiem = " AM";
   }
 
-  return hours + ":" + mins + meridiem + " . " + month_str + day + ", " + year + " . ";
+  return hours + ":" + (mins > 9 ? mins : "0"+ mins) + meridiem + " . " + month_str + day + ", " + year + " . ";
 }
 
 showDeltaDate()

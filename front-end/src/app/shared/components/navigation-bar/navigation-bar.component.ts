@@ -77,13 +77,12 @@ export class NavigationBarComponent{
   }
 
   logout() {  
+
     localStorage.clear();
-    //this.service.clearStorage();
-    console.log(localStorage.getItem('acc_name') ?? "badToken");
-    console.log(localStorage.getItem('username') ?? "badToken");
-    console.log('logout');  
+    //clear core service data
+    this.service.reset();
     this.authService.logout();
-    
+    console.log('logout');  
     this.router.navigate(['/Login']);  
   } 
 

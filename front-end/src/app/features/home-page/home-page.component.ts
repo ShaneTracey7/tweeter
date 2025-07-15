@@ -9,19 +9,26 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Post, Profile } from '../../core/data';
 import { environment } from '../../../environments/environment'; //import environment for apiUrl
 
-import { By, Builder, Browser } from 'selenium-webdriver';
+//import { By, Builder, Browser } from 'selenium-webdriver';
 @Component({
 
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
-  /*styleUrls: ['./home-page.component.scss', 'home-page-styles2.scss'],*/
-  //encapsulation: ViewEncapsulation.None
 /* HOPING the scope of this is just within home-page module, but it could be global */
 })
 export class HomePageComponent extends CoreComponent{
   
-  //home_pic_url: string = 
+  /* I want to fully complete homepage before moving to other components:
+  - move revelant functions to core-service.service.ts
+  -make those functions chain promises to ensure data is set before using it
+
+  have to do:
+  -setliked()
+  -setRetweeted()
+  -make sense of postclick()
+  */
+
   //needed to ensure when logging into a different account, correct data displays
   service_acc_name: string;
   
@@ -30,7 +37,7 @@ export class HomePageComponent extends CoreComponent{
   reaction: string = "";
   like_ids: number [];
   retweet_ids: number [];
-  //last_like_ids: number [];
+  
   followLoadingFlag: boolean = true; //true if loading, false if not
   foryouLoadingFlag: boolean = true; //true if loading, false if not
   feedFlag: boolean = false; //true if a feed has been set (needed to time when arrs is set properly)
@@ -50,10 +57,6 @@ export class HomePageComponent extends CoreComponent{
   DBFollowing: any [] = []; //raw array of User following from DB
   following: Profile [] = [] //array of Profile objs of following
 
-
-  //only for testing 
-  image_test: string = '';
-
 constructor(authService: AuthService, route: ActivatedRoute, service: CoreService,public http: HttpClient, public tweetService: TweetService, public formBuilder: FormBuilder )
 {
   super(authService,route,service);
@@ -61,419 +64,58 @@ constructor(authService: AuthService, route: ActivatedRoute, service: CoreServic
   this.service_acc_name = "";
   this.like_ids = [];
   this.retweet_ids = [];
-  //this.last_like_ids = [];
-}
-
-//testing web scraping capabilities with selenium
-
-/*selTest(){
-  //const {By, Builder, Browser } = require('selenium-webdriver');
   
-  (async function firstTest() {
-    let driver;
-    
-    try {
-      driver = await new Builder().forBrowser(Browser.CHROME).build();
-      //await driver.get('https://www.selenium.dev/selenium/web/web-form.html');
-    
-      //let title = await driver.getTitle();
-    
-      //await driver.manage().setTimeouts({implicit: 500});
-    
-      //let textBox = await driver.findElement(By.name('my-text'));
-      //let submitButton = await driver.findElement(By.css('button'));
-    
-      //await textBox.sendKeys('Selenium');
-      //await submitButton.click();
-    
-      //let message = await driver.findElement(By.id('message'));
-      //let value = await message.getText();
-    } catch (e) {
-      console.log(e)
-    } finally {
-      //await driver!.quit();
-    }
-  }())
-}*/
-
-
-
-
-
+}
 //passed a hpc to post, so it's going off the correct instance
 
 ngOnInit()
 {
-  //this.loadingFlag = true; //set to true so loading state shows
-  console.log("ppg init service current page: " + this.service.current_page);
   this.pic = localStorage.getItem('pic') ?? "";
   this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";
+  
+  //if foryou is null or empty, get it AND follow from DB
+  if (this.service.ForYouFeed == null || this.service.ForYouFeed.length < 1)
+    {
+      console.log("this.service.ForYouFeed == null");
+
+      this.service.getDBForYouFeed().then(({ feed, userFeed }) => {
+
+        console.log('feed:', feed);
+        this.FEfeed = feed;
+        console.log('users:', userFeed);
+        this.UserFeed = userFeed;
+        this.foryouLoadingFlag = false;
+      });
+        
+      this.service.getDBFollowFeed(this.service_acc_name).then(({ feed, userFeed }) => {
+
+        console.log('feed:', feed);
+        this.FEFollowfeed = feed;
+        console.log('users:', userFeed);
+        this.FollowUserFeed = userFeed;
+        this.followLoadingFlag = false;
+      });
+    }
+  else
+    {
+      this.FEfeed = this.service.ForYouFeed;
+      this.UserFeed = this.service.ForYouUserFeed;
+      this.FEFollowfeed = this.service.FollowFeed;
+      this.FollowUserFeed = this.service.FollowUserFeed;
+      this.foryouLoadingFlag = false;
+      this.followLoadingFlag = false;
+      console.log("this.service.ForYouFeed is not null");
+    }
+
   this.setLiked();
   this.setRetweeted();
-
-  //sets the feed to the ForYou feed
-  this.getDBForYouFeed();
-  this.getDBFollowFeed();
-
-  //this.setFUF();
+  
+  //sets the feed to the ForYou tab 
+  //this.getDBForYouFeed();
+  //sets the feed to the Following tab 
+  //this.getDBFollowFeed();
 }
 
-
-//gets all tweets(from DB) and adds them to DBfeed array
-getDBForYouFeed()
-{
-    this.http.get(environment.apiUrl + "/tweet").subscribe((resultData: any)=>
-    {
-        //console.log(resultData);
-        console.log('getDBForYouFeed resultData: ' + resultData);
-        if(resultData == "No tweets")
-        {
-          this.DBfeed = [];
-          this.foryouLoadingFlag = false;
-        }
-        else
-        {
-          this.DBfeed = resultData;
-          //new 
-          this.getDBForYouFeedUsers();
-        }
-
-      
-
-    });
-}
-//gets all tweets from following(from DB) and adds them to DBFollowfeed array
-getDBFollowFeed()
-{   
-  let requestBody =
-  {
-    "word": 'getFollowFeed',
-    "word2": this.service_acc_name,
-  };
-
-    this.http.put(environment.apiUrl + "/tweet", requestBody).subscribe((resultData: any)=>
-    {
-        console.log('getDBFollowFeed resultData: ' + resultData);
-        console.log('getDBFollowFeed resultData: ' + resultData[0].text_content);
-        
-        if(resultData == "No tweets")
-        {
-          this.DBFollowfeed = [];
-          this.followLoadingFlag = false;
-        }
-        else
-        {
-          this.DBFollowfeed = resultData;
-          //new 
-          this.getDBFollowFeedUsers();
-        }
-
-        
-    });
-}
-
-// Presets UserFeed (needed to make sure profiles are added at the proper index)
-presetUserFeed()
-{
-  this.DBfeed.forEach(() => {
-    var u = new Profile(null,null, "", "", "", 0, 0);
-    this.UserFeed.push(u)
-  });
-}
-
-// Presets FollowUserFeed (needed to make sure profiles are added at the proper index)
-presetFollowUserFeed()
-{
-  this.DBFollowfeed.forEach(() => {
-    var u = new Profile(null,null, "", "", "", 0, 0);
-    this.FollowUserFeed.push(u)
-    console.log('post')
-  });
-}
-
-//gets all users from tweets(from DB) and creates a Profile object with them and adds them to UserFeed array
-getDBForYouFeedUsers()
-{
-  this.presetUserFeed();
-  //this goes in any order
-  this.DBfeed.forEach((tweet,index) => {
-
-    let requestBody =
-    {
-      "word": 'w',
-      "num": tweet.user.id,//was just tweet.user
-    };
-
-    this.http.put( environment.apiUrl + "/tweet",requestBody).subscribe((resultData: any)=>
-    {
-        //var u = new Profile(resultData.pic, resultData.username, resultData.acc_name, "bio", 100, 200);
-        var u = new Profile(resultData.pic?.image_url,resultData.header_pic?.image_url, resultData.username, resultData.acc_name, resultData.bio, resultData.following_count, resultData.follower_count);
-        this.UserFeed.splice(index, 1, u);
-        console.log('f index '+ index + ":" + resultData);
-
-        //new
-        if(index == this.DBfeed.length - 1) //if last index
-        {
-          this.convertForYouFeed();
-        }
-
-    });
-    console.log('fy index: '+ index);
-});
-}
-
-//gets all users from tweets(from DB) and creates a Profile object with them and adds them to FollowUserFeed array
-getDBFollowFeedUsers()
-{
-  this.presetFollowUserFeed();
-  //this goes in any order
-  this.DBFollowfeed.forEach((tweet,index) => {
-
-    let requestBody =
-    {
-      "word": 'w',
-      "num": tweet.user.id,//was just tweet.user
-    };
-
-    this.http.put(environment.apiUrl + "/tweet",requestBody).subscribe((resultData: any)=>
-    {
-        //var u = new Profile(resultData.pic, resultData.username, resultData.acc_name, "bio", 100, 200);
-        var u = new Profile(resultData.pic?.image_url,resultData.header_pic?.image_url, resultData.username, resultData.acc_name, resultData.bio, resultData.following_count, resultData.follower_count);
-        this.FollowUserFeed.splice(index, 1, u);
-        console.log('f index '+ index + ":" + resultData);
-
-        //new
-        if(index == this.DBFollowfeed.length - 1) //if last index
-        {
-          this.convertFollowFeed();
-        }
-    });
-    console.log('f index: '+ index);
-});
-}
-
-//creates Post objects using data from DBFeed and UserFeed arrays and adds them to FEfeed array
-convertForYouFeed()
-{   
-    this.DBfeed.forEach((tweet,index) => {
-      
-      //need to use 'this.DBfeed[index].image_content' when i figure out how to upload images
-        var p = new Post(tweet.id,this.UserFeed[index].pic, this.UserFeed[index].username, this.UserFeed[index].acc_name,this.DBfeed[index].date_created, this.DBfeed[index].text_content, '', this.DBfeed[index].comments.toString(), this.DBfeed[index].retweets.toString(), this.DBfeed[index].likes.toString(), this.DBfeed[index].engagements.toString()); 
-        this.FEfeed.push(p); 
-
-        //new
-        if(index == this.DBfeed.length - 1) //if last index
-        {
-          console.log("test in loop");
-        }
-
-    });
-    //new
-    //add to arrs
-    this.FEfeed.reverse();
-    this.UserFeed.reverse();
-    this.foryouLoadingFlag = false;
-    console.log(" foryou test");
-    /*
-    if(this.feedFlag)//true if following feed has been set, false if not
-    {
-      //set arrs to FEfeed and UserFeed
-      this.arrs = [this.FEfeed.reverse(), this.UserFeed.reverse(), this.FEFollowfeed, this.FollowUserFeed];
-      this.loadingFlag = false; //set to false so loading state doesn't show
-      console.log("set arrs in convertForYouFeed");
-
-    }
-    else{
-      this.feedFlag = true; //set to true so arrs can be set next time
-    }*/
-}
-
-//creates Post objects using data from DBFeed and UserFeed arrays and adds them to FEfeed array
-convertFollowFeed()
-{   
-    this.DBFollowfeed.forEach((tweet,index) => {
-      
-      //need to use 'this.DBfeed[index].image_content' when i figure out how to upload images
-        var p = new Post(tweet.id,this.FollowUserFeed[index].pic, this.FollowUserFeed[index].username, this.FollowUserFeed[index].acc_name,this.DBFollowfeed[index].date_created, this.DBFollowfeed[index].text_content, '', this.DBFollowfeed[index].comments.toString(), this.DBFollowfeed[index].retweets.toString(), this.DBFollowfeed[index].likes.toString(), this.DBFollowfeed[index].engagements.toString()); 
-        this.FEFollowfeed.push(p);    
-        
-        //new
-        if(index == this.DBFollowfeed.length - 1) //if last index
-        {
-          console.log("test in loop");
-        }
-    });
-
-    //new
-    //add to arrs
-    this.followLoadingFlag = false;
-    console.log(" follow test");
-    /*
-    if(this.feedFlag)//true if following feed has been set, false if not
-    {
-      //set arrs to FEfeed and UserFeed
-      this.arrs = [this.FEfeed.reverse(), this.UserFeed.reverse(), this.FEFollowfeed, this.FollowUserFeed];
-      this.loadingFlag = false; //set to false so loading state doesn't show
-       console.log("set arrs in convertFollowFeed");
-    }
-    else{
-      this.feedFlag = true; //set to true so arrs can be set next time
-    }
-      */
-}
-
-
-//gets data for 'ForYou'feed, calls the 3 above functions using delays to ensure all the data is available, when accessed
-//trying to use better logic and chain api calls rather than using setTimeout
-createForYouFeed()
-  {
-    let globalObj = this;
-
-        const postPromise = new Promise<any>(function (resolve, reject) {
-          setTimeout(() => {
-            reject("We didn't get a response")
-          }, 5000) // 5 secs
-
-          setTimeout(() => {
-            globalObj.getDBForYouFeed();
-            resolve('we got a response');
-          }, 0) // 0 secs
-        })
-
-        const postPromise2 = new Promise<any>(function (resolve, reject) {
-          setTimeout(() => {
-            reject("We didn't get a response")
-          }, 8000) // 5 secs
-
-          setTimeout(() => {
-            globalObj.getDBForYouFeedUsers();
-            resolve('we got a response');
-          }, 500) // 0.5 secs
-        })
-
-        const checkPromise = new Promise<any>(function (resolve, reject) {
-          setTimeout(() => {
-            reject("We didn't check")
-          }, 10000) //8 secs
-
-          setTimeout(() => {
-            globalObj.convertForYouFeed();
-            resolve('we checked');
-          }, 1000) // 1 sec
-        })
-        
-        async function myAsync(){
-          //console.log("inside myAsync");
-          try{
-            postPromise;
-            postPromise2;
-            await checkPromise;
-          }
-          catch (error) {
-            console.error('Promise rejected with error: ' + error);
-          }
-        }
-        myAsync();
-  }
-  //gets data for 'Follow'feed, calls the 3 above functions using delays to ensure all the data is available, when accessed
-createFollowFeed()
-  {
-    let globalObj = this;
-
-        const postPromise = new Promise<any>(function (resolve, reject) {
-          setTimeout(() => {
-            reject("We didn't get a response")
-          }, 5000) // 5 secs
-
-          setTimeout(() => {
-            globalObj.getDBFollowFeed();
-            resolve('we got a response');
-          }, 0) // 0 secs
-        })
-
-        const postPromise2 = new Promise<any>(function (resolve, reject) {
-          setTimeout(() => {
-            reject("We didn't get a response")
-          }, 8000) // 5 secs
-
-          setTimeout(() => {
-            globalObj.getDBFollowFeedUsers();
-            resolve('we got a response');
-          }, 500) // 0.5 secs
-        })
-
-        const checkPromise = new Promise<any>(function (resolve, reject) {
-          setTimeout(() => {
-            reject("We didn't check")
-          }, 10000) //8 secs
-
-          setTimeout(() => {
-            globalObj.convertFollowFeed();
-            resolve('we checked');
-          }, 1000) // 1 sec
-        })
-        
-        async function myAsync(){
-          //console.log("inside myAsync");
-          try{
-            postPromise;
-            postPromise2;
-            await checkPromise;
-          }
-          catch (error) {
-            console.error('Promise rejected with error: ' + error);
-          }
-        }
-        myAsync();
-  }
-
-setFUF()
-  {
-    let globalObj = this;
-
-        const postPromise = new Promise<any>(function (resolve, reject) {
-          setTimeout(() => {
-            reject("We didn't get a response")
-          }, 5000) // 5 secs
-
-          setTimeout(() => {
-            globalObj.createForYouFeed();
-            globalObj.createFollowFeed(); //new
-            resolve('we got a response');
-          }, 0) // 0 secs
-        })
-
-        const postPromise2 = new Promise<any>(function (resolve, reject) {
-          setTimeout(() => {
-            reject("We didn't get a response")
-          }, 8000) // 5 secs
-
-          setTimeout(() => {
-            //globalObj.arrs = [globalObj.FEfeed];
-            globalObj.arrs = [globalObj.FEfeed.reverse(), globalObj.UserFeed.reverse(), globalObj.FEFollowfeed, globalObj.FollowUserFeed];
-            //reverse FEfeed and UserFeed
-            
-            //console.log("Arrs HP1 in ngOnoInit:" + globalObj.arrs[0])
-            //console.log("Arrs HP2 in ngOnoInit:" + globalObj.arrs[1])
-            //console.log("Arrs HP3 in ngOnoInit:" + globalObj.arrs[2])
-            //console.log("Arrs HP4 in ngOnoInit:" + globalObj.arrs[3])
-            resolve('we got a response');
-          }, 2000) // 0 secs
-
-        })
-        async function myAsync(){
-          try{
-            //set FEFeed in tweet service
-            postPromise;
-            //set forYouFeed to FEFeed
-            postPromise2;
-          }
-          catch (error) {
-            console.error('Promise rejected with error: ' + error);
-          }
-        }
-        myAsync();
-  }
 setRetweeted()
   {
     let requestMessage =
@@ -611,30 +253,22 @@ tweetForm = this.formBuilder.group({
   isValidInput2()
   {
     if(this.tweetForm.controls['text_content'].errors?.['maxlength'])
-      {
-        return {
-          backgroundColor: 'rgba(255, 0, 0, 0.6)',
-        };
-      }
-      else
-      {
-        return {
-          backgroundColor: 'white',
-        };
-      }
+    {
+      return { backgroundColor: 'rgba(255, 0, 0, 0.6)'};
+    }
+    else
+    {
+      return { backgroundColor: 'white'};
+    }
   }
 
-  getTweetService()
-  {
-    return this.tweetService;
-  }
-
+  //handles a post button click
   postClick(reply_id: number)
   {
     let image_content = "";
-    this.getTweetService().postTweet(this.service_acc_name,this.tweetForm.value.text_content?? '',image_content, reply_id);
+    this.tweetService.postTweet(this.service_acc_name,this.tweetForm.value.text_content?? '',image_content, reply_id);
     
-    if(this.getTweetService().tweetValidated(this.tweetForm.value.text_content?? '',image_content))
+    if(this.tweetService.tweetValidated(this.tweetForm.value.text_content?? '',image_content))
       {
         this.submit_flag = 2;
         this.tweetForm.reset();
@@ -646,94 +280,194 @@ tweetForm = this.formBuilder.group({
         console.log("submit flag: " +this.submit_flag)
       }
   }
-  //*****not in use****    called upon successful submit of create account form
-  addPost()
-  {
-    //get id value for user using acc_name
-    let text_input = (<HTMLInputElement>document.getElementById("e-post-input")).value;
-
-    if (text_input != "")
-    {  
-      let postData = {
-      "user": 20, //fake value
-      "date_created": new Date(),
-      "text_content": text_input,
-      "image_content": null, //will be null once set up
-      "likes": 0,
-      "comments": 0,
-      "retweets": 0,
-      "engagements": 0,
-      };
-      this.http.post(environment.apiUrl + "/tweet",postData).subscribe((resultData: any)=>
-      {
-          console.log(resultData);
-      });
-    }
-  }
 
   colorReactionBarText(str:string)
   {
-    if (this.reaction == str) {
-
+    if (this.reaction == str) 
+    {
       if( str == 'heart')
-        {
-          return {
-            color: '#FF4086',
-          }
-        }
-      else if ( str == 'retweet')
-        {
-          return {
-            color: '#17BD69',
-          }
-        }
-      else
-        {
-          return {
-            color: '#1DA1F2',
-          }
-        }
-    }
-    else{
-
-      return {
-        color: '#808080',
+      {
+        return { color: '#FF4086'}
       }
+      else if ( str == 'retweet')
+      {
+        return { color: '#17BD69'}
+      }
+      else
+      {
+        return { color: '#1DA1F2'}
+      }
+    }
+    else
+    {
+      return {color: '#808080'}
     }
   }
 
   colorReactionBarBG(str:string)
   {
-    if (this.reaction == str) {
-
+    if (this.reaction == str) 
+    {
       if( str == 'heart')
-        {
-          return {
-            backgroundColor: '#ff40862b',
-          }
-        }
-      else if ( str == 'retweet')
-        {
-          return {
-            backgroundColor: '#17bd6a29',
-          }
-        }
-      else
-        {
-          return {
-            backgroundColor: '#1da0f22f',
-          }
-        }
-    }
-    else{
-      return {
-        backgroundColor: 'transparent',
+      {
+        return { backgroundColor: '#ff40862b'}
       }
+      else if ( str == 'retweet')
+      {
+        return { backgroundColor: '#17bd6a29'}
+      }
+      else
+      {
+        return { backgroundColor: '#1da0f22f'}
+      }
+    }
+    else
+    {
+      return { backgroundColor: 'transparent'}
     }
   }
 
 }
-function selTest() {
-  throw new Error('Function not implemented.');
+
+/* These 4 functions have been moved to core-service.service.ts and converted to return promises
+
+//gets all tweets(from DB) and adds them to DBfeed array
+getDBForYouFeed()
+{
+    this.http.get(environment.apiUrl + "/tweet").subscribe((resultData: any)=>
+    {
+        console.log('getDBForYouFeed resultData: ' + resultData);
+        if(resultData == "No tweets")
+        {
+          this.DBfeed = [];
+          this.foryouLoadingFlag = false;
+        }
+        else
+        {
+          this.DBfeed = resultData;
+          this.getDBForYouFeedUsers();
+        }
+    });
 }
 
+//gets user data for each tweet in DBfeed and adds them to UserFeed array and creates Post objects for FEfeed and sets flag
+getDBForYouFeedUsers()
+{
+  let iteration = 0;
+  this.DBfeed.forEach((tweet,index) => {
+
+    let requestBody =
+    {
+      "word": 'w',
+      "num": tweet.user.id,//was just tweet.user
+    };
+
+    this.http.put( environment.apiUrl + "/tweet",requestBody).subscribe((resultData: any)=>
+    {
+        var u = new Profile(resultData.pic?.image_url,resultData.header_pic?.image_url, resultData.username, resultData.acc_name, resultData.bio, resultData.following_count, resultData.follower_count);
+        this.UserFeed.push(u);
+        var p = new Post(tweet.id,u.pic ?? null, u.username, u.acc_name,this.DBfeed[index].date_created, this.DBfeed[index].text_content, '', this.DBfeed[index].comments.toString(), this.DBfeed[index].retweets.toString(), this.DBfeed[index].likes.toString(), this.DBfeed[index].engagements.toString()); 
+        this.FEfeed.push(p); 
+
+        iteration++;
+        //console.log('f index '+ index + ":" + JSON.stringify(resultData));
+
+        //new
+        if(iteration == this.DBfeed.length) //arrays are set
+        {
+          this.foryouLoadingFlag = false;
+          //this.convertForYouFeed();
+        }
+    });
+  });
+}
+
+//gets all tweets from following(from DB) and adds them to DBFollowfeed array
+getDBFollowFeed()
+{   
+  let requestBody =
+  {
+    "word": 'getFollowFeed',
+    "word2": this.service_acc_name,
+  };
+
+    this.http.put(environment.apiUrl + "/tweet", requestBody).subscribe((resultData: any)=>
+    {
+        console.log('getDBFollowFeed resultData: ' + JSON.stringify(resultData));
+        if(resultData == "No tweets")
+        {
+          this.DBFollowfeed = [];
+          this.followLoadingFlag = false;
+        }
+        else
+        {
+          this.DBFollowfeed = resultData;
+          this.getDBFollowFeedUsers();
+        }
+    });
+}
+
+//gets user data for each tweet in DBFollowfeed and adds them to FollowUserFeed array and creates Post objects for FEFollowfeed and sets flag
+getDBFollowFeedUsers()
+{
+  let iteration = 0;
+  this.DBFollowfeed.forEach((tweet,index) => {
+
+    let requestBody =
+    {
+      "word": 'w',
+      "num": tweet.user.id,//was just tweet.user
+    };
+
+    this.http.put(environment.apiUrl + "/tweet",requestBody).subscribe((resultData: any)=>
+    {
+        var u = new Profile(resultData.pic?.image_url,resultData.header_pic?.image_url, resultData.username, resultData.acc_name, resultData.bio, resultData.following_count, resultData.follower_count);
+        this.FollowUserFeed.push(u);
+        var p = new Post(tweet.id,u.pic ?? null, u.username, u.acc_name,this.DBFollowfeed[index].date_created, this.DBFollowfeed[index].text_content, '', this.DBFollowfeed[index].comments.toString(), this.DBFollowfeed[index].retweets.toString(), this.DBFollowfeed[index].likes.toString(), this.DBFollowfeed[index].engagements.toString()); 
+        this.FEFollowfeed.push(p); 
+
+        iteration++;
+        //console.log('f index '+ index + ":" + JSON.stringify(resultData));
+
+        //new
+        if(iteration == this.DBFollowfeed.length) //arrays are set
+        {
+          this.followLoadingFlag = false;
+          //this.convertFollowFeed();
+        }
+    });
+});
+}
+*/
+
+//testing web scraping capabilities with selenium
+
+/*selTest(){
+  //const {By, Builder, Browser } = require('selenium-webdriver');
+  
+  (async function firstTest() {
+    let driver;
+    
+    try {
+      driver = await new Builder().forBrowser(Browser.CHROME).build();
+      //await driver.get('https://www.selenium.dev/selenium/web/web-form.html');
+    
+      //let title = await driver.getTitle();
+    
+      //await driver.manage().setTimeouts({implicit: 500});
+    
+      //let textBox = await driver.findElement(By.name('my-text'));
+      //let submitButton = await driver.findElement(By.css('button'));
+    
+      //await textBox.sendKeys('Selenium');
+      //await submitButton.click();
+    
+      //let message = await driver.findElement(By.id('message'));
+      //let value = await message.getText();
+    } catch (e) {
+      console.log(e)
+    } finally {
+      //await driver!.quit();
+    }
+  }())
+}*/

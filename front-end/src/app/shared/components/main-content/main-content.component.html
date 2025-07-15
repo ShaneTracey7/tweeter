@@ -270,17 +270,29 @@
   <div [ngSwitch]="tab">
     
     <div *ngSwitchCase="'followers'">
-      <short-profile [mcc]= 'this'
-      *ngFor="let profile of data[0]"
-      [profile]="profile">
-      </short-profile>
+      <div class="profile-empty-list" *ngIf="data[0] == ''; else hasFollowers">
+         <p class="profile-empty-list-title"> {{user.acc_name}} has no followers</p>
+        <p class="profile-empty-list-body">Once accounts follow them, they'll show up here.</p>
+       </div>
+      <ng-template #hasFollowers>
+        <short-profile [mcc]= 'this'
+        *ngFor="let profile of data[0]"
+        [profile]="profile">
+        </short-profile>
+      </ng-template>
     </div>
 
     <div *ngSwitchCase="'following'">
-      <short-profile [mcc]= 'this'
-      *ngFor="let profile of data[1]"
-      [profile]="profile">
-      </short-profile>
+      <div class="profile-empty-list" *ngIf="data[1] == ''; else hasFollowing">
+        <p class="profile-empty-list-title"> {{user.acc_name}} isn't following anyone</p>
+        <p class="profile-empty-list-body">Once they follow accounts, they'll show up here.</p>
+      </div>
+      <ng-template #hasFollowing>
+        <short-profile [mcc]= 'this'
+        *ngFor="let profile of data[1]"
+        [profile]="profile">
+        </short-profile>
+      </ng-template>
     </div>
   </div>
 </div>

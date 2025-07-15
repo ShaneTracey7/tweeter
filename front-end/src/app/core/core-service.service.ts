@@ -1,9 +1,11 @@
 import { Injectable} from "@angular/core";
-import { Profile, getImgUrl, getHeaderImgUrl, getProfileImgUrl } from "./data";
+import { Profile, Post, getImgUrl, getHeaderImgUrl, getProfileImgUrl } from "./data";
 import { ActivatedRoute, Router} from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../environments/environment";
-
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 //@Injectable()
 @Injectable({
   providedIn: 'root',
@@ -35,6 +37,11 @@ export class CoreService {
   DBFollowing: any [] = []; //raw array of User following from DB
   following: Profile [] = [] //array of Profile objs of following
 
+  //new for Home page
+  ForYouFeed: Post [] = []; //array of Post objs of ForYou feed
+  ForYouUserFeed: Profile [] = []; //array of Profile objs of users in ForYou feed
+  FollowFeed: Post [] = []; //array of Post objs of Follow feed
+  FollowUserFeed: Profile [] = []; //array of Profile objs of users in Follow feed
   
   shareID: number = 0; //post id of tweet to send
   shareUser: string = ''; //acc_name of user to send tweet to
@@ -52,6 +59,26 @@ export class CoreService {
 
   }
 
+  reset() {
+  this.marker1= true; 
+  this.marker2= false;
+  this.marker3= false;
+  this.marker4= false;
+  this.marker5= false;
+  this.current_tab = ""; 
+  this.current_page =  ""; 
+  this.cp_style = ""; 
+  this.username = ""; 
+  this.acc_name = ""; 
+  this.DBUsers = []; 
+  this.UserFeed = [];
+  this.DBFollowers= []; 
+  this.followers = [] 
+  this.DBFollowing = []; 
+  this.following = []; 
+  this.shareID = 0; 
+  this.shareUser= ""; 
+}
   //don't think this is doing anything
   ngOnDestroy()
   {
@@ -281,7 +308,173 @@ convertUserFeed(current_user_acc_name: string)
   }
 }
 
+async getDBFollowFeed(acc_name: string | null): Promise<{feed: Post[] , userFeed: Profile[] }> {
 
+  try {
+    const requestBody = {
+        "word": 'getFollowFeed',
+        "word2": acc_name,
+      };
+    const tweetResponse = await firstValueFrom(this.http.put<any>(environment.apiUrl + "/tweet", requestBody));//need to change
+
+    if (tweetResponse === "No tweets") {
+      this.FollowFeed = [];
+      this.FollowUserFeed = [];
+      return { feed: [], userFeed: [] };
+    }
+
+    let DBfeed = tweetResponse;
+    //clear existing feeds
+    this.FollowFeed = [];
+    this.FollowUserFeed = [];
+
+    const users = DBfeed.map((tweet:any) => {
+      const requestBody2 = {
+        word: 'w',
+        num: tweet.user.id,
+      };
+      return firstValueFrom(this.http.put<any>(environment.apiUrl + "/tweet", requestBody2));
+    });
+
+    const userResults = await Promise.all(users);
+
+    userResults.forEach((userData, index) => {
+
+      const u = new Profile(userData.pic?.image_url,userData.header_pic?.image_url,userData.username,userData.acc_name,userData.bio,userData.following_count,userData.follower_count);
+      this.FollowUserFeed.push(u);
+
+      const p = new Post(DBfeed[index].id,u.pic ?? null,u.username,u.acc_name,DBfeed[index].date_created,DBfeed[index].text_content,'',DBfeed[index].comments.toString(),DBfeed[index].retweets.toString(),DBfeed[index].likes.toString(),DBfeed[index].engagements.toString());
+      this.FollowFeed.push(p);
+    });
+
+    return { feed: this.FollowFeed, userFeed: this.FollowUserFeed};
+  } 
+  catch (error) {
+    console.error("Error loading For You feed:", error);
+    return { feed: [], userFeed: [] };
+  }
+}
+
+async getDBForYouFeed(): Promise<{feed: Post[] , userFeed: Profile[] }> {
+
+  try {
+    const tweetResponse = await firstValueFrom(this.http.get<any>(environment.apiUrl + "/tweet"));
+
+    if (tweetResponse === "No tweets") {
+      this.ForYouFeed = [];
+      this.ForYouUserFeed = [];
+      return { feed: [], userFeed: [] };
+    }
+
+    let DBfeed = tweetResponse;
+    //clear existing feeds
+    this.ForYouFeed = [];
+    this.ForYouUserFeed = [];
+
+    const users = DBfeed.map((tweet:any) => {
+      const requestBody = {
+        word: 'w',
+        num: tweet.user.id,
+      };
+      return firstValueFrom(this.http.put<any>(environment.apiUrl + "/tweet", requestBody));
+    });
+
+    const userResults = await Promise.all(users);
+
+    userResults.forEach((userData, index) => {
+
+      const u = new Profile(userData.pic?.image_url,userData.header_pic?.image_url,userData.username,userData.acc_name,userData.bio,userData.following_count,userData.follower_count);
+      this.ForYouUserFeed.push(u);
+
+      const p = new Post(DBfeed[index].id,u.pic ?? null,u.username,u.acc_name,DBfeed[index].date_created,DBfeed[index].text_content,'',DBfeed[index].comments.toString(),DBfeed[index].retweets.toString(),DBfeed[index].likes.toString(),DBfeed[index].engagements.toString());
+      this.ForYouFeed.push(p);
+    });
+
+    return { feed: this.ForYouFeed, userFeed: this.ForYouUserFeed};
+  } 
+  catch (error) {
+    console.error("Error loading For You feed:", error);
+    return { feed: [], userFeed: [] };
+  }
+}
+
+
+createUserFeed2(acc_name: string): Observable<any[]> {
+  return this.http.get<any[]>(environment.apiUrl + "/user").pipe(
+    map(resultData => {
+      if (!resultData) {
+        return [];
+      }
+
+      this.DBUsers = resultData;
+      this.UserFeed = [];
+      this.DBUsers.reverse();
+
+      let counter = 0;
+      for (let user of this.DBUsers) {
+        if (user.acc_name !== acc_name) {
+          const u = new Profile(
+            user.pic?.image_url,
+            user.header_pic?.image_url,
+            user.username,
+            user.acc_name,
+            user.bio,
+            user.following_count,
+            user.follower_count
+          );
+          this.UserFeed.push(u);
+          counter++;
+        }
+        if (counter === 3) break;
+      }
+
+      return this.UserFeed;
+    })
+  );
+}
+//major rework to be done (can't return a value normmally inside of a .subscribe function (refer to chat gpt))
+createUserFeed3(acc_name: string): any[]
+  {
+    this.http.get(environment.apiUrl + "/user").subscribe((resultData: any)=>
+    {
+        console.log("createuserfeed2 resultData: " +resultData);
+        if (resultData == null)
+        {
+          console.log("return []");
+          return [];
+        }
+        else
+        {
+          this.DBUsers = resultData;
+
+          //clear UserFeed
+          this.UserFeed = [];
+
+          //reverse order
+          this.DBUsers.reverse();
+
+          let counter = 0;
+
+          for (let i = 0; i < this.DBUsers.length;i++) {
+            let user = this.DBUsers[i];
+            
+            if(user.acc_name != acc_name) //this is issue current_user_acc_name =this.acc_name
+              {
+                var u = new Profile(user.pic?.image_url,user.header_pic?.image_url, user.username, user.acc_name, user.bio, user.following_count, user.follower_count);
+                this.UserFeed.push(u);
+                counter++;
+              }
+            if (counter == 3)
+              {
+                i = this.DBUsers.length; //breaks loop
+              }
+          }
+          console.log("return userfeed: " + this.UserFeed);
+          return this.UserFeed;
+        }
+    });
+    return []; //just to get rid of error
+  }
 //gets data for 'ForYou'feed, calls the 3 above functions using delays to ensure all the data is available, when accessed
 createUserFeed(outsideOfService: boolean, acc_name: string)
   {
