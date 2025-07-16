@@ -24,7 +24,7 @@ export class ExplorePageComponent extends CoreComponent {
    last_url_section: string;
 
    query: string = '';
-   arr: any [];
+   arr: any []; // [for you, trending, news, sports, entertainment] or [tweets, tweetsUsers, users, media]
 
    DBFeed: any [] = [];
    postList: Post [] = [];
@@ -33,8 +33,8 @@ export class ExplorePageComponent extends CoreComponent {
    DBUserFeed: any [] = [];
    userList: Profile [] = [];
 
-   loadingFlag: boolean = true; //flag to show spinner while data is being fetched
-
+   loadingPostFlag: boolean = true; //flag to show spinner while data is being fetched
+   loadingUserFlag: boolean = true; //flag to show spinner while data is being fetched
    //explore page data
   forYouSearchTopics = createForYouSearchTopics();
   trendingSearchTopics = createTrendingSearchTopics();
@@ -57,33 +57,35 @@ export class ExplorePageComponent extends CoreComponent {
       this.like_ids = [];
       this.retweet_ids = [];
   */
+
     }
   
     ngOnInit()
     {
       this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";
-      //get last_url_section from url
+
+      //using url to make sense of what view of explore page to show (default or active search)
       var arr = window.location.pathname.split("/");
-      this.last_url_section = arr.pop() ??"error";
-      let second_last_url = arr.pop() ??"error";
-      //this.setBackUrl(arr); idk of this is even necessary
+      this.last_url_section = arr.pop() ?? "error";
+      let second_last_url = arr.pop() ?? "error";
       var arr2 = window.location.pathname.split("/");
-      console.log("arr2 length: " + arr2.length);
-      if (arr2.length > 4) //error
+
+      //error
+      if (arr2.length > 4)
       {
         this.router.navigate(['tweeter/Error']);
-      //get second_last_url from url
       }
+      //in an active search
       if(second_last_url != 'tweeter')
       {
-        //still need to implement inSearch in html
         this.inActiveSearch = true;
-        let decodedUrl = this.last_url_section.replace(/-/g, ' ');
+      
+        //getting query value
+        let decodedUrl = this.last_url_section.replace(/-/g, ' '); //replaces dashes (-) with spaces
         this.query = decodedUrl;
         console.log('query'+ this.query);
 
-        //setting searchbar 
-        //this.searchForm.value.inquiry = 'hanna';
+        //setting searchbar value
         let search_input = <HTMLInputElement>document.getElementById("search-searchbar");
         search_input!.value = this.query;
         console.log('search_input!.value: '+ search_input!.value);
@@ -93,16 +95,18 @@ export class ExplorePageComponent extends CoreComponent {
         this.service_page = 'OtherExplore'; //cound be redundant
         this.service.routeToChild('latest');
 
-        //set arr data
+        //set arr data (for latest, people, and media tabs)
         this.getDBUserFeed(this.query)
         this.getDBPostFeed(this.query)
 
+        /*
         setTimeout(() => {
           this.arr = [this.postList,this.postUserList,this.userList,''];
           this.loadingFlag = false; //hide spinner after data is loaded
         }, 1500) // 1 sec
-        
+        */
       }
+      // in explore page (default view)
       else
       {
         this.service.setCurrentPage('Explore'); //could be redundant
@@ -111,7 +115,8 @@ export class ExplorePageComponent extends CoreComponent {
         this.inActiveSearch = false;
 
         this.arr = [this.forYouSearchTopics,this.trendingSearchTopics, this.newsSearchTopics, this.sportsSearchTopics, this.entertainmentSearchTopics];
-        this.loadingFlag = false; //hide spinner after data is loaded
+        this.loadingPostFlag = false; //hide spinner after data is loaded
+        this.loadingUserFlag = false;
       }
 
     }
@@ -156,6 +161,7 @@ export class ExplorePageComponent extends CoreComponent {
                   
                   console.log('Successful data base retrieval');
                 }
+                this.loadingUserFlag = false;
             });
         }
       }
@@ -171,8 +177,11 @@ export class ExplorePageComponent extends CoreComponent {
             var u = new Profile(user.pic?.image_url,user.header_pic?.image_url, user.username, user.acc_name, user.bio, user.following_count, user.follower_count);
             this.userList.push(u);
           }
+          this.arr[2] = this.userList;
+          this.arr[3] = "";
       }
 
+      //only returns tweets that contain 'str'
       getDBPostFeed(str:string)
       {
         if(str != '')
@@ -203,6 +212,8 @@ export class ExplorePageComponent extends CoreComponent {
                   console.log(resultData);
                   this.postList = [];
                   this.postUserList = [];
+                  this.arr[0] = [];
+                  this.arr[1] = [];
                   this.DBFeed = [];
                   console.log('Unsuccessful data base retrieval');
                 }
@@ -213,6 +224,7 @@ export class ExplorePageComponent extends CoreComponent {
                   this.convertPostFeed();
                   console.log('Successful data base retrieval');
                 }
+                this.loadingPostFlag = false;
             });
         }
       }
@@ -231,6 +243,8 @@ export class ExplorePageComponent extends CoreComponent {
             var p = new Post(post.id,user.pic?.image_url, user.username, user.acc_name,post.date_created, post.text_content, '', post.comments.toString(), post.retweets.toString(), post.likes.toString(), post.engagements.toString()); 
             this.postList.push(p);
           }
+          this.arr[0] = this.postList;
+          this.arr[1] = this.postUserList;
       }
 
     //fired upon click of arrow, when user has an active search, will redirect to default explore page view

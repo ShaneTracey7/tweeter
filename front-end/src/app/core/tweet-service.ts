@@ -154,7 +154,7 @@ getRetweetIDsDB(ac:string)
 
 
 
-//validates tweet and adds tweet to database
+//adds tweet to database
 postTweet(acc_name: string, text_content: string, image_content: string | null, reply_id: number)
 {
 
@@ -164,8 +164,8 @@ postTweet(acc_name: string, text_content: string, image_content: string | null, 
     }
   console.log(text_content);
 
-  if(this.tweetValidated(text_content,image_content))
-  {
+  /*if(this.tweetValidated(text_content,image_content))
+  {*/
 
   let requestMessage =
     {
@@ -182,7 +182,7 @@ postTweet(acc_name: string, text_content: string, image_content: string | null, 
         console.log(resultData);
     });
     
-  }
+  //}
 }
 
 //gets all tweets(from DB) and adds them to DBfeed array

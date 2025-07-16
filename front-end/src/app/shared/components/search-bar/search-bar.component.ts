@@ -131,7 +131,7 @@ searchForm = this.formBuilder.group({inquiry:[''],});
           
         }
     }
-
+    //trying to fix this, i want it to have loading circle, but doesnt work right if the search is from explore page, but on secondary component it isnt bad
     onSubmit(){
   
       if(this.searchForm.valid)
@@ -150,17 +150,17 @@ searchForm = this.formBuilder.group({inquiry:[''],});
         //one for latest (get posts [0] and users [1])
         this.postList = [];
         this.postUserList = [];
-        this.getDBPostFeed(this.searchForm.value.inquiry?? '')
+        // new  this.getDBPostFeed(this.searchForm.value.inquiry?? '')
 
         //one for people (get users [2])
         this.userList = [];
-        this.getDBUserFeed(this.searchForm.value.inquiry?? '');
+       // new     this.getDBUserFeed(this.searchForm.value.inquiry?? '');
 
         //none for media [3] is always empty
 
         setTimeout(() => {
-          this.dataChange.emit([this.postList,this.postUserList,this.userList,'']);
-          this.queryChange.emit(this.searchForm.value.inquiry);
+          // new    this.dataChange.emit([this.postList,this.postUserList,this.userList,'']);
+          // new     this.queryChange.emit(this.searchForm.value.inquiry);
           this.router.navigate(['tweeter/Explore/' + this.searchForm.value.inquiry]); //new
           console.log("submitted");
         }, 1000) // 1 sec

@@ -23,9 +23,6 @@ export class SearchCardComponent /*extends ExplorePageComponent*/{
   constructor(public service: CoreService) {}
         
   goToSearch(){
-    
-
-    
 
     if(this.service.current_page == 'Explore' ||this.service.current_page == 'OtherExplore')
     {

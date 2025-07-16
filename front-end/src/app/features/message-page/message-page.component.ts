@@ -213,8 +213,8 @@ createDBTweetMessage(convo_id: number, sent_acc_name: string, post_id: number)
             let u = resultData[0]; //user
             let p = resultData[1]; //post
             //need to update Message class to accept a tweet
-            let post = new Post(p.id,u.pic,u.username,u.acc_name,p.date_created,p.text_content,p.image_content == 'empty' ? '': p.image_content,p.comments,p.retweets,p.likes,p.engagements)
-            let profile = new Profile(u.pic,u.header_pic,u.username,u.acc_name,u.bio,u.following_count,u.follower_count);
+            let post = new Post(p.id,u.pic?.image_url,u.username,u.acc_name,p.date_created,p.text_content,p.image_content == 'empty' ? '': p.image_content ?? '',p.comments,p.retweets,p.likes,p.engagements)
+            let profile = new Profile(u.pic?.image_url,u.header_pic?.image_url,u.username,u.acc_name,u.bio,u.following_count,u.follower_count);
             let newMessage = new Message('',post,profile, true,new Date());
             this.selectedConvo.messages.push(newMessage);
             console.log("Successful Database Retrieval");

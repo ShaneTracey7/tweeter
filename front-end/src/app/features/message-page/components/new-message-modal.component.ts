@@ -78,7 +78,7 @@ import { environment } from "../../../../environments/environment";
           //hide modal
           this.hideModal();
 
-          if(this.inPost)
+          if(this.inPost) //sharing a tweet
           {
             this.service.shareID = this.postID;
             this.service.shareUser = this.selectedUser;

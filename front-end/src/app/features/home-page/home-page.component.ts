@@ -19,16 +19,6 @@ import { environment } from '../../../environments/environment'; //import enviro
 })
 export class HomePageComponent extends CoreComponent{
   
-  /* I want to fully complete homepage before moving to other components:
-  - move revelant functions to core-service.service.ts
-  -make those functions chain promises to ensure data is set before using it
-
-  have to do:
-  -setliked()
-  -setRetweeted()
-  -make sense of postclick()
-  */
-
   //needed to ensure when logging into a different account, correct data displays
   service_acc_name: string;
   
@@ -107,23 +97,24 @@ ngOnInit()
       console.log("this.service.ForYouFeed is not null");
     }
 
-  
-    //NOT TESTED
   if (this.service.Likes == null )
   {
     this.service.getDBRetweets(this.service_acc_name).subscribe(ids => {
-          console.log("retweet_ids", ids);
+          console.log("retweet_ids: " + ids);
           this.retweet_ids = ids;
         });
     this.service.getDBLikes(this.service_acc_name).subscribe(ids => {
-          console.log("like_ids", ids);
+          console.log("like_ids: " + ids);
           this.like_ids = ids;
         });
+    
+    console.log("this.service.Likes == null");
   }
   else
   {
     this.retweet_ids = this.service.Retweets;
     this.like_ids = this.service.Likes;
+    console.log("this.service.Likes is not null");
   }
 
   //this.setLiked();
@@ -134,136 +125,6 @@ ngOnInit()
   //sets the feed to the Following tab 
   //this.getDBFollowFeed();
 }
-
-setRetweeted()
-  {
-    let requestMessage =
-    {
-      "word": 'getRetweetIDs',
-      "word2": this.service_acc_name, 
-    }
-    
-  this.http.put(environment.apiUrl +"/retweet",requestMessage).subscribe((resultData: any)=>
-    {
-        //console.log(resultData);
-
-        if(resultData == 'Failed to Add' || resultData == 'No retweet ids' || resultData == 'check is else')
-        {
-          console.log("Did not get ID's");
-          console.log(resultData);
-          this.retweet_ids = [];
-        }
-        else //Successful
-        {
-          this.retweet_ids = resultData;
-          console.log(this.retweet_ids);
-        }
-    });
-  }
-  setRetweeted2()
-  {
-    let globalObj = this;
-
-        const postPromise = new Promise<any>(function (resolve, reject) {
-          setTimeout(() => {
-            reject("We didn't get a response")
-          }, 5000) // 5 secs
-
-          setTimeout(() => {
-            //globalObj.last_like_ids = globalObj.tweetService.DBlikes; //NEW
-            globalObj.tweetService.getRetweetIDsDB(globalObj.service_acc_name);
-            //console.log("last_like_ids = " + globalObj.last_like_ids);
-            resolve('we got a response');
-          }, 0)
-        })
-        const checkPromise = new Promise<any>(function (resolve, reject) {
-          setTimeout(() => {
-            reject("We didn't get a response")
-          }, 5000) // 5 secs
-
-          setTimeout(() => {
-            globalObj.retweet_ids = globalObj.tweetService.DBretweets;
-            //console.log("like_ids = " + globalObj.like_ids);
-            resolve('we got a response');
-          }, 500) // 0 secs
-        })
-
-        async function myAsync(){
-          try{
-            postPromise;
-            await checkPromise;
-          }
-          catch (error) {
-            console.error('Promise rejected with error: ' + error);
-          }
-        }
-        myAsync();
-  }
-
-setLiked()
-  {
-    let requestMessage =
-    {
-      "word": 'getLikeIDs',
-      "word2": this.service_acc_name, 
-    }
-    
-  this.http.put(environment.apiUrl + "/like",requestMessage).subscribe((resultData: any)=>
-    {
-        //console.log(resultData);
-
-        if(resultData == 'Failed to Add' || resultData == 'No like ids' || resultData == 'check is else')
-        {
-          console.log("Did not get ID's");
-          console.log(resultData);
-          this.like_ids = [];
-        }
-        else //Successful
-        {
-          this.like_ids = resultData;
-          console.log(this.like_ids);
-        }
-    });
-  }
-setLiked2()
-  {
-    let globalObj = this;
-
-        const postPromise = new Promise<any>(function (resolve, reject) {
-          setTimeout(() => {
-            reject("We didn't get a response")
-          }, 5000) // 5 secs
-
-          setTimeout(() => {
-            //globalObj.last_like_ids = globalObj.tweetService.DBlikes; //NEW
-            globalObj.tweetService.getLikeIDsDB(globalObj.service_acc_name);
-            //console.log("last_like_ids = " + globalObj.last_like_ids);
-            resolve('we got a response');
-          }, 0)
-        })
-        const checkPromise = new Promise<any>(function (resolve, reject) {
-          setTimeout(() => {
-            reject("We didn't get a response")
-          }, 5000) // 5 secs
-
-          setTimeout(() => {
-            globalObj.like_ids = globalObj.tweetService.DBlikes;
-            //console.log("like_ids = " + globalObj.like_ids);
-            resolve('we got a response');
-          }, 500) // 0 secs
-        })
-
-        async function myAsync(){
-          try{
-            postPromise;
-            await checkPromise;
-          }
-          catch (error) {
-            console.error('Promise rejected with error: ' + error);
-          }
-        }
-        myAsync();
-  }
 
 tweetForm = this.formBuilder.group({
   text_content: ['', [Validators.maxLength(100)]],//181
@@ -282,14 +143,14 @@ tweetForm = this.formBuilder.group({
   }
 
   //handles a post button click
-  postClick(reply_id: number)
+  postClick(reply_id: number) //reply_id is always 0 to my knowledge
   {
     let image_content = "";
-    this.tweetService.postTweet(this.service_acc_name,this.tweetForm.value.text_content?? '',image_content, reply_id);
     
     if(this.tweetService.tweetValidated(this.tweetForm.value.text_content?? '',image_content))
       {
         this.submit_flag = 2;
+        this.tweetService.postTweet(this.service_acc_name,this.tweetForm.value.text_content ?? '',image_content, reply_id);
         this.tweetForm.reset();
         console.log("submit flag: " +this.submit_flag)
       }
@@ -348,7 +209,59 @@ tweetForm = this.formBuilder.group({
 
 }
 
-/* These 4 functions have been moved to core-service.service.ts and converted to return promises
+/* These 6 functions have been moved to core-service.service.ts and converted to return promises
+
+setRetweeted()
+  {
+    let requestMessage =
+    {
+      "word": 'getRetweetIDs',
+      "word2": this.service_acc_name, 
+    }
+    
+  this.http.put(environment.apiUrl +"/retweet",requestMessage).subscribe((resultData: any)=>
+    {
+        //console.log(resultData);
+
+        if(resultData == 'Failed to Add' || resultData == 'No retweet ids' || resultData == 'check is else')
+        {
+          console.log("Did not get ID's");
+          console.log(resultData);
+          this.retweet_ids = [];
+        }
+        else //Successful
+        {
+          this.retweet_ids = resultData;
+          console.log(this.retweet_ids);
+        }
+    });
+  }
+
+setLiked()
+  {
+    let requestMessage =
+    {
+      "word": 'getLikeIDs',
+      "word2": this.service_acc_name, 
+    }
+    
+  this.http.put(environment.apiUrl + "/like",requestMessage).subscribe((resultData: any)=>
+    {
+        //console.log(resultData);
+
+        if(resultData == 'Failed to Add' || resultData == 'No like ids' || resultData == 'check is else')
+        {
+          console.log("Did not get ID's");
+          console.log(resultData);
+          this.like_ids = [];
+        }
+        else //Successful
+        {
+          this.like_ids = resultData;
+          console.log(this.like_ids);
+        }
+    });
+  }
 
 //gets all tweets(from DB) and adds them to DBfeed array
 getDBForYouFeed()

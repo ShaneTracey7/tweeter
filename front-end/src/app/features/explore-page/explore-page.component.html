@@ -93,7 +93,7 @@
 
       <!--  </div> -->
     </div>
-<ng-container *ngIf="loadingFlag; else loaded">
+<ng-container *ngIf="loadingPostFlag || loadingUserFlag; else loaded">
   <spinner></spinner>
 </ng-container>
 <ng-template #loaded>

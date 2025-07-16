@@ -217,6 +217,21 @@ handleRetweet()
     //change 'retweet' icon to a filled in retweet
     this.retweeted = true;
 
+    //add retweet id to core service
+    this.service.Retweets.push(this.post.id) //tweet id
+
+    //increment retweets value on post in feeds
+    const tweetFY = this.service.ForYouFeed.find(tweet => tweet.id === this.post.id);
+    if(tweetFY)
+    {
+      tweetFY.retweets = String(Number(tweetFY.retweets) + 1);
+    }
+    const tweetF = this.service.FollowFeed.find(tweet => tweet.id === this.post.id);
+    if(tweetF)
+    {
+      tweetF.retweets = String(Number(tweetF.retweets) + 1);
+    }
+
     //increment post 'retweet' value in class 
     this.post.retweets = String(Number(this.post.retweets) + 1);
     
@@ -251,6 +266,24 @@ handleRetweet()
   {
     //change 'retweet' icon to a filled in retweet
     this.retweeted = false;
+
+    //remove retweet id from core service
+    const index = this.service.Retweets.indexOf(this.post.id); //tweet id
+    if (index !== -1) {
+      this.service.Retweets.splice(index, 1);
+    }
+
+    //decrement retweets value on post in feeds
+    const tweetFY = this.service.ForYouFeed.find(tweet => tweet.id === this.post.id);
+    if(tweetFY)
+    {
+      tweetFY.retweets = String(Number(tweetFY.retweets) - 1);
+    }
+    const tweetF = this.service.FollowFeed.find(tweet => tweet.id === this.post.id);
+    if(tweetF)
+    {
+      tweetF.retweets = String(Number(tweetF.retweets) - 1);
+    }
 
     //decrement post 'retweet' value in class 
     this.post.retweets = String(Number(this.post.retweets) - 1);
@@ -295,7 +328,23 @@ handleLike()
     //change like icon to a filled in red heart
     this.liked = true;
 
-    //increment post 'like' value in class 
+    //add like id to core service
+    this.service.Likes.push(this.post.id) //tweet id
+
+    //increment likes value on post in feeds
+    const tweetFY = this.service.ForYouFeed.find(tweet => tweet.id === this.post.id);
+    if(tweetFY)
+    {
+      tweetFY.likes = String(Number(tweetFY.likes) + 1);
+    }
+    const tweetF = this.service.FollowFeed.find(tweet => tweet.id === this.post.id);
+    if(tweetF)
+    {
+      tweetF.likes = String(Number(tweetF.likes) + 1);
+    }
+    
+
+    //increment post 'like' value in class (needed to see temp change on page)
     this.post.likes = String(Number(this.post.likes) + 1);
     this.like_count = (this.like_count + 1);
     
@@ -330,6 +379,24 @@ handleLike()
     //change like icon to a filled in red heart
     this.liked = false;
 
+    //remove like id from core service
+    const index = this.service.Likes.indexOf(this.post.id); //tweet id
+    if (index !== -1) {
+      this.service.Likes.splice(index, 1);
+    }
+
+    //decrement likes value on post in feeds
+    const tweetFY = this.service.ForYouFeed.find(tweet => tweet.id === this.post.id);
+    if(tweetFY)
+    {
+      tweetFY.likes = String(Number(tweetFY.likes) - 1);
+    }
+    const tweetF = this.service.FollowFeed.find(tweet => tweet.id === this.post.id);
+    if(tweetF)
+    {
+      tweetF.likes = String(Number(tweetF.likes) - 1);
+    }
+
     //decrement post 'like' value in class 
     this.post.likes = String(Number(this.post.likes) - 1);
     this.like_count = (this.like_count - 1);
@@ -355,7 +422,7 @@ handleLike()
       }
       else // "Failed to Add"
       {
-      console.log(resultData);
+        console.log(resultData);
       }
   });
 

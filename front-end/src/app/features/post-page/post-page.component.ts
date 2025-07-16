@@ -291,14 +291,16 @@ createPost()
       myAsync();
 }
 
+//called upon 'reply' button click performs a form validation and sends tweet to backend, if it passes
 postClick(reply_id: number)
   {
     let image_content = "";
-    this.tweetService.postTweet(this.service_acc_name,this.tweetForm.value.text_content?? '',image_content,reply_id);
+    //this.tweetService.postTweet(this.service_acc_name,this.tweetForm.value.text_content?? '',image_content,reply_id);
     
     if(this.tweetService.tweetValidated(this.tweetForm.value.text_content?? '',image_content))
       {
         this.submit_flag = 2;
+        this.tweetService.postTweet(this.service_acc_name,this.tweetForm.value.text_content?? '',image_content,reply_id);
         this.tweetForm.reset();
         console.log("submit flag: " +this.submit_flag)
       }

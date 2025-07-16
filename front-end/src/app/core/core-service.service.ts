@@ -77,7 +77,13 @@ export class CoreService {
   this.DBFollowers= []; 
   this.followers = [] 
   this.DBFollowing = []; 
-  this.following = []; 
+  this.following = [];
+  this.ForYouFeed = []; 
+  this.ForYouUserFeed = []; 
+  this.FollowFeed = []; 
+  this.FollowUserFeed = []; 
+  this.Likes= null; 
+  this.Retweets = null;
   this.shareID = 0; 
   this.shareUser= ""; 
 }
@@ -696,5 +702,11 @@ isFollower(acc_name: string)
   }
   return false;
 }
+
+
+/* * * * * * * * * * * * * *functions for explore page * * * + * * * * * * * * * * */
+
+
+
 
 }
