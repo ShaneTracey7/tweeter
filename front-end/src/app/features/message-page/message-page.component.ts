@@ -289,7 +289,7 @@ getConvos(check: boolean, sharedTweet: boolean, otherUser: string)
         }
         else // is a normal message
         {
-          message = new Message(m.text, null,null,true,new Date (m.date))
+          message = new Message(m.text, null,null,isSender,new Date (m.date))
         }
         messages.push(message);
         
