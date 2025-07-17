@@ -234,65 +234,56 @@ export class Profile {
 export class Message {
 
     text?: string;
-    post?: Post;
-    profile?: Profile;
+    post: Post | null;
+    profile: Profile | null;
     isSender: boolean;
     date: Date;
 
-    constructor(t: string, p: Post,pr: Profile, is: boolean,d: Date ) {
-        
-        var po = undefined;
-        var pro = undefined;
-        if(p.id != 0)
-        {
-             po = p;
-             pro = pr;
-        }
+    constructor(t: string, p: Post | null,pr: Profile | null, is: boolean,d: Date ) {
        
         this.text = t;
-        this.post = po;
-        this.profile = pro;
+        this.post = p;
+        this.profile = pr;
         this.date = d;
         this.isSender = is;
       }
 
       getDateTime()
       {
-        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         let month = monthNames[(this.date.getMonth())];
         var hours = this.date.getHours();
         console.log("hours: " + hours)
         var suffix;
         if (hours <= 11)
-            {
-                suffix = "AM";
+        {
+            suffix = "AM";
 
-                if(hours == 0)
-                {
-                    hours = 12;
-                }
+            if(hours == 0)
+            {
+                hours = 12;
             }
+        }
         else if(hours == 12)
-            {
-                suffix = "PM";
-            }
+        {
+            suffix = "PM";
+        }
         else
-            {
-                hours = Number(hours - 12);
-                suffix = "PM";
-            }
+        {
+            hours = Number(hours - 12);
+            suffix = "PM";
+        }
         var mins = this.date.getMinutes();
         var minStr;
 
         if (mins < 10)
-            {
-                minStr = "0"+ mins;
-            }
+        {
+            minStr = "0"+ mins;
+        }
         else
-            {
-                minStr = mins;
-            }
+        {
+            minStr = mins;
+        }
         return month + " " + this.date.getDate() + " " + this.date.getFullYear() + " " + hours+":"+minStr + " " + suffix;
       }
 

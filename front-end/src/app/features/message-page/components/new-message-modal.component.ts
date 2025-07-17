@@ -87,7 +87,7 @@ import { environment } from "../../../../environments/environment";
           else
           {
           //create convo in Db
-          this.mpc.createDBConvo(this.service_acc_name,this.selectedUser);
+          this.mpc.createDBConvo(this.service_acc_name,this.selectedUser, false);
 
           //set new convo to selected, so secondary component shows view of convo
 

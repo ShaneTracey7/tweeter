@@ -12,18 +12,16 @@ import { environment } from '../../../environments/environment';
   selector: 'app-message-page',
   templateUrl: './message-page.component.html',
   styleUrl: './message-page.component.scss'
-  /*styleUrls: ['./message-page.component.scss', './message-page-styles2.scss'],*/
 })
 export class MessagePageComponent extends CoreComponent{
 
 show: boolean = false; // show/hide new message modal
-fakePost = new Post(0,'','','',new Date,'','',0,0,0,0);
-fakeProfile = new Profile('','','','','',0,0);
 convo_clicked: boolean = false; //true: shows seleected converstion, false: shows 'select a message blurb'
 selectedConvo: Convo = new Convo(0,new Profile('','','','','',0,0),[],new Date()); //selected convo
 selected: boolean = false; //only needed for message component
 service_acc_name: string;
 arr: any [] = [];
+
 emptyConvo = new Convo(0,new Profile('','','','','',0,0),[], new Date());
 
 DBConvos: any [] = []; //array of convo_ids
@@ -53,47 +51,14 @@ ngOnInit()
 
   if(this.service.shareID != 0)
     {
-      console.log('came from share');
-      
-      console.log(this.service.shareUser); //user to send tweet to
-      console.log(this.service.shareID); //post id of tweet
-      let post_id = this.service.shareID
-
-      //set up convos
-      this.getConvos(false);
-
-      //create OR find convo & select/open convo
-      setTimeout(() => {
-        console.log('after 1 sec')
-        this.createDBConvo(this.service_acc_name, this.service.shareUser);
-      }, 1000) // 1 sec
-      
-      
-      // add tweet to convo (front and back end)
-      setTimeout(() => {
-        console.log('after 2 secs')
-        this.createDBTweetMessage(this.selectedConvo.id, this.service_acc_name, post_id);
-        //this.createDBMessage(this.selectedConvo.id, this.service_acc_name, 'this would be post info')
-      }, 2000) // 2 secs
-      
-      console.log('after both, but no wait')
-
-      this.service.shareID = 0;
+      console.log("this.service.shareUser: " + this.service.shareUser); //user to send tweet to
+      console.log("this.service.shareID: " +this.service.shareID); //post id of tweet
+      this.createDBConvo(this.service_acc_name, this.service.shareUser, true);
     }
   else //normal route
   {
-    //this.convos = createConversations();
-    this.getConvos(false);
-    //this.arr = [this.convos];
+    this.getConvos(false,false,''); //test
   }
-
-}
-
-
-
-setConvo(name: string)
-{
-  //this.convo = new Convo(this.service.username,name,[]);
 }
 
 setSCStyle()
@@ -118,13 +83,12 @@ setSCStyle()
     }
 }
 
-createDBConvo(thisUser: string, otherUser: string/*, text: string*/)
+createDBConvo(thisUser: string, otherUser: string, sharedTweet: boolean/*, text: string*/)
 {
   let requestBody =
     {
       "word" : thisUser, //user1
       "word2" : otherUser, //user2
-      //"word3" : text, //message text //dont need when initially creating convo
     };
 
     this.service.http.post(environment.apiUrl + "/message",requestBody).subscribe((resultData: any)=>
@@ -138,21 +102,17 @@ createDBConvo(thisUser: string, otherUser: string/*, text: string*/)
         else if(resultData == 'Convo already exists')
         {
           //dont create convo
-
-          //select convo that it is by acc_name inside of message component (pass a prop) make onchange for that prop
-          this.findConvo(otherUser); //sets selectedConvo
-          this.convo_clicked = true;
-          this.selected = true;
-          
+          this.getConvos(false,sharedTweet, otherUser); //new
         }
         else
-          {
-            this.getConvos(true); //refreshes data with new convo
-            console.log("Successful Database Retrieval");
-          }
+        {
+          this.getConvos(true,sharedTweet,''); //gets all convos and sets them in front end (sets selectedConvo too)
+          console.log("Successful Database Retrieval");
+        }
       });
 }
 
+//sets the selected convo 
 findConvo(otherUser: string)
 {
   this.convos.forEach(convo => {
@@ -162,6 +122,8 @@ findConvo(otherUser: string)
       }  
   });
 }
+
+//creates a message (locally and in db) from user input in message page
 createDBMessage(convo_id: number, sent_acc_name: string,text: string)
 {
   let requestBody =
@@ -182,12 +144,14 @@ createDBMessage(convo_id: number, sent_acc_name: string,text: string)
           }
         else
           {
-            let newMessage = new Message(text,this.fakePost,this.fakeProfile,true,new Date());
+            let newMessage = new Message(text,null,null,true,new Date());
             this.selectedConvo.messages.push(newMessage);
             console.log("Successful Database Retrieval");
           }
       });
 }
+
+//creates a tweet message (locally and in db) from 'send via DM' option from a tweet
 createDBTweetMessage(convo_id: number, sent_acc_name: string, post_id: number)
 {
   let requestBody =
@@ -196,10 +160,8 @@ createDBTweetMessage(convo_id: number, sent_acc_name: string, post_id: number)
       "word2" : sent_acc_name, // sent account name
       "word3" : String(post_id), //post_id in string form
       "num" : convo_id,
-
     };
-    console.log("******** pid" + post_id + " ********");
-    console.log("******** spid" + String(post_id) + " ********");
+
     this.service.http.put(environment.apiUrl + "/message",requestBody).subscribe((resultData: any)=>
       {
         console.log(resultData);
@@ -212,25 +174,28 @@ createDBTweetMessage(convo_id: number, sent_acc_name: string, post_id: number)
           {
             let u = resultData[0]; //user
             let p = resultData[1]; //post
-            //need to update Message class to accept a tweet
-            let post = new Post(p.id,u.pic?.image_url,u.username,u.acc_name,p.date_created,p.text_content,p.image_content == 'empty' ? '': p.image_content ?? '',p.comments,p.retweets,p.likes,p.engagements)
+            let post = new Post(p.id,u.pic?.image_url,u.username,u.acc_name,p.date_created,p.text_content,p.image_content == null ? '': p.image_content,p.comments,p.retweets,p.likes,p.engagements)
             let profile = new Profile(u.pic?.image_url,u.header_pic?.image_url,u.username,u.acc_name,u.bio,u.following_count,u.follower_count);
             let newMessage = new Message('',post,profile, true,new Date());
             this.selectedConvo.messages.push(newMessage);
             console.log("Successful Database Retrieval");
           }
+
+        this.service.shareID = 0; //resetting
       });
 }
 
 getConvoIds()
 {
   var bad_ids: number [] = []
-  this.convos.forEach((c) => {
+  this.convos.forEach((c,index) => {
     bad_ids.push(c.id)
+     console.log("gci index: " + index)
 });
   return bad_ids;
 }
 
+// attempts to set selectedConvo
 convoIDCheck(bad_ids: number [])
   {
     this.convos.forEach((c,index) => {
@@ -241,13 +206,13 @@ convoIDCheck(bad_ids: number [])
         this.convo_clicked = true;
         this.selected = true;
       }
+       console.log("cic index: " + index)
   });
   }
 
-getConvos(check: boolean)
+//gets convos from db and sets local variables
+getConvos(check: boolean, sharedTweet: boolean, otherUser: string)
   {
-    let bad_ids: number [] = this.getConvoIds();
-  
     let requestBody =
     {
       "word" : "getConvos",
@@ -256,165 +221,115 @@ getConvos(check: boolean)
 
     this.service.http.put(environment.apiUrl +"/message",requestBody).subscribe((resultData: any)=>
     {
-      //console.log(resultData[0][0].acc_name);
-
+     
       if(resultData == 'Failed to Add' || resultData == 'No convos')
-        {
-          this.DBConvos = [];
-          this.DBUsers = [];
-          this.DBMessages = [];
-          this.DBTweets = [];
-          this.DBTweetUsers = [];
-          console.log("Unsuccessful Database Retrieval");
-          this.loadingFlag = false; //hide spinner after data is loaded
-        }
+      {
+        this.DBConvos = [];
+        this.DBUsers = [];
+        this.DBMessages = [];
+        this.DBTweets = [];
+        this.DBTweetUsers = [];
+        console.log("Unsuccessful Database Retrieval");
+        this.loadingFlag = false; //hide spinner after data is loaded
+      }
       else
-        {
-          console.log("Successful Database Retrieval");
-          this.DBConvos = resultData[0];
-          this.DBUsers = resultData[1];
-          this.DBMessages = resultData[2];
-          this.DBTweets = resultData[3];
-          this.DBTweetUsers = resultData[4];
-          this.convertDBConvos(bad_ids, check);
-        }
+      {
+        console.log("Successful Database Retrieval");
+        this.DBConvos = resultData[0];
+        this.DBUsers = resultData[1];
+        this.DBMessages = resultData[2];
+        this.DBTweets = resultData[3];
+        this.DBTweetUsers = resultData[4];
+        let bad_ids: number [] = this.getConvoIds();
+        this.convertDBConvos(bad_ids, check, sharedTweet, otherUser);
+      }
     });
   }
 
-  convertDBConvos(bad_ids: number [], check: boolean)
+  //converts raw DB data into local objects
+  convertDBConvos(bad_ids: number [], check: boolean, sharedTweet: boolean, otherUser: string)
   {  
     this.convos = [];
-    let c_length = (this.DBUsers.length) -1;
+  
     this.DBUsers.forEach((u,index) => {
-      console.log("index: " + index);
-      let user = new Profile(u.pic?.image_url,u.header_pic?.image_url,u.username,u.acc_name,u.bio,u.following_count,u.follower_count);
 
+      let user = new Profile(u.pic?.image_url,u.header_pic?.image_url,u.username,u.acc_name,u.bio,u.following_count,u.follower_count);
       let messages: Message [] = [];
       let message_arr: any [] = this.DBMessages[index];
 
-      if(message_arr[0] == 0)
+      if(message_arr[0] == 0) //something to do with back-end
       {
         let id:number = this.DBConvos[index];
         let date: Date = new Date();
         let arr: Message [] = []
         var c = new Convo(id,user,arr, date);
         this.convos.push(c);
-        if(index == c_length)
-        {
-          //console.log("alternate set arr");
-          this.arr = [this.convos];
-          this.loadingFlag = false; //hide spinner after data is loaded
-          if(check)
-          {
-            this.convoIDCheck(bad_ids);
-          }
-          
-        }
-        //console.log("index: " + index)
         return;
       }
 
-      let m_length = (message_arr.length) -1;
       message_arr.forEach((m,i) => {
-        console.log("i: " + i);
-        if(m.sender == this.service_acc_name)//need to fix (rn theres no way of knowing if who user1 is)
+
+        var isSender;
+        if(m.sender == this.service_acc_name)
         {
-          var message;
-          if(m.text == '')
-          {
-
-            /*
-id: number; //needed for accessing db tweets(posts)
-    profile: string; //url pic
-    username: string;
-    acc_name: string; 
-    //e_time: string; 
-    e_time: Date;
-    text: string;
-    image: string; //url
-    comments: string;
-    retweets: string;
-    likes: string;
-    views: string;
-
-
-
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date_created = models.DateTimeField()
-    text_content = models.CharField(max_length = 280)
-    image_content = models.CharField(max_length = 35) #url to image (can alos look into ImageField)
-    likes = models.IntegerField()
-    comments = models.IntegerField() # may not need this one
-    retweets = models.IntegerField()
-    engagements = models.IntegerField()
-    reply_id = models.IntegerField(default=0)
-            */
-            //let u = ''; // need to get user from db and set it to u
-            let u = this.DBTweetUsers[index][i];
-            //let p = m.tweet;
-            let p = this.DBTweets[index][i];
-            let post = new Post(p.id,u.pic,u.username,u.acc_name,p.date_created,p.text_content,p.image_content == 'empty' ? '': p.image_content,p.comments,p.retweets,p.likes,p.engagements)
-            //let post = new Post(p.id,'url','username','accountname',p.date_created,p.text_content,'',p.comments,p.retweets,p.likes,p.engagements);
-            let profile = new Profile(u.pic?.image_url,u.header_pic?.image_url,u.username,u.acc_name,u.bio,u.following_count,u.follower_count);
-            console.log("post in convert post:" + post);
-            message = new Message('', post,profile,true,new Date (m.date));
-            console.log("message: "+ message);
-            console.log("message.post: " + message.post);
-          }
-          else
-          {
-            message = new Message(m.text, this.fakePost,this.fakeProfile,true,new Date (m.date))
-          }
-          console.log("m.text: "+ m.text + " m.date: " + m.date);
-          //let message = new Message(m.text, this.fakePost,true,new Date (m.date))
-          console.log("message: "+ message);
-          messages.push(message);
+          isSender = true;
         }
         else
         {
-          console.log("m.text: "+ m.text);
-          var message;
-          if(m.text == '')
-          {
-            //let u = ''; // need to get user from db and set it to u
-            let u = this.DBTweetUsers[index][i];
-            let p = this.DBTweets[index][i];
-            let post = new Post(p.id,u.pic,u.username,u.acc_name,p.date_created,p.text_content,p.image_content == 'empty' ? '': p.image_content,p.comments,p.retweets,p.likes,p.engagements)
-            //let post = new Post(p.id,'url','username','accountname',p.date_created,p.text_content,p.image_content,p.comments,p.retweets,p.likes,p.engagements);
-            let profile = new Profile(u.pic?.image_url,u.header_pic?.image_url,u.username,u.acc_name,u.bio,u.following_count,u.follower_count);
-            message = new Message('',post,profile,false,new Date (m.date));
-            console.log("post in convert post:" + post);
-            console.log("message: "+ message);
-          }
-          else
-          {
-            message = new Message(m.text, this.fakePost,this.fakeProfile,false,new Date (m.date));
-          }
-          //let message = new Message(m.text, this.fakePost,false,new Date (m.date))
-          messages.push(message);
+          isSender = false;
         }
-        if(i == m_length)
-          { console.log("messages[0]: " + messages[0].text);
-            let id:number = this.DBConvos[index];
-            let date: Date = new Date();
-            console.log("messages: "+ messages);
-            var c = new Convo(id,user,messages, date);
-            this.convos.push(c);
-            console.log("pushed to convo");
-          }
+        var message;
+        if(m.text == '') //is a tweet
+        {
+          let u = this.DBTweetUsers[index][i];
+          let p = this.DBTweets[index][i];
+          let post = new Post(p.id,u.pic?.image_url,u.username,u.acc_name,p.date_created,p.text_content,p.image_content == null ? '' : p.image_content,p.comments,p.retweets,p.likes,p.engagements)
+          let profile = new Profile(u.pic?.image_url,u.header_pic?.image_url,u.username,u.acc_name,u.bio,u.following_count,u.follower_count);
+          message = new Message('', post,profile,isSender,new Date (m.date));
+        }
+        else // is a normal message
+        {
+          message = new Message(m.text, null,null,true,new Date (m.date))
+        }
+        messages.push(message);
         
       });
-      if(index == c_length)
+
+      let id:number = this.DBConvos[index];
+      let date: Date = new Date();
+      var c = new Convo(id,user,messages, date);
+      this.convos.push(c);
+    });
+      
+      this.arr = [this.convos];
+      this.loadingFlag = false; //hide spinner after data is loaded
+      if(check)
+      {
+        this.convoIDCheck(bad_ids);
+      }
+      else
+      {
+        if(sharedTweet)
         {
-          
-          this.arr = [this.convos];
-          this.loadingFlag = false; //hide spinner after data is loaded
-          if(check)
-            {
-              this.convoIDCheck(bad_ids);
-            }
+          this.findConvo(this.service.shareUser); //sets selectedConvo
+          this.convo_clicked = true;
+          this.selected = true;
         }
-      });
+        else
+        {
+          if(otherUser != '')
+          {
+            this.findConvo(otherUser); //sets selectedConvo
+            this.convo_clicked = true;
+            this.selected = true;
+          }
+        }
+      }
+          
+      if(sharedTweet)
+      {
+        this.createDBTweetMessage(this.selectedConvo.id, this.service_acc_name, this.service.shareID);
+      }
       console.log("arr " + this.arr);
   }
 
@@ -425,16 +340,14 @@ id: number; //needed for accessing db tweets(posts)
       {
         this.show = true;
       }
-    
   }
+
   handleSentMessage()
   {
     if(this.messageForm.valid)
     {
       //sent message to db
       this.createDBMessage(this.selectedConvo.id,this.service_acc_name,this.messageForm.value.message!);
-      //temp show message in convo until next refresh
-       
       console.log('message sent');
     }
     else

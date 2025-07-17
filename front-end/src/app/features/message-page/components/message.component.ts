@@ -70,6 +70,7 @@ lastDate: string = '';
             else
             {
               this.isSelected = false;
+              console.log(this.convo.otherUser.acc_name + "!=" + this.selectedAcc)
               console.log('this.convo.otherUser.acc_name != this.selectedAcc');
             }
             /*
