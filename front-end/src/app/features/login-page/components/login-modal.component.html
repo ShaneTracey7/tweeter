@@ -26,7 +26,7 @@
 
                 <div class="form-input-container">
                     <div class="password-input-container">
-                        <input [type]="getPValue()" id="password-input1" placeholder="Password" formControlName="password" [style]="isValidInput(this.loginForm.controls['password'])" required>
+                        <input [type]="this.p_value" id="password-input1" placeholder="Password" formControlName="password" [style]="isValidInput(this.loginForm.controls['password'])" required>
                         <div class="show-button-container">
                             <img (click)="updatePValue()" id="show-p-button" [src]="setUrl('eye.svg')" alt="show">
                         </div>
