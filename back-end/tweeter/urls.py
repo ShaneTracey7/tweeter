@@ -21,7 +21,7 @@ from django.views.generic.base import TemplateView
 from api import views
 #NEW
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from .views import TweetAPI
+
 
 urlpatterns = [
     
@@ -42,7 +42,7 @@ urlpatterns = [
     #re_path(r'^tweet/(.*)$',views.tweetApi),
 
     #NEW
-    path('api/tweet/', TweetAPI.as_view(), name='notification-detail'),
+    path('api/tweet/', views.TweetAPI.as_view(), name='notification-detail'),
 
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
