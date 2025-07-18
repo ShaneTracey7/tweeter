@@ -15,6 +15,7 @@ from django.db import models
 #NEW
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
 
 #from django.core.files.base import File
 from django.core.files import File
@@ -937,8 +938,14 @@ def userApi(request,id=id):
                     user = User.objects.get(acc_name=acc_name_input)
                     if user.password == password_input:
                         user_serializer = UserSerializer(user,many=False) #NEW
-                        return JsonResponse(user_serializer.data,safe=False) #NEW
-                        #return JsonResponse(user.username,safe=False) # ()password and account name correct
+
+                        # NEW
+                        refresh = RefreshToken()
+                        refresh['acc_name'] = user.acc_name  # Optional
+                        access = refresh.access_token
+                                                                            #new
+                        return JsonResponse([user_serializer.data,{'access': str(access),'refresh': str(refresh)}],safe=False)
+                        
                     else:
                         return JsonResponse("AC exists, P incorrect",safe=False)
                 else:
@@ -1096,7 +1103,6 @@ def get(self, request, id=None):
     tweet = Tweet.objects.all().order_by('-date_created') # '-' denotes descending order
     tweet_serializer = TweetSerializer(tweet,many=True)
     return JsonResponse(tweet_serializer.data,safe=False)
-
 
 """
         message_serializer = MessageSerializer(data=message_data)
