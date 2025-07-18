@@ -7,7 +7,7 @@ import { MessagePageComponent } from '../features/message-page/message-page.comp
 import { ProfilePageComponent } from '../features/profile-page/profile-page.component';
 import { PageNotFoundComponent } from '../shared/components/page-not-found/page-not-found.component';
 import { CoreComponent } from './core.component';
-import { PermissionsService } from './auth.guard';
+import { AuthGuard, PermissionsService } from './auth.guard';
 import { PostPageComponent } from '../features/post-page/post-page.component';
 
 
@@ -28,19 +28,19 @@ const routes: Routes = [
       {
         path: 'Home',
         component: HomePageComponent,
-        canActivate : [PermissionsService],
+        canActivate : [AuthGuard],
         title: 'Home',
       },
       {
         path: 'Explore',
         component: ExplorePageComponent,
-        canActivate : [PermissionsService],
+        canActivate : [AuthGuard],
         title: 'Explore',
         children: [
           {
             path: '**',
             component: ExplorePageComponent,
-            canActivate : [PermissionsService],
+            canActivate : [AuthGuard],
             title: 'Explore',
             
           },
@@ -49,25 +49,25 @@ const routes: Routes = [
       {
         path: 'Notifications',
         component: NotificationPageComponent,
-        canActivate : [PermissionsService],
+        canActivate : [AuthGuard],
         title: 'Notifications',
       },
       {
         path: 'Messages',
         component: MessagePageComponent,
-        canActivate : [PermissionsService],
+        canActivate : [AuthGuard],
         title: 'Messages',
       },
       {
         path: 'Post',
         component: PostPageComponent,
-        canActivate : [PermissionsService],
+        canActivate : [AuthGuard],
         title: 'Post',
         children: [
           {
             path: '**',
             component: PostPageComponent,
-            canActivate : [PermissionsService],
+            canActivate : [AuthGuard],
             title: 'Profile',
             
           },
@@ -77,13 +77,13 @@ const routes: Routes = [
       {
         path: 'Profile',
         component: ProfilePageComponent,
-        canActivate : [PermissionsService],
+        canActivate : [AuthGuard],
         title: 'Profile',
         children: [
           {
             path: '**',
             component: ProfilePageComponent,
-            canActivate : [PermissionsService],
+            canActivate : [AuthGuard],
             title: 'Profile',
             
           },
@@ -93,7 +93,7 @@ const routes: Routes = [
       {
         path: 'Error',
         component: PageNotFoundComponent,
-        canActivate : [PermissionsService],
+        canActivate : [AuthGuard],
         title: 'Error',
       },
 

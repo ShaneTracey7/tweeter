@@ -29,8 +29,9 @@ import * as jwt_decode from 'jwt-decode';
       try 
       {
          const decoded = (jwt_decode as any)(token) as { exp: number };
+         //const decoded = jwt_decode(token) as { exp: number };
          const { exp } = decoded;
-         
+
         if (Date.now() >= exp * 1000) 
         {
           // token expired
