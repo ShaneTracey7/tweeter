@@ -21,7 +21,7 @@ import { Observable } from 'rxjs';
         return false;
     }
     public isLoggedIn(): boolean {  
-      /*
+      
       const jwt_decode = require('jwt-decode');
   
       const token = localStorage.getItem('access_token');
@@ -45,8 +45,8 @@ import { Observable } from 'rxjs';
       {
         // token is malformed or decoding failed
         return false;
-      }*/
-      
+      }
+      /*
         let status = false;      
         if (localStorage.getItem('isLoggedIn') == "true") {      
            status = true;      
@@ -56,8 +56,10 @@ import { Observable } from 'rxjs';
            }      
         return status;      
         }    
-        
+        */
 }
+
+  }
   
   export const AuthGuard: CanActivateFn = (next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean => {
     return inject(PermissionsService).canActivate(next, state);

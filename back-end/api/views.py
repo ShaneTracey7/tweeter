@@ -1098,9 +1098,11 @@ def followApi(request,id=id):
 
 #testing 
 class TweetAPI(APIView):
+    
     permission_classes = [IsAuthenticated]  # Require login
 
 def get(self, request, id=None):
+    print("Authenticated user:", request.user, type(request.user))
     tweet = Tweet.objects.all().order_by('-date_created') # '-' denotes descending order
     tweet_serializer = TweetSerializer(tweet,many=True)
     return JsonResponse(tweet_serializer.data,safe=False)
