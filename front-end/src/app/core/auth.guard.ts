@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, CanActivateFn, Router } from '@angular/router';      
 import { Observable } from 'rxjs';  
 //import jwt_decode from "jwt-decode";    
+import * as jwt_decode from 'jwt-decode';
 
 @Injectable({
     providedIn: 'root'
@@ -21,15 +22,15 @@ import { Observable } from 'rxjs';
         return false;
     }
     public isLoggedIn(): boolean {  
-      
-      const jwt_decode = require('jwt-decode');
   
       const token = localStorage.getItem('access_token');
       if (!token) return false;
 
       try 
       {
-        const { exp } = jwt_decode(token);
+         const decoded = (jwt_decode as any)(token) as { exp: number };
+         const { exp } = decoded;
+         
         if (Date.now() >= exp * 1000) 
         {
           // token expired
