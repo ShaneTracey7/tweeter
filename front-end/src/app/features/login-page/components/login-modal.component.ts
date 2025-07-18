@@ -81,7 +81,7 @@ onSubmit()
   }
 
   //checks login form data with database and logs in user, if correct data
-  credentialsCheck2()
+  credentialsCheck()
   {
     this.submit_flag = 3; //set loading state
 
@@ -111,7 +111,11 @@ onSubmit()
       else
       {
         this.goodLogin = true;
-        this.userDB = resultData;
+        this.userDB = resultData[0];
+
+        //NEW
+        localStorage.setItem("access", resultData[1].access);
+        localStorage.setItem('refresh', resultData[1].refresh);
 
         localStorage.setItem('isLoggedIn', "true");
         localStorage.setItem('username', this.userDB.username ?? 'badToken');
@@ -166,7 +170,7 @@ setUrl(str: string)
   }
 
   //new for testing
-  credentialsCheck()
+  credentialsCheck2()
   {
     const requestBody = { 
       "acc_name": this.loginForm.value.acc_name,
