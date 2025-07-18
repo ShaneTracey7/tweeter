@@ -31,12 +31,6 @@ export class CoreService {
   DBUsers: any [] = []; //raw array of all Users from DB
   UserFeed: Profile [] = [];//array of Profile objs of all users
 
-  DBFollowers: any [] = []; //raw array of User followers from DB
-  followers: Profile [] = [] //array of Profile objs of followers
-
-  DBFollowing: any [] = []; //raw array of User following from DB
-  following: Profile [] = [] //array of Profile objs of following
-
   //new for Home page
   ForYouFeed: Post [] = []; //array of Post objs of ForYou feed
   ForYouUserFeed: Profile [] = []; //array of Profile objs of users in ForYou feed
@@ -44,19 +38,19 @@ export class CoreService {
   FollowUserFeed: Profile [] = []; //array of Profile objs of users in Follow feed
   Likes: any = null; //array of ids
   Retweets: any  = null; //array of ids
+  UserFollowingList: string [] = []; //array of acc_names of accounts that the user is following
 
   shareID: number = 0; //post id of tweet to send
   shareUser: string = ''; //acc_name of user to send tweet to
 
+  //runs only once until a page refresh
   constructor(public route: ActivatedRoute, public router: Router,public http: HttpClient) { 
   
     this.username = localStorage.getItem('username') ?? "badToken"; 
     this.acc_name = localStorage.getItem('acc_name') ?? "badToken";
     this.createUserFeed(false, "");
 
-    //new
-    this.getFollowers();
-    this.getFollowing();
+    this.getFollowingList();
     console.log("inside core service constructor");
 
   }
@@ -74,10 +68,6 @@ export class CoreService {
   this.acc_name = ""; 
   this.DBUsers = []; 
   this.UserFeed = [];
-  this.DBFollowers= []; 
-  this.followers = [] 
-  this.DBFollowing = []; 
-  this.following = [];
   this.ForYouFeed = []; 
   this.ForYouUserFeed = []; 
   this.FollowFeed = []; 
@@ -86,6 +76,7 @@ export class CoreService {
   this.Retweets = null;
   this.shareID = 0; 
   this.shareUser= ""; 
+  this.UserFollowingList = [];
 }
   //don't think this is doing anything
   ngOnDestroy()
@@ -278,6 +269,7 @@ routeToChild(str: string){
   }
 
 //gets all users(from DB) and adds them to DBUsers array
+/* * * * * * * Not in use inside this service * * * * * * */
 getAllDBUsers()
 {
     this.http.get(environment.apiUrl + "/user").subscribe((resultData: any)=>
@@ -288,6 +280,7 @@ getAllDBUsers()
 }
 
 //creates Profile objects using data from DBUsers and adds them to UserFeed array
+/* * * * * * * Not in use inside this service * * * * * * */
 convertUserFeed(current_user_acc_name: string)
 {   
   //current_user_acc_name
@@ -497,49 +490,7 @@ getDBRetweets(acc_name: string): Observable<any[]> {
     })
   );
 }
-//major rework to be done (can't return a value normmally inside of a .subscribe function (refer to chat gpt))
-createUserFeed3(acc_name: string): any[]
-  {
-    this.http.get(environment.apiUrl + "/user").subscribe((resultData: any)=>
-    {
-        console.log("createuserfeed2 resultData: " +resultData);
-        if (resultData == null)
-        {
-          console.log("return []");
-          return [];
-        }
-        else
-        {
-          this.DBUsers = resultData;
 
-          //clear UserFeed
-          this.UserFeed = [];
-
-          //reverse order
-          this.DBUsers.reverse();
-
-          let counter = 0;
-
-          for (let i = 0; i < this.DBUsers.length;i++) {
-            let user = this.DBUsers[i];
-            
-            if(user.acc_name != acc_name) //this is issue current_user_acc_name =this.acc_name
-              {
-                var u = new Profile(user.pic?.image_url,user.header_pic?.image_url, user.username, user.acc_name, user.bio, user.following_count, user.follower_count);
-                this.UserFeed.push(u);
-                counter++;
-              }
-            if (counter == 3)
-              {
-                i = this.DBUsers.length; //breaks loop
-              }
-          }
-          console.log("return userfeed: " + this.UserFeed);
-          return this.UserFeed;
-        }
-    });
-    return []; //just to get rid of error
-  }
 //gets data for 'ForYou'feed, calls the 3 above functions using delays to ensure all the data is available, when accessed
 createUserFeed(outsideOfService: boolean, acc_name: string)
   {
@@ -594,69 +545,8 @@ createUserFeed(outsideOfService: boolean, acc_name: string)
         myAsync();
   }
 
-
-//implementing global follow /following lists
-
-//either 'following' or 'follower'
-convertDBInfo(arr_type: string)
-{   
-  if( arr_type == 'following' && this.DBFollowing.length > 0)
-  {
-    for (let i = 0; i < this.DBFollowing.length;i++) {
-      let user = this.DBFollowing[i];
-      var u = new Profile(user.pic, user.header_pic,user.username, user.acc_name, user.bio, user.following_count, user.follower_count); //need to find where to keep bio, and counts in db
-      this.following.push(u);
-    }
-    
-  }
-  if( arr_type == 'follower' && this.DBFollowers.length > 0)
-  {
-    for (let i = 0; i < this.DBFollowers.length;i++) {
-      let user = this.DBFollowers[i];
-      var u = new Profile(user.pic,user.header_pic, user.username, user.acc_name, user.bio, user.following_count, user.follower_count); //need to find where to keep bio, and counts in db
-      this.followers.push(u);
-    }
-   
-  }  
-}
-
-//sets DBFollowers with a list of followers that the logged-in user has
-getFollowers()
-  {
-    if(this.acc_name != "" && this.acc_name != "badToken" && this.acc_name != null)
-    {
-      let requestBody =
-      {
-        "word" : 'getFollowers',
-        "word2" : this.acc_name,
-      };
-
-      this.http.put(environment.apiUrl + "/follow",requestBody).subscribe((resultData: any)=>
-      {
-        console.log(resultData);
-
-        if(resultData == 'Failed to Add')
-          {
-
-          }
-        else if(resultData == 'No followers')
-          {
-
-          }
-        else
-          {
-            this.DBFollowers = resultData;
-            this.convertDBInfo('follower');
-          }
-      });
-    }
-    else{
-      console.log("acc_name is not set, cannot get followers");
-    }
-  }
-
-  //sets DBFollowing with a list of users that the logged-in user follows
-  getFollowing()
+  //gets array of accounts the user follows and create a list of their account names 
+  getFollowingList()
   {
     if(this.acc_name != "" && this.acc_name != "badToken" && this.acc_name != null)
     {
@@ -671,31 +561,35 @@ getFollowers()
         console.log(resultData);
 
         if(resultData == 'Failed to Add')
-          {
-
-          }
+        {
+          console.log("Error retrieving getFollowing info from DB")
+        }
         else if(resultData == 'No following')
-          {
-
-          }
+        {
+          console.log("User isn't following any accounts")
+        }
         else
-          {
-            this.DBFollowing = resultData;
-            this.convertDBInfo('following');
-          }
+        {
+          resultData.forEach((user:any) => {
+              this.UserFollowingList.push(user.acc_name)
+            });
+          
+          console.log("this.UserFollowingList: " + this.UserFollowingList)
+        }
       });
     }
-    else{
+    else
+    {
       console.log("acc_name is not set, cannot get following");
     }
   }
 
-//check if 'acc_name' user is a follower
+//for components to call to check if their user is following an account
 isFollower(acc_name: string)
 {
-  for(var i = 0; i < this.following.length; i++)
+  for(var i = 0; i < this.UserFollowingList.length; i++)
   {
-    if(this.following[i].acc_name == acc_name)
+    if(this.UserFollowingList[i] == acc_name)
     {
       return true;
     }

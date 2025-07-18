@@ -37,12 +37,17 @@ export class ProfileModalComponent {
   
   constructor(public formBuilder: FormBuilder,public service: CoreService, public tweetService: TweetService, public authService: AuthService, public route: ActivatedRoute){
     this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";
-    this.setInfo();
-    //this.setFCheck();
+  
     console.log("inside profile modal constructor");
     console.log("Profile: " + this.profile);
   }
 
+  ngOnInit()
+  {
+    this.setFCheck();
+  }
+
+  //idk if i need this
   ngOnChanges(changes: SimpleChanges){
   
     if (changes['profile']) {
@@ -54,33 +59,6 @@ export class ProfileModalComponent {
       this.setFCheck();
     }
 }
-
-
-  setInfo()
-  {
-    let globalObj = this;
-
-        const postPromise = new Promise<any>(function (resolve, reject) {
-          setTimeout(() => {
-            reject("We didn't get a response")
-          }, 5000) // 5 secs
-
-          setTimeout(() => {
-            globalObj.setFCheck();
-            resolve('we got a response');
-          }, 1000) // 1 secs
-        })
-
-        async function myAsync(){
-          try{
-            postPromise;
-          }
-          catch (error) {
-            console.error('Promise rejected with error: ' + error);
-          }
-        }
-        myAsync();
-  }
 
   setFCheck()
   {

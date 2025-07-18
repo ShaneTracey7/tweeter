@@ -753,6 +753,8 @@ export class ProfilePageComponent extends CoreComponent{
     {
       console.log(resultData);
       this.user.follower_count = String(Number(this.user.follower_count) + 1); //idk if this will work
+
+      this.service.UserFollowingList.push(this.acc_name);//adding to global list
     });
   }
 
@@ -768,7 +770,14 @@ export class ProfilePageComponent extends CoreComponent{
     this.http.put(environment.apiUrl +"/follow",requestBody).subscribe((resultData: any)=>
     {
       console.log(resultData);
-      this.user.follower_count = String(Number(this.user.follower_count) + 1); //idk if this will work
+      this.user.follower_count = String(Number(this.user.follower_count) - 1); //idk if this will work
+
+      const index = this.service.UserFollowingList.indexOf(this.acc_name); //removing from global list
+      if (index !== -1) 
+      {
+        this.service.UserFollowingList.splice(index, 1)
+      }
+
     });
   }
   handleFollowClick()

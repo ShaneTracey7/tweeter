@@ -1074,9 +1074,9 @@ def followApi(request,id=id):
 
                             #******** NEW ********
                 #increment follower_count and following_count of user1 and user2
-                user1.follower_count = (user1.follower_count - 1)
+                user1.following_count = (user1.following_count - 1)
                 user1.save()
-                user2.following_count = (user2.following_count - 1)
+                user2.follower_count = (user2.follower_count - 1)
                 user2.save()
 
                 #Do i want to delete notification for follow? (add it here if so)

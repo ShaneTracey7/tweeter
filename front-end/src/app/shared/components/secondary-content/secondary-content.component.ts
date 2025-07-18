@@ -66,7 +66,7 @@ export class SecondaryContentComponent {
     console.log(this.openmodal);
   }
 
-  
+  /*
   createServiceUserFeed()
   {
     let globalObj = this;
@@ -109,5 +109,6 @@ export class SecondaryContentComponent {
         
         myAsync();
   }
+        */
 
 }
