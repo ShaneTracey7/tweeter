@@ -9,7 +9,7 @@ Django==5.0.2
 django-bootstrap5==25.1
 django-cors-headers==4.7.0
 djangorestframework==3.16.0
-djangorestframework_simplejwt==5.50
+djangorestframework_simplejwt==5.5.0
 gunicorn==23.0.0
 httplib2==0.22.0
 idna==3.10
