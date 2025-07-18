@@ -12,6 +12,9 @@ from django.db.models import Q
 import cloudinary.uploader
 from django.db import models
 
+#NEW
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 
 #from django.core.files.base import File
 from django.core.files import File
@@ -1085,6 +1088,14 @@ def followApi(request,id=id):
         else:
             return JsonResponse("Failed to Add",safe=False)
 
+#testing 
+class TweetAPI(APIView):
+    permission_classes = [IsAuthenticated]  # Require login
+
+def get(self, request, id=None):
+    tweet = Tweet.objects.all().order_by('-date_created') # '-' denotes descending order
+    tweet_serializer = TweetSerializer(tweet,many=True)
+    return JsonResponse(tweet_serializer.data,safe=False)
 
 
 """

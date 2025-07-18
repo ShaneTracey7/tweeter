@@ -15,17 +15,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-#from django.urls import include, path
-
-#urlpatterns = [
-#    path('', include('content.urls')),
-#   path('admin/', admin.site.urls),
-#]
-
 from django.urls import include, path, re_path
 from django.contrib import admin
 from django.views.generic.base import TemplateView
 from api import views
+#NEW
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from .views import TweetAPI
 
 urlpatterns = [
     
@@ -44,9 +40,12 @@ urlpatterns = [
     #re_path(r'^user/(.*)$',views.userApi),
     re_path(r'^tweet$',views.tweetApi),
     #re_path(r'^tweet/(.*)$',views.tweetApi),
-    #re_path(r'^student$',views.studentApi),
-    #re_path(r'^student$',views.studentApi),
-    #re_path(r'^student/([0-9]+)$',views.studentApi),
+
+    #NEW
+    path('api/tweet/', TweetAPI.as_view(), name='notification-detail'),
+
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('admin/', admin.site.urls),
     #path('', include('content.urls')),
 ]

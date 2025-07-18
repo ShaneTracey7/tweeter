@@ -81,7 +81,7 @@ onSubmit()
   }
 
   //checks login form data with database and logs in user, if correct data
-  credentialsCheck()
+  credentialsCheck2()
   {
     this.submit_flag = 3; //set loading state
 
@@ -163,5 +163,49 @@ setUrl(str: string)
       {
         this.p_value = "password";
       }
+  }
+
+  //new for testing
+  credentialsCheck()
+  {
+    const requestBody = { 
+      "acc_name": this.loginForm.value.acc_name,
+      "password": this.loginForm.value.password,
+      };
+
+    this.http.post(environment.apiUrl +"/api/token/",requestBody).subscribe((resultData: any)=>
+    {
+        console.log(resultData);
+
+      if(resultData)
+      {
+        this.goodLogin = true;
+        this.submit_flag = 2;
+        console.log("form submitted");
+
+        localStorage.setItem("access", resultData.access);
+        localStorage.setItem('refresh', resultData.refresh);
+
+        localStorage.setItem('isLoggedIn', "true");
+        //localStorage.setItem('username', this.userDB.username ?? 'badToken');
+        //localStorage.setItem('pic', this.userDB.pic?.image_url ?? '');
+        localStorage.setItem('acc_name', this.loginForm.value.acc_name ?? 'badToken'); 
+        this.loginForm.reset();
+
+          //needed to give time for user to see successful status message
+        setTimeout(() => {
+          this.service.routeToChild('foryou');
+          this.router.navigate(['/tweeter']); 
+          }, 1000) // 1 sec
+      }
+      else
+      {
+        this.goodLogin = false;
+        this.submit_flag = 1;
+        console.log("form not submitted"); 
+      }
+      console.log('went thru credentials check')//testing
+    });
+
   }
 }

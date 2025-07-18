@@ -207,6 +207,20 @@ tweetForm = this.formBuilder.group({
     }
   }
 
+  //NEW testing authenticated api calls
+  getTweetsTest()
+  {
+    this.http.get(environment.apiUrl + '/api/tweet/', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access')}`
+      }
+    }).subscribe((resultData: any)=>
+      {
+        console.log("this.getTweetsTest resultdata: " + resultData);
+      });
+  }
+  
+
 }
 
 /* These 6 functions have been moved to core-service.service.ts and converted to return promises

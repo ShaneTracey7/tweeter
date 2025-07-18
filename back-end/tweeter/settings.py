@@ -51,13 +51,19 @@ cloudinary.config(
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
+    #'DEFAULT_AUTHENTICATION_CLASSES': (
+    #    'rest_framework.authentication.BasicAuthentication',
+    #    'rest_framework.authentication.SessionAuthentication',
+   # ),
+   # 'DEFAULT_PERMISSION_CLASSES': (
+   #     'rest_framework.permissions.AllowAny',
+   # ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.AllowAny',
-    ),
+        'rest_framework.permissions.IsAuthenticated',
+    )
 }
 
 INSTALLED_APPS = [
@@ -71,6 +77,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'cloudinary',
     'rest_framework',
+    'rest_framework_simplejwt',
     #'bootstrap5',
     'whitenoise.runserver_nostatic',
     
