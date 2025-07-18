@@ -21,6 +21,8 @@ from dotenv import load_dotenv
 from urllib.parse import urlparse, parse_qsl
 
 import cloudinary
+
+from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 #old
 #BASE_DIR = Path(__file__).resolve().parent.parent
@@ -59,11 +61,12 @@ REST_FRAMEWORK = {
    #     'rest_framework.permissions.AllowAny',
    # ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'api.auth_backend.CustomJWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     )
+    
 }
 
 INSTALLED_APPS = [
@@ -174,6 +177,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),     # Customize as needed
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),       # Customize as needed
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/

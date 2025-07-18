@@ -941,6 +941,7 @@ def userApi(request,id=id):
 
                         # NEW
                         refresh = RefreshToken()
+                        refresh['user_id'] = user.id #required
                         refresh['acc_name'] = user.acc_name  # Optional
                         access = refresh.access_token
                                                                             #new

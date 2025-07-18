@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';      
 import { ActivatedRouteSnapshot, RouterStateSnapshot, CanActivateFn, Router } from '@angular/router';      
-import { Observable } from 'rxjs';      
+import { Observable } from 'rxjs';  
+//import jwt_decode from "jwt-decode";    
 
 @Injectable({
     providedIn: 'root'
@@ -8,7 +9,8 @@ import { Observable } from 'rxjs';
   export class PermissionsService {
   
     constructor(private router: Router) {}
-  
+
+    
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
         //your logic goes here
         if (this.isLoggedIn()) {      
@@ -18,7 +20,33 @@ import { Observable } from 'rxjs';
          this.router.navigate(['/Login']);      
         return false;
     }
-    public isLoggedIn(): boolean {      
+    public isLoggedIn(): boolean {  
+      /*
+      const jwt_decode = require('jwt-decode');
+  
+      const token = localStorage.getItem('access_token');
+      if (!token) return false;
+
+      try 
+      {
+        const { exp } = jwt_decode(token);
+        if (Date.now() >= exp * 1000) 
+        {
+          // token expired
+          return false;
+        }
+        else
+        {
+          return true; // token is present and not expired
+        }  
+        
+      } 
+      catch (error) 
+      {
+        // token is malformed or decoding failed
+        return false;
+      }*/
+      
         let status = false;      
         if (localStorage.getItem('isLoggedIn') == "true") {      
            status = true;      
@@ -28,7 +56,8 @@ import { Observable } from 'rxjs';
            }      
         return status;      
         }    
-  }
+        
+}
   
   export const AuthGuard: CanActivateFn = (next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean => {
     return inject(PermissionsService).canActivate(next, state);
