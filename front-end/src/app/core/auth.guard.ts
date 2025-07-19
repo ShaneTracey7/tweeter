@@ -47,19 +47,6 @@ import { Observable } from 'rxjs';
         const exp = decoded.exp;
         return Date.now() < exp * 1000;
       }  
-
-      
-      /*
-        let status = false;      
-        if (localStorage.getItem('isLoggedIn') == "true") {      
-           status = true;      
-        }
-          else {      
-           status = false;      
-           }      
-        return status;      
-        }    
-        */
 }
 
   }

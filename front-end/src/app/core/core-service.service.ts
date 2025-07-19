@@ -12,6 +12,13 @@ import { firstValueFrom } from 'rxjs';
 })
 export class CoreService {
 
+  /*
+  -Not having Notifications or Messages globally stored
+  -need to store 4 profile feeds
+  */
+
+
+
      //used for toolbar tabs
   marker1= true; //foryou/all/latest
   marker2= false; //following/trending/verified/people
@@ -26,22 +33,37 @@ export class CoreService {
   username: string; //logged-in user's username
   acc_name: string; //logged-in user's account name (or @)
 
-  //validUser: boolean = false; idk if this is in use
-
+  //will need to rename this for 'who to follow' pane
   DBUsers: any [] = []; //raw array of all Users from DB
   UserFeed: Profile [] = [];//array of Profile objs of all users
 
-  //new for Home page
+  shareID: number = 0; //post id of tweet to send
+  shareUser: string = ''; //acc_name of user to send tweet to
+
+  /* * * *Global cache* * * */
+
+  //Home
   ForYouFeed: Post [] = []; //array of Post objs of ForYou feed
   ForYouUserFeed: Profile [] = []; //array of Profile objs of users in ForYou feed
   FollowFeed: Post [] = []; //array of Post objs of Follow feed
   FollowUserFeed: Profile [] = []; //array of Profile objs of users in Follow feed
+
+  //Profile,Explore, and Home
   Likes: any = null; //array of ids
   Retweets: any  = null; //array of ids
+
+  //Home, Explore, Notification, Messages, and Profile
   UserFollowingList: string [] = []; //array of acc_names of accounts that the user is following
 
-  shareID: number = 0; //post id of tweet to send
-  shareUser: string = ''; //acc_name of user to send tweet to
+  //Profile (non of these are set yet)
+  ProfilePostsFeed: Post [] = []; //array of Post objs of Profile Posts feed
+  ProfilePostsUserFeed: Profile [] = []; //array of Profile objs of Profile Posts feed
+  ProfileRetweetsFeed: Post [] = []; //array of Post objs of Profile Retweets feed
+  ProfileRetweetsUserFeed: Profile [] = []; //array of Profile objs of Profile Retweets feed
+  ProfileMediaFeed: Post [] = []; //array of Post objs of Profile Media feed
+  ProfileMediaUserFeed: Profile [] = []; //array of Profile objs of Profile Media feed
+  ProfileLikesFeed: Post [] = []; //array of Post objs of Profile Likes feed
+  ProfileLikesUserFeed: Profile [] = []; //array of Profile objs of Profile Likes feed
 
   //runs only once until a page refresh
   constructor(public route: ActivatedRoute, public router: Router,public http: HttpClient) { 

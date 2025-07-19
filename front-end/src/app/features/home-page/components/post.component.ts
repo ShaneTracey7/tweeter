@@ -233,7 +233,8 @@ handleRetweet()
     }
 
     //increment post 'retweet' value in class 
-    this.post.retweets = String(Number(this.post.retweets) + 1);
+    //not needed once instances of feeds in core service
+    //this.post.retweets = String(Number(this.post.retweets) + 1);
     
     //add retweet to DB & update 'retweet' column of 'tweet' in DB
     //& add retweet notification to DB
@@ -286,7 +287,8 @@ handleRetweet()
     }
 
     //decrement post 'retweet' value in class 
-    this.post.retweets = String(Number(this.post.retweets) - 1);
+    //not needed once instances of feeds in core service
+    //this.post.retweets = String(Number(this.post.retweets) - 1);
 
     //delete like to DB & update 'retweet' column of 'tweet' in DB
     // & delete retweet notification to DB
@@ -345,8 +347,8 @@ handleLike()
     
 
     //increment post 'like' value in class (needed to see temp change on page)
-    this.post.likes = String(Number(this.post.likes) + 1);
-    this.like_count = (this.like_count + 1);
+    //not needed once instances of feeds in core service
+    //this.post.likes = String(Number(this.post.likes) + 1);
     
     //add like to DB & update 'like' column of 'tweet' in DB
     //& add 'like' notification to DB
@@ -398,8 +400,8 @@ handleLike()
     }
 
     //decrement post 'like' value in class 
-    this.post.likes = String(Number(this.post.likes) - 1);
-    this.like_count = (this.like_count - 1);
+    //not needed once instances of feeds in core service
+   // this.post.likes = String(Number(this.post.likes) - 1);
 
     //delete like to DB & update 'like' column of 'tweet' in DB
     let requestBody =
