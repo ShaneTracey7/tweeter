@@ -1,8 +1,7 @@
 import { Injectable, inject } from '@angular/core';      
 import { ActivatedRouteSnapshot, RouterStateSnapshot, CanActivateFn, Router } from '@angular/router';      
 import { Observable } from 'rxjs';  
-//import jwt_decode from "jwt-decode";    
-import * as jwt_decode from 'jwt-decode';
+
 
 @Injectable({
     providedIn: 'root'
@@ -11,6 +10,16 @@ import * as jwt_decode from 'jwt-decode';
   
     constructor(private router: Router) {}
 
+    decodeJWT(token: string): any {
+    try {
+      const payload = token.split('.')[1];
+      const decoded = JSON.parse(atob(payload));
+      return decoded;
+    } catch (error) {
+      console.error('Invalid JWT', error);
+    return null;
+    }
+}
     
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
         //your logic goes here
@@ -26,28 +35,20 @@ import * as jwt_decode from 'jwt-decode';
       const token = localStorage.getItem('access');
       if (!token) return false;
 
-      try 
+      const decoded = this.decodeJWT(token);
+      if (!decoded || !decoded.exp)
       {
-         const decoded = (jwt_decode as any)(token) as { exp: number };
-         //const decoded = jwt_decode(token) as { exp: number };
-         const { exp } = decoded;
-
-        if (Date.now() >= exp * 1000) 
-        {
-          // token expired
-          return false;
-        }
-        else
-        {
-          return true; // token is present and not expired
-        }  
-        
-      } 
-      catch (error) 
-      {
-        // token is malformed or decoding failed
+        console.log("error decoding")
         return false;
-      }
+      } 
+      else
+      {
+        console.log("successful decode")
+        const exp = decoded.exp;
+        return Date.now() < exp * 1000;
+      }  
+
+      
       /*
         let status = false;      
         if (localStorage.getItem('isLoggedIn') == "true") {      
