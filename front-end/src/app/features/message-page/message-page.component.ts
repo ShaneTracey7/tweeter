@@ -47,7 +47,7 @@ constructor(public formBuilder: FormBuilder,authService: AuthService, route: Act
 
 ngOnInit()
 {
-  this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";
+  this.service_acc_name = sessionStorage.getItem('acc_name') ?? "badToken";
 
   if(this.service.shareID != 0)
     {

@@ -90,8 +90,8 @@ export class ProfilePageComponent extends CoreComponent{
     //console.log("ppg init service current page: " + this.service.current_page);
     //this.service_page = this.service.current_page;
     //console.log("Service Page PPC init: " + this.service_page)
-    this.service_username = localStorage.getItem('username') ?? "badToken";
-    this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";
+    this.service_username = sessionStorage.getItem('username') ?? "badToken";
+    this.service_acc_name = sessionStorage.getItem('acc_name') ?? "badToken";
  
     //will need to change checks for arr count for github pages upload
     var arr = window.location.pathname.split("/");

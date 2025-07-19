@@ -53,8 +53,8 @@ export class PostPageComponent extends CoreComponent{
 
   ngOnInit()
   {
-    this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";
-    this.pic = localStorage.getItem('pic') ?? "badToken";
+    this.service_acc_name = sessionStorage.getItem('acc_name') ?? "badToken";
+    this.pic = sessionStorage.getItem('pic') ?? "badToken";
     //get post
     var arr = window.location.pathname.split("/");
     this.p_id = Number(arr.pop()) ?? 0;

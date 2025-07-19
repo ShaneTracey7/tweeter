@@ -47,7 +47,7 @@ import { environment } from "../../../../environments/environment";
     
     ngOnInit()
     {
-      this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";
+      this.service_acc_name = sessionStorage.getItem('acc_name') ?? "badToken";
       this.getDBDefaultFeed();
       this.onChanges();
     }

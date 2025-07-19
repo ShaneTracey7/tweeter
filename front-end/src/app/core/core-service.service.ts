@@ -46,8 +46,8 @@ export class CoreService {
   //runs only once until a page refresh
   constructor(public route: ActivatedRoute, public router: Router,public http: HttpClient) { 
   
-    this.username = localStorage.getItem('username') ?? "badToken"; 
-    this.acc_name = localStorage.getItem('acc_name') ?? "badToken";
+    this.username = sessionStorage.getItem('username') ?? "badToken"; 
+    this.acc_name = sessionStorage.getItem('acc_name') ?? "badToken";
     this.createUserFeed(false, "");
 
     this.getFollowingList();
@@ -81,7 +81,7 @@ export class CoreService {
   //don't think this is doing anything
   ngOnDestroy()
   {
-    localStorage.clear();
+    sessionStorage.clear();
     console.log("ngOnDestroy called in core service");
   }
 

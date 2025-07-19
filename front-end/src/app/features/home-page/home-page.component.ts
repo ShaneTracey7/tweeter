@@ -60,8 +60,8 @@ constructor(authService: AuthService, route: ActivatedRoute, service: CoreServic
 
 ngOnInit()
 {
-  this.pic = localStorage.getItem('pic') ?? "";
-  this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";
+  this.pic = sessionStorage.getItem('pic') ?? "";
+  this.service_acc_name = sessionStorage.getItem('acc_name') ?? "badToken";
   
   //if foryou is null or empty, get it AND follow from DB
   if (this.service.ForYouFeed == null || this.service.ForYouFeed.length < 1)
@@ -212,7 +212,7 @@ tweetForm = this.formBuilder.group({
   {
     this.http.get(environment.apiUrl + '/api/tweet/', {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('access')}`
+        Authorization: `Bearer ${sessionStorage.getItem('access')}`
       }
     }).subscribe((resultData: any)=>
       {

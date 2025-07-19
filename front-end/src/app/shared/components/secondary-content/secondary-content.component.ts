@@ -25,7 +25,7 @@ export class SecondaryContentComponent {
   ngOnInit()
   {
     console.log("page b4 init:" + this.page)
-    this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";  
+    this.service_acc_name = sessionStorage.getItem('acc_name') ?? "badToken";  
     
     //this.service.createUserFeed(true,this.service_acc_name);
     console.log("this.service.UserFeed: " + this.service.UserFeed)

@@ -32,7 +32,7 @@ import { Observable } from 'rxjs';
     }
     public isLoggedIn(): boolean {  
   
-      const token = localStorage.getItem('access');
+      const token = sessionStorage.getItem('access');
       if (!token) return false;
 
       const decoded = this.decodeJWT(token);

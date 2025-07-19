@@ -85,7 +85,7 @@ searchForm = this.formBuilder.group({inquiry:[''],});
       inquiry: [this.defaultValue, [Validators.required]],
       });
 
-    this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";  
+    this.service_acc_name = sessionStorage.getItem('acc_name') ?? "badToken";  
     this.onChanges();
     this.convertQueryFeed();
   }

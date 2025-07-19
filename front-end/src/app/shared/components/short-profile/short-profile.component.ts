@@ -44,7 +44,7 @@ export class ShortProfileComponent{
   isSelected: boolean = false;
 
   constructor(public service: CoreService, public tweetService: TweetService, public authService: AuthService, public route: ActivatedRoute,public http: HttpClient, public router: Router){
-    this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";
+    this.service_acc_name = sessionStorage.getItem('acc_name') ?? "badToken";
     this.setInfo();
   }
 

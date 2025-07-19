@@ -31,7 +31,7 @@ import { environment } from "../../../../environments/environment";
     //profile_pic_url: string;// = '';
     //header_pic_url: string;// = '';
     constructor(public service: CoreService,private formBuilder: FormBuilder,private http: HttpClient){
-      this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";
+      this.service_acc_name = sessionStorage.getItem('acc_name') ?? "badToken";
 
       this.updateBioFlag = false;
 

@@ -28,9 +28,9 @@ export class NavigationBarComponent{
     }
 
   ngOnInit() {  
-    this.username = localStorage.getItem('username') ?? "badToken";
-    this.acc_name = localStorage.getItem('acc_name') ?? "badToken";  
-    this.pic = localStorage.getItem('pic') ?? "";  
+    this.username = sessionStorage.getItem('username') ?? "badToken";
+    this.acc_name = sessionStorage.getItem('acc_name') ?? "badToken";  
+    this.pic = sessionStorage.getItem('pic') ?? "";  
     console.log("username is: " + this.username);  
   } 
 
@@ -78,7 +78,7 @@ export class NavigationBarComponent{
 
   logout() {  
 
-    localStorage.clear();
+    sessionStorage.clear();
     //clear core service data
     this.service.reset();
     this.authService.logout();

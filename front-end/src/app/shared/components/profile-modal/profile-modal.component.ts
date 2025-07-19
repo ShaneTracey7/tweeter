@@ -36,7 +36,7 @@ export class ProfileModalComponent {
   service_acc_name: string = "";
   
   constructor(public formBuilder: FormBuilder,public service: CoreService, public tweetService: TweetService, public authService: AuthService, public route: ActivatedRoute){
-    this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";
+    this.service_acc_name = sessionStorage.getItem('acc_name') ?? "badToken";
   
     console.log("inside profile modal constructor");
     console.log("Profile: " + this.profile);
