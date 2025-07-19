@@ -23,7 +23,7 @@ import * as jwt_decode from 'jwt-decode';
     }
     public isLoggedIn(): boolean {  
   
-      const token = localStorage.getItem('access_token');
+      const token = localStorage.getItem('access');
       if (!token) return false;
 
       try 
