@@ -33,7 +33,7 @@ convos: Convo [] = [];
 
 loadingFlag: boolean = true; //flag to show spinner while data is being fetched
 
-openmodal: boolean = false; //to ensure only one modal is visible at a time
+//openmodal: boolean = false; //to ensure only one modal is visible at a time
 
 messageForm = this.formBuilder.group({
   message: ['', [Validators.required]],
@@ -356,8 +356,8 @@ getConvos(check: boolean, sharedTweet: boolean, otherUser: string)
     }
   }
 
-  changeOpenModal(newValue: boolean){
+  /*changeOpenModal(newValue: boolean){
     this.openmodal = newValue;
     console.log(this.openmodal);
-  }
+  }*/
 }

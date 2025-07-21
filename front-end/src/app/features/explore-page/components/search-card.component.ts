@@ -24,7 +24,7 @@ export class SearchCardComponent /*extends ExplorePageComponent*/{
         
   goToSearch(){
 
-    if(this.service.current_page == 'Explore' ||this.service.current_page == 'OtherExplore')
+    if(this.service.current_page == 'Explore' || this.service.current_page == 'OtherExplore')
     {
         //hide modal of search bar
         //this.modalFlag = false;

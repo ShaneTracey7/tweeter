@@ -1,6 +1,4 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AppComponent } from '../../app.component';
+import { Component} from '@angular/core';
 import { getImgUrl } from '../../core/data';
 
 @Component({
@@ -12,36 +10,25 @@ import { getImgUrl } from '../../core/data';
 })
 export class LoginPageComponent {
 
+//toggle for showing/hiding modals
 show_login_modal: boolean = false;
 show_signup_modal: boolean = false;
 
+//ensures correct url regardless of prod or dev, local or hosted
 setUrl(str: string)
 {
   return getImgUrl(str);
 }
 
-
+//show modals (hide modal functions are within modals)
 showLoginModal()
   {
    this.show_login_modal = true;
   }
 
-  /*
-hideLoginModal()
-  {
-    this.show_login_modal = false;
-  }
-  */
-
 showSignupModal()
   {
    this.show_signup_modal = true;
   }
-/*
-hideSignupModal()
-  {
-    this.show_signup_modal = false;
-  }
-  */
   
 }

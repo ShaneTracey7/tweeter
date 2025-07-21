@@ -15,10 +15,8 @@ import { environment } from '../../../environments/environment';
 })
 export class NotificationPageComponent extends CoreComponent{
   
-  //needed to ensure when logging into a different account, correct data displays
-  service_acc_name: string;
-  arrs: any[] = []; //testing to feed into main component
-  DBfeed: any [] = [];
+  service_acc_name: string; //needed to ensure when logging into a different account, correct data displays
+  arrs: any[] = []; //feed into main component
   notificationFeed: Notification [] = [];
 
   loadingFlag: boolean = true; //flag to show spinner while data is being fetched
@@ -33,52 +31,11 @@ export class NotificationPageComponent extends CoreComponent{
   {
     this.service_acc_name = sessionStorage.getItem('acc_name') ?? "badToken";
     this.setNotificationFeed();
-    console.log('inside notification page ngoninit');
-  }
-
-  setNotificationFeed()
-  {
-    let globalObj = this;
-
-        const postPromise = new Promise<any>(function (resolve, reject) {
-          setTimeout(() => {
-            reject("We didn't get a response")
-          }, 5000) // 5 secs
-
-          setTimeout(() => {
-            globalObj.createNotificationFeed();
-            resolve('we got a response');
-          }, 0) // 0 secs
-        })
-
-        const postPromise2 = new Promise<any>(function (resolve, reject) {
-          setTimeout(() => {
-            reject("We didn't get a response")
-          }, 5000) // 5 secs
-
-          setTimeout(() => {
-            globalObj.arrs = [globalObj.notificationFeed];
-            globalObj.loadingFlag = false; //hide spinner after data is loaded
-            console.log("Arrs NP in ngOnoInit:" + globalObj.arrs[0]);
-            resolve('we got a response');
-          }, 2000) // 0 secs
-
-        })
-        async function myAsync(){
-          try{
-            postPromise;
-           
-            postPromise2;
-          }
-          catch (error) {
-            console.error('Promise rejected with error: ' + error);
-          }
-        }
-        myAsync();
+    console.log('inside notification page ngoninit');//testing
   }
 
   //gets all tweets(from DB) and adds them to DBfeed array
-  getDBNotificationFeed()
+  setNotificationFeed()
   {
     console.log("this.service_acc_name: " + this.service_acc_name);
     let requestMessage =
@@ -92,40 +49,30 @@ export class NotificationPageComponent extends CoreComponent{
         if(resultData == 'Failed to Add' || resultData == 'No notifications' || resultData == 'check is else')
           {
             console.log(resultData);
-            this.DBfeed = [];
+            this.loadingFlag = false; 
+            this.arrs = [[]];
             console.log('Unsuccessful data base retrieval');
           }
           else //Successful
           {
-            this.DBfeed = resultData;
-            console.log(this.DBfeed);
+            console.log(resultData);
+            this.convertNotificationFeed(resultData);
+
+            this.arrs = [this.notificationFeed];
+            this.loadingFlag = false; //hide spinner after data is loaded
             console.log('Successful data base retrieval');
           }
       });
   }
 
   //creates Post objects using data from DBFeed and UserFeed arrays and adds them to FEfeed array
-  convertNotificationFeed()
+  convertNotificationFeed(DBfeed : any [])
   {   
-    /*
-    username = models.CharField(max_length = 35)
-    acc_name = models.CharField(max_length = 35)
-    password = models.CharField(max_length = 35)
-    pic = models.CharField(max_length = 100)
-    */
-   /*
-   pic: string; //url
-    username: string;
-    acc_name: string;
-    bio: string;
-    follow_count: string;
-    follower_count: string;
-   */
-      for(let i = 0; i < this.DBfeed[0].length; i++)
+      for(let i = 0; i < DBfeed[0].length; i++)
       {
-        var profile_from = new Profile(this.DBfeed[1][i].pic?.image_url,this.DBfeed[1][i].header_pic?.image_url,this.DBfeed[1][i].username,this.DBfeed[1][i].acc_name, this.DBfeed[1][i].bio, this.DBfeed[1][i].following_count,this.DBfeed[1][i].follower_count);
-        var type = this.DBfeed[0][i];
-        var tweetDB = this.DBfeed[2][i];
+        var profile_from = new Profile(DBfeed[1][i].pic?.image_url,DBfeed[1][i].header_pic?.image_url,DBfeed[1][i].username,DBfeed[1][i].acc_name, DBfeed[1][i].bio, DBfeed[1][i].following_count,DBfeed[1][i].follower_count);
+        var type = DBfeed[0][i];
+        var tweetDB = DBfeed[2][i];
         var tweet = new Post(tweetDB.id,tweetDB.pic,tweetDB.username,tweetDB.acc_name,tweetDB.date_created,tweetDB.text_content,'',tweetDB.comments, tweetDB.retweets,tweetDB.likes, tweetDB.engagements)
         var text;
         if (type == 'like')
@@ -144,69 +91,6 @@ export class NotificationPageComponent extends CoreComponent{
          var n = new Notification(type, profile_from, tweet);
          this.notificationFeed.push(n);      
       }
-      /*
-      this.DBfeed.forEach((element,index) => {
-      
-        var profile_from = new Profile(element[1][index].pic,element[1][index].username,element[1][index].acc_name, '', 0,0);
-        var type = element[0][index];
-        var text;
-        if (type == 'like')
-        {
-          text = profile_from.username + " liked your post!";
-        }
-        else if (type == 'follow')
-        {
-          text = profile_from.username + " followed you!";
-        }
-        else //retweet
-        {
-          text = profile_from.username + " retweeted your post!";
-        }
-        //need to use 'this.DBfeed[index].image_content' when i figure out how to upload images
-         var n = new Notification2(type, profile_from, text);
-         this.notificationFeed.push(n);       
-      });
-      */
   }
-
-  //gets data for 'ForYou'feed, calls the 3 above functions using delays to ensure all the data is available, when accessed
-createNotificationFeed()
-{
-  let globalObj = this;
-
-      const postPromise = new Promise<any>(function (resolve, reject) {
-        setTimeout(() => {
-          reject("We didn't get a response")
-        }, 5000) // 5 secs
-
-        setTimeout(() => {
-          globalObj.getDBNotificationFeed();
-          resolve('we got a response');
-        }, 0) // 0 secs
-      })
-
-      const checkPromise = new Promise<any>(function (resolve, reject) {
-        setTimeout(() => {
-          reject("We didn't check")
-        }, 10000) //8 secs
-
-        setTimeout(() => {
-          globalObj.convertNotificationFeed();
-          resolve('we checked');
-        }, 1000) // 1 sec
-      })
-      
-      async function myAsync(){
-        //console.log("inside myAsync");
-        try{
-          postPromise;
-          await checkPromise;
-        }
-        catch (error) {
-          console.error('Promise rejected with error: ' + error);
-        }
-      }
-      myAsync();
-}
 
 }

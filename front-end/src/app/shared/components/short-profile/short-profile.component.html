@@ -1,9 +1,7 @@
 <!-- Used when searching and for secondary content panes-->
 <div id="shortProfile" (click)="handleSelected()">
-    <!--<a (click)="service.setCurrentPage('Explore')" routerLink="/tweeter/Explore" class="pane-more">Show more</a>-->
     
-    <img (click)="goToProfile(timer)" id="spi" (mouseenter)="showModal(profile, this)" (mouseleave)="hideModal(timer)" class="shortProfile-img" src={{this.service.setProfileUrl(profile.pic)}} alt="profile"/>
-    <!--<img id="spi" (mouseenter)="showModal(profile,this.show_modal,this.modal_profile,this.scc)" class="shortProfile-img" src={{profile.pic}} alt="profile"/>-->
+    <img (click)="goToProfile(timer)" id="spi" (mouseenter)="showModal()" (mouseleave)="hideModal()" class="shortProfile-img" src={{this.service.setProfileUrl(profile.pic)}} alt="profile"/>
     <div id="shortProfile-text">
         <h3 (click)="goToProfile(timer)" id="shortProfile-username"> {{ profile.username }} </h3>
         <p id="shortProfile-accountname">&commat;{{ profile.acc_name }}</p>
@@ -15,7 +13,6 @@
         </div>
 
     </div>
-    <!-- {% if button == "yes" %} -->
         <div *ngIf="this.profile.acc_name != this.service_acc_name && !inNewMessage">
             <div *ngIf="f_check == 'Follow'; else following">
                <button class="shortProfile-button">{{f_check}}</button>
@@ -27,9 +24,7 @@
         <div *ngIf="inNewMessage && isSelected">
             <img id="selected-checkmark"[src]="service.setUrl('checkmark-blue.png')"/>
         </div>
-            <!-- <button id="shortProfile-button">{{f_check}}</button> -->
-    <!--{% endif %} -->
 </div>
-<!-- adding [mcc]='mcc' is NEW-->
-<profile-modal id="pm-instance" [inMain]="false" [(show)]='show_modal' [scc]='scc' [mcc]='mcc' [profile]='profile'></profile-modal>
+
+<profile-modal id="pm-instance" [inMain]="false" [(show)]='show_modal' [profile]='profile'></profile-modal>
         

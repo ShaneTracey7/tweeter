@@ -9,10 +9,9 @@
         <div class="title-icons">
             <img class="toolbar-icon" [src]="service.setUrl('cog.svg')" alt="cog"/>
         </div>
-
       </div>
       <div class="lower-toolbar">
-<!-- lower toolbar add here-->
+      <!-- lower toolbar add here-->
 
         <div id="notification-tab1" class="toolbar-tabs">
             <div class="tab-container">
@@ -34,22 +33,18 @@
               <div class="tab-item" id="marker" [style]="service.displayMarker(3)"></div>
             </div>
         </div>
-
       </div>
     </div>
 
-<ng-container *ngIf="loadingFlag; else loaded">
-  <spinner></spinner>
-</ng-container>
-<ng-template #loaded>
-<!-- main content add here-->
-<main-content [data]=arrs [page]=service.current_page [tab]=service.current_tab></main-content>
-</ng-template>
-<!--
-    {% for notification in notifications %}
-        {% include "notification.html" with obj=notification  %}
-    {% endfor %}
--->
+    <ng-container *ngIf="loadingFlag; else loaded">
+      <spinner></spinner>
+    </ng-container>
+    
+    <ng-template #loaded>
+      <!-- main content add here-->
+      <main-content [data]=arrs [page]=service.current_page [tab]=service.current_tab></main-content>
+    </ng-template>
+
 </div>
 
 <div id="sc" class="secondary-content">
@@ -58,11 +53,6 @@
     <div id="notification-form">
       <search-bar id="notification-searchbar"></search-bar>
     </div>
-    <!--
-    <form id="notification-form">
-        <input id="notification-searchbar" type="text" placeholder="Search">
-      </form>
-    -->
       
         <div class="panes">
           <div class="pane-container">
@@ -70,11 +60,7 @@
           </div>
 
           <secondary-content [pane]='1' [page]=service.current_page [tab]=service.current_tab></secondary-content>
-    <!--
-          {% for topic in topics %}
-              {% include "searchCard.html" with obj=topic %}
-          {% endfor %}
-    -->
+
           <div id="pane-more" class="pane-container">
             <a (click)="service.setCurrentPage('Explore')" routerLink="/tweeter/Explore" class="pane-more">Show more</a>
           </div>
@@ -86,11 +72,7 @@
           </div>
 
           <secondary-content [pane]='2' [page]=service.current_page [tab]=service.current_tab></secondary-content>
-    <!--
-          {% for profile in profiles %}
-            {% include "shortProfile.html" with profile=profile button="yes" count=forloop.counter %}
-          {% endfor %}
-    -->
+
           <div id="pane-more" class="pane-container">
             <a class="pane-more">Show more</a>
           </div>
@@ -100,10 +82,5 @@
 
 <div class="modal-content">
 
-<!--
-    {% for profile in profiles %}
-        {% include "profileModal.html" with profile=profile count=forloop.counter %}
-    {% endfor %}
--->
 </div>
 

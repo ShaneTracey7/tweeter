@@ -29,11 +29,6 @@ export class ShortProfileComponent{
   @Input() ppg = new ProfilePageComponent(this.router,this.http,this.authService,this.route,this.service,this.tweetService)
   @Input() profile = new Profile('','','','','',0,0);
   @Input() page: string = ""; //what current_page is being displayed
-  //@Output() openmodalChangeS = new EventEmitter<boolean>();
-  //@Output() openmodalChangeM = new EventEmitter<boolean>();
-  @Input() upc: any = '';
-  @Input() scc:SecondaryContentComponent = new SecondaryContentComponent(this.service);
-  @Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService,this.service,this.authService,this.route);
   
   show_modal: boolean = false;
   modal_profile = this.profile;
@@ -111,8 +106,8 @@ export class ShortProfileComponent{
     }
   }
 
-  //shows modal if mouse is over profile pic for long enough
-  showModal(profile: Profile, obj:ShortProfileComponent)
+  //shows profile modal if there aren't any modals already open
+  showModal()
   {
     if(this.inNewMessage)
     {
@@ -120,77 +115,31 @@ export class ShortProfileComponent{
       return;
     }
 
-    obj.timer = setTimeout( function(){
-      //insert logic here
-      if(obj.show_modal || obj.scc.openmodal || obj.mcc.openmodal)
-        {
-          console.log("show: " + obj.show_modal + " openModalS: " + obj.scc.openmodal /*+ " openModalM: " + obj.mcc.openmodal*/);
-        }
-        else
-        {
-          //obj.modal_profile = obj.profile;
-          obj.show_modal = true;
-          obj.scc.changeOpenModal(true);
-          obj.mcc.changeOpenModal(true);
-        }
-
-    }, 1000);
-
-    //timer;
-    // cancel it immediately so it will never run
-    //clearTimeout(timer);
-
-  }
-    //shows modal if mouse is over profile pic for long enough
-    showModal2(profile: Profile, obj:ShortProfileComponent)
+    let obj = this;
+    
+    if(obj.show_modal || obj.service.openmodal)
     {
-  
-      obj.timer = setTimeout( function(){
-        //insert logic here
-        if(obj.show_modal || obj.upc.openmodal /*|| obj.mcc.openmodal*/)
-          {
-            console.log("show: " + obj.show_modal + " openModalS: " + obj.upc.openmodal /*+ " openModalM: " + obj.mcc.openmodal*/);
-          }
-          else
-          {
-            //obj.modal_profile = obj.profile;
-            obj.show_modal = true;
-            obj.upc.changeOpenModal(true);
-            //obj.mcc.changeOpenModal(true);
-          }
-  
-      }, 1000);
-  
-      //timer;
-      // cancel it immediately so it will never run
-      //clearTimeout(timer);
-  
+      console.log("show: " + obj.show_modal + " openModal: " + obj.service.openmodal);
     }
+    else
+    {
+      obj.timer = setTimeout(function(){
+
+        obj.show_modal = true;
+        obj.service.changeOpenModal(true);
+      },1000);//delay for how long to be hovering over profile pic to show modal
+    }
+  }
+
   //prevents modal from appearing if mouse isnt over profile pic long enough
-  hideModal(timer:any)
+  hideModal()
   {
     if(this.inNewMessage)
-      {
-        //do nothing
-        return;
-      }
-    clearTimeout(timer);
-  }
-
-/*
-  showModal2(profile: Profile)
     {
-      if(this.show_modal || this.scc.openmodal)
-        {
-          console.log("show: " + this.show_modal + " openModal: " + this.scc.openmodal)
-        }
-        else
-        {
-          this.modal_profile = this.profile;
-          this.show_modal = true;
-          this.scc.changeOpenModal(true);
-        }
-    }*/
+      return; //do nothing
+    }
+    clearTimeout(this.timer);
+  }
 
   handleGoTo()
   {

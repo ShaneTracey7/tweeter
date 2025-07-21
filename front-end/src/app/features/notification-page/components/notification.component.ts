@@ -14,56 +14,39 @@ import { PostComponent } from '../../home-page/components/post.component';
 })
 export class NotificationComponent extends NotificationPageComponent{
 @Input () notification = new Notification('',new Profile('','','','','',0,0), new Post(0,'','','', new Date(),'','',0,0,0,0) );
-@Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService,this.service,this.authService,this.route);
+//@Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService,this.service,this.authService,this.route);
 
 show_modal: boolean = false;
 modal_profile = new Profile('','','','','',0,0);
 timer:any;
 
-showModal(obj:NotificationComponent)
+  //shows profile modal if there aren't any modals already open
+  showModal()
   {
+    let obj = this;
+    
+    if(obj.show_modal || obj.service.openmodal)
+    {
+      console.log("show: " + obj.show_modal + " openModal: " + obj.service.openmodal);
+    }
+    else
+    {
+      obj.timer = setTimeout(function(){
 
-    let globalObj =this;
-
-    obj.timer = setTimeout( function(){
-      //insert logic here
-      if(obj.show_modal || obj.mcc.openmodal)
-        {
-          console.log("show: " + obj.show_modal + " openModal: " + obj.mcc.openmodal);
-        }
-        else
-        {
-          obj.modal_profile = globalObj.notification.profile_from;
-          obj.show_modal = true;
-          obj.mcc.changeOpenModal(true);
-        }
-
-    }, 1000);
-
-    //timer;
-    // cancel it immediately so it will never run
-    //clearTimeout(timer);
-
+        obj.modal_profile = obj.notification.profile_from;
+        obj.show_modal = true;
+        obj.service.changeOpenModal(true);
+      },1000);//delay for how long to be hovering over profile pic to show modal
+    }
   }
+
   //prevents modal from appearing if mouse isnt over profile pic long enough
-  hideModal(timer:any)
+  hideModal()
   {
-    clearTimeout(timer);
-  }
-/*
-showModal(username: string)
-  {
-
-   //this.modal_profile = getProfile(username, createAllProfiles());
-   this.modal_profile = this.notification.profile_from;
-   this.show_modal = true;
+    clearTimeout(this.timer);
   }
 
-hideModal()
-  {
-    this.show_modal = false;
-  }
- */
+  //handles when the user clicks on a notification
   handleClick()
   {
     if (this.notification.type == 'Follow')
@@ -76,13 +59,14 @@ hideModal()
     }
     else //type == 'Like' or 'Retweet'
     {
-      //direct to tweet view/page (not made yet)
+      //direct to tweet view/page 
       console.log("Direct to tweet view/page");
       var route = '/tweeter/Post/' + this.notification.tweet.id;
       this.service.router.navigate([route]); 
     }
   }
 
+  //sets secondary text of notifcation
   setTextContent()
   {
     if(this.notification.type == 'Follow')

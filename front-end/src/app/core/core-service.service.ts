@@ -76,6 +76,14 @@ export class CoreService {
     console.log("inside core service constructor");
 
   }
+  //for notification but others as well (moving from main component)
+  //to ensure only one modal is visible at a time (global variable)
+  openmodal: boolean = false;
+
+  changeOpenModal(newValue: boolean){
+    this.openmodal = newValue;
+    console.log(this.openmodal);
+  }
 
   reset() {
   this.marker1= true; 
@@ -618,6 +626,17 @@ isFollower(acc_name: string)
   }
   return false;
 }
+
+//gets all users from database (not in use, brought from signup modal)
+  getAllUser()
+  {
+    this.http.get(environment.apiUrl + "/user")
+    .subscribe((resultData: any)=>
+    {
+        console.log(resultData);
+        //this.UserArray = resultData;
+    });
+  }
 
 
 /* * * * * * * * * * * * * *functions for explore page * * * + * * * * * * * * * * */

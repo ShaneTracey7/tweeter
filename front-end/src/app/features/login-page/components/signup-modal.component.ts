@@ -13,17 +13,19 @@ import {environment} from '../../../../environments/environment';
 })
 export class SignupModalComponent {
 
-  UserArray: any[] = [];
-  
-  uniqueUser: boolean = false;
-
+//toggle for showing/hiding signup modal
 @Input () show: boolean = false;
 @Output() showChange = new EventEmitter<Boolean>();
 
-@Input () show2: boolean = false;
-@Output() show2Change = new EventEmitter<Boolean>();
+//toggle for showing/hiding login modal
+@Input () showLogin: boolean = false;
+@Output() showLoginChange = new EventEmitter<Boolean>();
 
-p_value = "password";
+p_value = "password"; //needed to toggle password field visibility
+
+//needed to create drop down options for day and year
+dayPlaceholderArray = new Array(31);
+yearPlaceholderArray = new Array(100);
 
 submit_flag: number  = 0; // 0: not pressed, 1: pressed but not submitted, 2: pressed and submitted
 unique_flag: number = 0; // 0: not pressed, 1: pressed but not submitted, 2: pressed and submitted
@@ -32,53 +34,28 @@ password_flag: number = 0; // 0: not pressed, 1: pressed but not submitted, 2: p
 signupForm = this.formBuilder.group({
   username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
   email: ['', [Validators.required,Validators.email]],
-  month: ['', Validators.required],
-  day: ['', Validators.required],
-  year: ['', [Validators.required, /*this.ageValidator*/]],
+  dob: this.formBuilder.group({
+    day: ['', Validators.required],
+    month: ['', Validators.required],
+    year: ['', Validators.required]
+  }, { validators: this.validateAge(16) }), // attach group-level validator here
   acc_name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(25)]],
   password1: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(25)]],
   password2: ['', [Validators.required],], 
-  //make sure both passwords match (the submit works but idk if i want to go that route)
-  //i have to find a way to not run only the required validation until it's submitted, the min/max length is find to go on default (onchangre)
   
   });
 
-constructor(private formBuilder: FormBuilder, private http: HttpClient ) { 
+constructor(private formBuilder: FormBuilder, private http: HttpClient ) { }
   
-  this.getAllUser();  
-}
-
-  //gets all users from database
-  getAllUser()
-  {
-    this.http.get(environment.apiUrl + "/user")
-    .subscribe((resultData: any)=>
-    {
-        console.log(resultData);
-        this.UserArray = resultData;
-    });
-  }
-  getAllUser2(obj: any)
-  {
-    obj.http.get(environment.apiUrl +"/user")
-    .subscribe((resultData: any)=>
-    {
-        console.log(resultData);
-        obj.UserArray = resultData;
-    });
-  }
-
    //called upon successful submit of create account form
-   addUser(obj: any)
+   addUser()
    {
-
      let userData = {
        
-      // "name" : obj.signupForm.value.name,
-       "username" : obj.signupForm.value.username,
-       "email" : obj.signupForm.value.email,
-       "acc_name" : obj.signupForm.value.acc_name,
-       "password" : obj.signupForm.value.password1,
+       "username" : this.signupForm.value.username,
+       "email" : this.signupForm.value.email,
+       "acc_name" : this.signupForm.value.acc_name,
+       "password" : this.signupForm.value.password1,
        "pic" :  null,//"default-profile-pic.jpg",
        "header_pic" : null,//"default-header-pic.png",
        "bio" : "b",
@@ -86,315 +63,209 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) {
        "following_count": 0,
      };
 
-     /*
-    username = models.CharField(max_length = 35)
-    email= models.CharField(max_length = 35)
-    acc_name = models.CharField(max_length = 35)
-    password = models.CharField(max_length = 35)
-    pic = models.CharField(max_length = 100)
-    header_pic = models.CharField(max_length = 100, default="") #default is default-header.jpg
-    bio = models.CharField(max_length = 100, default="")
-    follower_count = models.IntegerField(default=0)
-    following_count = models.IntegerField(default=0)
-     */
-
-
-     obj.http.post(environment.apiUrl +"/user",userData).subscribe((resultData: any)=>
+     this.http.post(environment.apiUrl +"/user",userData).subscribe((resultData: any)=>
      {
          console.log(resultData);
-         obj.getAllUser2(obj);
      });
    }
 
-   //checks db to makes sure username is unique
-  usernameUnique(obj: any): void
+   //checks db to makes sure acc_name is unique
+  acc_nameUnique()
   {
     let requestBody =
     {
       "username" : 'check',
-      //"name" : 'check',
       "email" : 'e',
-      "acc_name" : obj.signupForm.value.acc_name,
-      
+      "acc_name" : this.signupForm.value.acc_name,
       "password" : 'p',
       "pic" : null, //new
       "header_pic" : null,
       "bio" : "b",
       "follower_count": 0,
       "following_count": 0,
-
     };
 
-    obj.http.put(environment.apiUrl +"/user",requestBody).subscribe((resultData: any)=>
+    this.http.put(environment.apiUrl +"/user",requestBody).subscribe((resultData: any)=>
     {
-        console.log("front end result: " + resultData); //returns failed to add
-        //invalid if user_serializer.is_valid(): is false (check serializer to see if i messed anything up )
+      console.log("front end result: " + resultData);
 
-    if(resultData == "Unique")
+      if(resultData == "Unique")
       {
-        obj.uniqueUser = true;
+        console.log("acc_name is unique");
+        this.submit_flag = 2;
+        this.unique_flag = 2;
+        this.addUser();
+        this.signupForm.reset();
+        console.log("form submitted");
       }
-    else
+      else
       {
-        obj.uniqueUser = false;
+        console.log("acc_name is not unique");
+        this.submit_flag = 1;
+        this.unique_flag = 1;
+        console.log("not submitted");
       }
     });
   }
 
-uniquenessProcessing(obj: any)
-{
-  if(obj.uniqueUser)
-    {
-      console.log("acc_name is unique");
-      obj.submit_flag = 2;
-      obj.unique_flag = 2;
-      obj.addUser(obj);
-      obj.signupForm.reset();
-      console.log("form submitted");
-    }
-    else //username is not unique
-    {
-      console.log("acc_name is not unique");
-      console.log("not submitted");
-      obj.submit_flag = 1;
-      obj.unique_flag = 1;
-    }
-}
-
+  //called when create account button is clicked and processes form submission
   onSubmit(){
 
     if(this.signupForm.valid)
-      {
-        if (this.signupForm.value.password1 != this.signupForm.value.password2)
-          {
-            this.submit_flag = 1;
-            this.password_flag = 1;
-            console.log("passwords are not the same");
-            return;
-          }
-          else
-          {
-            this.password_flag = 2;
-          }
-
-        let globalObj = this;
-
-        const postPromise = new Promise<any>(function (resolve, reject) {
-          setTimeout(() => {
-            reject("We didn't get a response")
-          }, 5000) // 5 secs
-
-          setTimeout(() => {
-            globalObj.usernameUnique(globalObj);
-            resolve('we got a response');
-          }, 0) // 0 secs
-
-        })
-
-        const checkPromise = new Promise<any>(function (resolve, reject) {
-          setTimeout(() => {
-            reject("We didn't check")
-          }, 8000) //8 secs
-
-          setTimeout(() => {
-            globalObj.uniquenessProcessing(globalObj);
-            resolve('we checked');
-          }, 1000) // 1 sec
-
-        })
-        
-        async function myAsync(){
-          //console.log("inside myAsync");
-          try{
-            await postPromise;
-            await checkPromise;
-          }
-          catch (error) {
-            console.error('Promise rejected with error: ' + error);
-          }
-          //console.log("end of myAsync");
-        }
-        myAsync();
-      }
-    else
-      {
-        console.log("not submitted");
-        this.submit_flag = 1;
-      }
-  }
-
- 
-
-ageValidator(): ValidatorFn {
-    return (control:AbstractControl) : ValidationErrors | null => {
-
-        const value = control.value;
-
-        if (!value) {
-            return null;
-        }
-
-        return +value > 2008 ? {age: true}: null;
-    }
-}
-
-isValidInput(fc: FormControl<any | null>)
-{
-  if (fc.valid)
     {
-      if(fc == this.signupForm.controls['acc_name'] && this.unique_flag == 1)
-        {
-          return {
-            border: '2px solid red',
-          };
-        }
-      else if (fc == this.signupForm.controls['password2'] && this.password_flag == 1)
-        {
-          return {
-            border: '2px solid red',
-          };
-        }
+      if (this.signupForm.value.password1 != this.signupForm.value.password2)
+      {
+        this.submit_flag = 1;
+        this.password_flag = 1;
+        console.log("passwords are not the same");
+        return;
+      }
       else
       {
-      return {
-        border: '1px solid lightgray',
-      };
+        this.password_flag = 2;
+      }
+
+      //ensures acc_name is unique
+      this.acc_nameUnique();
     }
+    else
+    {
+      console.log("not submitted");
+      this.submit_flag = 1;
     }
+  }
+
+validateAge(minAge: number): ValidatorFn {
+  return (group: AbstractControl): ValidationErrors | null => {
+    const day = +group.get('day')?.value;
+    const month = +group.get('month')?.value;
+    const year = +group.get('year')?.value;
+
+    // Skip validation until all fields are filled
+    if (!day || !month || !year) return null;
+
+    const birthDate = new Date(year, month - 1, day); // month - 1 because JS months are 0-based
+    if (isNaN(birthDate.getTime())) return { invalidDate: true };
+
+    const today = new Date();
+    const minAllowedBirthDate = new Date(today.getFullYear() - minAge, today.getMonth(), today.getDate());
+
+    //console.log("birthDate > minBirthDate: " + birthDate + " > " + minAllowedBirthDate + " return value: " + (birthDate > minAllowedBirthDate));
+    return birthDate > minAllowedBirthDate ? { underAge: true } : null;
+  };
+}
+
+//styling all flieds except birth date fields (day, month, year)
+isValidInput(fc: FormControl<string | null>) 
+{
+  if (fc.valid)
+  {
+    if(fc == this.signupForm.controls['acc_name'] && this.unique_flag == 1)
+    {
+      return { border: '2px solid red'};
+    }
+    else if (fc == this.signupForm.controls['password2'] && this.password_flag == 1)
+    {
+      return { border: '2px solid red'};
+    }
+    else
+    {
+      return { border: '1px solid lightgray' };
+    }
+  }
   else // fc is invalid
   {
     if(fc.pristine)
+    {
+      if(fc.touched)
       {
-        if(fc.touched)
-          {
-            return {
-              border: '2px solid red',
-            };
-          }
-        else //fc is untouched
-          {
-            if(this.submit_flag == 1)
-              {
-                return {
-                  border: '2px solid red',
-                };
-              }
-            else
-              {
-                return {
-                  border: '1px solid lightgray',
-                };
-              }
-          }
+        return { border: '2px solid red'};
       }
+      else //fc is untouched
+      {
+        if(this.submit_flag == 1)
+        {
+          return { border: '2px solid red'};
+        }
+        else
+        {
+          return { border: '1px solid lightgray'};
+        }
+      }
+    }
     else //fc is dirty
-      {
-        return {
-          border: '2px solid red',
-        };
-      }
+    {
+      return { border: '2px solid red'};
+    }
   }
 }
-/*
-.ng-pristine.ng-untouched.ng-invalid {
-  border: 1px solid lightgray;
-}
-.ng-valid{
-  border: 1px solid lightgray;
-}
 
-.ng-invalid.ng-touched.ng-pristine{
-  border: 2px solid red;
-}
-.ng-invalid.ng-touched.ng-dirty{
-  border: 2px solid red;
-}
-
-
-
-*/
-/*
-isValidInput(check: boolean)
+//specifically for styling day, month, and year fields
+isValidInputDate(fc:  AbstractControl | null, field: string)
 {
-  if (check)
-    {
-      return {
-        border: '1px solid lightgray',
-      };
-    }
-  else
-    {
-      return {
-        border: '2px solid red',
-      };
-    }
-}
-*/
-/*
-oldEnough(){
-  
-      if(+this.signupForm.controls['year'].value < 2009)
-        {
-          return true;
-        }
-      else
-        {
-          return false;
-        }
-    }
-  else
+  let dob= this.signupForm.get('dob');
+  let dayCheck = this.signupForm.get('dob.day');
+  let monthCheck = this.signupForm.get('dob.month');
+  let yearCheck = this.signupForm.get('dob.year');
+          
+  switch(field)
   {
-    return false;
+    case 'day': dayCheck = fc; break;
+    case 'month': monthCheck = fc; ;break;
+    case 'year': yearCheck = fc; ;break;
+    default: console.log('error in switch case'); break;
+  }
+  //all fc's are valid
+  //console.log( "day: " + dayCheck?.valid + " month: " + monthCheck?.valid + " year: " + yearCheck?.valid);
+  if (dob?.valid)
+  {
+    //console.log("case 1");
+    return { border: '1px solid lightgray' };
+  }
+  // at least one fc is empty
+  else if((!dayCheck?.dirty || !monthCheck?.dirty || !yearCheck?.dirty) && this.submit_flag != 1)
+  {
+    //console.log("case 2")
+    return { border: '1px solid lightgray'};
+
+  }
+  else // at least one fc is invalid and none are empty
+  {
+    if (!fc?.dirty && this.submit_flag != 1)
+    {
+      //console.log("case 2");
+      return { border: '1px solid lightgray'};
+    }
+    else
+    {
+      //console.log("case 3");
+      return { border: '2px solid red'};
+    }   
   }
 }
-*/
 
-/*
-signupForm = new FormGroup({
-  name: new FormControl(''),
-  email: new FormControl(''),
-  month: new FormControl(''),
-  day: new FormControl(''),
-  year: new FormControl(''),
-  username: new FormControl(''),
-  password1: new FormControl(''),
-  password2: new FormControl(''),
-});
-*/
-
-
-
-
-
-dayPlaceholderArray = new Array(31);
-yearPlaceholderArray = new Array(100);
-
-/*
-  chan(value: string) {
-    this.newItemEvent.emit(value);
-  }
-*/
-
-
-
-
+//ensures correct url regardless of prod or dev, local or hosted
 setUrl(str: string)
 {
   return getImgUrl(str);
 }
 
+  //hides signup modal
   hideModal()
   {
-    //this.show = false;
     this.showChange.emit(false);
   }
 
+  //when login button is clicked (closes this (signup modal) and opens login modal)
   closeAndOpen()
   {
+    //hide sign up modal
     this.showChange.emit(false);
-    this.show2Change.emit(true);
+    //show login modal
+    this.showLoginChange.emit(true);
   }
 
+  //toggles visibility of password fields 
   updatePValue()
   {
     if (this.p_value == "password")
@@ -407,8 +278,4 @@ setUrl(str: string)
       }
   }
   
-  getPValue()
-  {
-    return this.p_value;
-  }
 }

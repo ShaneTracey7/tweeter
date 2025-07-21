@@ -1,19 +1,15 @@
 <new-message-modal id="post-new-message-modal" [(show)]="showNewMessageModal" [inPost]="true" [postID]="post.id" ></new-message-modal>
 <!-- only used within homePage.html-->
 
-
-
 <div class="post" [style.borderRadius]="inConvo ? '25px': 0">
-
-    
 
     <div *ngIf="!focused">
         <div *ngIf="!inConvo">
             <hr class="reactionbar-line"> 
         </div>
         <div class="post-profile-container">
-            <img id="post-profile-img" (mouseover)="showModal(post, this)" (mouseout)="hideModal(timer)" class="post-profile" src="{{this.service.setProfileUrl(post.profile)}}" alt="profile"/>
-            <profile-modal [inMain]="true" [(show)]='show_modal' [mcc]='mcc'[profile]='user'></profile-modal> <!--[profile]='modal_profile'-->
+            <img id="post-profile-img" (mouseover)="showModal()" (mouseout)="hideModal()" class="post-profile" src="{{this.service.setProfileUrl(post.profile)}}" alt="profile"/>
+            <profile-modal [inMain]="true" [(show)]='show_modal' [profile]='user'></profile-modal> <!--[profile]='modal_profile'-->
         </div>
     </div>
 
@@ -21,7 +17,7 @@
         <div *ngIf="!inConvo">
             <hr class="reactionbar-line"> 
         </div>
-        <!---->
+       
     <div class="post-heading-and-content" (click)="handlePostClick()">
         <div *ngIf="!focused">
             <div class="post-heading">
@@ -35,8 +31,8 @@
         </div>
         <div *ngIf="focused">
             <div class="post-heading">
-                <img id="post-profile-img" (mouseover)="showModal(post, this)" (mouseout)="hideModal(timer)" class="post-profile" src="{{this.service.setProfileUrl(post.profile)}}" alt="profile"/>
-                <profile-modal [inMain]="true" [(show)]='show_modal' [mcc]='mcc'[profile]='modal_profile'></profile-modal>
+                <img id="post-profile-img" (mouseover)="showModal()" (mouseout)="hideModal()" class="post-profile" src="{{this.service.setProfileUrl(post.profile)}}" alt="profile"/>
+                <profile-modal [inMain]="true" [(show)]='show_modal' [profile]='modal_profile'></profile-modal>
                 <div id="user-accname-stack">
                     <p id="post-username">{{ post.username }}</p>
                     <p id="post-accountname-focused" class="post-accountname">&commat;{{ post.acc_name }}</p>
@@ -54,7 +50,7 @@
                 </div>
             </div>
     </div>
-        <!---->
+   
         <div *ngIf="!inConvo">
             <div *ngIf="focused">
                 <hr class="reactionbar-line"> 
@@ -130,40 +126,6 @@
             </div>
         </div>
     </div>
-    
-        
-
-
-
-
-            <!--
-            <ul class="reactionbar">
-                <li class="reactiongroup">
-                    <img class="reactionbaricons" src="../../../assets/images/chat-bubble.png" alt="comment"/>
-                    <h3 class="reactionbarvalues"> {{ post.comments }} </h3>
-                </li>
-                <li class="reactiongroup">
-                    <img class="reactionbaricons" src="../../../assets/images/retweet.png" alt="retweet"/>
-                    <h3 class="reactionbarvalues"> {{ post.retweets }} </h3>
-                </li>
-                <li class="reactiongroup">
-                    <img class="reactionbaricons" src="../../../assets/images/heart.png" alt="like"/>
-                    <h3 class="reactionbarvalues" > {{ post.likes }} </h3>
-                </li>
-                <li class="reactiongroup">
-                    <img class="reactionbaricons" src="../../../assets/images/bar-graph.png" alt="view"/>
-                    <h3 class="reactionbarvalues"> {{ post.views }} </h3>
-                </li>
-                <li>
-                    <img class="reactionbaricons" src="../../../assets/images/bookmark.png" alt="bookmark"/>
-            
-                </li>
-                <li>
-                    <img class="reactionbaricons" src="../../../assets/images/share.png" alt="share"/>
-                </li>
-            </ul>
-        -->
-    
 </div>        
 
 

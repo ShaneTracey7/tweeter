@@ -14,17 +14,10 @@
                 <hr id="hr2">
             </div>
             <button (click)="showSignupModal()" id="create-account-button"class="login-buttons"> Create account</button>
-            <signup-modal [(show)]="show_signup_modal" [(show2)]="show_login_modal"></signup-modal>
+            <signup-modal [(show)]="show_signup_modal" [(showLogin)]="show_login_modal"></signup-modal>
             <p id="question"> Already have an account?</p>
             <button (click)="showLoginModal()" id="sign-in-button"class="login-buttons"> Sign in</button>
-            
-            
             <login-modal [(show)]="show_login_modal" [(showSignUp)]="show_signup_modal"></login-modal>
-            
-            
         </div>
     </div>
-
-   
-
 </div>

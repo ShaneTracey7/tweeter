@@ -19,10 +19,8 @@ export class MessageComponent extends MessagePageComponent{
 @Input () message = new MessageCard('','','','','');
 @Input () convo = new Convo(0,new Profile('','','','','',0,0),[], new Date());
 @Input() mpc:MessagePageComponent = new MessagePageComponent(this.formBuilder, this.authService, this.route,this.service,this.tweetService);
-@Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService,this.service,this.authService,this.route);
 @Input () c_c: boolean = false;
 @Input () selectedM: boolean = false;
-//@Output() selectedMChange = new EventEmitter<boolean>();
 
 @Input () selectedAcc: string = '';
 tabStyle: string = "backgroundColor: 'transparent'";
@@ -39,7 +37,6 @@ lastDate: string = '';
     this.lastDate = this.convo.getLastMessageDate()
   }
 
-  
   showConvo()
   {
     if(this.showElipModal)
@@ -140,32 +137,32 @@ lastDate: string = '';
         backgroundColor: 'transparent',
       };
     }
-
   }
 
-showModal(obj:MessageComponent)
+  showModal()
   {
+    let obj = this;
+    
+    if(obj.show_modal || obj.service.openmodal)
+    {
+      console.log("show: " + obj.show_modal + " openModal: " + obj.service.openmodal);
+    }
+    else
+    {
+      obj.timer = setTimeout(function(){
 
-    obj.timer = setTimeout( function(){
-      //insert logic here
-      if(obj.show_modal || obj.mpc.openmodal)
-        {
-          console.log("show: " + obj.show_modal + " openModal: " + obj.mpc.openmodal);
-        }
-        else
-        {
-          
-          //obj.modal_profile = new Profile(post.profile, post.username,post.acc_name,'bio',0,0);
-          obj.show_modal = true;
-          obj.mpc.changeOpenModal(true);
-        }
-
-    }, 1000);
+        //obj.modal_profile = obj.notification.profile_from;
+        obj.show_modal = true;
+        obj.service.changeOpenModal(true);
+      },1000);//delay for how long to be hovering over profile pic to show modal
+    }
   }
+
   //prevents modal from appearing if mouse isnt over profile pic long enough
-  hideModal(timer:any)
+  hideModal()
   {
-    clearTimeout(timer);
+    //this.service.changeOpenModal(false);
+    clearTimeout(this.timer);
   }
 
   onMouseEnter()
@@ -199,7 +196,6 @@ showModal(obj:MessageComponent)
     this.mpc.arr = [this.mpc.convos];
 
   console.log("convos after: " + this.mpc.convos);
-
   }
 
   deleteDBConvo()

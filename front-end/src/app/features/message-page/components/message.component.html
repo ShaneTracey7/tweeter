@@ -1,34 +1,11 @@
 
 <!-- only used within messagePage.html-->
-<!--
-<div (click)="showConvo()" [style]="setStyle()"class="message">
-        
-    <img class="message-img" src="{{ message.profile }}" alt="profile"/>
-
-    <div class="message-content">
-
-        <div class="message-heading">
-            <p class="message-username">{{ message.username }}</p>
-            <p class="message-accountname">&commat;{{ message.acc_name }}</p>
-            <p class="message-date">{{ message.date }} </p>
-        </div>
-
-        <p class="message-text"> {{ message.text }}</p>
-
-    </div>
-
-    <img id="message-elip" class="elip" data-toggle="tooltip" data-placement="bottom" title="More" [src]="service.setUrl('ellipsis.png')" alt="more"/>
-    <div id="tab" [style]="showTab()" ></div>
-</div>
--->
 
 <div id="whole-message"(click)="showConvo()" [style]="setStyle()"class="message" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()" >
         
-    <img class="message-img" (mouseover)="showModal(this)" (mouseout)="hideModal(timer)" src="{{ this.service.setProfileUrl(convo.otherUser.pic)}}" alt="profile"/>
+    <img class="message-img" (mouseover)="showModal()" (mouseout)="hideModal()" src="{{ this.service.setProfileUrl(convo.otherUser.pic)}}" alt="profile"/>
     
-    <profile-modal [inMain]="true" [(show)]='show_modal' [mpc]="mpc" [profile]='convo.otherUser'></profile-modal> 
-
-
+    <profile-modal [inMain]="true" [(show)]='show_modal' [profile]='convo.otherUser'></profile-modal> 
 
     <div class="message-content">
 
@@ -47,7 +24,6 @@
     </div>
 
         <!-- ELIP MODAL-->
-    
         <div *ngIf="showElipModal">
             <div id="elip-modal">
                 <div class="elip-modal-container">
@@ -64,5 +40,5 @@
             </div>
         </div>
     
-        <div id="tab" [style]="showTab()" ></div>
+    <div id="tab" [style]="showTab()" ></div>
 </div>

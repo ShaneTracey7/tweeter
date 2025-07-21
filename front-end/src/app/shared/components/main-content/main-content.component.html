@@ -8,7 +8,7 @@
       [post]="post" [upc]="upc">
       </app-post>-->
         <div *ngIf="data[2]?.length > 0; else emptyList"> <!-- was data?.[2]?.length > 0 -->
-          <app-post [mcc]='mcc'
+          <app-post
           *ngFor="let post of data[2]; index as i"
           [post]="post" [user]="data[3][i]" [upc]="upc">
           </app-post>
@@ -25,7 +25,7 @@
     <div *ngSwitchDefault> <!-- for you -->
       
         <div *ngIf="data[0]?.length > 0; else emptyList2"> <!-- was data?.[2]?.length > 0 -->
-          <app-post [mcc]='mcc'
+          <app-post 
             *ngFor="let post of data[0]; index as i"
             [post]="post" [user]="data[1][i]" [upc]="upc">
           </app-post>
@@ -45,7 +45,7 @@
 
 <div *ngIf="page == 'Post'">
 
-  <app-post [mcc]='mcc'
+  <app-post 
     *ngFor="let post of data[0]"
     [post]="post" [upc]="upc" [inThread]="true">
   </app-post>
@@ -125,7 +125,7 @@
         <p class="profile-empty-list-body">Try searching for something else</p>
       </div>
       <ng-template #notEmpty2>
-        <short-profile [mcc]= 'this'
+        <short-profile 
       *ngFor="let profile of data[2]"
       [profile]="profile">
       </short-profile>
@@ -275,7 +275,7 @@
         <p class="profile-empty-list-body">Once accounts follow them, they'll show up here.</p>
        </div>
       <ng-template #hasFollowers>
-        <short-profile [mcc]= 'this'
+        <short-profile 
         *ngFor="let profile of data[0]"
         [profile]="profile">
         </short-profile>
@@ -288,7 +288,7 @@
         <p class="profile-empty-list-body">Once they follow accounts, they'll show up here.</p>
       </div>
       <ng-template #hasFollowing>
-        <short-profile [mcc]= 'this'
+        <short-profile 
         *ngFor="let profile of data[1]"
         [profile]="profile">
         </short-profile>

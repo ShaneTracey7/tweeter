@@ -21,11 +21,6 @@ export class ProfileModalComponent {
   @Input() show: boolean = false; //used to be false
   @Input() inMain: boolean = false;
   @Output() showChange = new EventEmitter<boolean>();
-  @Input() scc:SecondaryContentComponent = new SecondaryContentComponent(this.service); //needed to check if any open modals
-  @Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService,this.service,this.authService,this.route); //NEW
-  @Input() mpc:MessagePageComponent = new MessagePageComponent(this.formBuilder,this.authService,this.route,this.service,this.tweetService);
-  
-  //modal_profile = this.profile;
 
   original_x: number = 0;
   original_y: number = 0;
@@ -75,9 +70,10 @@ export class ProfileModalComponent {
     {
      this.show = false;
      this.showChange.emit(this.show);
-     this.scc.changeOpenModal(false);
-     this.mcc.changeOpenModal(false);
-     this.mpc.changeOpenModal(false);
+     //this.scc.changeOpenModal(false);
+     //this.mcc.changeOpenModal(false);
+     //this.mpc.changeOpenModal(false);
+     this.service.changeOpenModal(false);
     }
 
     handleFollowClick(str: string)

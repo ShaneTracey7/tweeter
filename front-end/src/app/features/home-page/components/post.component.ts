@@ -16,9 +16,6 @@ export class PostComponent extends HomePageComponent{
 //new
 @Input() inConvo = false; 
 
-
-
-
 @Input () fparr = [0];
 @Output() fparrChange = new EventEmitter<any[]>();
 
@@ -40,8 +37,8 @@ DBPostfeed: any [] = [];
 @Input () post = new Post(0,'','','',new Date,'','',0,0,0,0);
 @Input () focused = false; // true if post is being focused within post-page-component
 @Input () inThread = false; // true if post is in thread within post-page-component
-@Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService,this.service,this.authService,this.route);
-//@Input() hpc: HomePageComponent = new HomePageComponent(this.authService,this.route,this.service,this.http,this.tweetService,this.formBuilder)
+//@Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService,this.service,this.authService,this.route);
+
 @Input() upc: any = '';
 show_modal: boolean = false;
 modal_profile = new Profile('','','','','',0,0);
@@ -515,52 +512,31 @@ else
   }
 }
 
-showModal(post: Post, obj:PostComponent)
+  //shows profile modal only if there are no other open modals
+  showModal()
   {
+    let obj = this;
+    
+    if(obj.show_modal || obj.service.openmodal)
+    {
+      console.log("show: " + obj.show_modal + " openModal: " + obj.service.openmodal);
+    }
+    else
+    {
+      obj.timer = setTimeout(function(){
 
-    let globalObj =this;
-
-    obj.timer = setTimeout( function(){
-      //insert logic here
-      if(obj.show_modal || obj.mcc.openmodal)
-        {
-          console.log("show: " + obj.show_modal + " openModal: " + obj.mcc.openmodal);
-        }
-        else
-        {
-          console.log("obj.user: " + obj.user); //new
-          console.log("this.user: " + globalObj.user); //new
-          //obj.modal_profile = new Profile(post.profile, post.username,post.acc_name,'bio',0,0);
-          obj.show_modal = true;
-          obj.mcc.changeOpenModal(true);
-        }
-
-    }, 1000);
-
-    //timer;
-    // cancel it immediately so it will never run
-    //clearTimeout(timer);
-
+        obj.show_modal = true;
+        obj.service.changeOpenModal(true);
+      },1000);//delay for how long to be hovering over profile pic to show modal
+    }
   }
+
   //prevents modal from appearing if mouse isnt over profile pic long enough
-  hideModal(timer:any)
+  hideModal()
   {
-    clearTimeout(timer);
+    clearTimeout(this.timer);
   }
 
-/*
-showModal(username: string)
-  {
-
-   this.modal_profile = getProfile(username, createAllProfiles());
-   this.show_modal = true;
-  }
-
-hideModal()
-  {
-    this.show_modal = false;
-  }
-*/
 colorReactionBarHeart(str: string) {
 
   if(this.liked)

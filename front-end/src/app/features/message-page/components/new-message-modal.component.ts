@@ -14,7 +14,6 @@ import { environment } from "../../../../environments/environment";
     selector: 'new-message-modal',
     templateUrl: './new-message-modal.component.html',
     styleUrl: '../message-page.component.scss',
-  
   })
   export class NewMessageModalComponent {
   
@@ -22,8 +21,7 @@ import { environment } from "../../../../environments/environment";
  @Input() inPost: boolean = false;
  @Input() show: boolean = false;
  @Output() showChange = new EventEmitter<boolean>(); //not in use rn
- //@Input() mpc: any = ''; //might cause issues
- @Input() mpc: MessagePageComponent = new MessagePageComponent(this.formBuilder, this.authService, this.route, this.service, this.tweetService);
+ @Input() mpc: MessagePageComponent = new MessagePageComponent(this.formBuilder, this.authService, this.route, this.service, this.tweetService); //need for createDB function
   selectedUser: string = ''; //account name of selected user
   
   DBUserFeed: any [] = [];
@@ -42,7 +40,6 @@ import { environment } from "../../../../environments/environment";
     {
         this.service_acc_name = '';
         this.defaultList = [];
-        //this.defaultList = createAllProfiles(); only used for testing
     }
     
     ngOnInit()
@@ -52,24 +49,21 @@ import { environment } from "../../../../environments/environment";
       this.onChanges();
     }
    
-  
-      onChanges(): void {
-        this.searchForm.get('inquiry')?.valueChanges.subscribe(val => {
-          if((val?.length?? 0 )> 1)
-          {
-            //insert logic to set userList and queryList
-            
-            this.getDBUserFeed(val?? '');
-  
-          }
-          else
-          {
-            this.userList = [];
-          }
-          this.selectedUser = ''; //necessary
-          console.log("value: " + val);
-        });
-      }
+    onChanges(): void {
+      this.searchForm.get('inquiry')?.valueChanges.subscribe(val => {
+        if((val?.length?? 0 )> 1)
+        {
+          //insert logic to set userList and queryList
+          this.getDBUserFeed(val?? '');
+        }
+        else
+        {
+          this.userList = [];
+        }
+        this.selectedUser = ''; //necessary
+        console.log("value: " + val);
+      });
+    }
 
       onSubmit(){
   
@@ -90,7 +84,6 @@ import { environment } from "../../../../environments/environment";
           this.mpc.createDBConvo(this.service_acc_name,this.selectedUser, false);
 
           //set new convo to selected, so secondary component shows view of convo
-
           this.selectedUser = ''; //necessary
           console.log("submitted");
           }
@@ -99,7 +92,6 @@ import { environment } from "../../../../environments/environment";
         {
           console.log("not submitted");
         }
-
   }
 
   // get top 10 followers or less
