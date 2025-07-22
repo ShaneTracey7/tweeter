@@ -509,7 +509,7 @@ def tweetApi(request,id=id):
                     return JsonResponse("No post",safe=False)
             elif check == 'getReplies':
                 #get all replies to tweet  
-                tweets = Tweet.objects.filter(reply_id=user_id) # user_id is actually tweet id here
+                tweets = Tweet.objects.filter(reply_id=user_id)[:10] # user_id is actually tweet id here (limitied to 10 rows)
                 if tweets.exists():
                     user_arr = []
                     for tweet in tweets:
@@ -848,7 +848,8 @@ def likeApi(request,id=id):
 def userApi(request,id=id):
 
     if request.method =='GET':
-        user = User.objects.all() #raw("SELECT * FROM api_user WHERE username = 'Shane'")
+        #not implemented but should return top 10 users that current user doesn't follow (may have to move to a request type that has a body)
+        user = User.objects.all()[:10] #raw("SELECT * FROM api_user WHERE username = 'Shane'")
         user_serializer = UserSerializer(user,many=True)
         return JsonResponse(user_serializer.data,safe=False)
     

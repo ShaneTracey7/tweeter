@@ -21,6 +21,21 @@ $gray-font: rgb(97, 110, 124);
   align-items: center;
   width: 600px;
   height: 90%;
+  max-height: 600px;
+  min-height: 400px;
+  background-color: white;
+  border: 0;
+  border-radius: 25px;
+}
+#signup-modal{ 
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 600px;
+  height: 90%;
+  max-height: 800px;
   min-height: 400px;
   background-color: white;
   border: 0;
@@ -44,7 +59,7 @@ $gray-font: rgb(97, 110, 124);
       width: 45px;
       height: 45px;
       margin-left: 37%;
-      margin-top: 5px;
+      margin-top: 10px;
     }
   }
   #modal-header-top{

@@ -20,17 +20,14 @@ export class PostPageComponent extends CoreComponent{
   service_acc_name: string;
   pic: string;
   p_id: number;
-  DBpost: any = '';
+
   post: Post = new Post(0,null,'','', new Date(),'','',0,0,0,0);
-  DBuser: any = '';
   user: Profile = new Profile(null,null,'','','',0,0);
-  DBUserfeed: any [] = [];
-  DBPostfeed: any [] = [];
 
   comments: Post [] = [];
   commentUsers: Profile [] = [];
   arrs: any[] = []; //testing to feed into main component
-  testArr: any[] = [];
+  testArr: any[] = []; //need for focused tweet
 
   like_ids: number [];
   retweet_ids: number [];
@@ -59,6 +56,7 @@ export class PostPageComponent extends CoreComponent{
     var arr = window.location.pathname.split("/");
     this.p_id = Number(arr.pop()) ?? 0;
     console.log("this.p_id: " + this.p_id)
+
     if (this.p_id == 0) //error
     {
       this.service.router.navigate(['tweeter/Error']);
@@ -66,58 +64,27 @@ export class PostPageComponent extends CoreComponent{
     else
     {
       //get like and retweet arrs
-      this.setLikeAndRetweeted();
+      if (this.service.Likes == null )
+      {
+        this.service.getDBRetweets(this.service_acc_name).subscribe(ids => {
+          console.log("retweet_ids: " + ids);
+          this.retweet_ids = ids;
+        });
+        this.service.getDBLikes(this.service_acc_name).subscribe(ids => {
+          console.log("like_ids: " + ids);
+          this.like_ids = ids;
+        });
+      console.log("this.service.Likes == null");
+      }
+      else
+      {
+        this.retweet_ids = this.service.Retweets;
+        this.like_ids = this.service.Likes;
+        console.log("this.service.Likes is not null");
+      }
       // get post
       this.getDBPost();
     }
-    
-  }
-
-  ngOnChanges()
-  {
-
-  }
-
-  setLikeAndRetweeted()
-  {
-    let globalObj = this;
-
-        const postPromise = new Promise<any>(function (resolve, reject) {
-          setTimeout(() => {
-            reject("We didn't get a response")
-          }, 5000) // 5 secs
-
-          setTimeout(() => {
-            //globalObj.last_like_ids = globalObj.tweetService.DBlikes; //NEW
-            globalObj.tweetService.getRetweetIDsDB(globalObj.service_acc_name);
-            globalObj.tweetService.getLikeIDsDB(globalObj.service_acc_name);
-            //console.log("last_like_ids = " + globalObj.last_like_ids);
-            resolve('we got a response');
-          }, 0)
-        })
-        const checkPromise = new Promise<any>(function (resolve, reject) {
-          setTimeout(() => {
-            reject("We didn't get a response")
-          }, 5000) // 5 secs
-
-          setTimeout(() => {
-            globalObj.retweet_ids = globalObj.tweetService.DBretweets;
-            globalObj.like_ids = globalObj.tweetService.DBlikes;
-            //console.log("like_ids = " + globalObj.like_ids);
-            resolve('we got a response');
-          }, 500) // 0 secs
-        })
-
-        async function myAsync(){
-          try{
-            postPromise;
-            await checkPromise;
-          }
-          catch (error) {
-            console.error('Promise rejected with error: ' + error);
-          }
-        }
-        myAsync();
   }
 
   //gets all replies(from DB) and adds them to DBfeed array
@@ -133,78 +100,35 @@ export class PostPageComponent extends CoreComponent{
         if(resultData == 'Failed to Add' || resultData == 'No replies' || resultData == 'check is else')
           {
             console.log(resultData);
-            this.DBUserfeed = [];
-            this.DBPostfeed = [];
+            this.testArr = [0]; //needed so profile modal works for post component instances created outside of loops
             console.log('Unsuccessful data base retrieval');
           }
           else //Successful
           {
-            this.DBPostfeed = resultData[0];
-            this.DBUserfeed = resultData[1];
-            
-            //this.DBfeed = resultData;
-            //console.log(this.DBfeed);
-            console.log(this.DBUserfeed);
-            console.log(this.DBPostfeed);
-            this.convertReplyFeed();
+            this.convertReplyFeed(resultData[0],resultData[1]); // Post, User
             console.log('Successful data base retrieval');
           }
       });
   }
 
-  convertReplyFeed()
+  //converts raw DB data into reply feed data (Post & Profile)
+  convertReplyFeed(DBPostfeed: any [],DBUserfeed: any [] )
   {   
-    let u = this.DBUserfeed;
+    let u = DBUserfeed;
 
-    this.DBPostfeed.forEach((reply,index) => {
+    DBPostfeed.forEach((reply,index) => {
 
       var tweet = new Post(reply.id,u[index].pic?.image_url,u[index].username,u[index].acc_name,reply.date_created,reply.text_content,'',reply.comments, reply.retweets,reply.likes, reply.engagements);
       this.comments.push(tweet);
       var user = new Profile(u[index].pic?.image_url,u[index].header_pic?.image_url,u[index].username,u[index].acc_name,u[index].bio,u[index].following_count,u[index].follower_count);
       this.commentUsers.push(user);
       });
+
+      this.arrs = [this.comments, this.commentUsers];
+      this.testArr = [0]; //needed so profile modal works for post component instances created outside of loops
   }
 
-  createCommentFeed()
-{
-  let globalObj = this;
-
-      const postPromise = new Promise<any>(function (resolve, reject) {
-        setTimeout(() => {
-          reject("We didn't get a response")
-        }, 5000) // 5 secs
-
-        setTimeout(() => {
-          globalObj.getDBCommentFeed();
-          resolve('we got a response');
-        }, 500) // 0.5 secs
-      })
-
-      const checkPromise = new Promise<any>(function (resolve, reject) {
-        setTimeout(() => {
-          reject("We didn't check")
-        }, 10000) //8 secs
-
-        setTimeout(() => {
-          globalObj.arrs = [globalObj.comments, globalObj.commentUsers];
-          globalObj.testArr = [0]; //needed so profile modal works for post component instances created outside of loops
-          resolve('we checked');
-        }, 1000) // 1 sec
-      })
-      
-      async function myAsync(){
-        //console.log("inside myAsync");
-        try{
-          postPromise;
-          await checkPromise;
-        }
-        catch (error) {
-          console.error('Promise rejected with error: ' + error);
-        }
-      }
-      myAsync();
-}
-
+//using post id, gets post from DB and calls convert function and getDBCommentFeed()
 getDBPost()
 {
   let requestMessage =
@@ -218,113 +142,57 @@ getDBPost()
       if(resultData == 'Failed to Add' || resultData == 'No post')
         {
           console.log(resultData);
-          this.DBpost = '';
-          this.DBuser = '';
+          //might need to set this.arr = [[]];
           console.log('Unsuccessful data base retrieval');
           this.service.router.navigate(['tweeter/Error']); //if no post, theres nothing to display
         }
         else //Successful
         {
-          this.DBpost = resultData[0];
-          this.DBuser = resultData[1];
-          console.log(this.DBpost);
-          this.convertPost();
-          this.createCommentFeed();
+          console.log(resultData[0]); //post
+          this.convertPost(resultData[0], resultData[1]); // post, user
+          this.getDBCommentFeed();// gets and sets comment feed   old function this.createCommentFeed();
           console.log('Successful data base retrieval');
         }
     });
 }
-convertPost()
+convertPost(DBpost: any, DBuser: any)
 {   
-    let p = this.DBpost;
-    let u = this.DBuser;
+    let p = DBpost;
+    let u = DBuser;
     var tweet = new Post(p.id,u.pic?.image_url,u.username,u.acc_name,p.date_created,p.text_content,'',p.comments, p.retweets,p.likes, p.engagements)
     this.post = tweet;          
     var prof = new Profile(u.pic?.image_url,u.header_pic?.image_url,u.username,u.acc_name,u.bio,u.following_count,u.follower_count);
-    //var prof = new Profile('pic','username','acc_name','bio',5,5);
-    
     this.user = prof;
-
-    console.log("u & p: " + u + " " + p);
     console.log("in convertPost: post: " + this.post + " user: " + this.user);
-    //console.log("in convertPost: post: " + this.post + " user: " + this.user);
-}
-
-
-createPost()
-{
-  let globalObj = this;
-
-      const postPromise = new Promise<any>(function (resolve, reject) {
-        setTimeout(() => {
-          reject("We didn't get a response")
-        }, 5000) // 5 secs
-
-        setTimeout(() => {
-          //globalObj.setLiked();
-          globalObj.setLikeAndRetweeted();
-          resolve('we got a response');
-        }, 0) // 0 secs
-      })
-
-      const postPromise2 = new Promise<any>(function (resolve, reject) {
-        setTimeout(() => {
-          reject("We didn't check")
-        }, 10000) //8 secs
-
-        setTimeout(() => {
-          globalObj.getDBPost();
-          resolve('we checked');
-        }, 0) // 1 sec
-      })
-      
-      async function myAsync(){
-        //console.log("inside myAsync");
-        try{
-          postPromise;
-          postPromise2;
-        }
-        catch (error) {
-          console.error('Promise rejected with error: ' + error);
-        }
-      }
-      myAsync();
 }
 
 //called upon 'reply' button click performs a form validation and sends tweet to backend, if it passes
 postClick(reply_id: number)
   {
     let image_content = "";
-    //this.tweetService.postTweet(this.service_acc_name,this.tweetForm.value.text_content?? '',image_content,reply_id);
     
     if(this.tweetService.tweetValidated(this.tweetForm.value.text_content?? '',image_content))
       {
         this.submit_flag = 2;
         this.tweetService.postTweet(this.service_acc_name,this.tweetForm.value.text_content?? '',image_content,reply_id);
         this.tweetForm.reset();
-        console.log("submit flag: " +this.submit_flag)
       }
     else
       {
         this.submit_flag = 1;
-        console.log("submit flag: " +this.submit_flag)
       }
   }
 
-  isValidInput2()
+  //styles reply text input based upon validity
+  isValidInput()
   {
     if(this.tweetForm.controls['text_content'].errors?.['maxlength'])
-      {
-        return {
-          backgroundColor: 'rgba(255, 0, 0, 0.6)',
-        };
-      }
-      else
-      {
-        return {
-          backgroundColor: 'white',
-        };
-      }
+    {
+      return { backgroundColor: 'rgba(255, 0, 0, 0.6)'};
+    }
+    else
+    {
+      return { backgroundColor: 'white'};
+    }
   }
-
 }

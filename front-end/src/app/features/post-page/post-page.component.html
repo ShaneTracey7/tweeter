@@ -17,11 +17,7 @@
           </app-post>
 
             <div class="empty-post">
-              <!--Profile pic-->
-              <!-- text input-->
-               <!-- reply button-->
                
-
                 <div id="form-status-message-good" *ngIf="this.submit_flag == 2"> Reply Added!</div>
                 <div id="form-status-message-bad" *ngIf="this.submit_flag == 1">Invalid Reply!</div>
                 
@@ -33,7 +29,7 @@
                   <div class="post-content-container">
               
                     <form [formGroup]="tweetForm" id="test-block">
-                      <input id="e-post-input" formControlName="text_content" [style]="isValidInput2()"  placeholder="Post you reply">
+                      <input id="e-post-input" formControlName="text_content" [style]="isValidInput()"  placeholder="Post you reply">
                     </form>
               
                     <div class="selection-bar">
@@ -55,21 +51,15 @@
                       <button (click)="this.postClick(post.id)" id="e-post-button">Reply</button>
                     </div>
                   </div>
-              
                 </div>
-
             </div>
       
       <!-- main content add here-->
-       <!-- [mcc]='mcc' -->
-      <app-post 
+    <app-post 
       *ngFor="let p of arrs[0]; index as i"
       [(fp)]="this.post" [(fpuser)]="this.user" [(fparr)]="this.testArr" [(comments)]="arrs[0]" [(commentsusers)]="arrs[1]" [post]="p" [user]="arrs[1][i]" [upc]="this" [inThread]="true">
     </app-post>
 
-      <!--
-    <main-content [upc]=this [data]=arrs [page]=service.current_page [tab]=service.current_tab></main-content>
-  -->
 </div>
 
 <div id="sc" class="secondary-content">
@@ -85,11 +75,7 @@
           </div>
 
           <secondary-content [pane]='1' [page]=service.current_page [tab]=service.current_tab></secondary-content>
-    <!--
-          {% for topic in topics %}
-              {% include "searchCard.html" with obj=topic %}
-          {% endfor %}
-    -->
+
           <div id="pane-more" class="pane-container">
             <a (click)="service.setCurrentPage('Explore')" routerLink="/tweeter/Explore" class="pane-more">Show more</a>
           </div>
@@ -99,9 +85,4 @@
 
 <div class="modal-content">
 
-<!--
-    {% for profile in profiles %}
-        {% include "profileModal.html" with profile=profile count=forloop.counter %}
-    {% endfor %}
--->
 </div>

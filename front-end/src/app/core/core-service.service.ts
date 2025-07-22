@@ -35,12 +35,15 @@ export class CoreService {
 
   //will need to rename this for 'who to follow' pane
   DBUsers: any [] = []; //raw array of all Users from DB
-  UserFeed: Profile [] = [];//array of Profile objs of all users
+  //UserFeed: Profile [] = [];//array of Profile objs of all users
 
   shareID: number = 0; //post id of tweet to send
   shareUser: string = ''; //acc_name of user to send tweet to
 
   /* * * *Global cache* * * */
+
+  //Secondary Content
+  WhoToFollowFeed: Profile [] = [];//array of Profile objs of suggested users who to follow users
 
   //Home
   ForYouFeed: Post [] = []; //array of Post objs of ForYou feed
@@ -70,7 +73,7 @@ export class CoreService {
   
     this.username = sessionStorage.getItem('username') ?? "badToken"; 
     this.acc_name = sessionStorage.getItem('acc_name') ?? "badToken";
-    this.createUserFeed(false, "");
+    //this.createUserFeed(false, ""); NEW
 
     this.getFollowingList();
     console.log("inside core service constructor");
@@ -97,7 +100,8 @@ export class CoreService {
   this.username = ""; 
   this.acc_name = ""; 
   this.DBUsers = []; 
-  this.UserFeed = [];
+  //this.UserFeed = [];
+  this.WhoToFollowFeed = [];
   this.ForYouFeed = []; 
   this.ForYouUserFeed = []; 
   this.FollowFeed = []; 
@@ -311,7 +315,7 @@ getAllDBUsers()
 
 //creates Profile objects using data from DBUsers and adds them to UserFeed array
 /* * * * * * * Not in use inside this service * * * * * * */
-convertUserFeed(current_user_acc_name: string)
+/*convertUserFeed(current_user_acc_name: string)
 {   
   //current_user_acc_name
 
@@ -337,7 +341,7 @@ convertUserFeed(current_user_acc_name: string)
         i = this.DBUsers.length; //breaks loop
       }
   }
-}
+}*/
 
 async getDBFollowFeed(acc_name: string | null): Promise<{feed: Post[] , userFeed: Profile[] }> {
 
@@ -429,8 +433,8 @@ async getDBForYouFeed(): Promise<{feed: Post[] , userFeed: Profile[] }> {
   }
 }
 
-
-createUserFeed2(acc_name: string): Observable<any[]> {
+//used in secondary content to get and set who to follow pane user arr
+createWhoToFollowFeed(acc_name: string): Observable<any[]> {
   return this.http.get<any[]>(environment.apiUrl + "/user").pipe(
     map(resultData => {
       if (!resultData) {
@@ -438,7 +442,7 @@ createUserFeed2(acc_name: string): Observable<any[]> {
       }
 
       this.DBUsers = resultData;
-      this.UserFeed = [];
+      this.WhoToFollowFeed = [];
       this.DBUsers.reverse();
 
       let counter = 0;
@@ -453,13 +457,13 @@ createUserFeed2(acc_name: string): Observable<any[]> {
             user.following_count,
             user.follower_count
           );
-          this.UserFeed.push(u);
+          this.WhoToFollowFeed.push(u);
           counter++;
         }
         if (counter === 3) break;
       }
 
-      return this.UserFeed;
+      return this.WhoToFollowFeed;
     })
   );
 }
@@ -522,6 +526,7 @@ getDBRetweets(acc_name: string): Observable<any[]> {
 }
 
 //gets data for 'ForYou'feed, calls the 3 above functions using delays to ensure all the data is available, when accessed
+/*
 createUserFeed(outsideOfService: boolean, acc_name: string)
   {
     var ac = "";
@@ -574,7 +579,7 @@ createUserFeed(outsideOfService: boolean, acc_name: string)
         
         myAsync();
   }
-
+*/
   //gets array of accounts the user follows and create a list of their account names 
   getFollowingList()
   {
