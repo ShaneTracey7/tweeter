@@ -885,19 +885,18 @@ def userApi(request,id=id):
         # compare to all usernames in db
         if user_serializer.is_valid():
 
-
-           check = user_serializer.data['username']
-           acc_name_input = user_serializer.data['acc_name']
-           #password_input = user_serializer.data['password']
-           if check == 'getWhoToFollow':
+            check = user_serializer.data['username']
+            acc_name_input = user_serializer.data['acc_name']
+            #password_input = user_serializer.data['password']
+            if check == 'getWhoToFollow':
                 #gets suggested users to follow that user doesn't already follow
                 user = User.objects.get(acc_name=acc_name_input)
                 followed_users = Follow.objects.filter(follower=user).values_list('following', flat=True)
                 non_followed_users = User.objects.exclude(id__in=followed_users).exclude(id=user.id)[:10]
                 user_serializer = UserSerializer(non_followed_users,many=True)
-                
+
                 return JsonResponse(user_serializer.data,safe=False)
-           else:
+            else:
                 us = user_serializer.data
                 #acc_name = message_serializer.data['']
                 #user = User.create(us['username'],us['email'],us['acc_name'],us['password'],us['pic'],us['header_pic'],'',us['follower_count'],us['following_count'])
