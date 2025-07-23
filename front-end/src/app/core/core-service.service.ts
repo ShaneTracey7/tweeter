@@ -434,8 +434,23 @@ async getDBForYouFeed(): Promise<{feed: Post[] , userFeed: Profile[] }> {
 }
 
 //used in secondary content to get and set who to follow pane user arr
-createWhoToFollowFeed(acc_name: string): Observable<any[]> {
-  return this.http.get<any[]>(environment.apiUrl + "/user").pipe(
+createWhoToFollowFeed(acc_name: string): Observable<any[]> 
+{
+  let requestBody =
+    {
+      "username" : 'getWhoToFollow',
+      "email" : 'e',
+      "acc_name" : acc_name,
+      "password" : 'p',
+      "pic" : null, //new
+      "header_pic" : null,
+      "bio" : "b",
+      "follower_count": 0,
+      "following_count": 0,
+    };
+
+  //return this.http.get<any[]>(environment.apiUrl + "/user").pipe(
+  return this.http.post<any[]>(environment.apiUrl + "/user", requestBody).pipe(
     map(resultData => {
       if (!resultData) {
         return [];

@@ -28,11 +28,11 @@ export class SecondaryContentComponent {
     this.service_acc_name = sessionStorage.getItem('acc_name') ?? "badToken";  
     
     //this.service.createUserFeed(true,this.service_acc_name);
-    console.log("this.service.UserFeed: " + this.service.WhoToFollowFeed)
+    console.log("this.service.WhoToFollowFeed: " + this.service.WhoToFollowFeed)
     if (this.service.WhoToFollowFeed == null || this.service.WhoToFollowFeed.length < 1)
       {
         this.service.createWhoToFollowFeed(this.service_acc_name).subscribe(feed => {
-          console.log("UserFeed", feed);
+          console.log("WhoToFollowFeed", feed);
           this.profiles = feed;
         });
         //this.profiles = this.service.createUserFeed2(this.service_acc_name);

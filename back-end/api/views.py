@@ -510,7 +510,7 @@ def tweetApi(request,id=id):
                     return JsonResponse("No post",safe=False)
             elif check == 'getReplies':
                 #get all replies to tweet  
-                #do checks to see if this is a show moore clal or not
+                #do checks to see if this is a show more click or not
                 start = 0 #inclusive
                 end = 10 #exclusive
                 if show_more_check == '0':
@@ -885,22 +885,26 @@ def userApi(request,id=id):
         # compare to all usernames in db
         if user_serializer.is_valid():
 
-           #username_input = user_serializer.data['username']
-           #acc_name_input = user_serializer.data['acc_name']
+
+           check = user_serializer.data['username']
+           acc_name_input = user_serializer.data['acc_name']
            #password_input = user_serializer.data['password']
-           # if acc_name_input == 'getUser':
-                #insert query
-               # user = User.objects.raw("SELECT acc_name FROM api_user WHERE username ='" + username_input + "' AND password ='" + password_input + "'")
-                #user_serializer = UserSerializer(user,many=False)
-                #return JsonResponse(user_serializer.data,safe=False)
-            #else:
-            us = user_serializer.data
-            #acc_name = message_serializer.data['']
-            #user = User.create(us['username'],us['email'],us['acc_name'],us['password'],us['pic'],us['header_pic'],'',us['follower_count'],us['following_count'])
-            user = User.create(us['username'],us['email'],us['acc_name'],us['password'],None,None,'',us['follower_count'],us['following_count'])
-            user.save()
-            #user_serializer.save() #if user_serializer.is_valid():
-            return JsonResponse("Added Successfully",safe=False)
+           if check == 'getWhoToFollow':
+                #gets suggested users to follow that user doesn't already follow
+                user = User.objects.get(acc_name=acc_name_input)
+                followed_users = Follow.objects.filter(follower=user).values_list('following', flat=True)
+                non_followed_users = User.objects.exclude(id__in=followed_users).exclude(id=user.id)[:10]
+                user_serializer = UserSerializer(non_followed_users,many=True)
+                
+                return JsonResponse(user_serializer.data,safe=False)
+           else:
+                us = user_serializer.data
+                #acc_name = message_serializer.data['']
+                #user = User.create(us['username'],us['email'],us['acc_name'],us['password'],us['pic'],us['header_pic'],'',us['follower_count'],us['following_count'])
+                user = User.create(us['username'],us['email'],us['acc_name'],us['password'],None,None,'',us['follower_count'],us['following_count'])
+                user.save()
+                #user_serializer.save() #if user_serializer.is_valid():
+                return JsonResponse("Added Successfully",safe=False)
         else: 
             return JsonResponse("Failed to Add",safe=False)
 

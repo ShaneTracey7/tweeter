@@ -65,7 +65,7 @@
               *ngFor="let p of arrs[0]; index as i"
               [(fp)]="this.post" [(fpuser)]="this.user" [(fparr)]="this.testArr" [(comments)]="arrs[0]" [(commentsusers)]="arrs[1]" [post]="p" [user]="arrs[1][i]" [upc]="this" [inThread]="true">
             </app-post>
-            <ng-container *ngIf="arrs[0].length >= 10;">
+            <ng-container *ngIf="arrs[0].length == (this.show_more_count+1)*10 && !noRepliesFlag;">
               <div id="feed-more" class="feed-container">
                 <a (click)="handleMoreRepliesClick()" class="feed-more">Show more</a>
               </div>
