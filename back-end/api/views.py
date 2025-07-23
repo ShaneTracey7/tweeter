@@ -516,7 +516,7 @@ def tweetApi(request,id=id):
                 if show_more_check == '0':
                     start = 0 
                     end = 10
-                if show_more_check == '1':
+                elif show_more_check == '1':
                     start = 10 
                     end = 20
                 elif show_more_check == '2':
