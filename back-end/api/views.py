@@ -529,6 +529,9 @@ def tweetApi(request,id=id):
                     start = 0 
                     end = 100
 
+                print("show_more_check: " + show_more_check)
+                print("start: " + start + " end: " + end)
+
                 tweets = Tweet.objects.filter(reply_id=user_id).order_by('-date_created')[start:end] # user_id is actually tweet id here (limitied to 10 rows)
                 if tweets.exists():
                     user_arr = []

@@ -96,7 +96,9 @@ export class PostPageComponent extends CoreComponent{
     {
       'word': 'getReplies',
       'num': this.p_id, 
+      'word3': String(this.show_more_count),
     };
+    console.log("count: " + String(this.show_more_count))
       this.http.put(environment.apiUrl + "/tweet",requestMessage).subscribe((resultData: any)=>
       {
         if(resultData == 'Failed to Add' || resultData == 'No replies' || resultData == 'check is else')
@@ -135,11 +137,11 @@ export class PostPageComponent extends CoreComponent{
 //using post id, gets post from DB and calls convert function and getDBCommentFeed()
 getDBPost()
 {
+  
   let requestMessage =
   {
     'word': 'getPost',
     'num': this.p_id, 
-    'word3': String(this.show_more_count),
   };
 
     this.http.put(environment.apiUrl + "/tweet",requestMessage).subscribe((resultData: any)=>
@@ -208,7 +210,7 @@ postClick(reply_id: number)
     this.getDBCommentFeed();
   }
 
-  
+
   //gets all replies(from DB) and adds them to DBfeed array
   getDBCommentFeedShowMore()
   {
