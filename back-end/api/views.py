@@ -530,7 +530,7 @@ def tweetApi(request,id=id):
                     end = 100
 
                 print("show_more_check: " + show_more_check)
-                print("start: " + start + " end: " + end)
+                print("start: " + str(start) + " end: " + str(end))
 
                 tweets = Tweet.objects.filter(reply_id=user_id).order_by('-date_created')[start:end] # user_id is actually tweet id here (limitied to 10 rows)
                 if tweets.exists():
