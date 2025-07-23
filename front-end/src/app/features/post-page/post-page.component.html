@@ -11,10 +11,16 @@
               </div>
             </div>
             
+          <ng-container *ngIf="loadingFlag; else loaded">
+            <spinner></spinner>
+          </ng-container>
+          
+          <ng-template #loaded>
+
             <app-post 
             *ngFor="let p of testArr"
             [focused]=true [post]="post" [user]="user" [upc]="this">
-          </app-post>
+            </app-post>
 
             <div class="empty-post">
                
@@ -54,12 +60,18 @@
                 </div>
             </div>
       
-      <!-- main content add here-->
-    <app-post 
-      *ngFor="let p of arrs[0]; index as i"
-      [(fp)]="this.post" [(fpuser)]="this.user" [(fparr)]="this.testArr" [(comments)]="arrs[0]" [(commentsusers)]="arrs[1]" [post]="p" [user]="arrs[1][i]" [upc]="this" [inThread]="true">
-    </app-post>
+            <!-- main content add here-->
+            <app-post 
+              *ngFor="let p of arrs[0]; index as i"
+              [(fp)]="this.post" [(fpuser)]="this.user" [(fparr)]="this.testArr" [(comments)]="arrs[0]" [(commentsusers)]="arrs[1]" [post]="p" [user]="arrs[1][i]" [upc]="this" [inThread]="true">
+            </app-post>
+            <ng-container *ngIf="arrs[0].length >= 10;">
+              <div id="feed-more" class="feed-container">
+                <a (click)="handleMoreRepliesClick()" class="feed-more">Show more</a>
+              </div>
+            </ng-container>
 
+          </ng-template>
 </div>
 
 <div id="sc" class="secondary-content">

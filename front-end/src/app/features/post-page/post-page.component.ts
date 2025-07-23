@@ -32,7 +32,9 @@ export class PostPageComponent extends CoreComponent{
   like_ids: number [];
   retweet_ids: number [];
 
-  submit_flag: number  = 0; // 0: not pressed, 1: pressed but not submitted, 2: pressed and submitted
+  submit_flag: number = 0; // 0: not pressed, 1: pressed but not submitted, 2: pressed and submitted
+  loadingFlag: boolean = true; //true if loading, false if not
+  show_more_count: number = 0; //how many times show more has been clicked (needed to load more replies)
   
   tweetForm = this.formBuilder.group({
     text_content: ['', [Validators.maxLength(181)]],
@@ -101,6 +103,7 @@ export class PostPageComponent extends CoreComponent{
           {
             console.log(resultData);
             this.testArr = [0]; //needed so profile modal works for post component instances created outside of loops
+            this.loadingFlag = false;
             console.log('Unsuccessful data base retrieval');
           }
           else //Successful
@@ -126,6 +129,7 @@ export class PostPageComponent extends CoreComponent{
 
       this.arrs = [this.comments, this.commentUsers];
       this.testArr = [0]; //needed so profile modal works for post component instances created outside of loops
+      this.loadingFlag = false;
   }
 
 //using post id, gets post from DB and calls convert function and getDBCommentFeed()
@@ -135,6 +139,7 @@ getDBPost()
   {
     'word': 'getPost',
     'num': this.p_id, 
+    'word3': String(this.show_more_count),
   };
 
     this.http.put(environment.apiUrl + "/tweet",requestMessage).subscribe((resultData: any)=>
@@ -194,5 +199,39 @@ postClick(reply_id: number)
     {
       return { backgroundColor: 'white'};
     }
+  }
+  //add up to 10 more reply tweets to thread
+  handleMoreRepliesClick()
+  {
+    console.log("getting more replies");
+    this.show_more_count++;
+    this.getDBCommentFeed();
+  }
+
+  
+  //gets all replies(from DB) and adds them to DBfeed array
+  getDBCommentFeedShowMore()
+  {
+    let requestMessage =
+    {
+      'word': 'getReplies',
+      'num': this.p_id, 
+      'word3': String(this.show_more_count),
+    };
+      this.http.put(environment.apiUrl + "/tweet",requestMessage).subscribe((resultData: any)=>
+      {
+        if(resultData == 'Failed to Add' || resultData == 'No replies' || resultData == 'check is else')
+          {
+            console.log(resultData);
+            this.testArr = [0]; //needed so profile modal works for post component instances created outside of loops
+            this.loadingFlag = false;
+            console.log('Unsuccessful data base retrieval');
+          }
+          else //Successful
+          {
+            this.convertReplyFeed(resultData[0],resultData[1]); // Post, User
+            console.log('Successful data base retrieval');
+          }
+      });
   }
 }

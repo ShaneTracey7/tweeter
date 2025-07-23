@@ -651,7 +651,31 @@ $cancel-red: #f51616;
     }
   
   /* <----------------------------------------  random ----------------------------------------> */ 
-  
+  .feed-container {
+      display:flex;
+      flex-direction: row;
+      width: 100%;
+      height: 50px;
+      align-items: center;
+      //justify-content: left;
+    }
+
+    .feed-more {
+      display:inline;
+      width: fit-content;
+      height: fit-content;
+      color: $twitter-blue;
+      font-size: 0.9rem;
+      margin: auto;
+      text-decoration: none;
+    }
+    .feed-more:hover {
+      color: $twitter-blue; //doesn't change
+    }
+    #feed-more:hover {
+      background-color: $bg-color-hover-main;
+      border-radius: 0 0 17px 17px;
+    }
 #search-bar-component{
   width: 90%;
 }

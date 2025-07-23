@@ -418,6 +418,7 @@ def tweetApi(request,id=id):
             acc_name_input = message_serializer.data['word2']
             #return JsonResponse("ok",safe=False)
             user_id = message_serializer.data['num']
+            show_more_check = message_serializer.data['word3']
             if check == 'incrementPostView':
                 #increment post views
                 tweet = Tweet.objects.get(id=user_id) # is post_id in this scenario
@@ -509,7 +510,26 @@ def tweetApi(request,id=id):
                     return JsonResponse("No post",safe=False)
             elif check == 'getReplies':
                 #get all replies to tweet  
-                tweets = Tweet.objects.filter(reply_id=user_id)[:10] # user_id is actually tweet id here (limitied to 10 rows)
+                #do checks to see if this is a show moore clal or not
+                start = 0 #inclusive
+                end = 10 #exclusive
+                if show_more_check == '0':
+                    start = 0 
+                    end = 10
+                if show_more_check == '1':
+                    start = 10 
+                    end = 20
+                elif show_more_check == '2':
+                    start = 20 
+                    end = 30
+                elif show_more_check == '3':
+                    start = 30 
+                    end = 40
+                else: #all
+                    start = 0 
+                    end = 100
+
+                tweets = Tweet.objects.filter(reply_id=user_id).order_by('-date_created')[start:end] # user_id is actually tweet id here (limitied to 10 rows)
                 if tweets.exists():
                     user_arr = []
                     for tweet in tweets:
