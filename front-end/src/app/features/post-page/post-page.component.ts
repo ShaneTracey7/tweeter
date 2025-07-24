@@ -110,6 +110,7 @@ export class PostPageComponent extends CoreComponent{
             if(resultData == 'No replies')
             {
               this.noRepliesFlag = true;
+              this.arrs[0] = []; //necessary
             }
             console.log('Unsuccessful data base retrieval');
           }
@@ -154,7 +155,6 @@ getDBPost()
       if(resultData == 'Failed to Add' || resultData == 'No post')
         {
           console.log(resultData);
-          //might need to set this.arr = [[]];
           console.log('Unsuccessful data base retrieval');
           this.service.router.navigate(['tweeter/Error']); //if no post, theres nothing to display
         }

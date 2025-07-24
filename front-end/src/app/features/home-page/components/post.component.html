@@ -1,35 +1,41 @@
 <new-message-modal id="post-new-message-modal" [(show)]="showNewMessageModal" [inPost]="true" [postID]="post.id" ></new-message-modal>
 <!-- only used within homePage.html-->
 
-<div class="post" [style.borderRadius]="inConvo ? '25px': 0">
+<!--<div class="post" [style.borderRadius]="inConvo ? '25px': 0"> -->
 
-    <div *ngIf="!focused">
-        <div *ngIf="!inConvo">
+    <ng-container *ngIf="!focused">
+        <ng-container *ngIf="!inConvo">
+           <!-- <hr class="reactionbar-line"> -->
+        </ng-container>
+        <div class="post-profile-container-and-line">
+
             <hr class="reactionbar-line"> 
+
+            <div class="post-profile-container">
+                <img id="post-profile-img" (mouseover)="showModal()" (mouseout)="hideModal()" class="post-profile" src="{{this.service.setProfileUrl(post.profile)}}" alt="profile"/>
+                <profile-modal [inMain]="true" [(show)]='show_modal' [profile]='user'></profile-modal> <!--[profile]='modal_profile'-->
+            </div>
         </div>
-        <div class="post-profile-container">
-            <img id="post-profile-img" (mouseover)="showModal()" (mouseout)="hideModal()" class="post-profile" src="{{this.service.setProfileUrl(post.profile)}}" alt="profile"/>
-            <profile-modal [inMain]="true" [(show)]='show_modal' [profile]='user'></profile-modal> <!--[profile]='modal_profile'-->
-        </div>
-    </div>
+        
+    </ng-container>
 
     <div class="post-content-container">
-        <div *ngIf="!inConvo">
-            <hr class="reactionbar-line"> 
-        </div>
+        <ng-container *ngIf="!inConvo">
+            <hr class="reactionbar-line">
+        </ng-container>
        
     <div class="post-heading-and-content" (click)="handlePostClick()">
-        <div *ngIf="!focused">
+        <ng-container *ngIf="!focused">
             <div class="post-heading">
                 <p id="post-username">{{ post.username }}</p>
                 <p class="post-accountname">&commat;{{ post.acc_name }}</p>
                 <p id="post-etime">{{ showDeltaDate()}} </p>
-                <div *ngIf="!inConvo" id="elip-div">
+                <ng-container *ngIf="!inConvo" id="elip-div">
                     <img id="post-elip" class="elip" [src]="service.setUrl('ellipsis.png')" alt="more"/>
-                </div>
+                </ng-container>
             </div>
-        </div>
-        <div *ngIf="focused">
+        </ng-container>
+        <ng-container *ngIf="focused">
             <div class="post-heading">
                 <img id="post-profile-img" (mouseover)="showModal()" (mouseout)="hideModal()" class="post-profile" src="{{this.service.setProfileUrl(post.profile)}}" alt="profile"/>
                 <profile-modal [inMain]="true" [(show)]='show_modal' [profile]='modal_profile'></profile-modal>
@@ -39,22 +45,22 @@
                 </div>
                 <img id="post-elip" class="elip" [src]="service.setUrl('ellipsis.png')" alt="more"/>
             </div>
-        </div>
+        </ng-container>
             <div class="post-content">
                 <p class="post-text"> {{ post.text }}</p>
-                <div *ngIf="post.image != ''">
+                <ng-container *ngIf="post.image != ''">
                     <img class="post-image" src="{{ post.image }}" alt="image"/>
-                </div>
-                <div *ngIf="focused">
+                </ng-container>
+                <ng-container *ngIf="focused">
                     <p id="post-focused-date">{{showTimeAndDate()}}</p>
-                </div>
+                </ng-container>
             </div>
     </div>
    
-        <div *ngIf="!inConvo">
-            <div *ngIf="focused">
+        <ng-container *ngIf="!inConvo">
+            <ng-container *ngIf="focused">
                 <hr class="reactionbar-line"> 
-            </div>
+            </ng-container>
             <div class="reactionbar">
                 <div class="reactiongroup">
                     <button class="reaction-button" (mouseover)="colorReaction('chat-bubble')" (mouseout)="grayReaction()">
@@ -102,7 +108,7 @@
                     </button> 
 
                     <!-- Share MODAL-->
-                    <div *ngIf="showShareModal">
+                    <ng-container *ngIf="showShareModal">
                         <div id="share-modal">
                             <div (click)="handleCopyTextClick()" class="share-modal-container">
                                 <img [src]="service.setUrl('chain.svg')">
@@ -116,16 +122,16 @@
                                 <p>Send Via Direct Message</p>
                             </div>
                         </div>
-                    </div>
+                    </ng-container>
 
                 </div>
             
             </div>
-            <div *ngIf="focused">
+            <ng-container *ngIf="focused">
                 <hr class="reactionbar-line"> 
-            </div>
-        </div>
+            </ng-container>
+        </ng-container>
     </div>
-</div>        
+<!--</div>        -->
 
 

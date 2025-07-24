@@ -476,7 +476,7 @@ showTimeAndDate()
     meridiem = " AM";
   }
 
-  return hours + ":" + (mins > 9 ? mins : "0"+ mins) + meridiem + " . " + month_str + day + ", " + year + " . ";
+  return hours + ":" + (mins > 9 ? mins : "0"+ mins) + meridiem + " • " + month_str + day + ", " + year;
 }
 
 showDeltaDate()

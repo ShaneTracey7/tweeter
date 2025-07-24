@@ -61,7 +61,7 @@
             </div>
       
             <!-- main content add here-->
-            <app-post 
+            <app-post class="post" [style.borderRadius]="0"
               *ngFor="let p of arrs[0]; index as i"
               [(fp)]="this.post" [(fpuser)]="this.user" [(fparr)]="this.testArr" [(comments)]="arrs[0]" [(commentsusers)]="arrs[1]" [post]="p" [user]="arrs[1][i]" [upc]="this" [inThread]="true">
             </app-post>

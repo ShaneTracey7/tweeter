@@ -1,18 +1,18 @@
 
-<div *ngIf="page == 'Home'">
-  <div [ngSwitch]="tab">
+<ng-container *ngIf="page == 'Home'">
+  <ng-container [ngSwitch]="tab">
     
-    <div *ngSwitchCase="'following'">
+    <ng-container *ngSwitchCase="'following'">
       <!--<app-post [mcc]='mcc'
       *ngFor="let post of followingFeed"
       [post]="post" [upc]="upc">
       </app-post>-->
-        <div *ngIf="data[2]?.length > 0; else emptyList"> <!-- was data?.[2]?.length > 0 -->
-          <app-post
+        <ng-container *ngIf="data[2]?.length > 0; else emptyList"> <!-- was data?.[2]?.length > 0 -->
+          <app-post class="post" [style.borderRadius]="0"
           *ngFor="let post of data[2]; index as i"
           [post]="post" [user]="data[3][i]" [upc]="upc">
           </app-post>
-        </div>
+        </ng-container>
       <ng-template #emptyList>
           <div class="profile-empty-list">
             <p class="profile-empty-list-title"> Your followers haven't posted</p>
@@ -20,16 +20,16 @@
          </div>
       </ng-template>
       
-    </div>
+    </ng-container>
 
-    <div *ngSwitchDefault> <!-- for you -->
+    <ng-container *ngSwitchDefault> <!-- for you -->
       
-        <div *ngIf="data[0]?.length > 0; else emptyList2"> <!-- was data?.[2]?.length > 0 -->
-          <app-post 
+        <ng-container *ngIf="data[0]?.length > 0; else emptyList2"> <!-- was data?.[2]?.length > 0 -->
+          <app-post class="post" [style.borderRadius]="0"
             *ngFor="let post of data[0]; index as i"
             [post]="post" [user]="data[1][i]" [upc]="upc">
           </app-post>
-        </div>
+        </ng-container>
       
       <ng-template #emptyList2>
           <div class="profile-empty-list">
@@ -38,14 +38,15 @@
          </div>
       </ng-template>
       
-    </div>
+    </ng-container>
 
-  </div>
-</div>
+  </ng-container>
+</ng-container>
 
+<!-- quite sure this isn't in use-->
 <div *ngIf="page == 'Post'">
 
-  <app-post 
+  <app-post class="post" [style.borderRadius]="0"
     *ngFor="let post of data[0]"
     [post]="post" [upc]="upc" [inThread]="true">
   </app-post>
@@ -113,7 +114,7 @@
         <p class="profile-empty-list-body">Try searching for something else</p>
       </div>
       <ng-template #notEmpty1>
-        <app-post
+        <app-post class="post" [style.borderRadius]="0"
         *ngFor="let post of data[0]; index as i"
         [post]="post" [user]="data[1][i]" [upc]="upc">
         </app-post>
@@ -160,14 +161,14 @@
         <p class="profile-empty-list-body">Likes, mentions, reposts, and a whole lot more — when it comes from a verified account, you’ll find it here.</p>
       </div>
     </div>
-
+    <!-- Logic not implemented yet-->
     <div *ngSwitchCase="'mentions'">
       <div class="profile-empty-list" *ngIf="data[1] == null; else notEmpty">
         <p class="profile-empty-list-title"> You have no mentions</p>
         <p class="profile-empty-list-body">Once you get some, they will show up here</p>
       </div>
       <ng-template #notEmpty>
-        <app-post
+        <app-post class="post" [style.borderRadius]="0"
         *ngFor="let post of data[1]; index as i"
         [post]="post" [user]="data[2][i]" [upc]="upc">
         </app-post>
@@ -207,69 +208,69 @@
   </app-message>
 </div>
 -->
-<div *ngIf="page == 'Profile' || page == 'OtherProfile'">
-  <div [ngSwitch]="tab">
+<ng-container *ngIf="page == 'Profile' || page == 'OtherProfile'">
+  <ng-container [ngSwitch]="tab">
 
-    <div *ngSwitchCase="'retweets'">
+    <ng-container *ngSwitchCase="'retweets'">
       <div class="profile-empty-list" *ngIf="data[2] == ''; else notEmpty">
         <p class="profile-empty-list-title"> &commat;{{user.acc_name}} hasn't retweeted any posts</p>
         <p class="profile-empty-list-body">Once they do, those posts will show up here.</p>
       </div>
       <ng-template #notEmpty>
-        <app-post
+        <app-post class="post" [style.borderRadius]="0"
         *ngFor="let post of data[2]; index as i"
         [post]="post" [user]="data[3][i]" [upc]="upc"> <!-- add input variable for like_ids-->
         </app-post>
       </ng-template>
-    </div>
+    </ng-container>
 
-    <div *ngSwitchCase="'media'">
+    <ng-container *ngSwitchCase="'media'">
       <div class="profile-empty-list" *ngIf="data[6] == ''; else notEmpty2">
         <p class="profile-empty-list-title"> &commat;{{user.acc_name}} hasn't posted media</p>
         <p class="profile-empty-list-body">Once they do, those posts will show up here.</p>
       </div>
       <ng-template #notEmpty2>
-        <app-post
+        <app-post class="post" [style.borderRadius]="0"
         *ngFor="let post of data[6]; index as i"
         [post]="post" [user]="data[7][i]" [upc]="upc">
         </app-post>
       </ng-template>
-    </div>
+    </ng-container>
 
-    <div *ngSwitchCase="'likes'">
+    <ng-container *ngSwitchCase="'likes'">
       <div class="profile-empty-list" *ngIf="data[4] == ''; else notEmpty3">
         <p class="profile-empty-list-title"> &commat;{{user.acc_name}} hasn't liked any posts</p>
         <p class="profile-empty-list-body">Once they do, those posts will show up here.</p>
       </div>
       <ng-template #notEmpty3>
-        <app-post
+        <app-post class="post" [style.borderRadius]="0"
         *ngFor="let post of data[4]; index as i"
         [post]="post" [user]="data[5][i]" [upc]="upc"> <!-- add input variable for like_ids-->
         </app-post>
       </ng-template>
-    </div>
+    </ng-container>
 
-    <div *ngSwitchDefault> <!-- posts-->
+    <ng-container *ngSwitchDefault> <!-- posts-->
       <div class="profile-empty-list" *ngIf="data[0] == ''; else notEmpty4">
         <p class="profile-empty-list-title"> &commat;{{user.acc_name}} hasn't posted</p>
         <p class="profile-empty-list-body">Once they do, those posts will show up here.</p>
       </div>
       <ng-template #notEmpty4>
-        <app-post
+        <app-post class="post" [style.borderRadius]="0"
         *ngFor="let post of data[0]; index as i"
         [post]="post" [user]="data[1][i]"[upc]="upc"> <!-- add input variable for like_ids-->
         </app-post>
       </ng-template>
-    </div>
+    </ng-container>
 
-  </div>
-</div>
+  </ng-container>
+</ng-container>
 
 <!--might need some more work to get going-->
-<div *ngIf="page == 'ProfileFollow'">
-  <div [ngSwitch]="tab">
+<ng-container *ngIf="page == 'ProfileFollow'">
+  <ng-container [ngSwitch]="tab">
     
-    <div *ngSwitchCase="'followers'">
+    <ng-container *ngSwitchCase="'followers'">
       <div class="profile-empty-list" *ngIf="data[0] == ''; else hasFollowers">
          <p class="profile-empty-list-title"> {{user.acc_name}} has no followers</p>
         <p class="profile-empty-list-body">Once accounts follow them, they'll show up here.</p>
@@ -280,9 +281,9 @@
         [profile]="profile">
         </short-profile>
       </ng-template>
-    </div>
+    </ng-container>
 
-    <div *ngSwitchCase="'following'">
+    <ng-container *ngSwitchCase="'following'">
       <div class="profile-empty-list" *ngIf="data[1] == ''; else hasFollowing">
         <p class="profile-empty-list-title"> {{user.acc_name}} isn't following anyone</p>
         <p class="profile-empty-list-body">Once they follow accounts, they'll show up here.</p>
@@ -293,9 +294,9 @@
         [profile]="profile">
         </short-profile>
       </ng-template>
-    </div>
-  </div>
-</div>
+    </ng-container>
+  </ng-container>
+</ng-container>
 
 
 

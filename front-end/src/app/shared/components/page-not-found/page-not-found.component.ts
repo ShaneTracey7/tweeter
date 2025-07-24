@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { getImgUrl } from '../../../core/data';
 
 @Component({
@@ -9,8 +9,16 @@ import { getImgUrl } from '../../../core/data';
 })
 export class PageNotFoundComponent {
 
+  constructor(public router: Router ) {}
+
   setUrl(str: string)
 {
   return getImgUrl(str);
 }
+
+  handleSearchClick()
+  {
+    this.router.navigate(['tweeter/Explore']);
+    console.log("search clicked");
+  }
 }

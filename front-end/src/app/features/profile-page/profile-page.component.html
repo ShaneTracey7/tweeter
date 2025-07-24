@@ -125,8 +125,13 @@
   </div>
 
     <div *ngIf="inFollowLists; else inProfile2">
+      <ng-container *ngIf="followerLoadingFlag || followingLoadingFlag; else loaded2"> <!---->
+        <spinner></spinner>
+      </ng-container>
+      <ng-template #loaded2>
       <!-- main content add here-->
-      <main-content [upc]=this [user]=user [data]=arrs [page]=service_page [tab]=service.current_tab></main-content>
+        <main-content [upc]=this [user]=user [data]=arrs [page]=service_page [tab]=service.current_tab></main-content>
+      </ng-template>
     </div>
 
   <ng-template #inProfile2>
@@ -166,13 +171,13 @@
 
     <!--</div> -->
 
-<ng-container *ngIf="loadingFlag; else loaded"> <!---->
+<ng-container *ngIf="postLoadingFlag || likeLoadingFlag || retweetLoadingFlag || followerLoadingFlag || followingLoadingFlag; else loaded"> <!---->
   <spinner></spinner>
 </ng-container>
 <ng-template #loaded>
   <!-- main content add here-->
-  <main-content [upc]=this [user]=user [data]=arrs [page]=service.current_page [tab]=service.current_tab></main-content>
-  </ng-template>
+  <main-content class="main-content-component" [upc]=this [user]=user [data]=arrs [page]=service.current_page [tab]=service.current_tab></main-content>
+</ng-template>
 <!--
     {% for notification in notifications %}
         {% include "notification.html" with obj=notification  %}

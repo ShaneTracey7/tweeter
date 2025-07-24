@@ -8,6 +8,8 @@ import { AuthService } from '../../core/auth.service';
 import { TweetService } from '../../core/tweet-service';
 import { SearchBarComponent } from '../../shared/components/search-bar/search-bar.component';
 import { environment } from '../../../environments/environment';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-profile-page',
@@ -30,38 +32,34 @@ export class ProfilePageComponent extends CoreComponent{
   isVisible: boolean = false; //if follow/following button is visible
   inFollowLists: boolean = false; //if displaying following or follower lists
 
-  DBFollowers: any [] = []; //raw array of User followers from DB
   followers: Profile [] = []; //array of Profile objs of followers
 
-  DBFollowing: any [] = []; //raw array of User following from DB
   following: Profile [] = []; //array of Profile objs of following
 
   /* posts NOT BEING UPDATED*/
-  DBPosts: any [] = []; //raw array of Tweets following from DB
-  DBPostsUsers: any [] = []; //raw array of Tweets following from DB
   posts: Post [] = []; //array of Post objs of following
   postsUsers: Profile [] = []; //needed for profile modal
 
-  DBLikes: any [] = []; //raw array of Tweets following from DB
-  DBLikesUsers: any [] = []; //raw array of Users from Tweets from DB
   likes: Post [] = []; //array of Post objs of following
   likesUsers: Profile [] = []; //needed for profile modal
   like_ids: number [];
   //last_like_ids: number [];
 
-  DBRetweets: any [] = []; //raw array of Tweets following from DB
-  DBRetweetsUsers: any [] = [];//raw array of Users from Tweets from DB
   retweets: Post [] = []; //array of Post objs of following
   retweetsUsers: Profile [] = []; //needed for profile modal
   retweet_ids: number [];
 
-  DBMedia: any [] = []; //raw array of Tweets following from DB
   media: Post [] = [] //array of Post objs of following
   mediaUsers: Profile [] = []; //needed for profile modal
 
   showep: boolean = false; //condition to show edit profile modal or not
 
-  loadingFlag: boolean = true; //flag to show spinner while data is being fetched
+  //flags to show spinner while data is being fetched
+  postLoadingFlag: boolean = true; 
+  likeLoadingFlag: boolean = true; 
+  retweetLoadingFlag: boolean = true; 
+  followerLoadingFlag: boolean = true;
+  followingLoadingFlag: boolean = true;
 
   //needed to ensure when logging into a different account, correct data displays
   service_acc_name: string;
@@ -86,18 +84,13 @@ export class ProfilePageComponent extends CoreComponent{
 
   ngOnInit()
   {
-    //console.log("ppg init service current page: " + this.service.current_page);
-    //console.log("ppg init service current page: " + this.service.current_page);
-    //this.service_page = this.service.current_page;
-    //console.log("Service Page PPC init: " + this.service_page)
     this.service_username = sessionStorage.getItem('username') ?? "badToken";
     this.service_acc_name = sessionStorage.getItem('acc_name') ?? "badToken";
  
-    //will need to change checks for arr count for github pages upload
     var arr = window.location.pathname.split("/");
     this.last_url_section = arr.pop() ??"error";
     let second_last = arr.pop() ??"error";
-    //this.setBackUrl(arr); idk of this is even necessary
+
     var arr2 = window.location.pathname.split("/");
     console.log("arr2 length: " + arr2.length);
     if (arr2.length > 5) //error
@@ -108,24 +101,37 @@ export class ProfilePageComponent extends CoreComponent{
     {
       this.router.navigate(['tweeter/Error']);
     }
-    //console.log("url" + arr);
-    //this.tmp = arr.pop()??"error";
-    else if (this.last_url_section == "Profile") //changed to 'else if' from 'if'
+    
+    else if (this.last_url_section == "Profile")
     {
         console.log("last_url_section == Profile");
         this.acc_name = this.service_acc_name; //might phase this out
         this.username = this.service_username;
-        this.setUpProfileDataDB();//this.checkUserInDB(); //to get user data
-        this.arrs = [this.posts,this.postsUsers,this.retweets,this.retweetsUsers,this.likes,this.likesUsers, this.media,this.mediaUsers];
-        //^^^^^ this should not be set here, most of the values arent set in time
-        //this.arrs = [this.posts,this.retweets,this.likes, this.media];
-        this.setLiked();
-        this.setRetweeted();
+        this.setUpProfileDataDB(false);//this.checkUserInDB(); //to get user data
+        //this.arrs = [this.posts,this.postsUsers,this.retweets,this.retweetsUsers,this.likes,this.likesUsers, this.media,this.mediaUsers];
+        
+        //set likes and retweets
+        if (this.service.Likes == null )
+        {
+          this.service.getDBRetweets(this.service_acc_name).subscribe(ids => {
+            console.log("retweet_ids: " + ids);
+            this.retweet_ids = ids;
+          });
+          this.service.getDBLikes(this.service_acc_name).subscribe(ids => {
+            console.log("like_ids: " + ids);
+            this.like_ids = ids;
+          });
+          console.log("this.service.Likes == null");
+        }
+        else
+        {
+          this.retweet_ids = this.service.Retweets;
+          this.like_ids = this.service.Likes;
+          console.log("this.service.Likes is not null");
+        }
         //testing
         this.service.setCurrentPage('Profile'); //could be redundant
         this.service_page = 'Profile'; //cound be redundant
-        //this.service.current_page = 'Profile';
-        //this.service.cp_style = 'Profile';
     }
     else if (this.last_url_section == "followers" || this.last_url_section == "following")
     {
@@ -134,13 +140,14 @@ export class ProfilePageComponent extends CoreComponent{
         {
           this.acc_name = this.service_acc_name; //might phase this out
           this.username = this.service_username;
-          this.setUpProfileDataDB();
+          this.inFollowLists = true; //NEW
+          this.setUpProfileDataDB(false);
 
           this.service.setCurrentPage('ProfileFollow');
           this.service_page = 'ProfileFollow';
-          //this.service.current_page = 'ProfileFollow'; //NEW
-          this.inFollowLists = true; //NEW
-          this.arrs = [this.followers,this.following];
+
+          
+          //this.arrs = [this.followers,this.following];
           if(this.last_url_section == "followers" )
             {
               this.service.routeToChild('followers');
@@ -153,12 +160,13 @@ export class ProfilePageComponent extends CoreComponent{
         else
         {
           this.acc_name = second_last; 
-          this.setUpProfileDataDB(); //check that 'second_last' value exists and get data
+          this.inFollowLists = true; //NEW
+          this.setUpProfileDataDB(true); //check that 'second_last' value exists and get data
 
           this.service.setCurrentPage('ProfileFollow');
           this.service_page = 'ProfileFollow';
-          this.inFollowLists = true; //NEW
-          this.arrs = [this.followers,this.following];
+          
+          //this.arrs = [this.followers,this.following];
           if(this.last_url_section == "followers" )
           {
             this.service.routeToChild('followers');
@@ -179,19 +187,32 @@ export class ProfilePageComponent extends CoreComponent{
         this.service.current_page = 'OtherProfile';
         this.service.cp_style = 'OtherProfile';
         this.acc_name = this.last_url_section; //might phase this out
-        this.setUpProfileDataDB();//this.checkUserInDB(); //didn't work properly
-        //this.arrs = [this.posts,this.retweets,this.likes, this.media];
-        this.arrs = [this.posts,this.postsUsers,this.retweets,this.retweetsUsers,this.likes,this.likesUsers, this.media,this.mediaUsers];
-        this.setLiked();
-        this.setRetweeted();
+        this.setUpProfileDataDB(true);//this.checkUserInDB(); //didn't work properly
+        //this.arrs = [this.posts,this.postsUsers,this.retweets,this.retweetsUsers,this.likes,this.likesUsers, this.media,this.mediaUsers];
+        
+        //set likes and retweets
+        if (this.service.Likes == null )
+        {
+          this.service.getDBRetweets(this.service_acc_name).subscribe(ids => {
+            console.log("retweet_ids: " + ids);
+            this.retweet_ids = ids;
+          });
+          this.service.getDBLikes(this.service_acc_name).subscribe(ids => {
+            console.log("like_ids: " + ids);
+            this.like_ids = ids;
+          });
+          console.log("this.service.Likes == null");
+        }
+        else
+        {
+          this.retweet_ids = this.service.Retweets;
+          this.like_ids = this.service.Likes;
+          console.log("this.service.Likes is not null");
+        }
     }
-    console.log(this.acc_name); 
-    console.log("current page of this.service: " + this.service.current_page);
-    console.log("url arr:" + arr + "length: " + arr.length);
-    console.log("url arr2:" + arr2 + "length: " + arr2.length);
   }
-
-  checkUserInDB()
+/*
+  checkUserInDB2()
   {
   let requestBody =
     {
@@ -220,14 +241,47 @@ export class ProfilePageComponent extends CoreComponent{
           this.isValid = true;
         }
     });
+  }*/
+
+  checkUserInDB(): Observable<boolean> {
+  
+    let requestBody =
+    {
+      "username" : 'getUser',
+      "email" : 'e',
+      "acc_name" : this.acc_name,
+      "password" : 'p',
+      "pic" : null, 
+      //may need to add hedaer pic and other attributes
+    };
+  
+    return this.http.put<any>(environment.apiUrl + "/user", requestBody).pipe(
+      map(resultData => {
+        console.log("resultData: " + resultData);
+
+        if (!resultData ) {
+          this.user = new Profile("","","",this.last_url_section,"",0,0)
+          this.isValid = false;
+          return false;
+        }
+        else if(resultData == "User doesn't exist" || resultData == "Failed to Add")
+        {
+          this.user = new Profile("","","",this.last_url_section,"",0,0)
+          this.isValid = false;
+          return false;
+        }
+        else
+        {
+          this.user = new Profile(resultData.pic?.image_url,resultData.header_pic?.image_url,resultData.username,resultData.acc_name,resultData.bio,resultData.following_count,resultData.follower_count)
+          this.isValid = true;
+          return true;
+        }
+      })
+    );
   }
 
   getFollowers()
   {
-    if(!this.isValid)
-      {
-        return;
-      }
 
     let requestBody =
     {
@@ -241,17 +295,16 @@ export class ProfilePageComponent extends CoreComponent{
 
       if(resultData == 'Failed to Add')
         {
-
+          this.user.follower_count = String(0);
         }
       else if(resultData == 'No followers')
         {
-
+          this.user.follower_count = String(0);
         }
       else
         {
-          this.DBFollowers = resultData;
-          this.convertDBInfo('follower');
-          this.user.follower_count = String(this.DBFollowers.length);
+          this.convertDBInfo('follower', resultData);
+          this.user.follower_count = String(resultData.length);
 
           var fc_html = <HTMLElement>document.getElementById("ppfrc");
           fc_html.innerHTML = this.user.follower_count;
@@ -261,35 +314,33 @@ export class ProfilePageComponent extends CoreComponent{
             this.inFollowLists = true;
           }
         }
+        
+        if(this.inFollowLists)
+        {
+          //only do if in follow view
+          this.arrs[0] = this.followers;  
+        }
+        this.isFollowing();
+        this.followerLoadingFlag = false;
     });
   }
 
+  //checks if user is following the profile page user
   isFollowing()
   {
-    console.log("length: " + this.followers.length)
     for (let i=0; i < this.followers.length; i++)
     {
-      
-      console.log("this.followers[i].acc_name: " + this.followers[i].acc_name + "this.service.acc_name:" + this.service_acc_name)
       if (this.followers[i].acc_name == this.service_acc_name)
       {
-        
         this.isFollow = true;
         return;
       }
     }
-    
     this.isFollow = false;
   }
 
   getFollowing()
   {
-    if(!this.isValid)
-      {
-        console.log("invalid (getPosts)" );
-        return;
-      }
-
     let requestBody =
     {
       "word" : "getFollowing",
@@ -302,72 +353,88 @@ export class ProfilePageComponent extends CoreComponent{
 
       if(resultData == 'Failed to Add')
         {
-
+          this.user.follow_count = String(0);
         }
       else if(resultData == 'No following')
         {
-
+          this.user.follow_count = String(0);
         }
       else
         {
-          this.DBFollowing = resultData;
-          this.convertDBInfo('following');
-          this.user.follow_count = String(this.DBFollowing.length);
+          this.convertDBInfo('following', resultData);
+          this.user.follow_count = String(resultData.length);
           var fc_html = <HTMLElement>document.getElementById("ppfgc");
           fc_html.innerHTML = this.user.follow_count;
 
         }
+        if(this.inFollowLists)
+        {
+          //only do if in follow view
+          this.arrs[1] = this.following; 
+        }
+        this.followingLoadingFlag = false;
     });
   }
 
-  getPosts()
+  getPosts(otherProfile: boolean)
   {
-    console.log("inside (getPosts)" );
-    if(!this.isValid)
-      {
-        console.log("invalid (getPosts)" );
-        return;
-      }
-    
     let requestBody =
     {
       "word" : "getPosts",
-      "word2" : this.acc_name,
+      "word2" : this.acc_name, //confirm this is accurate
     };
+
+    console.log("getPosts acc_name: " + this.acc_name);
 
     this.http.put(environment.apiUrl +"/tweet",requestBody).subscribe((resultData: any)=>
     {
-      //console.log("get posts result data: " + resultData[0].text_content);
+      console.log('Response from getPosts :', JSON.stringify(resultData, null, 2));
 
       if(resultData == 'Failed to Add')
         {
           console.log("failed to add (getPosts)" );
+          if(!otherProfile)
+          { 
+            //update global variables
+            this.service.ProfilePostsFeed = []; 
+            this.service.ProfilePostsUserFeed = []; 
+          }
+          this.arrs[0] = [];
+          this.arrs[1] = [];
         }
       else if(resultData == 'No posts')
         {
           console.log("no posts (getPosts)" );
+           if(!otherProfile)
+          { 
+            //update global variables
+            this.service.ProfilePostsFeed = []; 
+            this.service.ProfilePostsUserFeed = []; 
+          }
+          this.arrs[0] = [];
+          this.arrs[1] = [];
         }
       else
         {
           console.log("good (getPosts)" );
-          //this.DBPosts = resultData;
-          this.DBPosts = resultData[0];
-          this.DBPostsUsers = resultData[1];
-          console.log("DBPosts: " + this.DBPosts)
-          this.convertDBInfoPosts('posts');
-          console.log("posts: " + this.posts)
+          this.convertDBInfoPosts('posts', resultData[0], resultData[1]);
+          if(!otherProfile)
+          { 
+            //update global variables
+            this.service.ProfilePostsFeed = this.posts; 
+            this.service.ProfilePostsUserFeed = this.postsUsers; 
+          }
+
+          this.arrs[0] = this.posts;
+          this.arrs[1] = this.postsUsers;
         }
+
+        this.postLoadingFlag = false;
     });
   }
 
-  getLikes()
+  getLikes(otherProfile: boolean)
   {
-    console.log("inside (getLikes)" );
-    if(!this.isValid)
-      {
-        console.log("invalid (getLikes)" );
-        return;
-      }
     
     let requestBody =
     {
@@ -377,36 +444,52 @@ export class ProfilePageComponent extends CoreComponent{
 
     this.http.put(environment.apiUrl +"/tweet",requestBody).subscribe((resultData: any)=>
     {
-      //console.log("get likes result data: " + resultData[0].text_content);
 
       if(resultData == 'Failed to Add')
-        {
-          console.log("failed to add (getLikes)" );
+      {
+        console.log("failed to add (getLikes)");
+        if(!otherProfile)
+        { 
+          //update global variables
+          this.service.ProfileLikesFeed = []; 
+          this.service.ProfileLikesUserFeed = []; 
         }
+        this.arrs[4] = [];
+        this.arrs[5] = [];
+      }
       else if(resultData == 'No likes')
-        {
-          console.log("no likes (getLikes)" );
+      {
+        console.log("no likes (getLikes)" );
+        if(!otherProfile)
+        { 
+          //update global variables
+          this.service.ProfileLikesFeed = []; 
+          this.service.ProfileLikesUserFeed = []; 
         }
+        this.arrs[4] = [];
+        this.arrs[5] = [];
+      }
       else
-        {
-          console.log("good (getLikes)" );
-          this.DBLikes = resultData[0];
-          this.DBLikesUsers = resultData[1];
-          console.log("DBLikes: " + this.DBLikes)
-          this.convertDBInfoPosts('likes');
-          console.log("likes: " + this.likes)
+      {
+        console.log("good (getLikes)" );
+        this.convertDBInfoPosts('likes',resultData[0], resultData[1]);
+        if(!otherProfile)
+        { 
+          //update global variables
+          this.service.ProfileLikesFeed = this.likes; 
+          this.service.ProfileLikesUserFeed = this.likesUsers; 
         }
+        this.arrs[4] = this.likes;
+        this.arrs[5] = this.likesUsers;
+          
+      }
+
+      this.likeLoadingFlag = false;
     });
   }
 
-  getRetweets()
+  getRetweets(otherProfile:boolean)
   {
-    console.log("inside (getRetweets)" );
-    if(!this.isValid)
-      {
-        console.log("invalid (getRetweets)" );
-        return;
-      }
     
     let requestBody =
     {
@@ -421,31 +504,48 @@ export class ProfilePageComponent extends CoreComponent{
       if(resultData == 'Failed to Add')
         {
           console.log("failed to add (getRetweets)" );
+          if(!otherProfile)
+          { 
+            //update global variables
+            this.service.ProfileRetweetsFeed = []; 
+            this.service.ProfileRetweetsUserFeed = []; 
+          }
+            this.arrs[2] = [];
+            this.arrs[3] = [];
         }
       else if(resultData == 'No retweets')
         {
           console.log("no retweets (getRetweets" );
+          if(!otherProfile)
+          { 
+            //update global variables
+            this.service.ProfileRetweetsFeed = []; 
+            this.service.ProfileRetweetsUserFeed = []; 
+          }
+            this.arrs[2] = [];
+            this.arrs[3] = [];
         }
       else
         {
           console.log("good (getRetweets)" );
-          this.DBRetweets = resultData[0];
-          this.DBRetweetsUsers = resultData[1];
-          console.log("DBRetweets: " + this.DBRetweets)
-          this.convertDBInfoPosts('retweets');
-          console.log("retweets: " + this.retweets)
+          this.convertDBInfoPosts('retweets',resultData[0], resultData[1]);
+          if(!otherProfile)
+          { 
+            //update global variables
+            this.service.ProfileRetweetsFeed = this.retweets; 
+            this.service.ProfileRetweetsUserFeed = this.retweetsUsers; 
+          }
+          this.arrs[2] = this.retweets;
+          this.arrs[3] = this.retweetsUsers;
         }
+        this.retweetLoadingFlag = false;
     });
   }
 
   getFollowerCount()
   {
-    if(!this.isValid)
-      {
-        return;
-      }
-      console.log(this.DBFollowers.length); //for testing
-    this.user.follower_count == String(this.DBFollowers.length);
+    console.log(this.followers.length); //for testing
+    this.user.follower_count == String(this.followers.length);
   }
 
   styleButton()
@@ -469,12 +569,8 @@ export class ProfilePageComponent extends CoreComponent{
       //make follow/following button visible
     this.isVisible = true;
 
-    if(!this.isValid)
-      {
-        return;
-      }
-      console.log(this.DBFollowing.length); //for testing
-    this.user.follow_count == String(this.DBFollowing.length);
+    console.log(this.following.length); //for testing
+    this.user.follow_count == String(this.following.length);
   }
 
   showFollowerList()
@@ -590,14 +686,15 @@ export class ProfilePageComponent extends CoreComponent{
 
     //navigate back to profile page
     this.router.navigate([url]);
-    this.setUpProfileDataDB();
+    this.setUpProfileDataDB(false);
     this.arrs = [this.posts,this.postsUsers,this.retweets,this.retweetsUsers,this.likes,this.likesUsers, this.media,this.mediaUsers];
     //this.arrs = [this.posts,this.retweets,this.likes, this.media];
     this.setLiked();
     this.setRetweeted();
   }
 
-  setUpProfileDataDB()
+  /*
+  setUpProfileDataDB2()
   {
     let globalObj = this;
 
@@ -647,18 +744,6 @@ export class ProfilePageComponent extends CoreComponent{
           }, 1500) // 0.5 secs
 
         })
-        /*
-        const postPromise3 = new Promise<any>(function (resolve, reject) {
-          setTimeout(() => {
-            reject("We didn't get a response")
-          }, 8000) // 5 secs
-
-          setTimeout(() => {
-            globalObj.setArrs();
-            resolve('we got a response');
-          }, 1000) // 0.5 secs
-
-        })*/
 
         const postPromise4 = new Promise<any>(function (resolve, reject) {
           setTimeout(() => {
@@ -739,7 +824,44 @@ export class ProfilePageComponent extends CoreComponent{
           }
         }
         myAsync();
+  }*/
+  setUpProfileDataDB(otherProfile: boolean)
+  {
+    this.checkUserInDB().subscribe(check => {
+
+      console.log("User in DB: " + check);
+      if(check) //user in DB
+      {
+        //clear arrs (only need this here until i save in core service)
+        this.arrs = [];
+
+        this.getPosts(otherProfile);
+        this.getLikes(otherProfile);
+        this.getRetweets(otherProfile);
+        //this.getMedia(otherProfile) (not made yet)
+        this.getFollowers(); //isFollowing is called here
+        this.getFollowing(); //i may only have to call this if in followlist
+
+        //beacuse media isn't set up
+        this.arrs[6] = [];
+        this.arrs[7] = [];
+        //need to have a flag for each process that has to set to false when done (replace loading flag)
+      }
+      else //user not in DB
+      {
+        //set loading flag to false
+        this.followerLoadingFlag = false;
+        this.followingLoadingFlag = false;
+        this.likeLoadingFlag = false;
+        this.retweetLoadingFlag = false;
+        this.postLoadingFlag = false;
+      } 
+    });
+   
+    
+       
   }
+
 
   followUser(){
 
@@ -805,21 +927,21 @@ export class ProfilePageComponent extends CoreComponent{
   }
 
   //either 'following' or 'follower'
-convertDBInfo(arr_type: string)
+convertDBInfo(arr_type: string, DBFollow: any [])
 {   
-  if( arr_type == 'following' && this.DBFollowing.length > 0)
+  if( arr_type == 'following' && DBFollow.length > 0)
   {
-    for (let i = 0; i < this.DBFollowing.length;i++) {
-      let user = this.DBFollowing[i];
+    for (let i = 0; i < DBFollow.length;i++) {
+      let user = DBFollow[i];
       var u = new Profile(user.pic?.image_url, user.header_pic?.image_url,user.username, user.acc_name, user.bio, user.following_count, user.follower_count); //need to find where to keep bio, and counts in db
       this.following.push(u);
     }
     
   }
-  if( arr_type == 'follower' && this.DBFollowers.length > 0)
+  if( arr_type == 'follower' && DBFollow.length > 0)
   {
-    for (let i = 0; i < this.DBFollowers.length;i++) {
-      let user = this.DBFollowers[i];
+    for (let i = 0; i < DBFollow.length;i++) {
+      let user = DBFollow[i];
       var u = new Profile(user.pic?.image_url, user.header_pic?.image_url,user.username, user.acc_name, user.bio, user.following_count, user.follower_count); //need to find where to keep bio, and counts in db
       this.followers.push(u);
     }
@@ -828,36 +950,37 @@ convertDBInfo(arr_type: string)
 }
 
  //either 'posts' or 'retweets' or 'likes'
- convertDBInfoPosts(arr_type: string)
+ convertDBInfoPosts(arr_type: string, DBPosts: any[], DBUsers: any[])
  {   
   
-   if( arr_type == 'posts' && this.DBPosts.length > 0)
+   if( arr_type == 'posts' && DBPosts.length > 0)
    {
-     for (let i = 0; i < this.DBPosts.length;i++) {
-       let post = this.DBPosts[i];
-       let user = this.DBPostsUsers[i]; //need to set this in dbcall
+     for (let i = 0; i < DBPosts.length;i++) {
+       let post = DBPosts[i];
+       let user = DBUsers[i]; //need to set this in dbcall
        var p = new Post(post.id,user.pic?.image_url,this.user.username,this.user.acc_name, post.date_created, post.text_content, "", post.comments, post.retweets, post.likes, post.engagements); //need to find where to keep bio, and counts in db
        this.posts.push(p);
        var u = new Profile(user.pic?.image_url,user.header_pic?.image_url,user.username,user.acc_name,user.bio,user.following_count,user.follower_count);
        this.postsUsers.push(u);
+       console.log("in convert for posts, user: " + u);
      }
    }
-   if( arr_type == 'retweets' && this.DBRetweets.length > 0)
+   if( arr_type == 'retweets' && DBPosts.length > 0)
    {
-     for (let i = 0; i < this.DBRetweets.length;i++) {
-       let post = this.DBRetweets[i];
-       let user = this.DBRetweetsUsers[i]
+     for (let i = 0; i < DBPosts.length;i++) {
+       let post =  DBPosts[i];
+       let user = DBUsers[i]
        var p = new Post(post.id,user.pic?.image_url,user.username,user.acc_name, post.date_created, post.text_content, "", post.comments, post.retweets, post.likes, post.engagements); //need to find where to keep bio, and counts in db
        this.retweets.push(p);
        var u = new Profile(user.pic?.image_url,user.header_pic?.image_url,user.username,user.acc_name,user.bio,user.following_count,user.follower_count);
        this.retweetsUsers.push(u);
      }
    }
-   if( arr_type == 'likes' && this.DBLikes.length > 0)
+   if( arr_type == 'likes' && DBPosts.length > 0)
     {
-      for (let i = 0; i < this.DBLikes.length;i++) {
-        let post = this.DBLikes[i];
-        let user = this.DBLikesUsers[i]
+      for (let i = 0; i < DBPosts.length;i++) {
+        let post = DBPosts[i];
+        let user = DBUsers[i]
         var p = new Post(post.id,user.pic?.image_url,user.username,user.acc_name, post.date_created, post.text_content, "", post.comments, post.retweets, post.likes, post.engagements); //need to find where to keep bio, and counts in db
         this.likes.push(p);
         var u = new Profile(user.pic?.image_url,user.header_pic?.image_url,user.username,user.acc_name,user.bio,user.following_count,user.follower_count);
