@@ -33,15 +33,30 @@ export class SecondaryContentComponent {
       {
         this.service.createWhoToFollowFeed(this.service_acc_name).subscribe(feed => {
           console.log("WhoToFollowFeed", feed);
-          this.profiles = feed;
+          if(feed.length >= 3)
+          {
+            this.profiles = [feed[0],feed[1],feed[2]];
+          }
+          else
+          {
+            this.profiles = feed;
+          } 
+          
         });
         //this.profiles = this.service.createUserFeed2(this.service_acc_name);
         console.log("this.service.UserFeed == null");
       }
     else
       {
-        
-        this.profiles = this.service.WhoToFollowFeed;
+        if(this.service.WhoToFollowFeed.length >= 3)
+          {
+            this.profiles = [this.service.WhoToFollowFeed[0],this.service.WhoToFollowFeed[1],this.service.WhoToFollowFeed[2]];
+          }
+          else
+          {
+            this.profiles = this.service.WhoToFollowFeed;
+          } 
+        //this.profiles = this.service.WhoToFollowFeed;
         console.log("this.service.UserFeed is not null");
       }
   }

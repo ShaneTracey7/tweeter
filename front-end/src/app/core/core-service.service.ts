@@ -460,7 +460,7 @@ createWhoToFollowFeed(acc_name: string): Observable<any[]>
       this.WhoToFollowFeed = [];
       this.DBUsers.reverse();
 
-      let counter = 0;
+     // let counter = 0; //move only 3 options to somewhere else
       for (let user of this.DBUsers) {
         if (user.acc_name !== acc_name) {
           const u = new Profile(
@@ -473,9 +473,9 @@ createWhoToFollowFeed(acc_name: string): Observable<any[]>
             user.follower_count
           );
           this.WhoToFollowFeed.push(u);
-          counter++;
+          //counter++;
         }
-        if (counter === 3) break;
+        //if (counter === 3) break;
       }
 
       return this.WhoToFollowFeed;

@@ -891,7 +891,8 @@ def userApi(request,id=id):
             if check == 'getWhoToFollow':
                 #gets suggested users to follow that user doesn't already follow
                 user = User.objects.get(acc_name=acc_name_input)
-                followed_users = Follow.objects.filter(follower=user).values_list('following', flat=True)
+                #returns the the the people not following the user, not the other way around (need to fix)
+                followed_users = Follow.objects.filter(following=user).values_list('follower', flat=True)
                 non_followed_users = User.objects.exclude(id__in=followed_users).exclude(id=user.id)[:10]
                 user_serializer = UserSerializer(non_followed_users,many=True)
 
