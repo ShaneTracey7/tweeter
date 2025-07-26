@@ -22,7 +22,7 @@ export class ProfilePageComponent extends CoreComponent{
   //figure out a way to make this view work for any user (currently defaults to logged in user)
   acc_name = ""; //need this for api calls when in other profile
   username = ""; //might phase this out
-  isValid:boolean = true;
+  isValid:boolean = true; //if the user exists
   user: Profile = new Profile("","", "", "", "", 0, 0);
   last_url_section: string;
 
@@ -171,6 +171,7 @@ export class ProfilePageComponent extends CoreComponent{
         this.service.current_page = 'OtherProfile';
         this.service.cp_style = 'OtherProfile';
         this.acc_name = this.last_url_section; //might phase this out
+        this.isVisible = true; //shows follow/following
         this.setUpProfileDataDB(true);
         
         //set likes and retweets
@@ -191,6 +192,7 @@ export class ProfilePageComponent extends CoreComponent{
     }
   }
 
+  //checks if user exists and sets variable
   checkUserInDB(otherProfile: boolean): Observable<boolean> {
   
     let requestBody =
@@ -232,6 +234,7 @@ export class ProfilePageComponent extends CoreComponent{
     );
   }
 
+  //gets lists of user objects from db that are following loggedin user
   getFollowers(otherProfile: boolean)
   {
     let requestBody =
@@ -295,6 +298,7 @@ export class ProfilePageComponent extends CoreComponent{
     this.isFollow = false;
   }
 
+  //gets lists of user objects from db that are loggedin user is following
   getFollowing(otherProfile: boolean)
   {
     let requestBody =
@@ -402,6 +406,7 @@ export class ProfilePageComponent extends CoreComponent{
     });
   }
 
+  //get array of tweet objs from db that loggedin user liked
   getLikes(otherProfile: boolean)
   {
     
@@ -460,6 +465,7 @@ export class ProfilePageComponent extends CoreComponent{
     });
   }
 
+  //get array of tweet objs from db that loggedin user retweeted
   getRetweets(otherProfile:boolean)
   {
     
@@ -518,12 +524,14 @@ export class ProfilePageComponent extends CoreComponent{
     });
   }
 
+  //idk if this is in use
   getFollowerCount()
   {
     console.log(this.followers.length); //for testing
     this.user.follower_count == String(this.followers.length);
   }
 
+  //styles follow/following button for otherProfile view
   styleButton()
   {
     if (this.isVisible)
@@ -540,6 +548,7 @@ export class ProfilePageComponent extends CoreComponent{
     }
   }
 
+  //idk if this is in use
   getFollowingCount()
   {
       //make follow/following button visible
@@ -549,6 +558,7 @@ export class ProfilePageComponent extends CoreComponent{
     this.user.follow_count == String(this.following.length);
   }
 
+  //on click of follower link of Profile/otherProfile, gets list of followers and changes to ProfileFollow view
   showFollowerList()
   {
     this.followerLoadingFlag = true;
@@ -579,6 +589,8 @@ export class ProfilePageComponent extends CoreComponent{
     this.getFollowers(otherProfile);
     this.getFollowing(otherProfile); 
   }
+
+  //on click of following link of Profile/otherProfile, gets list of users following and changes to ProfileFollow view
   showFollowingList()
   {
     console.log("inside show following list function");
@@ -611,7 +623,7 @@ export class ProfilePageComponent extends CoreComponent{
     this.getFollowing(otherProfile); 
   }
 
-  // to go back to normal profile view from follow lists
+  // to go back to normal profile view from follow lists(PorfileFollow)
   goBack()
   {
     this.postLoadingFlag = true;
@@ -816,7 +828,7 @@ export class ProfilePageComponent extends CoreComponent{
     }  
   }
 
-  //only when in OtherProfile
+  //only when in OtherProfile upon 'follow' button click
   followUser(){
 
     let requestBody =
@@ -834,7 +846,7 @@ export class ProfilePageComponent extends CoreComponent{
     });
   }
 
-  //only when in OtherProfile
+  //only when in OtherProfile upon 'following' button click
   unfollowUser(){
 
     let requestBody =
@@ -872,7 +884,7 @@ export class ProfilePageComponent extends CoreComponent{
     }
   }
 
-  //either 'following' or 'follower'
+  //either 'following' or 'follower' converts json db objects
 convertDBInfo(arr_type: string, DBFollow: any [])
 {   
   if( arr_type == 'following' && DBFollow.length > 0)
@@ -898,7 +910,7 @@ convertDBInfo(arr_type: string, DBFollow: any [])
   }  
 }
 
- //either 'posts' or 'retweets' or 'likes'
+ //either 'posts' or 'retweets' or 'likes'  converts json db objects
  convertDBInfoPosts(arr_type: string, DBPosts: any[], DBUsers: any[])
  {   
   
@@ -938,6 +950,7 @@ convertDBInfo(arr_type: string, DBFollow: any [])
     }
  }
 
+ //'followers' or 'following' tab clicks in profilefollow
  handleTabClick(str: string)
  {
    var url = "";
@@ -968,6 +981,7 @@ convertDBInfo(arr_type: string, DBFollow: any [])
    
  }
  
+ //sets back url used when hitting back arrow from profile follow 
  setBackUrl(arr: any [])
  {
    this.backUrl = "";
@@ -991,6 +1005,7 @@ convertDBInfo(arr_type: string, DBFollow: any [])
   console.log('showing edit profile modal');
  }
 
+ //tab clicks from within Profile or OtherProfile views
  handleProfileTabClick(tab: string)
  {
     this.service_tab = tab;

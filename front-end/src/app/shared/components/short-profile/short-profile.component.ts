@@ -69,6 +69,7 @@ export class ShortProfileComponent{
         myAsync();
   }
 
+  //checks if logged in user is following the user in the short profile
   setFCheck()
   {
     console.log("inside f_check this.profile.acc_name: " + this.profile.acc_name)

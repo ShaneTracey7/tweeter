@@ -20,7 +20,7 @@ export class NavigationBarComponent{
   acc_name: string;
   pic: string;;
 
-  constructor(private router: Router, private authService: AuthService, public service: CoreService) {
+  constructor(private router: Router, public service: CoreService) {
     
     this.username = "";
     this.acc_name = ""; 
@@ -38,11 +38,15 @@ export class NavigationBarComponent{
   {
     this.service.setCurrentPage(page);
     this.service.routeToChild(tab);
+    this.service.openmodal = false; //reset global variable
   }
 
   //handles routing when 'Profile' navbar button is clicked (mainly prevents unneccessary routing)
   handleNavigationP(page: string, tab: string)
   {
+
+    this.service.openmodal = false; //reset global variable
+
     let arr = window.location.pathname.split("/");
     let check1 = arr.pop();
     let check2 = arr.pop();
