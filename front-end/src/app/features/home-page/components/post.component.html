@@ -4,18 +4,17 @@
 <!--<div class="post" [style.borderRadius]="inConvo ? '25px': 0"> -->
 
     <ng-container *ngIf="!focused">
-        <ng-container *ngIf="!inConvo">
-           <!-- <hr class="reactionbar-line"> -->
-        </ng-container>
-        <div class="post-profile-container-and-line">
+            <div class="post-profile-container-and-line">
 
-            <hr class="reactionbar-line"> 
-
-            <div class="post-profile-container">
-                <img id="post-profile-img" (mouseover)="showModal()" (mouseout)="hideModal()" class="post-profile" src="{{this.service.setProfileUrl(post.profile)}}" alt="profile"/>
-                <profile-modal [inMain]="true" [(show)]='show_modal' [profile]='user'></profile-modal> <!--[profile]='modal_profile'-->
+                <ng-container *ngIf="!inConvo">
+                    <hr class="reactionbar-line">
+                </ng-container>
+                
+                <div class="post-profile-container">
+                    <img id="post-profile-img" (mouseover)="showModal()" (mouseout)="hideModal()" class="post-profile" src="{{this.service.setProfileUrl(post.profile)}}" alt="profile"/>
+                    <profile-modal [inMain]="true" [(show)]='show_modal' [profile]='user'></profile-modal> <!--[profile]='modal_profile'-->
+                </div>
             </div>
-        </div>
         
     </ng-container>
 
@@ -108,6 +107,7 @@
                     </button> 
 
                     <!-- Share MODAL-->
+
                     <ng-container *ngIf="showShareModal">
                         <div id="share-modal">
                             <div (click)="handleCopyTextClick()" class="share-modal-container">
@@ -127,6 +127,7 @@
                 </div>
             
             </div>
+
             <ng-container *ngIf="focused">
                 <hr class="reactionbar-line"> 
             </ng-container>

@@ -11,7 +11,7 @@ import { environment } from '../../../../environments/environment';
   styleUrl: '../home-page.component.scss',
 
 })
-export class PostComponent extends HomePageComponent{
+export class PostComponent extends HomePageComponent{ //probs shouldn't extend homepage
 
 //new
 @Input() inConvo = false; 
@@ -93,84 +93,17 @@ ngOnChanges(changes: SimpleChanges){
     }
   }
 }
-
+  
 setPost()
-  {
-    let extraTime = 0;
-    if(this.focused)
-    {
-      extraTime = 200;
-    }
-    let globalObj = this;
-
-        const postPromise = new Promise<any>(function (resolve, reject) {
-          setTimeout(() => {
-            reject("We didn't get a response")
-          }, 5000) // 5 secs
-
-          setTimeout(() => {
-            globalObj.checkLiked();
-            resolve('we got a response');
-          }, 300 + extraTime) // 0 secs
-
-        })
-        const postPromise2 = new Promise<any>(function (resolve, reject) {
-          setTimeout(() => {
-            reject("We didn't get a response")
-          }, 5000) // 5 secs
-
-          setTimeout(() => {
-            globalObj.checkRetweeted();
-            resolve('we got a response');
-          }, 300 + extraTime) // 0 secs
-
-        })
-        async function myAsync(){
-          //console.log("inside myAsync");
-          try{
-            postPromise;
-            postPromise2;
-          }
-          catch (error) {
-            console.error('Promise rejected with error: ' + error);
-          }
-          //console.log("end of myAsync");
-        }
-        myAsync();
-  }
+{
+  this.checkLiked()
+  this.checkRetweeted();
+}
 
 checkLiked()
 {
-  /*
-  if (this.service.cp_style == "Home")
-  {
-  //trying to fix inaccurate like counts in posts between home and profile page tweet arrs
-      console.log("this.upc.last_like_ids : " + this.upc.last_like_ids  + " this.upc.like_ids: " + this.upc.like_ids);
-    if ((JSON.stringify(this.upc.last_like_ids)) != (JSON.stringify(this.upc.like_ids)) )
-    {
-      console.log(this.upc.last_like_ids  + " != " + this.upc.like_ids);
-      //need to adjust like counter
-      const dif1 = 
-      this.upc.last_like_ids.filter((element:number) => !this.upc.like_ids.includes(element));
-
-      const dif2 = 
-      this.upc.like_ids.filter((element: number) => !this.upc.last_like_ids .includes(element));
-
-      if (dif1.includes(this.post.id))
-      {
-        //increment post 'like' value in class 
-        this.post.likes = String(Number(this.post.likes) - 1);
-      }
-      if (dif2.includes(this.post.id))
-      {
-        //increment post 'like' value in class 
-        this.post.likes = String(Number(this.post.likes) + 1);
-      }
-    }
-  }*/
-  //console.log("post dblikes:" + this.tweetService.DBlikes);
-  //console.log("post hpc like_ids:" + this.upc.like_ids);
- if(this.upc.like_ids.includes(this.post.id)) //result from DB check or check through list of users likes
+ //if(this.upc.like_ids.includes(this.post.id)) //result from DB check or check through list of users likes
+if(this.service.Likes.includes(this.post.id)) //result from DB check or check through list of users likes
  {
   this.liked = true;
   console.log("this.liked: " + this.liked);
@@ -180,15 +113,14 @@ checkLiked()
   this.liked = false;
   console.log("this.liked: " + this.liked);
  }
-
- this.postLikeArr = this.upc.like_ids;
- //console.log("this.postLikeArr: " + this.postLikeArr);
-
+ //this.postLikeArr = this.upc.like_ids;
+  this.postLikeArr = this.service.Likes;
 }
 
 checkRetweeted()
 {
-  if(this.upc.retweet_ids.includes(this.post.id)) //result from DB check or check through list of users likes
+ // if(this.upc.retweet_ids.includes(this.post.id)) //result from DB check or check through list of users likes
+ if(this.service.Retweets.includes(this.post.id))
  {
   this.retweeted = true;
   console.log("this.retweeted: " + this.retweeted);
@@ -199,8 +131,10 @@ checkRetweeted()
   console.log("this.retweeted: " + this.retweeted);
  }
 
- this.postRetweetArr = this.upc.retweet_ids;
+ //this.postRetweetArr = this.upc.retweet_ids;
+ this.postRetweetArr = this.service.Retweets
 }
+
 
 //called upon hitting retweet button
 handleRetweet()

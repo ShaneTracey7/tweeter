@@ -81,7 +81,6 @@ export class NavigationBarComponent{
     sessionStorage.clear();
     //clear core service data
     this.service.reset();
-    this.authService.logout();
     console.log('logout');  
     this.router.navigate(['/Login']);  
   } 

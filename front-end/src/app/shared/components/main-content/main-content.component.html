@@ -271,7 +271,7 @@
   <ng-container [ngSwitch]="tab">
     
     <ng-container *ngSwitchCase="'followers'">
-      <div class="profile-empty-list" *ngIf="data[0] == ''; else hasFollowers">
+      <div class="profile-empty-list" *ngIf="data[0] < 1; else hasFollowers">
          <p class="profile-empty-list-title"> {{user.acc_name}} has no followers</p>
         <p class="profile-empty-list-body">Once accounts follow them, they'll show up here.</p>
        </div>
@@ -284,7 +284,7 @@
     </ng-container>
 
     <ng-container *ngSwitchCase="'following'">
-      <div class="profile-empty-list" *ngIf="data[1] == ''; else hasFollowing">
+      <div class="profile-empty-list" *ngIf="data[1].length < 1; else hasFollowing">
         <p class="profile-empty-list-title"> {{user.acc_name}} isn't following anyone</p>
         <p class="profile-empty-list-body">Once they follow accounts, they'll show up here.</p>
       </div>

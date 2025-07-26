@@ -179,7 +179,7 @@ export class SearchTopic {
 }
 
 //formats class attributes of type number
-function shortenNum(num: number): string {
+export function shortenNum(num: number): string {
 
     if (num < 1000){
         return num.toString();

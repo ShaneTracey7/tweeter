@@ -768,6 +768,7 @@ $cancel-red: #f51616;
     top: 0;
     background-color: rgba(255, 255, 255, 0.985);
     border-bottom: 1px solid lightgray;
+    z-index: 1;
   }
   
   .page-title {
@@ -1199,9 +1200,9 @@ border: 1px solid lightgray;
 }
 
 #new-message-modal{
-  min-height: 400px;
-  height: 90%;
-  max-height: 700px;
+  min-height: 300px;
+  height: 80%;
+  max-height: 600px;
   position:fixed;
   display: flex;
   overflow-y: scroll;
@@ -1240,9 +1241,10 @@ border: 1px solid lightgray;
 }
 
 #post-new-message-modal{
-  position: absolute;
+  position: fixed;
   top: 80px;
   left: 11%;
+  z-index: 2;
 }
 
 .reactionbar-line{
@@ -1396,8 +1398,9 @@ border: 1px solid lightgray;
 
   .post {
     width: 100%;
-   display: inline-flex;
+    display: inline-flex;
     height: fit-content;
+    position: relative;
 
     //new
     //flex-direction: column;

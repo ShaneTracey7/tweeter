@@ -60,7 +60,7 @@
                 <div *ngIf="message.isSender; else isReciever">
                     <div id="message-date-pair-sender" class="message-date-pair">
                         <div *ngIf="message.text == ''; else justText" class="message-post" id="message-post-sender">
-                            <app-post [post]="message.post!" [user]="message.profile!" [inConvo]="true"></app-post> <!-- Where i need to insert a prop for inConvo-->
+                            <app-post class="post" [style.borderRadius]="0" [post]="message.post!" [user]="message.profile!" [inConvo]="true"></app-post> <!-- Where i need to insert a prop for inConvo-->
                         </div>
                         <ng-template #justText> 
                             <p id="message-sender" class="message-in-convo">{{message.text}}</p>
@@ -72,7 +72,7 @@
                 <ng-template #isReciever> 
                     <div id="message-date-pair-reciever" class="message-date-pair">
                         <div *ngIf="message.text == ''; else justText2" class="message-post" id="message-post-reciever">
-                            <app-post [post]="message.post!" [user]="message.profile!" [inConvo]="true"></app-post> <!-- Where i need to insert a prop for inConvo-->
+                            <app-post class="post" [style.borderRadius]="0" [post]="message.post!" [user]="message.profile!" [inConvo]="true"></app-post> <!-- Where i need to insert a prop for inConvo-->
                         </div>
                         <ng-template #justText2>
                             <p id="message-reciever" class="message-in-convo">{{message.text}}</p>

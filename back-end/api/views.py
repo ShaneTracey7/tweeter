@@ -430,9 +430,13 @@ def tweetApi(request,id=id):
                 user = User.objects.get(acc_name=acc_name_input)
                 likes = Like.objects.filter(user=user)
                 if likes.exists():
-                    tweets = []
-                    for like in likes:
-                        tweets.append(like.tweet)
+                    #tweets = []
+                    #for like in likes:
+                        #tweets.append(like.tweet)
+                    #NEW
+                    tweets = [like.tweet for like in likes]
+                    tweets = sorted(tweets, key=lambda tweet: tweet.date_created, reverse=True) # Sort tweets by created_at descending (newest first)
+        
                     tweet_serializer = TweetSerializer(tweets,many=True)
                     users = []
                     for like in likes:
@@ -446,9 +450,12 @@ def tweetApi(request,id=id):
                 user = User.objects.get(acc_name=acc_name_input)
                 retweets = Retweet.objects.filter(user=user)
                 if retweets.exists():
-                    tweets = []
-                    for retweet in retweets:
-                        tweets.append(retweet.tweet)
+                    #tweets = []
+                    #for retweet in retweets:
+                        #tweets.append(retweet.tweet)
+                    #NEW
+                    tweets = [retweet.tweet for retweet in retweets]
+                    tweets = sorted(tweets, key=lambda tweet: tweet.date_created, reverse=True) # Sort tweets by created_at descending (newest first)
                     tweet_serializer = TweetSerializer(tweets,many=True)
                     users = []
                     for retweet in retweets:
@@ -487,7 +494,7 @@ def tweetApi(request,id=id):
             elif check == 'getPosts':
                 #get all tweets that user tweeted
                 user = User.objects.get(acc_name=acc_name_input)
-                tweets = Tweet.objects.filter(user=user)
+                tweets = Tweet.objects.filter(user=user).order_by('-date_created')
                 if tweets.exists():
                     users = []
                     for tweet in tweets:
@@ -724,7 +731,7 @@ def retweetApi(request,id=id):
                     #tweet_serializer = TweetSerializer(tweets,many=True)
                     return JsonResponse(tweet_ids,safe=False)
                 else:
-                    return JsonResponse("No like ids",safe=False)
+                    return JsonResponse("No retweet ids",safe=False)
             elif check == 'delete':
                 user_from = User.objects.get(acc_name=acc_name_from_input)
                 user_to = User.objects.get(acc_name=acc_name_to_input)

@@ -6,6 +6,7 @@ import { environment } from "../../environments/environment";
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { firstValueFrom } from 'rxjs';
+import { AuthService } from "./auth.service";
 //@Injectable()
 @Injectable({
   providedIn: 'root',
@@ -16,9 +17,6 @@ export class CoreService {
   -Not having Notifications or Messages globally stored
   -need to store 4 profile feeds
   */
-
-
-
      //used for toolbar tabs
   marker1= true; //foryou/all/latest
   marker2= false; //following/trending/verified/people
@@ -41,6 +39,7 @@ export class CoreService {
   shareUser: string = ''; //acc_name of user to send tweet to
 
   /* * * *Global cache* * * */
+  loggedInUser: Profile = new Profile(null,null,'','','',0,0);
 
   //Secondary Content
   WhoToFollowFeed: Profile [] = [];//array of Profile objs of suggested users who to follow users
@@ -68,9 +67,16 @@ export class CoreService {
   ProfileLikesFeed: Post [] = []; //array of Post objs of Profile Likes feed
   ProfileLikesUserFeed: Profile [] = []; //array of Profile objs of Profile Likes feed
 
+  setProfileDataFlag: boolean = false; //set when setProfileData() runs in profile page
+
   //runs only once until a page refresh
-  constructor(public route: ActivatedRoute, public router: Router,public http: HttpClient) { 
+  constructor(public route: ActivatedRoute, public router: Router,public http: HttpClient/*, private auth: AuthService*/) { 
   
+    //for clearing global variables upon access token expiry
+    /*this.auth.logout$.subscribe(() => {
+      this.reset();
+    });*/
+
     this.username = sessionStorage.getItem('username') ?? "badToken"; 
     this.acc_name = sessionStorage.getItem('acc_name') ?? "badToken";
     //this.createUserFeed(false, ""); NEW
@@ -111,6 +117,7 @@ export class CoreService {
   this.shareID = 0; 
   this.shareUser= ""; 
   this.UserFollowingList = [];
+  this.setProfileDataFlag = false;
 }
   //don't think this is doing anything
   ngOnDestroy()
@@ -197,7 +204,8 @@ export class CoreService {
 routeToChild(str: string){
   
     this.current_tab = str;
-    if (str == "foryou" || str == "all" || str == "posts" || str == 'followers'|| str == 'latest')
+    console.log("in route to child str: " + str);
+    if (str == "foryou" || str == "all" || str == "posts" || str == "followers"|| str == 'latest')
       {
         this.marker1= true; 
         this.marker2= false;
@@ -483,7 +491,7 @@ createWhoToFollowFeed(acc_name: string): Observable<any[]>
   );
 }
 
-//NOT TESTED
+
 getDBLikes(acc_name: string): Observable<any[]> {
 
   let requestMessage =
@@ -511,7 +519,7 @@ getDBLikes(acc_name: string): Observable<any[]> {
     })
   );
 }
-//NOT TESTED
+
 getDBRetweets(acc_name: string): Observable<any[]> {
 
   let requestMessage =
@@ -534,7 +542,7 @@ getDBRetweets(acc_name: string): Observable<any[]> {
       else
       {
         this.Retweets = resultData;
-        return resultData
+        return resultData;
       }
     })
   );
@@ -637,6 +645,7 @@ createUserFeed(outsideOfService: boolean, acc_name: string)
 //for components to call to check if their user is following an account
 isFollower(acc_name: string)
 {
+  console.log("this.UserFollowingList: " + this.UserFollowingList);
   for(var i = 0; i < this.UserFollowingList.length; i++)
   {
     if(this.UserFollowingList[i] == acc_name)

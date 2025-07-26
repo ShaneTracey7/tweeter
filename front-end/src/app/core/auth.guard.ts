@@ -1,6 +1,8 @@
-import { Injectable, inject } from '@angular/core';      
+import { Injectable, Injector, inject } from '@angular/core';      
 import { ActivatedRouteSnapshot, RouterStateSnapshot, CanActivateFn, Router } from '@angular/router';      
 import { Observable } from 'rxjs';  
+import { CoreService } from './core-service.service';
+import { AuthService } from './auth.service';
 
 
 @Injectable({
@@ -8,7 +10,7 @@ import { Observable } from 'rxjs';
   })
   export class PermissionsService {
   
-    constructor(private router: Router) {}
+    constructor(private router: Router/*, private auth: AuthService, public service: CoreService*/) {}
 
     decodeJWT(token: string): any {
     try {
@@ -45,7 +47,21 @@ import { Observable } from 'rxjs';
       {
         console.log("successful decode")
         const exp = decoded.exp;
-        return Date.now() < exp * 1000;
+        let check = Date.now() < exp * 1000;
+        if(check)
+        { //token expired
+         // const cs = this.injector.get(CoreService);
+          //cs.reset();
+         // this.auth.triggerLogout(); //may cause stuff to mess up
+          //this.service.reset(); //clears cached data from session with expired token
+          return check;
+        }
+        else
+        {
+          //token good
+          return check;
+        } 
+        
       }  
 }
 

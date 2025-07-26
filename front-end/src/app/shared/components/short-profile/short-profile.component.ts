@@ -71,6 +71,7 @@ export class ShortProfileComponent{
 
   setFCheck()
   {
+    console.log("inside f_check this.profile.acc_name: " + this.profile.acc_name)
     if(this.service.isFollower(this.profile.acc_name)){
       this.f_check = "Following";
       if(this.inNewMessage)
