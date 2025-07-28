@@ -439,9 +439,10 @@ def tweetApi(request,id=id):
         
                     tweet_serializer = TweetSerializer(tweets,many=True)
                     users = []
-                    for like in likes:
-                        users.append(like.tweet.user)
+                    for tweet in tweets:
+                        users.append(tweet.user)
                     user_serializer = UserSerializer(users,many=True)
+
                     return JsonResponse([tweet_serializer.data,user_serializer.data],safe=False)
                 else:
                     return JsonResponse("No likes",safe=False)
@@ -458,8 +459,8 @@ def tweetApi(request,id=id):
                     tweets = sorted(tweets, key=lambda tweet: tweet.date_created, reverse=True) # Sort tweets by created_at descending (newest first)
                     tweet_serializer = TweetSerializer(tweets,many=True)
                     users = []
-                    for retweet in retweets:
-                        users.append(retweet.tweet.user)
+                    for tweet in tweets:
+                        users.append(tweet.user)
                     user_serializer = UserSerializer(users,many=True)
                     return JsonResponse([tweet_serializer.data,user_serializer.data],safe=False)
                 else:

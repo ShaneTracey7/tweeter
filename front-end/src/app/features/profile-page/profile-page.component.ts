@@ -138,10 +138,12 @@ export class ProfilePageComponent extends CoreComponent{
           if(this.last_url_section == "followers" )
           {
             this.service.routeToChild('followers');
+            this.service_tab = 'followers';
           }
           else
           {
             this.service.routeToChild('following');
+            this.service_tab = 'following';
           }
         }
         else //otherProfile followers page
@@ -156,10 +158,12 @@ export class ProfilePageComponent extends CoreComponent{
           if(this.last_url_section == "followers" )
           {
             this.service.routeToChild('followers');
+            this.service_tab = 'followers';
           }
           else
           {
             this.service.routeToChild('following');
+            this.service_tab = 'following';
           }
         }
     }
@@ -250,10 +254,12 @@ export class ProfilePageComponent extends CoreComponent{
       if(resultData == 'Failed to Add')
         {
           //this.user.follower_count = String(0);
+          this.followers = []; //clear array
         }
       else if(resultData == 'No followers')
         {
           //this.user.follower_count = String(0);
+          this.followers = []; //clear array
         }
       else
         {
@@ -263,10 +269,12 @@ export class ProfilePageComponent extends CoreComponent{
           //var fc_html = <HTMLElement>document.getElementById("ppfrc");
           //fc_html.innerHTML = this.user.follower_count;
 
+          //idk if this is necessary
+          /*
           if(this.last_url_section == "followers" || this.last_url_section == "following")
           {
-            this.inFollowLists = true;
-          }
+            this.inFollowLists = true; //idk if this is necessary
+          }*/
         }
 
         if(!otherProfile)
@@ -314,11 +322,12 @@ export class ProfilePageComponent extends CoreComponent{
       if(resultData == 'Failed to Add')
         {
           //this.user.follow_count = String(0);
-          
+          this.following = []; //clear array
         }
       else if(resultData == 'No following')
         {
           //this.user.follow_count = String(0);
+          this.following = []; //clear array
         }
       else
         {
@@ -337,6 +346,9 @@ export class ProfilePageComponent extends CoreComponent{
           //only do if in follow view
           this.arrs[1] = this.following; 
         }
+        console.log("this.arrs[1]: " + this.arrs[1])
+        console.log("this.following: " + this.following);
+        console.log("this.arrs: " + this.arrs);
         this.followingLoadingFlag = false;
     });
   }
@@ -364,8 +376,8 @@ export class ProfilePageComponent extends CoreComponent{
             this.service.ProfilePostsFeed = []; 
             this.service.ProfilePostsUserFeed = []; 
           }
-          this.arrs[0] = [];
-          this.arrs[1] = [];
+         // this.arrs[0] = [];
+          //this.arrs[1] = [];
         }
       else if(resultData == 'No posts')
         {
@@ -376,8 +388,8 @@ export class ProfilePageComponent extends CoreComponent{
             this.service.ProfilePostsFeed = []; 
             this.service.ProfilePostsUserFeed = []; 
           }
-          this.arrs[0] = [];
-          this.arrs[1] = [];
+          //this.arrs[0] = [];
+          //this.arrs[1] = []; ///iuefgwifgrewqgagberkajgbraejkbvahjrevbahjrevbhjrvabjhvrbhjrvkhjavhjk THIS
         }
       else
         {
@@ -392,14 +404,13 @@ export class ProfilePageComponent extends CoreComponent{
             this.service.ProfilePostsFeed = this.posts; 
             this.service.ProfilePostsUserFeed = this.postsUsers; 
           }
-          if(!this.inFollowLists)
-          {
-            //don't set unless not in followlists
-            this.arrs[0] = this.posts;
-            this.arrs[1] = this.postsUsers;
-          }
+        }
 
-          
+        if(!this.inFollowLists)
+        {
+          //don't set unless not in followlists
+          this.arrs[0] = this.posts;
+          this.arrs[1] = this.postsUsers;
         }
 
         this.postLoadingFlag = false;
@@ -637,6 +648,7 @@ export class ProfilePageComponent extends CoreComponent{
     this.setBackUrl(arr);
     let check = arr.pop()
     this.inFollowLists = false;
+    this.last_url_section = ""; //need to clear to avoid imporper setting of inFolllowLists
 
     if(check == 'Profile')
     {
@@ -761,6 +773,14 @@ export class ProfilePageComponent extends CoreComponent{
         console.log("User in DB: " + check);
         if(check) //user in DB
         {
+         // if(this.inFollowLists)
+         // {
+            //this.arrs = [];
+          //  this.getFollowers(otherProfile); //isFollowing is called here
+          //  this.getFollowing(otherProfile); //i may only have to call this if in followlist
+        //  }
+       //   else
+        //  {
           this.getPosts(otherProfile);
           this.getLikes(otherProfile);
           this.getRetweets(otherProfile);
@@ -771,8 +791,10 @@ export class ProfilePageComponent extends CoreComponent{
           //beacuse media isn't set up
           this.arrs[6] = [];
           this.arrs[7] = [];
-          
+
           this.service.setProfileDataFlag = true;
+       //   }
+          
         }
         else //user not in DB
         {
