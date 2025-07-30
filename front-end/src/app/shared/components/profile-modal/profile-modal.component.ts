@@ -1,13 +1,9 @@
-import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild} from '@angular/core';
-import { ShortProfileComponent } from '../short-profile/short-profile.component';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import { Profile } from '../../../core/data';
-import { SecondaryContentComponent } from '../secondary-content/secondary-content.component';
 import { CoreService } from '../../../core/core-service.service';
 import { TweetService } from '../../../core/tweet-service';
-import { MainContentComponent } from '../main-content/main-content.component';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../core/auth.service';
-import { MessagePageComponent } from '../../../features/message-page/message-page.component';
 import { FormBuilder } from '@angular/forms';
 
 @Component({
@@ -15,26 +11,25 @@ import { FormBuilder } from '@angular/forms';
   selector: 'profile-modal',
   templateUrl: './profile-modal.component.html',
 })
-export class ProfileModalComponent {
+export class ProfileModalComponent{
 
   @Input() profile = new Profile('','','','','',0,0);
-  @Input() show: boolean = false; //used to be false
+  @Input() show: boolean = false;
   @Input() inMain: boolean = false;
+  @Input() inFeed: boolean = false;
   @Output() showChange = new EventEmitter<boolean>();
 
   original_x: number = 0;
   original_y: number = 0;
   original_m_height: number = 0;
   f_check: string = "Follow";
-
+  modalStyle: any = {};
 
   service_acc_name: string = "";
   
   constructor(public formBuilder: FormBuilder,public service: CoreService, public tweetService: TweetService, public authService: AuthService, public route: ActivatedRoute){
+    
     this.service_acc_name = sessionStorage.getItem('acc_name') ?? "badToken";
-  
-    console.log("inside profile modal constructor");
-    console.log("Profile: " + this.profile);
   }
 
   ngOnInit()
@@ -42,19 +37,7 @@ export class ProfileModalComponent {
     this.setFCheck();
   }
 
-  //idk if i need this
-  ngOnChanges(changes: SimpleChanges){
-  
-    if (changes['profile']) {
-      console.log("**ngOnChanges** PM");
-      console.log("PROFILE CV: "+ changes['profile'].currentValue);
-      console.log("PROFILE: PV"+ changes['profile'].previousValue);
-
-      //testing
-      this.setFCheck();
-    }
-}
-
+  //sets the follow/following button (currently not functionality for the buttton)
   setFCheck()
   {
     if(this.service.isFollower(this.profile.acc_name)){
@@ -70,12 +53,10 @@ export class ProfileModalComponent {
     {
      this.show = false;
      this.showChange.emit(this.show);
-     //this.scc.changeOpenModal(false);
-     //this.mcc.changeOpenModal(false);
-     //this.mpc.changeOpenModal(false);
      this.service.changeOpenModal(false);
     }
 
+    //directs user to follow lists of user profile
     handleFollowClick(str: string)
     {
       //condition necessary, because it would be a mess otherwise
@@ -94,20 +75,26 @@ export class ProfileModalComponent {
       }
     }
 
+  //sets postion of modal if not in a feed  
   setModalPosition() {
         
+        if(this.inFeed)
+        {
+          return; //default will be modal below post
+        }
+
         let secondary_content_container = <HTMLElement>document.getElementById("sc");
         let main_content_container = <HTMLElement>document.getElementById("mc");
         let scroll_container;
 
         if (this.inMain) //in main content
-          {
-            scroll_container = main_content_container;
-          }
+        {
+          scroll_container = main_content_container;
+        }
         else // in secondary content
-          {
-            scroll_container = secondary_content_container;
-          }
+        {
+          scroll_container = secondary_content_container;
+        }
 
         let modal = <HTMLElement>document.getElementById("p-modal");
         let img = <HTMLElement>document.getElementById("p-img"); //in modal
@@ -118,39 +105,34 @@ export class ProfileModalComponent {
         let x = 0;
         let y = 0;
           if (this.original_x == 0)
-            {
-              x = img.getBoundingClientRect().left;//img.offsetLeft;
-              y = img.getBoundingClientRect().top;//img.offsetTop;
-              this.original_x = x;
-              this.original_y = y;
-            }
+          {
+            x = img.getBoundingClientRect().left;//img.offsetLeft;
+            y = img.getBoundingClientRect().top;//img.offsetTop;
+            this.original_x = x;
+            this.original_y = y;
+          }
           else
-            {
-              x = this.original_x;//img.offsetLeft;
-              y = this.original_y;//img.offsetTop;
-            }
+          {
+            x = this.original_x;//img.offsetLeft;
+            y = this.original_y;//img.offsetTop;
+          }
           if (this.original_m_height == 0)
-            {
-              modal_height = modal.offsetHeight;
-              this.original_m_height = modal_height
-            }
+          {
+            modal_height = modal.offsetHeight;
+            this.original_m_height = modal_height
+          }
           else
-            {
-              modal_height = this.original_m_height 
-            }
+          {
+            modal_height = this.original_m_height 
+          }
 
-        console.log('x = ' + x + " y = " + y);
         let left_value = x + (img_width/2) - (modal_width/2) - window.scrollX;
         let top_value = y - 10 - scroll_container.scrollTop - window.scrollY;
-        //console.log("x: " + x + " y: " + y + "w-scrolly: " + window.scrollY + "sc-scroll: " + secondary_content_container.scrollTop);
-
-        console.log("top value: " + top_value + "y: " + y + "scroll container: " + scroll_container.scrollTop + "modal height: " +modal_height);
-        console.log( "((window.innerHeight/3)*2): " + ((window.innerHeight/3)*2) + " top_value: " + top_value)
+      
         if (((window.innerHeight/3)*2) >= top_value) //underneath profile pic
         {
           if (left_value <= 50) //too far left
           {
-            console.log("1.1");
             return { 
               left: left_value + (modal_width/2) - img_width +  "px",
               top: top_value + "px", 
@@ -158,7 +140,6 @@ export class ProfileModalComponent {
           }
           else if (window.innerWidth - left_value <= modal_width/2 + 50) //too far right
           {
-            console.log("1.2");
             return { 
               left: left_value - (modal_width/2) + "px",
               top: top_value + "px", 
@@ -166,7 +147,6 @@ export class ProfileModalComponent {
           }
           else
           {
-            console.log("1.3");
             return {
               left: left_value + "px",
               top: top_value + "px", 
@@ -177,7 +157,6 @@ export class ProfileModalComponent {
         {
           if (left_value <= 50) //too far left
           {
-            console.log("2.1");
             return { 
               left: left_value + (modal_width/2) - img_width + "px",
               top: top_value - ((modal_height/2)*3) -20 - img_height + "px", 
@@ -185,7 +164,6 @@ export class ProfileModalComponent {
           }
           else if (window.innerWidth - left_value <= modal_width/2 + 50) //too far right
           {
-            console.log("2.2");
             return { 
               left: left_value - (modal_width/2) + "px",
               top: top_value - ((modal_height/2)*3) -20 - img_height + "px", 
@@ -193,16 +171,15 @@ export class ProfileModalComponent {
           }
           else
           {
-            console.log("2.3");
             return {
               left: left_value + "px",
               top: top_value - ((modal_height/2)*3) -20 - img_height + "px",
             };
           }
-
         }
     }
 
+    //goes to user profile upon click
     handleUsernameClick()
     {
       //condition necessary, because it would be a mess otherwise
@@ -216,8 +193,10 @@ export class ProfileModalComponent {
         else
         {
           r = r + '/' + this.profile.acc_name;
+          this.service.openmodal = false;
+          this.service.router.navigate(['tweeter/' + r]);
+
         }
-        this.service.router.navigate(['tweeter/' + r]);
       }
     }
 }

@@ -40,39 +40,16 @@ export class ShortProfileComponent{
 
   constructor(public service: CoreService, public tweetService: TweetService, public authService: AuthService, public route: ActivatedRoute,public http: HttpClient, public router: Router){
     this.service_acc_name = sessionStorage.getItem('acc_name') ?? "badToken";
-    this.setInfo();
   }
 
-  setInfo()
+  ngOnInit()
   {
-    let globalObj = this;
-
-        const postPromise = new Promise<any>(function (resolve, reject) {
-          setTimeout(() => {
-            reject("We didn't get a response")
-          }, 5000) // 5 secs
-
-          setTimeout(() => {
-            globalObj.setFCheck();
-            resolve('we got a response');
-          }, 1000) // 1 secs
-        })
-
-        async function myAsync(){
-          try{
-            postPromise;
-          }
-          catch (error) {
-            console.error('Promise rejected with error: ' + error);
-          }
-        }
-        myAsync();
+    this.setFCheck();
   }
 
   //checks if logged in user is following the user in the short profile
   setFCheck()
   {
-    console.log("inside f_check this.profile.acc_name: " + this.profile.acc_name)
     if(this.service.isFollower(this.profile.acc_name)){
       this.f_check = "Following";
       if(this.inNewMessage)
@@ -86,6 +63,7 @@ export class ShortProfileComponent{
     }
   }
 
+  //upon username or profile pic click, go to the user's profile page
   goToProfile(timer:any)
   {
     this.mshowChange.emit(false); //hide search bar modal
@@ -99,12 +77,22 @@ export class ShortProfileComponent{
     {
       this.handleGoTo();
     }
-    else
+    else // in follow lists (new)
     {
-    this.service.router.navigate(['/tweeter/Profile/' + this.profile.acc_name]);
-    this.service.setCurrentPage('OtherProfile');
-    this.service.routeToChild('posts'); //NEW
-    clearTimeout(timer);
+      //check not logged in user 
+      if(this.profile.acc_name == this.service_acc_name)
+      {
+        this.service.setCurrentPage('Profile');
+        this.service.router.navigate(['/tweeter/Profile']);
+        this.ppg.shortProfileClick(this.profile.acc_name,false);
+      }
+      else
+      {
+        this.service.setCurrentPage('OtherProfile');
+        this.service.router.navigate(['/tweeter/Profile/' + this.profile.acc_name]);
+        this.ppg.shortProfileClick(this.profile.acc_name,true);
+      }  
+      clearTimeout(timer);
     }
   }
 
@@ -147,7 +135,7 @@ export class ShortProfileComponent{
   {
     if(this.service.current_page == "Profile" || this.service.current_page == "OtherProfile")
     {
-    //this is a work in progress
+    //this is a work in progress (doesn't work atm)
     this.ppg.goToSearchProfile(this.profile.acc_name);
     }
     else

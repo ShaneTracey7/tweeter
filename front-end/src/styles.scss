@@ -360,7 +360,7 @@ $cancel-red: #f51616;
     //display: none;
     //top: 100px; //test
     //left: 100px; //test
-    position:fixed;
+    position:absolute; //fixed
     display: flex;
     flex-direction: column;
     gap: 0px;
@@ -771,7 +771,7 @@ $cancel-red: #f51616;
     top: 0;
     background-color: rgba(255, 255, 255, 0.985);
     border-bottom: 1px solid lightgray;
-    z-index: 1;
+    z-index: 5;
   }
   
   .page-title {

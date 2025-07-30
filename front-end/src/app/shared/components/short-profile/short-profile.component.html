@@ -5,25 +5,25 @@
     <div id="shortProfile-text">
         <h3 (click)="goToProfile(timer)" id="shortProfile-username"> {{ profile.username }} </h3>
         <p id="shortProfile-accountname">&commat;{{ profile.acc_name }}</p>
-        <div *ngIf="inNewMessage && f_check == 'Following'">
+        <ng-container *ngIf="inNewMessage && f_check == 'Following'">
             <div id="sp-following-container">
             <img id="following-icon" [src]="service.setUrl('user-fill-gray.png')" />
             <p id="shortProfile-accountname">Following</p>
             </div>
-        </div>
+        </ng-container>
 
     </div>
-        <div *ngIf="this.profile.acc_name != this.service_acc_name && !inNewMessage">
-            <div *ngIf="f_check == 'Follow'; else following">
+        <ng-container *ngIf="this.profile.acc_name != this.service_acc_name && !inNewMessage">
+            <ng-container *ngIf="f_check == 'Follow'; else following">
                <button class="shortProfile-button">{{f_check}}</button>
-            </div>
+            </ng-container>
             <ng-template #following>
                 <button id="shortProfile-button-following" class="shortProfile-button">{{f_check}}</button>
             </ng-template>
-        </div>
-        <div *ngIf="inNewMessage && isSelected">
+        </ng-container>
+        <ng-container *ngIf="inNewMessage && isSelected">
             <img id="selected-checkmark"[src]="service.setUrl('checkmark-blue.png')"/>
-        </div>
+        </ng-container>
 </div>
 
 <profile-modal id="pm-instance" [inMain]="false" [(show)]='show_modal' [profile]='profile'></profile-modal>

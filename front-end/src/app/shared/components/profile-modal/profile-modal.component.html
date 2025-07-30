@@ -1,18 +1,18 @@
 <!-- Used onHover for any profile pic outside of a search bar modal or the navigaiton bar-->
-<div *ngIf="show">
+<ng-container *ngIf="show">
 
-   <div id="p-modal"[style]="setModalPosition()" (mouseleave)="hideModal()" class="profileModal">
+    <div id="p-modal"[style]="setModalPosition()" (mouseleave)="hideModal()" class="profileModal">
 
         <div class="pm-header">
             <img (click)="handleUsernameClick()" id="p-img"src={{this.service.setProfileUrl(profile.pic)}} class="pm-img" alt="profile">
-            <div *ngIf="this.profile.acc_name != this.service_acc_name">
-                <div *ngIf="f_check == 'Follow'; else following">
+            <ng-container *ngIf="this.profile.acc_name != this.service_acc_name">
+                <ng-container *ngIf="f_check == 'Follow'; else following">
                     <button class="pm-button">{{f_check}}</button>
-                </div>
+                </ng-container>
                 <ng-template #following>
                     <button id="pm-button-following" class="pm-button">{{f_check}}</button>
                 </ng-template>
-            </div>
+            </ng-container>
         </div>
 
         <h3 class="pm-username" (click)="handleUsernameClick()" >{{profile.username}}</h3>
@@ -25,4 +25,4 @@
         </div>
 
     </div>
-</div>
+</ng-container>

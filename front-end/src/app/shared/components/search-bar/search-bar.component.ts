@@ -98,7 +98,6 @@ searchForm = this.formBuilder.group({inquiry:[''],});
           //insert logic to set userList and queryList
           this.testCheck(val?? '');
           this.getDBUserFeed(val?? '');
-
         }
         else
         {

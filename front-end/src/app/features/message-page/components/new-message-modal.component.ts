@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output, SimpleChanges } from "@angular/core";
 import { Profile } from "../../../core/data";
 import { FormBuilder, Validators } from "@angular/forms";
 import { CoreService } from "../../../core/core-service.service";
@@ -45,9 +45,20 @@ import { environment } from "../../../../environments/environment";
     ngOnInit()
     {
       this.service_acc_name = sessionStorage.getItem('acc_name') ?? "badToken";
-      this.getDBDefaultFeed();
       this.onChanges();
     }
+
+    //only makes api call when component is shown
+    ngOnChanges(changes: SimpleChanges): void {
+    if (changes['show']) {
+      
+      const showCurrent = changes['show'].currentValue;
+      if(showCurrent)
+      {
+        this.getDBDefaultFeed();
+      }
+    }
+  }
    
     onChanges(): void {
       this.searchForm.get('inquiry')?.valueChanges.subscribe(val => {

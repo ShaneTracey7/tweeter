@@ -278,7 +278,7 @@
       <ng-template #hasFollowers>
         <short-profile 
         *ngFor="let profile of data[0]"
-        [profile]="profile">
+        [profile]="profile" [ppg]="upc"> <!-- new-->
         </short-profile>
       </ng-template>
     </ng-container>
@@ -291,7 +291,7 @@
       <ng-template #hasFollowing>
         <short-profile 
         *ngFor="let profile of data[1]"
-        [profile]="profile">
+        [profile]="profile" [ppg]="upc"> <!--  new-->
         </short-profile>
       </ng-template>
     </ng-container>
