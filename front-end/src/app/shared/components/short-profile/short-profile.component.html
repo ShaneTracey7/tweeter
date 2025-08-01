@@ -26,5 +26,9 @@
         </ng-container>
 </div>
 
-<profile-modal id="pm-instance" [inMain]="false" [(show)]='show_modal' [profile]='profile'></profile-modal>
+<!-- only have a modal if not in search bar results modal-->
+<ng-container *ngIf="!inSearch">
+    <profile-modal id="pm-instance" [inMain]="false" [(show)]='show_modal' [profile]='profile'></profile-modal>
+</ng-container>
+
         

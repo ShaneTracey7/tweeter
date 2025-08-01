@@ -99,7 +99,7 @@ export class ShortProfileComponent{
   //shows profile modal if there aren't any modals already open
   showModal()
   {
-    if(this.inNewMessage)
+    if(this.inNewMessage || this.inSearch)
     {
       //do nothing
       return;
@@ -131,6 +131,7 @@ export class ShortProfileComponent{
     clearTimeout(this.timer);
   }
 
+  //handling a click from within search bar modal
   handleGoTo()
   {
     if(this.service.current_page == "Profile" || this.service.current_page == "OtherProfile")
@@ -155,6 +156,7 @@ export class ShortProfileComponent{
     }
   }
 
+  //handles a shortprofile selection in the newMessage modal
   handleSelected()
   {
     if(this.inNewMessage)

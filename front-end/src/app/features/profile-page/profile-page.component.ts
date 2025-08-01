@@ -641,6 +641,7 @@ export class ProfilePageComponent extends CoreComponent{
       this.service.setCurrentPage('OtherProfile') 
       this.service_page = 'OtherProfile';
       this.last_url_section = ""; //important
+      this.isVisible = true; //needed to show follow/following button
     } 
     else
     {
@@ -682,6 +683,7 @@ export class ProfilePageComponent extends CoreComponent{
       this.service.setCurrentPage('OtherProfile') 
       this.service_page = 'OtherProfile';
       this.service_tab = 'posts';
+      this.isVisible = true; //needed to show follow/following button
       //get data as new
       this.setUpProfileDataDB(this.acc_name,true);
     }
@@ -717,29 +719,29 @@ export class ProfilePageComponent extends CoreComponent{
     //implement case for if you go to the same profile you are already on
     var arr = window.location.pathname.split("/");
     let l_url_section = arr.pop() ??"error";
-    if(str == this.service_acc_name && l_url_section == 'Profile')
+    if(str == this.service_acc_name && l_url_section == 'Profile') //this case should't happen becasue user's own name doesn't pop up in search
     {
       //do nothing
       console.log('Already on page');
-      //searchBar.focus = false;
       return;
     }
-    else if(str == l_url_section)
+    else if(str == l_url_section) //already on specific otherProfile page
     {
       //do nothing
       console.log('Already on page');
-      //searchBar.focus = false;
       return;
     }
 
     var url = "/tweeter/Profile";
     this.acc_name = str; 
 
+    let otherProfile; //if in otherProfile or not
     if(this.service_acc_name == str)
     {
       this.service.setCurrentPage('Profile') 
       this.service_page = 'Profile';
       this.last_url_section = 'Profile';
+      otherProfile = false;
     }
     else
     {
@@ -747,6 +749,8 @@ export class ProfilePageComponent extends CoreComponent{
       this.service.setCurrentPage('OtherProfile') 
       this.service_page = 'OtherProfile';
       this.last_url_section = str;
+      otherProfile = true;
+      this.isVisible = true; //needed to show follow/following button
     }
 
     this.service_tab = 'posts';
@@ -765,8 +769,9 @@ export class ProfilePageComponent extends CoreComponent{
     this.following = [];
 
     //navigate back to profile page
+    console.log(" in got to search b4 setup profilebd call this.last_url_section: " + this.last_url_section);
     this.router.navigate([url]);
-    this.setUpProfileDataDB(str,false);
+    this.setUpProfileDataDB(str,otherProfile);  // i think this should be true
     
     //set likes and retweets
     if (this.service.Likes == null )
@@ -790,8 +795,9 @@ export class ProfilePageComponent extends CoreComponent{
   {
     console.log("inFollowLists: " + this.inFollowLists);
     console.log("in setUpProfileDataDB");
+
     if(!this.service.setProfileDataFlag || otherProfile) 
-    {
+    {                                         
       console.log("in setUpProfileDataDB if case");
       this.checkUserInDB(acc_name,otherProfile).subscribe(check => {
 

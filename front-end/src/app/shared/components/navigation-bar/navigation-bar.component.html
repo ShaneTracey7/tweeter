@@ -67,9 +67,12 @@
           </div>
           <img id="profile-nav-elip" class="elip" [src]="service.setUrl('ellipsis.png')" alt="more"/>
         </div>
+
       </div> 
-      
+      <logout-modal id="logout-modal" [(show)]='show' ></logout-modal>
 </div>
-<!-- <logout-modal id="logout-modal" [(show)]='show_modal' [acc_name]="acc_name"></logout-modal> -->
-<logout-modal id="logout-modal" [(show)]='show' ></logout-modal>
+
+
+
+<!-- <logout-modal id="logout-modal" [(show)]='show' ></logout-modal>-->
 

@@ -75,18 +75,10 @@ export class NavigationBarComponent{
     } 
   }
 
+  //upon click of profile nav, show logout modal
   showModal()
   {
     this.show = true;
   }
-
-  logout() {  
-
-    sessionStorage.clear();
-    //clear core service data
-    this.service.reset();
-    console.log('logout');  
-    this.router.navigate(['/Login']);  
-  } 
 
 }

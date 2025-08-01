@@ -61,20 +61,16 @@ showNewMessageModal: boolean = false;
 
 override ngOnInit(): void {
   //check if liked or retweeted
-  //this.checkLiked()
-  console.log("**ngOnInit**");
+  //console.log("**ngOnInit**");
 
-  //this.testArr = [0];
   if(!this.inConvo)
   {
     this.setPost();
   }
-  
-
   this.modal_profile = this.user; //NEW
 
-  console.log("POST: "+ this.post);
-  console.log("USER: " + this.user);
+  //console.log("POST: "+ this.post);
+  //console.log("USER: " + this.user);
 }
 
 ngOnChanges(changes: SimpleChanges){
@@ -84,12 +80,12 @@ ngOnChanges(changes: SimpleChanges){
     if (changes['post']) {
       console.log("**ngOnChanges**");
       this.setPost();
-      console.log("POST: "+ this.post);
+      //console.log("POST: "+ this.post);
     }
     if (changes['user']){
-      console.log("**ngOnChanges**");
-      //this.testArr = [1];
-      console.log("USER: "+ this.user);
+      //console.log("**ngOnChanges**");
+      ////this.testArr = [1];
+      //console.log("USER: "+ this.user);
     }
   }
 }
@@ -106,12 +102,12 @@ checkLiked()
 if(this.service.Likes.includes(this.post.id)) //result from DB check or check through list of users likes
  {
   this.liked = true;
-  console.log("this.liked: " + this.liked);
+  //console.log("this.liked: " + this.liked);
  }
  else
  {
   this.liked = false;
-  console.log("this.liked: " + this.liked);
+  //console.log("this.liked: " + this.liked);
  }
  //this.postLikeArr = this.upc.like_ids;
   this.postLikeArr = this.service.Likes;
@@ -123,12 +119,12 @@ checkRetweeted()
  if(this.service.Retweets.includes(this.post.id))
  {
   this.retweeted = true;
-  console.log("this.retweeted: " + this.retweeted);
+  //console.log("this.retweeted: " + this.retweeted);
  }
  else
  {
   this.retweeted = false;
-  console.log("this.retweeted: " + this.retweeted);
+  //console.log("this.retweeted: " + this.retweeted);
  }
 
  //this.postRetweetArr = this.upc.retweet_ids;

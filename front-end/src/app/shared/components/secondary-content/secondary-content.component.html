@@ -8,10 +8,16 @@
 
 <ng-container *ngIf="pane == 2"> <!-- who to follow-->
   
-  <short-profile 
-  *ngFor="let profile of profiles"
-  [profile]="profile">
-  </short-profile>
+  <ng-container *ngIf="loadingFlag; else loaded"> <!---->
+        <spinner></spinner>
+      </ng-container>
+      <ng-template #loaded>
+        <short-profile 
+        *ngFor="let profile of profiles"
+        [profile]="profile">
+        </short-profile>
+      </ng-template>
+  
 
 </ng-container> 
 

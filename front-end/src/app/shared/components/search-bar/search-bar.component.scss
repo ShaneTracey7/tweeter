@@ -5,29 +5,33 @@ $gray-font: rgb(97, 110, 124);
 
 #searchBarModal{
     position: relative; //new
-    //display: none;
-    //top: 100px; //test
-    //left: 100px; //test
-    //border: 2px solid red;
     //position:fixed;
     display: flex;
     overflow-y: scroll;
     flex-direction: column;
     gap: 0px;
-    z-index: 4;//was commented out
+    z-index: 100;//was commented out
     width: 100%;
-    //min-width: 400px;
     max-width: 700px;
-   // margin-left: 20%;
-   // margin-top: 10%;
     height:fit-content;
     max-height: 500px;
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.500);
     padding: 5px;
+    will-change: transform; //prevents glitching in box shadow
   }
+  
 
+  #searchBarModal::-webkit-scrollbar {
+    display: none;
+    }
+  
+  /* Track */
+  /*
+  .#searchBarModal::-webkit-scrollbar-track {
+    background: white; 
+  }*/
   #search-form{
     width: 100%;
   }

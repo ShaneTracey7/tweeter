@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
-import { getImgUrl } from '../../../core/data';
+import { Router} from '@angular/router';
+
 
 @Component({
   selector: 'page-not-found',
@@ -11,11 +11,7 @@ export class PageNotFoundComponent {
 
   constructor(public router: Router ) {}
 
-  setUrl(str: string)
-{
-  return getImgUrl(str);
-}
-
+  //navigates user to search/explore page
   handleSearchClick()
   {
     this.router.navigate(['tweeter/Explore']);

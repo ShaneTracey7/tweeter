@@ -2,54 +2,54 @@
 <form id="search-form" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
     <div id="search-bar-and-button">
         <input id="search-searchbar" (focus)="focus=true;blur=false" (blur)="handleBlur()" type="text" placeholder="Search" formControlName="inquiry" maxlength="40" required>
-        <div *ngIf="searchForm.value.inquiry != ''">
+        <ng-container *ngIf="searchForm.value.inquiry != ''">
             <img id="search-bar-clear-button" (click)="handleClear()" [src]="service.setUrl('cross-fill.png')" alt="cross"/>
 
             <!-- will change to 'cross-fill.png'-->
-        </div>
+        </ng-container>
     </div>
 
-    <div *ngIf="focus">
+    <ng-container *ngIf="focus">
         
         <div id="searchBarModal" class="" (mouseenter)="modalFlag = true" (mouseleave)="handleMouseLeave()">
 
 
 
-            <div *ngIf="searchForm.value.inquiry != ''; else emptyInput">
+            <ng-container *ngIf="searchForm.value.inquiry != ''; else emptyInput">
 
-            <!--3 queries max-->
-            <!--
-            <div *ngFor="let query of queryList">
-                <div>
-                    <img id="" [src]="service.setUrl('magnifier.svg')" alt="magnifying glass"/>
-                    <p>{{query}}</p>
+                <!--3 queries max-->
+                <!--
+                <div *ngFor="let query of queryList">
+                    <div>
+                        <img id="" [src]="service.setUrl('magnifier.svg')" alt="magnifying glass"/>
+                        <p>{{query}}</p>
+                    </div>
                 </div>
-            </div>
-            -->
+                -->
                 <app-search-card 
                 *ngFor="let topic of queryList"
                 [searchTopic]="topic" [inSearch]="true" [epc]="epc"> <!-- [epc]="epc" -->
                 </app-search-card>
 
-            <div *ngIf="queryList.length > 0 && userList.length > 0">
-                <hr> <!-- separation line-->
-            </div>
-            <!--10 users max -->
-            <short-profile
-            *ngFor="let profile of userList"
-            [profile]="profile" [(mshow)]="focus" [inSearch]="true" [ppg]="ppg">
-            </short-profile>
+                <ng-container *ngIf="queryList.length > 0 && userList.length > 0">
+                    <hr> <!-- separation line-->
+                </ng-container>
+                <!--10 users max -->
+                <short-profile
+                *ngFor="let profile of userList"
+                [profile]="profile" [(mshow)]="focus" [inSearch]="true" [ppg]="ppg">
+                </short-profile>
 
-            <div id="go-to-container" (click)="handleGoTo()">
-                <p id="go-to-text">Go to &commat;{{searchForm.value.inquiry}}</p>
-            </div>
+                <div id="go-to-container" (click)="handleGoTo()">
+                    <p id="go-to-text">Go to &commat;{{searchForm.value.inquiry}}</p>
+                </div>
 
-            </div>
+            </ng-container>
             <ng-template #emptyInput>
                 <p id="default-text">Try searching for people, lists, or keywords</p>
             </ng-template>
 
         </div>
 
-    </div>
+    </ng-container>
 </form>

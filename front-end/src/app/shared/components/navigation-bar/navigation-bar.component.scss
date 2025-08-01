@@ -134,6 +134,7 @@ img.navbaricons {
   width: 100%;   
   justify-content: right;
   align-items: center;
+  position: relative; //needed for modal
   /*border: 1px solid blue;*/
 }
 

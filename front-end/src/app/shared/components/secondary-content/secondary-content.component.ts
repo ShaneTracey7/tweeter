@@ -14,6 +14,8 @@ export class SecondaryContentComponent {
   profiles: any []; //who to follow profile arr
   service_acc_name: string;
 
+  loadingFlag: boolean = true; //flags to show spinner while data is being fetched
+
   // global page data
   topics = createSecondarySearchTopics(); //static data
 
@@ -37,8 +39,9 @@ export class SecondaryContentComponent {
           }
           else
           {
-            this.profiles = feed;
+            this.profiles = feed; //could be null or [] idk
           } 
+          this.loadingFlag = false;
         });
         console.log("this.service.UserFeed == null");
       }
@@ -53,6 +56,7 @@ export class SecondaryContentComponent {
           {
             this.profiles = this.service.WhoToFollowFeed;
           } 
+          this.loadingFlag = false;
         console.log("this.service.UserFeed is not null");
       }
   }

@@ -1,10 +1,11 @@
 <!-- Used onHover for any profile pic outside of a search bar modal or the navigaiton bar-->
-<div *ngIf="show">
-
-    <div id="logout-modal"[style]="setModalPosition()" (click)="hideModal()" class="profileModal">
+<ng-container *ngIf="show">
+                <!-- [style]="setModalPosition()" class="profileModal"-->
+    <div id="logout-modal" (click)="hideModal()" class="logoutModal">
  
         <div id="logout-button-container">
             <p id="logout-button" (click)="logout()">Log out &commat;{{acc_name}}</p>
         </div>
      </div>
- </div>
+    </ng-container>
+    
