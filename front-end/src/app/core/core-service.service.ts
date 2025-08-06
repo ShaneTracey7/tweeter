@@ -4,7 +4,7 @@ import { ActivatedRoute, Router} from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../environments/environment";
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from "./auth.service";
 
@@ -70,13 +70,14 @@ export class CoreService {
 
   setProfileDataFlag: boolean = false; //set when setProfileData() runs in profile page
 
+  openmodal: boolean = false; //keeps track of any modals that are open
+
   //SearchBar
-
   SearchBarTopics: SearchTopic [] = []
-
-
+  private cpStyleSubject = new BehaviorSubject<string>('');
+  cp_style$ = this.cpStyleSubject.asObservable();
   //runs only once until a page refresh
-  constructor(public route: ActivatedRoute, public router: Router,public http: HttpClient/*, private auth: AuthService*/) { 
+  constructor(public route: ActivatedRoute, public router: Router,public http: HttpClient,/*, private auth: AuthService*/) { 
   
     //for clearing global variables upon access token expiry
     /*this.auth.logout$.subscribe(() => {
@@ -92,10 +93,8 @@ export class CoreService {
     console.log("inside core service constructor");
 
   }
-  //for notification but others as well (moving from main component)
-  //to ensure only one modal is visible at a time (global variable)
-  openmodal: boolean = false;
 
+  //to ensure only one modal is visible at a time (global variable)
   changeOpenModal(newValue: boolean){
     this.openmodal = newValue;
     console.log(this.openmodal);
@@ -145,12 +144,24 @@ export class CoreService {
   {
     return getHeaderImgUrl(str);
   }
+
+
+  setCpStyle(style: string): void {
+    this.cpStyleSubject.next(style);
+  }
+
+  getCpStyle(): string {
+    return this.cpStyleSubject.getValue();
+  }
+
   // sets the current page value and selects the first tab
   setCurrentPage(str: string)
   {
     const tmp = str;
     this.current_page = tmp;//new
-    this.cp_style = tmp;
+
+    this.setCpStyle(tmp)
+    //this.cp_style = tmp;
     this.marker1= true; 
     this.marker2= false;
     this.marker3= false; 
@@ -175,7 +186,8 @@ export class CoreService {
     }
 
     //console.log("Check inside boldNavbarIcon cp_style: " + this.cp_style)
-    if (this.cp_style == check) {
+    let cp_style = this.getCpStyle();
+    if (cp_style == check) {
       return this.setUrl(str + "-fill.svg");
     }
     else if(this.cp_style == 'OtherExplore' && str == 'Explore')
@@ -189,12 +201,13 @@ export class CoreService {
 
   //sets correct font styling (bold or normal) for navbar buttons
   boldNavbarItem(str: string) {
-    if (this.cp_style == str) {
+    let cp_style = this.getCpStyle();
+    if (cp_style == str) {
       return {
         fontWeight: 'bold',
       };
     }
-    else if(this.cp_style == 'OtherExplore' && str == 'Explore')
+    else if(cp_style == 'OtherExplore' && str == 'Explore')
       {
         return {
           fontWeight: 'bold',

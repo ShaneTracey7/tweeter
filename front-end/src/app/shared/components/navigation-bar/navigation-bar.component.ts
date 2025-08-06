@@ -32,7 +32,10 @@ export class NavigationBarComponent{
     this.acc_name = sessionStorage.getItem('acc_name') ?? "badToken";  
     this.pic = sessionStorage.getItem('pic') ?? "";  
     console.log("username is: " + this.username);  
+
   } 
+
+
 
   handleNavigation(page: string, tab: string)
   {

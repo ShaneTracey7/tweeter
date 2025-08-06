@@ -1,13 +1,10 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { AppComponent } from '../../../app.component';
-import {createEntertainmentSearchTopics, createForYouSearchTopics , createNewsSearchTopics, createSportsSearchTopics, createTrendingSearchTopics, Profile } from '../../../core/data';
-
-import { MessagePageComponent } from '../../../features/message-page/message-page.component';
+import { Profile } from '../../../core/data';
 import { CoreService } from '../../../core/core-service.service';
 import { AuthService } from '../../../core/auth.service';
 import { ActivatedRoute } from '@angular/router';
 @Component({
-  /*standalone: true,*/
+
   selector: 'main-content',
   templateUrl: './main-content.component.html',
   styleUrl: './main-content.component.scss',
@@ -25,43 +22,16 @@ export class MainContentComponent {
   @Input() page: string = ""; //what current_page is being displayed
 
   @Input () c_c: boolean = false;
-  forYouFeed: any [] = []
 
-  constructor(public service: CoreService, public authService: AuthService, public route: ActivatedRoute){
-
-   // this.forYouFeed = [];
-    //console.log(this.forYouFeed)
-  }
+  constructor(public service: CoreService, public authService: AuthService, public route: ActivatedRoute)
+  { }
 
   ngOnChanges(changes: SimpleChanges)
   {
-    console.log(changes);
-    console.log("a change in main component");
     console.log("tab:" + this.tab)
     console.log("page:" + this.page)
   }
 
-  //explore page data
-  forYouSearchTopics = createForYouSearchTopics();
-  trendingSearchTopics = createTrendingSearchTopics();
-  newsSearchTopics = createNewsSearchTopics();
-  sportsSearchTopics = createSportsSearchTopics();
-  entertainmentSearchTopics = createEntertainmentSearchTopics();
-
-  //profile page data
-  followerProfiles = [];
-  followingProfiles = [];
-
-  // global page data
-
-  //to ensure only one modal is visible at a time
-  openmodal: boolean = false;
-
   mcc = this;
-
-  changeOpenModal(newValue: boolean){
-    this.openmodal = newValue;
-    console.log(this.openmodal);
-  }
   
 }

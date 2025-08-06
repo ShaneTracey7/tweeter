@@ -1,6 +1,6 @@
 <!-- only used within searchPage.html-->
 
-<div *ngIf="inSearch; else notInSearch">
+<ng-container *ngIf="inSearch; else notInSearch">
     <div class="searchCard" id="searchCardSearch" (click)="goToSearch()" >
 
         <div class="sc-content">
@@ -13,7 +13,7 @@
            </div>
         </div>
     </div>
-</div>
+</ng-container>
 
 <ng-template #notInSearch>
     <div class="searchCard" (click)="goToSearch()" >

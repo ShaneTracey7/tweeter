@@ -3,10 +3,7 @@
   <ng-container [ngSwitch]="tab">
     
     <ng-container *ngSwitchCase="'following'">
-      <!--<app-post [mcc]='mcc'
-      *ngFor="let post of followingFeed"
-      [post]="post" [upc]="upc">
-      </app-post>-->
+
         <ng-container *ngIf="data[2]?.length > 0; else emptyList"> <!-- was data?.[2]?.length > 0 -->
           <app-post class="post" [style.borderRadius]="0"
           *ngFor="let post of data[2]; index as i"
@@ -44,71 +41,52 @@
 </ng-container>
 
 <!-- quite sure this isn't in use-->
-<div *ngIf="page == 'Post'">
+<ng-container *ngIf="page == 'Post'">
 
   <app-post class="post" [style.borderRadius]="0"
     *ngFor="let post of data[0]"
     [post]="post" [upc]="upc" [inThread]="true">
   </app-post>
 
-</div>
-<!--
-<div *ngIf="tab == 'following'" <; else elseBlock
-  This is the following feed
+</ng-container>
 
-<app-post
-  *ngFor="let post of posts"
-  [post]="post">
-</app-post>
-
-</div>
--->
-<!--
-<ng-template #elseBlock>
-  This is not the following feed
-  
-  {% for post in forYouFeed %}
-  {% include "post.html" with profile=post.profile username=post.username acc_name=post.acc_name e_time=post.e_time text=post.text image=post.image comments=post.comments retweets=post.retweets likes=post.likes  views=post.views %}
-  {% endfor %}
-</ng-template>
--->
-<div *ngIf="page == 'Explore' || page == 'OtherExplore'">
-  <div [ngSwitch]="tab">
-    <div *ngSwitchCase="'foryou'">
+<ng-container *ngIf="page == 'Explore' || page == 'OtherExplore'">
+  <ng-container [ngSwitch]="tab">
+    <ng-container *ngSwitchCase="'foryou'">
       <app-search-card
         *ngFor="let searchTopic of data[0]"
         [searchTopic]="searchTopic" [epc]="upc">
       </app-search-card>
-    </div>
-    <div *ngSwitchCase="'trending'">
+    </ng-container>
+    <ng-container *ngSwitchCase="'trending'">
       <app-search-card
         *ngFor="let searchTopic of data[1]"
         [searchTopic]="searchTopic" [epc]="upc">
       </app-search-card>
-    </div>
+    </ng-container>
 
-    <div *ngSwitchCase="'news'">
+    <ng-container *ngSwitchCase="'news'">
       <app-search-card
         *ngFor="let searchTopic of data[2]"
         [searchTopic]="searchTopic" [epc]="upc">
       </app-search-card>
-    </div>
+    </ng-container>
 
-    <div *ngSwitchCase="'sports'">
+    <ng-container *ngSwitchCase="'sports'">
       <app-search-card
         *ngFor="let searchTopic of data[3]"
         [searchTopic]="searchTopic" [epc]="upc">
       </app-search-card>
-    </div>
+    </ng-container>
 
-    <div *ngSwitchCase="'entertainment'">
+    <ng-container *ngSwitchCase="'entertainment'">
       <app-search-card
         *ngFor="let searchTopic of data[4]"
         [searchTopic]="searchTopic" [epc]="upc">
       </app-search-card>
-    </div>
+    </ng-container>
 
-    <div *ngSwitchCase="'latest'">
+    <ng-container *ngSwitchCase="'latest'">
       <div class="profile-empty-list" *ngIf="data[0] == ''; else notEmpty1">
         <p class="profile-empty-list-title"> No results for "{{query}}"</p>
         <p class="profile-empty-list-body">Try searching for something else</p>
@@ -119,8 +97,8 @@
         [post]="post" [user]="data[1][i]" [upc]="upc">
         </app-post>
       </ng-template>
-    </div>
-    <div *ngSwitchCase="'people'">
+    </ng-container>
+    <ng-container *ngSwitchCase="'people'">
       <div class="profile-empty-list" *ngIf="data[2] == ''; else notEmpty2">
         <p class="profile-empty-list-title"> No results for "{{query}}"</p>
         <p class="profile-empty-list-body">Try searching for something else</p>
@@ -131,8 +109,8 @@
       [profile]="profile">
       </short-profile>
       </ng-template>
-    </div>
-    <div *ngSwitchCase="'media'">
+    </ng-container>
+    <ng-container *ngSwitchCase="'media'">
       <div class="profile-empty-list" *ngIf="data[3] == ''; else notEmpty3">
         <p class="profile-empty-list-title"> No results for "{{query}}"</p>
         <p class="profile-empty-list-body">Try searching for something else</p>
@@ -140,29 +118,30 @@
       <ng-template #notEmpty3>
         <!-- not implementing media atm-->
       </ng-template>
-    </div>
-    <div *ngSwitchCase="'blank'">
+    </ng-container>
+    <ng-container *ngSwitchCase="'blank'">
       <!-- nothing-->
-      </div>
-    <div *ngSwitchDefault> 
+      </ng-container>
+    <ng-container *ngSwitchDefault> 
       <app-search-card
         *ngFor="let searchTopic of data[0]"
         [searchTopic]="searchTopic" [epc]="upc">
       </app-search-card>
-    </div>
-  </div>
-</div>
-<div *ngIf="page == 'Notifications'">
-  <div [ngSwitch]="tab">
+    </ng-container>
+  </ng-container>
+</ng-container>
 
-    <div *ngSwitchCase="'verified'">
+<ng-container *ngIf="page == 'Notifications'">
+  <ng-container [ngSwitch]="tab">
+
+    <ng-container *ngSwitchCase="'verified'">
       <div class="profile-empty-list">
         <p class="profile-empty-list-title"> Nothing to see here — yet</p>
         <p class="profile-empty-list-body">Likes, mentions, reposts, and a whole lot more — when it comes from a verified account, you’ll find it here.</p>
       </div>
-    </div>
+    </ng-container>
     <!-- Logic not implemented yet-->
-    <div *ngSwitchCase="'mentions'">
+    <ng-container *ngSwitchCase="'mentions'">
       <div class="profile-empty-list" *ngIf="data[1] == null; else notEmpty">
         <p class="profile-empty-list-title"> You have no mentions</p>
         <p class="profile-empty-list-body">Once you get some, they will show up here</p>
@@ -173,9 +152,9 @@
         [post]="post" [user]="data[2][i]" [upc]="upc">
         </app-post>
       </ng-template>
-    </div>
+    </ng-container>
     
-    <div *ngSwitchDefault> <!-- 'all'-->
+    <ng-container *ngSwitchDefault> <!-- 'all'-->
       <div class="profile-empty-list" *ngIf="data[0] == ''; else notEmpty2">
         <p class="profile-empty-list-title"> You have no notifications</p>
         <p class="profile-empty-list-body">Once you get some, they will show up here</p>
@@ -187,27 +166,11 @@
     </app-notification>
       </ng-template>
       
-    </div>
+    </ng-container>
 
-  </div>
-</div>
+  </ng-container>
+</ng-container>
 
-<!---
-<div *ngIf="page == 'Messages'">
-  <app-message [mpc]="mpc" [c_c]="c_c"
-    *ngFor="let message of messages"
-    [message]="message">
-  </app-message>
-</div>
--->
-<!--
-<div *ngIf="page == 'Messages'">
-  <app-message [mpc]="mpc" [mcc]="mcc"
-    *ngFor="let convo of data[0]"
-    [convo]="convo">
-  </app-message>
-</div>
--->
 <ng-container *ngIf="page == 'Profile' || page == 'OtherProfile'">
   <ng-container [ngSwitch]="tab">
 

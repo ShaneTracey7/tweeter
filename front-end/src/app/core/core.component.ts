@@ -21,7 +21,7 @@ export class CoreComponent{
     let second_last = arr.pop() ??"error";
 
     //sets current page and cp_style
-    if ( last_url_section == 'Home' || last_url_section == 'Explore' || last_url_section == 'Notifications' || last_url_section == 'Messages' || last_url_section == 'Profile')
+    if (last_url_section == 'Home' || last_url_section == 'Explore' || last_url_section == 'Notifications' || last_url_section == 'Messages' || last_url_section == 'Profile')
     { 
 
       this.service.current_page = last_url_section;

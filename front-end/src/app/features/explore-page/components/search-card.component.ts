@@ -1,9 +1,6 @@
 import { Component, Input} from '@angular/core';
 import { SearchTopic } from '../../../core/data';
-import { ExplorePageComponent } from '../explore-page.component';
 import { CoreService } from '../../../core/core-service.service';
-
-
 
 @Component({
 
@@ -17,7 +14,6 @@ export class SearchCardComponent /*extends ExplorePageComponent*/{
 @Input () inSearch: boolean = false;
 
 //need to pass instance of explore page into this component
-//@Input () epc: ExplorePageComponent = new ExplorePageComponent(this.router,this.http,this.authService,this.route,this.service,this.tweetService);
 @Input () epc: any = '';
   //populates searchbar with searchtopic topic
   constructor(public service: CoreService) {}
@@ -25,43 +21,34 @@ export class SearchCardComponent /*extends ExplorePageComponent*/{
   goToSearch(){
 
     if(this.service.current_page == 'Explore' || this.service.current_page == 'OtherExplore')
-    {
-        //hide modal of search bar
-        //this.modalFlag = false;
-        //this.focus =false;
+    {    
+        //start loading spinner
+        this.epc.loadingPostFlag = true;
 
         this.epc.inActiveSearch = true;
-
         this.service.routeToChild('blank');
-        //do all the db calls from here to populate the arrays
 
-        //one for latest (get posts [0] and users [1])
+        //latest (get posts [0] and users [1], people [2], media [3] )
         this.epc.postList = [];
         this.epc.postUserList = [];
         this.epc.getDBPostFeed(this.searchTopic.topic);
-        //one for people (get users [2])
+      
         this.epc.userList = [];
         this.epc.getDBUserFeed(this.searchTopic.topic);
 
-        //none for media [3] is always empty
-
-        setTimeout(() => {
-          this.epc.arr = [this.epc.postList,this.epc.postUserList,this.epc.userList,''];
-          this.epc.query = this.searchTopic.topic;
-          let urlFriendlyStr = this.searchTopic.topic.replace(/ /g, '-');
-          this.service.router.navigate(['tweeter/Explore/' + urlFriendlyStr]);
-          this.service.setCurrentPage('OtherExplore'); 
-          console.log("submitted");
-        }, 1000) // 1 sec
-        
-        setTimeout(() => {
-          this.service.routeToChild('latest');
-        }, 2000) // 2 sec
+        this.epc.query = this.searchTopic.topic;
+        let urlFriendlyStr = this.searchTopic.topic.replace(/ /g, '-');
+        this.service.router.navigate(['tweeter/Explore/' + urlFriendlyStr]);
+        this.service.setCurrentPage('OtherExplore'); 
+        this.service.routeToChild('latest');
+        console.log("submitted");
     }
     else
     {
       let urlFriendlyStr = this.searchTopic.topic.replace(/ /g, '-');
       this.service.router.navigate(['tweeter/Explore/' + urlFriendlyStr]);
+      //this.service.setCurrentPage('OtherExplore'); 
+      this.service.cp_style = "OtherExplore";
     }
 
   }
