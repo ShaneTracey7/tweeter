@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { AppComponent } from '../../../app.component';
 import {createEntertainmentSearchTopics, createForYouSearchTopics , createNewsSearchTopics, createSportsSearchTopics, createTrendingSearchTopics, Profile } from '../../../core/data';
-import { TweetService } from '../../../core/tweet-service';
+
 import { MessagePageComponent } from '../../../features/message-page/message-page.component';
 import { CoreService } from '../../../core/core-service.service';
 import { AuthService } from '../../../core/auth.service';
@@ -23,14 +23,12 @@ export class MainContentComponent {
 
   @Input() tab: string = ""; //what tab is being displayed
   @Input() page: string = ""; //what current_page is being displayed
-  //@Input() mpc:MessagePageComponent = new MessagePageComponent(this.authService, this.route,this.service,this.tweetService);
+
   @Input () c_c: boolean = false;
   forYouFeed: any [] = []
 
-  constructor(private tweetService: TweetService, public service: CoreService, public authService: AuthService, public route: ActivatedRoute){
-   // console.log('myService', tweetService);
+  constructor(public service: CoreService, public authService: AuthService, public route: ActivatedRoute){
 
-    //this.forYouFeed = this.tweetService.FEfeed
    // this.forYouFeed = [];
     //console.log(this.forYouFeed)
   }

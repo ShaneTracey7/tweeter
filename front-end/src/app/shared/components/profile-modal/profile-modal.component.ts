@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import { Profile } from '../../../core/data';
 import { CoreService } from '../../../core/core-service.service';
-import { TweetService } from '../../../core/tweet-service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../core/auth.service';
 import { FormBuilder } from '@angular/forms';
@@ -27,7 +26,7 @@ export class ProfileModalComponent{
 
   service_acc_name: string = "";
   
-  constructor(public formBuilder: FormBuilder,public service: CoreService, public tweetService: TweetService, public authService: AuthService, public route: ActivatedRoute){
+  constructor(public formBuilder: FormBuilder,public service: CoreService, public authService: AuthService, public route: ActivatedRoute){
     
     this.service_acc_name = sessionStorage.getItem('acc_name') ?? "badToken";
   }

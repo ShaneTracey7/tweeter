@@ -4,7 +4,6 @@ import { CoreService } from '../../core/core-service.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../core/auth.service';
 import { HttpClient } from '@angular/common/http';
-import { TweetService } from '../../core/tweet-service';
 import { Notification, Post, Profile } from '../../core/data';
 import { FormBuilder,Validators } from '@angular/forms';
 import { environment } from '../../../environments/environment';
@@ -40,8 +39,8 @@ export class PostPageComponent extends CoreComponent{
   tweetForm = this.formBuilder.group({
     text_content: ['', [Validators.maxLength(181)]],
     });
-
-  constructor(authService: AuthService, route: ActivatedRoute, service: CoreService,public http: HttpClient, public tweetService: TweetService, public formBuilder: FormBuilder )
+  
+  constructor(authService: AuthService, route: ActivatedRoute, service: CoreService,public http: HttpClient, public formBuilder: FormBuilder )
   {
     super(authService,route,service);
     this.service_acc_name = "";
@@ -183,10 +182,10 @@ postClick(reply_id: number)
   {
     let image_content = "";
     
-    if(this.tweetService.tweetValidated(this.tweetForm.value.text_content?? '',image_content))
+    if(this.service.tweetValidated(this.tweetForm.value.text_content?? '',image_content))
       {
         this.submit_flag = 2;
-        this.tweetService.postTweet(this.service_acc_name,this.tweetForm.value.text_content?? '',image_content,reply_id);
+        this.service.postTweet(this.service_acc_name,this.tweetForm.value.text_content?? '',image_content,reply_id);
         this.tweetForm.reset();
       }
     else

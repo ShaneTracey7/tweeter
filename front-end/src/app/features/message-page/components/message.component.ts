@@ -18,7 +18,7 @@ import {environment} from '../../../../environments/environment';
 export class MessageComponent extends MessagePageComponent{
 @Input () message = new MessageCard('','','','','');
 @Input () convo = new Convo(0,new Profile('','','','','',0,0),[], new Date());
-@Input() mpc:MessagePageComponent = new MessagePageComponent(this.formBuilder, this.authService, this.route,this.service,this.tweetService);
+@Input() mpc:MessagePageComponent = new MessagePageComponent(this.formBuilder, this.authService, this.route,this.service);
 @Input () c_c: boolean = false;
 @Input () selectedM: boolean = false;
 

@@ -4,7 +4,6 @@ import { CoreComponent } from '../../core/core.component';
 import { CoreService } from '../../core/core-service.service';
 import { AuthService } from '../../core/auth.service'; 
 import { HttpClient } from '@angular/common/http';
-import { TweetService } from '../../core/tweet-service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Post, Profile } from '../../core/data';
 import { environment } from '../../../environments/environment'; //import environment for apiUrl
@@ -47,7 +46,7 @@ export class HomePageComponent extends CoreComponent{
   DBFollowing: any [] = []; //raw array of User following from DB
   following: Profile [] = [] //array of Profile objs of following
 
-constructor(authService: AuthService, route: ActivatedRoute, service: CoreService,public http: HttpClient, public tweetService: TweetService, public formBuilder: FormBuilder )
+constructor(authService: AuthService, route: ActivatedRoute, service: CoreService,public http: HttpClient, public formBuilder: FormBuilder )
 {
   super(authService,route,service);
   this.pic = "";
@@ -147,10 +146,10 @@ tweetForm = this.formBuilder.group({
   {
     let image_content = "";
     
-    if(this.tweetService.tweetValidated(this.tweetForm.value.text_content?? '',image_content))
+    if(this.service.tweetValidated(this.tweetForm.value.text_content?? '',image_content))
       {
         this.submit_flag = 2;
-        this.tweetService.postTweet(this.service_acc_name,this.tweetForm.value.text_content ?? '',image_content, reply_id);
+        this.service.postTweet(this.service_acc_name,this.tweetForm.value.text_content ?? '',image_content, reply_id);
         this.tweetForm.reset();
         console.log("submit flag: " +this.submit_flag)
       }

@@ -1,5 +1,5 @@
 import { Injectable} from "@angular/core";
-import { Profile, Post, getImgUrl, getHeaderImgUrl, getProfileImgUrl } from "./data";
+import { Profile, Post, getImgUrl, getHeaderImgUrl, getProfileImgUrl, SearchTopic,createSearchBarTopics } from "./data";
 import { ActivatedRoute, Router} from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../environments/environment";
@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from "./auth.service";
+
 //@Injectable()
 @Injectable({
   providedIn: 'root',
@@ -69,6 +70,11 @@ export class CoreService {
 
   setProfileDataFlag: boolean = false; //set when setProfileData() runs in profile page
 
+  //SearchBar
+
+  SearchBarTopics: SearchTopic [] = []
+
+
   //runs only once until a page refresh
   constructor(public route: ActivatedRoute, public router: Router,public http: HttpClient/*, private auth: AuthService*/) { 
   
@@ -82,6 +88,7 @@ export class CoreService {
     //this.createUserFeed(false, ""); NEW
 
     this.getFollowingList();
+    this.SearchBarTopics = createSearchBarTopics();
     console.log("inside core service constructor");
 
   }
@@ -668,9 +675,65 @@ isFollower(acc_name: string)
   }
 
 
-/* * * * * * * * * * * * * *functions for explore page * * * + * * * * * * * * * * */
+/* * * * * * * * * * * * * *functions from tweet service * * * + * * * * * * * * * * */
+
+//validates tweet (in use on home page, post page)
+tweetValidated(text_content:string,image_content: string | null)
+{
+  if(text_content == "")
+    {
+      if(image_content == "empty" || image_content == "")
+        {
+          console.log("no content, tweet invalid!")
+          return false;
+        }
+      else
+      {
+        console.log("tweet valid, only picture")
+          return true;
+      }
+    }
+    else
+    {
+      if(text_content.length < 180)
+        {
+          console.log("tweet valid")
+          return true;
+        }
+      else
+        {
+          console.log("tweet too long, tweet invalid!")
+          return false;
+        }
+    }
+}
+
+//adds tweet to database (in use on home page, post page)
+postTweet(acc_name: string, text_content: string, image_content: string | null, reply_id: number)
+{
+
+  if (image_content == "")
+    {
+      image_content = null
+    }
+  console.log(text_content);
 
 
+  let requestMessage =
+    {
+      "word": acc_name,
+      "word2": text_content,
+      "word3": image_content,
+      "num": reply_id,
+      //"date": Date(),    //date_created
+    }
+    console.log(requestMessage)
+  
+  this.http.post(environment.apiUrl +"/tweet",requestMessage).subscribe((resultData: any)=>
+    {
+        console.log(resultData);
+    });
+}
 
 
 }

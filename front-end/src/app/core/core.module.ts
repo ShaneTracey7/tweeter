@@ -21,7 +21,6 @@ import { SecondaryContentComponent } from '../shared/components/secondary-conten
 import { ShortProfileComponent } from '../shared/components/short-profile/short-profile.component';
 import { ProfileModalComponent } from '../shared/components/profile-modal/profile-modal.component';
 import { CoreService } from './core-service.service';
-import { TweetService } from './tweet-service';
 import { LogoutModalComponent } from '../shared/components/navigation-bar/logout-modal.component';
 import { ProfilePageComponent } from '../features/profile-page/profile-page.component';
 import { PostPageComponent } from '../features/post-page/post-page.component';
@@ -69,7 +68,7 @@ import { SpinnerComponent } from '../shared/components/spinner/spinner.component
     RouterLinkActive,
     CommonModule
   ],
-  providers: [/*CoreService,*/TweetService], //new
+  providers: [/*CoreService,*//*TweetService*/], //new
   bootstrap: [CoreComponent]
 })
 export class CoreModule {}

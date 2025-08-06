@@ -98,18 +98,15 @@ setPost()
 
 checkLiked()
 {
- //if(this.upc.like_ids.includes(this.post.id)) //result from DB check or check through list of users likes
+ //if(this.upc.like_ids.includes(this.post.id))
 if(this.service.Likes.includes(this.post.id)) //result from DB check or check through list of users likes
  {
   this.liked = true;
-  //console.log("this.liked: " + this.liked);
  }
  else
  {
   this.liked = false;
-  //console.log("this.liked: " + this.liked);
  }
- //this.postLikeArr = this.upc.like_ids;
   this.postLikeArr = this.service.Likes;
 }
 
@@ -119,15 +116,12 @@ checkRetweeted()
  if(this.service.Retweets.includes(this.post.id))
  {
   this.retweeted = true;
-  //console.log("this.retweeted: " + this.retweeted);
  }
  else
  {
   this.retweeted = false;
-  //console.log("this.retweeted: " + this.retweeted);
  }
 
- //this.postRetweetArr = this.upc.retweet_ids;
  this.postRetweetArr = this.service.Retweets
 }
 

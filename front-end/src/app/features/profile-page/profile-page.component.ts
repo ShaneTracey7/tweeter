@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {Post, Profile, elon} from '../../core/data'
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../core/auth.service';
-import { TweetService } from '../../core/tweet-service';
 import { SearchBarComponent } from '../../shared/components/search-bar/search-bar.component';
 import { environment } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
@@ -64,7 +63,7 @@ export class ProfilePageComponent extends CoreComponent{
 
   backUrl: string; //url needed to go back to profile page from followers/following view
 
-  constructor(private router: Router,private http: HttpClient,authService: AuthService, route: ActivatedRoute, service2: CoreService, public tweetService: TweetService) {
+  constructor(private router: Router,private http: HttpClient,authService: AuthService, route: ActivatedRoute, service2: CoreService) {
     super(authService,route,service2);
 
     this.service_acc_name = "";

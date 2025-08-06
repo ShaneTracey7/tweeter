@@ -4,10 +4,10 @@ import { createNewsSearchTopics, createSearchBarTopics, Post, Profile, SearchTop
 import { CoreService } from "../../../core/core-service.service";
 import { HttpClient } from "@angular/common/http";
 import { ProfilePageComponent } from "../../../features/profile-page/profile-page.component";
-import { TweetService } from "../../../core/tweet-service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "../../../core/auth.service";
 import { environment } from "../../../../environments/environment";
+import { firstValueFrom, map, Observable } from "rxjs";
 
 @Component({
 
@@ -18,12 +18,7 @@ import { environment } from "../../../../environments/environment";
   })
   export class SearchBarComponent {
   
-// My goal
 /*
-create an input 
--that is typeable
-- that has a clear option
-
 create a modal
 -display up to 13 items ( 3 searches & 10 profiles)
 -display a 14th option to visit " @'typed value' "
@@ -43,41 +38,34 @@ on submit,
 @Input() inActiveSearch: boolean = false;
 @Output() inActiveSearchChange = new EventEmitter<boolean>();
 
-@Input() data: any = [];
+@Input() data: any = []; // [for you, trending, news, sports, entertainment] or [tweets, tweetsUsers, users, media]
 @Output() dataChange = new EventEmitter<any>();
 
 @Input() query: string = '';
 @Output() queryChange = new EventEmitter<any>();
 
-@Input() ppg = new ProfilePageComponent(this.router,this.http,this.authService,this.route,this.service,this.tweetService)
+@Input() postFlag: boolean = false;
+@Output() postFlagChange = new EventEmitter<boolean>(); //needing for loading spinner in explore page
 
-wordlist: string [] = ['hello','goodbye','good','dog','boy','toy','fleece','bacon','shake','hands','bands', 'bowl','hair', 'but', 'cut', 'what', 'shut', 'mutt', 'wear','orange','yellow',  'blue', 'green', 'red', 'purple', 'oval', 'office', 'olive', 'john', 'bear', 'cat', 'fish', 'salmon', 'burger', 'her', 'she', 'chocolate', 'milk', 'axe', 'zebra', 'mormon', 'harmonica', 'melody', 'arial', 'trival','beach', 'steak', 'street', 'sign'];
-
+@Input() ppg = new ProfilePageComponent(this.router,this.http,this.authService,this.route,this.service)
 
 focus:boolean = false;
 blur: boolean = true;
 modalFlag:boolean = false;
 
+prepFlag1:boolean = false;
+prepFlag2:boolean = false;
 
-DBUserFeed: any [] = [];
+//DBUserFeed: any [] = [];
 userList: Profile [] = [];
 
- DBFeed: any [] = [];
- postList: Post [] = [];
- postUserList: Profile [] = [];
-
-
-DBTopicFeed: any [] = [];
-queryList: SearchTopic [] = [];
-queryList2: string [] = [];
+queryList: SearchTopic [] = []; //tailored list of search topics inside of modal
 service_acc_name: string = '';
 
 searchForm = this.formBuilder.group({inquiry:[''],});
   
-  constructor(private formBuilder: FormBuilder, public service: CoreService, public http: HttpClient, public router: Router, public authService: AuthService, public route: ActivatedRoute, public tweetService: TweetService) 
-  {
-    
-  }
+  constructor(private formBuilder: FormBuilder, public service: CoreService, public http: HttpClient, public router: Router, public authService: AuthService, public route: ActivatedRoute) 
+  {}
   
   ngOnInit()
   {
@@ -87,28 +75,27 @@ searchForm = this.formBuilder.group({inquiry:[''],});
 
     this.service_acc_name = sessionStorage.getItem('acc_name') ?? "badToken";  
     this.onChanges();
-    this.convertQueryFeed();
   }
  
-
+  //when user input changes check DB
     onChanges(): void {
       this.searchForm.get('inquiry')?.valueChanges.subscribe(val => {
         if((val?.length?? 0 )> 2)
         {
           //insert logic to set userList and queryList
-          this.testCheck(val?? '');
+          this.addTopics(val?? '');
           this.getDBUserFeed(val?? '');
         }
         else
         {
           this.userList = [];
           this.queryList = [];
-          this.queryList2 = [];
         }
         console.log("value: " + val);
       });
     }
   
+    //setting value for seach bar input upon redirect (mainly inside of explorepage, not positive tho)
     ngOnChanges(changes: SimpleChanges){
       
         if (changes['defaultValue']) {
@@ -130,12 +117,11 @@ searchForm = this.formBuilder.group({inquiry:[''],});
           
         }
     }
-    //trying to fix this, i want it to have loading circle, but doesnt work right if the search is from explore page, but on secondary component it isnt bad
+    //handles hitting 'enter' of search bar
     onSubmit(){
   
       if(this.searchForm.valid)
       {
-        
         //hide modal
         this.modalFlag = false;
         this.focus =false;
@@ -144,30 +130,43 @@ searchForm = this.formBuilder.group({inquiry:[''],});
         this.inActiveSearchChange.emit(this.inActiveSearch);
 
         this.service.routeToChild('blank');
-        //do all the db calls from here to populate the arrays
 
-        //one for latest (get posts [0] and users [1])
-        this.postList = [];
-        this.postUserList = [];
-        // new  this.getDBPostFeed(this.searchForm.value.inquiry?? '')
+        this.userList = []; //clears user data of search modal
 
-        //one for people (get users [2])
-        this.userList = [];
-       // new     this.getDBUserFeed(this.searchForm.value.inquiry?? '');
+        var arr = window.location.pathname.split("/");
+        let last_url_section = arr.pop();
+        let second_last_url = arr.pop();
+        if(last_url_section == 'Explore' || second_last_url == 'Explore') //on explore page
+        {
+          //set data arr and emit back to explore page [tweets, tweetsUsers, users, media]
+          let searchQuery = this.searchForm.value.inquiry?? '';
+          if(searchQuery != '')
+          {
+            this.postFlagChange.emit(true); //start loading spinner
+
+            this.prepExplorePage(searchQuery).then(({ posts, postUsers, users }) => {
+
+            console.log('posts:', posts);
+            console.log('users:', users);
+            console.log('postUsers:', postUsers);
+            this.dataChange.emit([posts, postUsers, users, []])
+            this.queryChange.emit(searchQuery);
+
+            this.postFlagChange.emit(false); //stop loading spinnner
+            //this.foryouLoadingFlag = false;
+            });
+          }
+          else{
+            this.dataChange.emit([[], [], [], []])
+            this.queryChange.emit('');
+          }
+        }
 
         //none for media [3] is always empty
-
-        setTimeout(() => {
-          // new    this.dataChange.emit([this.postList,this.postUserList,this.userList,'']);
-          // new     this.queryChange.emit(this.searchForm.value.inquiry);
-          this.router.navigate(['tweeter/Explore/' + this.searchForm.value.inquiry]); //new
-          console.log("submitted");
-        }, 1000) // 1 sec
-        
-        setTimeout(() => {
-          this.service.routeToChild('latest');
-        }, 2000) // 2 sec
-        
+        this.router.navigate(['tweeter/Explore/' + this.searchForm.value.inquiry]); //new
+        this.service.routeToChild('latest');
+      
+        console.log("submitted");
       }
       else
       {
@@ -175,37 +174,14 @@ searchForm = this.formBuilder.group({inquiry:[''],});
       }
     }
 
-    hideModal()
+    //populates search bar modal with topics based off user input (used to be testCheck)
+    addTopics(str: string)
     {
-    }
-
-  /*
-    testCheck2(str: string)
-    {
-      //this.queryList = [];
-      this.queryList2 = [];
-      this.wordlist.forEach(word =>{
-        
-        if(word.startsWith(str))
-        {
-          this.queryList2.push(word);
-        }
-      });
-    }*/
-    testCheck(str: string)
-    {
-      //this.queryList = [];
       this.queryList = [];
-      /*this.DBTopicFeed.forEach((t) =>{
-        
-        if(t.topic.startsWith(str))
-        {
-          this.queryList.push(t);
-        }
-      });*/
+
       let checkInput = str.toLowerCase()
       var count = 0;
-      for(const t of this.DBTopicFeed)
+      for(const t of this.service.SearchBarTopics) //this.DBTopicFeed
       {
         if(count == 3)
         {
@@ -220,6 +196,7 @@ searchForm = this.formBuilder.group({inquiry:[''],});
       }
     }
 
+  //populates user suggestions in search modal
   getDBUserFeed(str:string)
   {
     if(str != '')
@@ -236,111 +213,111 @@ searchForm = this.formBuilder.group({inquiry:[''],});
             "follower_count" : 0,
             "following_count" : 0,
           };
-      /*
-      let requestMessage =
-      {
-        'word': 'getUserSearch',
-        'word2': str, //current value of input
-      };
-      */
+
         this.http.put(environment.apiUrl +"/user",requestBody).subscribe((resultData: any)=>
         {
           if(resultData == 'Failed to Add' || resultData == 'No users' || resultData == 'check is else')
             {
               console.log(resultData);
               this.userList = [];
-              this.DBUserFeed = [];
               console.log('Unsuccessful data base retrieval');
             }
             else //Successful
             {
-              this.DBUserFeed = resultData;
-              console.log(this.DBUserFeed);
-              this.convertUserFeed();
+              this.convertUserFeed(resultData);
               console.log('Successful data base retrieval');
             }
         });
     }
   }
 
-
-  convertQueryFeed()
-  {
-    this.DBTopicFeed = createSearchBarTopics();
-  }
-
-  convertUserFeed()
+  convertUserFeed(feed: any [])
   {   
     //clear feed
     this.userList = [];
 
-    for (let i = 0; i < this.DBUserFeed.length;i++) 
+    for (let i = 0; i < feed.length;i++) 
       {
-        let user = this.DBUserFeed[i];
+        let user = feed[i];
         var u = new Profile(user.pic?.image_url,user.header_pic?.image_url, user.username, user.acc_name, user.bio, user.following_count, user.follower_count);
         this.userList.push(u);
       }
   }
 
-  getDBPostFeed(str:string)
-      {
-        if(str != '')
+//called upon submission from explore page preps the data arr
+async prepExplorePage(str:string): Promise<{posts: Post[] , postUsers: Profile[], users: Profile[]}> {
+
+  let users: Profile [] = [];
+  let posts: Post [] = [];
+  let postUsers: Profile [] = [];
+
+  try {
+     const requestBody1 = {
+        "username" : 'getUserSearch',
+        "email" : 'e',
+        "acc_name" : this.service_acc_name, //logged in user's acc_name to exclude
+        "password" : str.toLowerCase(),//current value of input
+        "pic" : null, //new 
+        "header_pic" : null,
+        "bio" : "b",
+        "follower_count" : 0,
+        "following_count" : 0,    
+      };
+
+    const userResponse = await firstValueFrom(this.http.put<any>(environment.apiUrl + "/user", requestBody1));
+
+    if (userResponse == 'Failed to Add' || userResponse == 'No users' || userResponse == 'check is else') 
+    {
+      console.log("prep explore page getUserSearch: " + userResponse);
+    }
+    else
+    {
+      for (let i = 0; i < userResponse.length;i++) 
         {
-          let requestBody =
-              {
-                "username" : 'getPostSearch',
-                "email" : 'e',
-                "acc_name" : this.service_acc_name, //idk if this is needed anymore
-                "password" : str,//current value of input
-                "pic" : null, //new 
-                "header_pic" : null,
-                "bio" : "b",
-                "follower_count" : 0,
-                "following_count" : 0,
-              };
-          /*
-          let requestMessage =
-          {
-            'word': 'getUserSearch',
-            'word2': str, //current value of input
-          };
-          */
-            this.http.put(environment.apiUrl + "/user",requestBody).subscribe((resultData: any)=>
-            {
-              if(resultData == 'Failed to Add' || resultData == 'No posts' || resultData == 'check is else')
-                {
-                  console.log(resultData);
-                  this.postList = [];
-                  this.postUserList = [];
-                  this.DBFeed = [];
-                  console.log('Unsuccessful data base retrieval');
-                }
-                else //Successful
-                {
-                  this.DBFeed = resultData;
-                  console.log(this.DBFeed);
-                  this.convertPostFeed();
-                  console.log('Successful data base retrieval');
-                }
-            });
+          let user = userResponse[i];
+          var u = new Profile(user.pic?.image_url,user.header_pic?.image_url, user.username, user.acc_name, user.bio, user.following_count, user.follower_count);
+          users.push(u);
         }
-      }
-      convertPostFeed()
-      {   
-        //clear feed
-        this.postList = [];
-        this.postUserList = [];
-    
-        for (let i = 0; i < this.DBFeed[0].length;i++) 
-          {
-            let user = this.DBFeed[1][i];
-            let post = this.DBFeed[0][i];
-            var u = new Profile(user.pic,user.header_pic, user.username, user.acc_name, user.bio, user.following_count, user.follower_count);
-            this.postUserList.push(u);
-            var p = new Post(post.id,user.pic, user.username, user.acc_name,post.date_created, post.text_content, '', post.comments.toString(), post.retweets.toString(), post.likes.toString(), post.engagements.toString()); 
-            this.postList.push(p);
-          }
-      }
+    }
+
+    const requestBody2 = {
+        "username" : 'getPostSearch',
+        "email" : 'e',
+        "acc_name" : this.service_acc_name, //idk if this is needed anymore
+        "password" : str,//current value of input
+        "pic" : null, //new 
+        "header_pic" : null,
+        "bio" : "b",
+        "follower_count" : 0,
+        "following_count" : 0,
+      };
+
+    const postResponse = await firstValueFrom(this.http.put<any>(environment.apiUrl + "/user", requestBody2));
+
+    if (postResponse == 'Failed to Add' || postResponse == 'No posts' || postResponse == 'check is else') 
+    {
+      console.log("prep explore page getUserSearch: " + postResponse);
+    }
+    else
+    {
+      for (let i = 0; i < postResponse[0].length;i++) 
+        {
+          let user = postResponse[1][i];
+          let post = postResponse[0][i];
+          var u = new Profile(user.pic?.image_url,user.header_pic?.image_url, user.username, user.acc_name, user.bio, user.following_count, user.follower_count);
+          postUsers.push(u);
+          var p = new Post(post.id,user.pic?.image_url, user.username, user.acc_name,post.date_created, post.text_content, '', post.comments.toString(), post.retweets.toString(), post.likes.toString(), post.engagements.toString()); 
+          posts.push(p);
+        }
+    }
+
+    return { posts: posts, postUsers: postUsers, users: users};
+  } 
+  catch (error) {
+    console.error("Error loading For You feed:", error);
+    return { posts: [], postUsers: [], users: []};
+  }
+}
 
   //when 'go to @<insert-inquiry-value>' is clicked
   handleGoTo()
@@ -356,10 +333,9 @@ searchForm = this.formBuilder.group({inquiry:[''],});
       this.service.setCurrentPage('OtherProfile');
       this.service.router.navigate([route]);
     }
-
   }
 
-  //called when false 
+  //called when false (idk if this does much)
   handleMouseLeave()
   {
     console.log('mouseleave')
@@ -387,6 +363,7 @@ searchForm = this.formBuilder.group({inquiry:[''],});
     }
   }
 
+  //clears searchbar input when 'x' button is clicked
   handleClear()
     {
       this.focus = false;

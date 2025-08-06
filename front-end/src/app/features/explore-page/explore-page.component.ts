@@ -5,7 +5,6 @@ import { CoreService } from '../../core/core-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../core/auth.service'; 
 import { HttpClient } from '@angular/common/http';
-import { TweetService } from '../../core/tweet-service';
 import { createEntertainmentSearchTopics, createForYouSearchTopics, createNewsSearchTopics, createSportsSearchTopics, createTrendingSearchTopics, Post, Profile } from '../../core/data';
 import { environment } from '../../../environments/environment';
 
@@ -26,11 +25,11 @@ export class ExplorePageComponent extends CoreComponent {
    query: string = '';
    arr: any []; // [for you, trending, news, sports, entertainment] or [tweets, tweetsUsers, users, media]
 
-   DBFeed: any [] = [];
+   //for latest tab
    postList: Post [] = [];
    postUserList: Profile [] = [];
 
-   DBUserFeed: any [] = [];
+   //for people tab
    userList: Profile [] = [];
 
    loadingPostFlag: boolean = true; //flag to show spinner while data is being fetched
@@ -42,27 +41,19 @@ export class ExplorePageComponent extends CoreComponent {
   sportsSearchTopics = createSportsSearchTopics();
   entertainmentSearchTopics = createEntertainmentSearchTopics();
 
-  constructor(public router: Router,public http: HttpClient,authService: AuthService, route: ActivatedRoute, service2: CoreService, public tweetService: TweetService) {
+  constructor(public router: Router,public http: HttpClient,authService: AuthService, route: ActivatedRoute, service2: CoreService) {
       super(authService,route,service2);
   
-      //this.core_service = new CoreService(route,router,http);
       this.service_acc_name = "";
-      //this.service_username = "";
       this.last_url_section = "";
       this.service_page = "";
       this.arr = ['','','',''];
-
-
-      /* will need later 
-      this.like_ids = [];
-      this.retweet_ids = [];
-  */
 
     }
   
     ngOnInit()
     {
-      this.service_acc_name = localStorage.getItem('acc_name') ?? "badToken";
+      this.service_acc_name = sessionStorage.getItem('acc_name') ?? "badToken";
 
       //using url to make sense of what view of explore page to show (default or active search)
       var arr = window.location.pathname.split("/");
@@ -74,16 +65,17 @@ export class ExplorePageComponent extends CoreComponent {
       if (arr2.length > 4)
       {
         this.router.navigate(['tweeter/Error']);
+        return
       }
       //in an active search
-      if(second_last_url != 'tweeter')
+      else if(second_last_url != 'tweeter')
       {
         this.inActiveSearch = true;
       
         //getting query value
         let decodedUrl = this.last_url_section.replace(/-/g, ' '); //replaces dashes (-) with spaces
         this.query = decodedUrl;
-        console.log('query'+ this.query);
+        console.log('query: '+ this.query);
 
         //setting searchbar value
         let search_input = <HTMLInputElement>document.getElementById("search-searchbar");
@@ -98,16 +90,8 @@ export class ExplorePageComponent extends CoreComponent {
         //set arr data (for latest, people, and media tabs)
         this.getDBUserFeed(this.query)
         this.getDBPostFeed(this.query)
-
-        /*
-        setTimeout(() => {
-          this.arr = [this.postList,this.postUserList,this.userList,''];
-          this.loadingFlag = false; //hide spinner after data is loaded
-        }, 1500) // 1 sec
-        */
       }
-      // in explore page (default view)
-      else
+      else // in explore page (default view)
       {
         this.service.setCurrentPage('Explore'); //could be redundant
         this.service_page = 'Explore'; //cound be redundant
@@ -119,6 +103,21 @@ export class ExplorePageComponent extends CoreComponent {
         this.loadingUserFlag = false;
       }
 
+      if (this.service.Likes == null )
+      {
+        this.service.getDBRetweets(this.service_acc_name).subscribe(ids => {
+          //console.log("retweet_ids: " + ids);
+        });
+        this.service.getDBLikes(this.service_acc_name).subscribe(ids => {
+          //console.log("like_ids: " + ids);
+        });
+    
+        console.log("this.service.Likes == null");
+      }
+      else
+      {
+       console.log("this.service.Likes is not null");
+      }
     }
 
     getDBUserFeed(str:string)
@@ -137,28 +136,19 @@ export class ExplorePageComponent extends CoreComponent {
                 "follower_count" : 0,
                 "following_count" : 0,
               };
-          /*
-          let requestMessage =
-          {
-            'word': 'getUserSearch',
-            'word2': str, //current value of input
-          };
-          */
+
             this.http.put(environment.apiUrl + "/user",requestBody).subscribe((resultData: any)=>
             {
               if(resultData == 'Failed to Add' || resultData == 'No users' || resultData == 'check is else')
                 {
                   console.log(resultData);
                   this.userList = [];
-                  this.DBUserFeed = [];
+                  this.arr[2] = [];
                   console.log('Unsuccessful data base retrieval');
                 }
                 else //Successful
                 {
-                  this.DBUserFeed = resultData;
-                  console.log(this.DBUserFeed);
-                  this.convertUserFeed();
-                  
+                  this.convertUserFeed(resultData);
                   console.log('Successful data base retrieval');
                 }
                 this.loadingUserFlag = false;
@@ -166,14 +156,13 @@ export class ExplorePageComponent extends CoreComponent {
         }
       }
     
-      convertUserFeed()
+      convertUserFeed(feed: any)
       {   
-        //clear feed
-        this.userList = [];
+        this.userList = [];//clear feed
     
-        for (let i = 0; i < this.DBUserFeed.length;i++) 
+        for (let i = 0; i < feed.length;i++) 
           {
-            let user = this.DBUserFeed[i];
+            let user = feed[i];
             var u = new Profile(user.pic?.image_url,user.header_pic?.image_url, user.username, user.acc_name, user.bio, user.following_count, user.follower_count);
             this.userList.push(u);
           }
@@ -198,13 +187,7 @@ export class ExplorePageComponent extends CoreComponent {
                 "follower_count" : 0,
                 "following_count" : 0,
               };
-          /*
-          let requestMessage =
-          {
-            'word': 'getUserSearch',
-            'word2': str, //current value of input
-          };
-          */
+
             this.http.put(environment.apiUrl + "/user",requestBody).subscribe((resultData: any)=>
             {
               if(resultData == 'Failed to Add' || resultData == 'No posts' || resultData == 'check is else')
@@ -214,30 +197,27 @@ export class ExplorePageComponent extends CoreComponent {
                   this.postUserList = [];
                   this.arr[0] = [];
                   this.arr[1] = [];
-                  this.DBFeed = [];
                   console.log('Unsuccessful data base retrieval');
                 }
                 else //Successful
                 {
-                  this.DBFeed = resultData;
-                  console.log(this.DBFeed);
-                  this.convertPostFeed();
+                  this.convertPostFeed(resultData);
                   console.log('Successful data base retrieval');
                 }
                 this.loadingPostFlag = false;
             });
         }
       }
-      convertPostFeed()
+      convertPostFeed(feed: any)
       {   
         //clear feed
         this.postList = [];
         this.postUserList = [];
     
-        for (let i = 0; i < this.DBFeed[0].length;i++) 
+        for (let i = 0; i < feed[0].length;i++) 
           {
-            let user = this.DBFeed[1][i];
-            let post = this.DBFeed[0][i];
+            let user = feed[1][i];
+            let post = feed[0][i];
             var u = new Profile(user.pic?.image_url,user.header_pic?.image_url, user.username, user.acc_name, user.bio, user.following_count, user.follower_count);
             this.postUserList.push(u);
             var p = new Post(post.id,user.pic?.image_url, user.username, user.acc_name,post.date_created, post.text_content, '', post.comments.toString(), post.retweets.toString(), post.likes.toString(), post.engagements.toString()); 
@@ -252,15 +232,13 @@ export class ExplorePageComponent extends CoreComponent {
     {
       this.last_url_section = 'Explore';
       this.inActiveSearch = false;
+      this.loadingPostFlag = false;
+      this.loadingUserFlag = false;
       this.query = '!@#$%^&*()_+';
-      
       
       //run stuff for default view
       this.arr = [this.forYouSearchTopics,this.trendingSearchTopics, this.newsSearchTopics, this.sportsSearchTopics, this.entertainmentSearchTopics];
-
       this.router.navigate(['tweeter/Explore']);
-
-
       this.service.routeToChild('foryou');
     }
 }

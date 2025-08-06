@@ -6,7 +6,6 @@ import { HttpClient } from "@angular/common/http";
 import { MessagePageComponent } from "../message-page.component";
 import { AuthService } from "../../../core/auth.service";
 import { ActivatedRoute } from "@angular/router";
-import { TweetService } from "../../../core/tweet-service";
 import { environment } from "../../../../environments/environment";
 
 @Component({
@@ -21,7 +20,7 @@ import { environment } from "../../../../environments/environment";
  @Input() inPost: boolean = false;
  @Input() show: boolean = false;
  @Output() showChange = new EventEmitter<boolean>(); //not in use rn
- @Input() mpc: MessagePageComponent = new MessagePageComponent(this.formBuilder, this.authService, this.route, this.service, this.tweetService); //need for createDB function
+ @Input() mpc: MessagePageComponent = new MessagePageComponent(this.formBuilder, this.authService, this.route, this.service); //need for createDB function
   selectedUser: string = ''; //account name of selected user
   
   DBUserFeed: any [] = [];
@@ -36,7 +35,7 @@ import { environment } from "../../../../environments/environment";
     inquiry: ['', [Validators.required]],
     });
     
-    constructor(private formBuilder: FormBuilder, public service: CoreService, public http: HttpClient, public authService: AuthService, public route: ActivatedRoute, public tweetService: TweetService) 
+    constructor(private formBuilder: FormBuilder, public service: CoreService, public http: HttpClient, public authService: AuthService, public route: ActivatedRoute) 
     {
         this.service_acc_name = '';
         this.defaultList = [];
