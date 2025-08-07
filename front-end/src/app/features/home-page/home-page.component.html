@@ -91,7 +91,55 @@ only for testing image api (google)-->
   <spinner></spinner>
 </ng-container>
 <ng-template #loaded>
-  <main-content class="main-content-component" [data]="[FEfeed, UserFeed, FEFollowfeed, FollowUserFeed]" [upc]=this [page]=service.current_page [tab]=service.current_tab></main-content><!-- [data]=arrs-->
+ <!-- <main-content class="main-content-component" [data]="[FEfeed, UserFeed, FEFollowfeed, FollowUserFeed]" [upc]=this [page]=service.current_page [tab]=service.current_tab></main-content> --><!-- [data]=arrs-->
+  <ng-container [ngSwitch]="service.current_tab">
+    
+    <ng-container *ngSwitchCase="'following'">
+
+        <ng-container *ngIf="FEFollowfeed.length > 0; else emptyList"> <!-- was data?.[2]?.length > 0 -->
+          <app-post class="post" [style.borderRadius]="0"
+          *ngFor="let post of FEFollowfeed; index as i"
+          [post]="post" [user]="FollowUserFeed[i]" [upc]="this">
+          </app-post>
+          <ng-container *ngIf="FEFollowfeed.length == (this.show_more_f_count+1)*20;">
+              <div id="feed-more" class="feed-container">
+                <a (click)="handleMoreFollowingClick()" class="feed-more">Show more</a>
+              </div>
+          </ng-container>
+        </ng-container>
+      <ng-template #emptyList>
+          <div class="profile-empty-list">
+            <p class="profile-empty-list-title"> Your followers haven't posted</p>
+            <p class="profile-empty-list-body">Once they do, those posts will show up here.</p>
+         </div>
+      </ng-template>
+      
+    </ng-container>
+
+    <ng-container *ngSwitchDefault> <!-- for you -->
+      
+        <ng-container *ngIf="FEfeed.length > 0; else emptyList2"> <!-- was data?.[2]?.length > 0 -->
+          <app-post class="post" [style.borderRadius]="0"
+            *ngFor="let post of FEfeed; index as i"
+            [post]="post" [user]="UserFeed[i]" [upc]="this">
+          </app-post>
+          <ng-container *ngIf="FEfeed.length == (this.show_more_fy_count+1)*20;">
+              <div id="feed-more" class="feed-container">
+                <a (click)="handleMoreForYouClick()" class="feed-more">Show more</a>
+              </div>
+          </ng-container>
+        </ng-container>
+      
+      <ng-template #emptyList2>
+          <div class="profile-empty-list">
+            <p class="profile-empty-list-title"> There are no posts</p>
+            <p class="profile-empty-list-body">Once users post, they will show up here.</p>
+         </div>
+      </ng-template>
+      
+    </ng-container>
+
+  </ng-container>
 </ng-template>
 <!--
 {% for post in forYouFeed %}

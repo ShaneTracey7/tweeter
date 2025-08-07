@@ -370,13 +370,14 @@ getAllDBUsers()
       }
   }
 }*/
-
-async getDBFollowFeed(acc_name: string | null): Promise<{feed: Post[] , userFeed: Profile[] }> {
+                           //made a bunch of changes and not tested                   //more_count is new
+async getDBFollowFeed(acc_name: string | null, more_count: string): Promise<{feed: Post[] , userFeed: Profile[] }> {
 
   try {
     const requestBody = {
         "word": 'getFollowFeed',
         "word2": acc_name,
+        "word3": more_count,//new
       };
     const tweetResponse = await firstValueFrom(this.http.put<any>(environment.apiUrl + "/tweet", requestBody));//need to change
 
@@ -386,22 +387,24 @@ async getDBFollowFeed(acc_name: string | null): Promise<{feed: Post[] , userFeed
       return { feed: [], userFeed: [] };
     }
 
-    let DBfeed = tweetResponse;
+    let DBfeed = tweetResponse[0];
+    let userResults = tweetResponse[1];
     //clear existing feeds
     this.FollowFeed = [];
     this.FollowUserFeed = [];
 
+    /*
     const users = DBfeed.map((tweet:any) => {
       const requestBody2 = {
         word: 'w',
         num: tweet.user.id,
       };
       return firstValueFrom(this.http.put<any>(environment.apiUrl + "/tweet", requestBody2));
-    });
+    });*/
 
-    const userResults = await Promise.all(users);
+    //const userResults = await Promise.all(users);
 
-    userResults.forEach((userData, index) => {
+    userResults.forEach((userData: any, index: any) => {
 
       const u = new Profile(userData.pic?.image_url,userData.header_pic?.image_url,userData.username,userData.acc_name,userData.bio,userData.following_count,userData.follower_count);
       this.FollowUserFeed.push(u);
@@ -417,9 +420,11 @@ async getDBFollowFeed(acc_name: string | null): Promise<{feed: Post[] , userFeed
     return { feed: [], userFeed: [] };
   }
 }
+          //more_count is new
+async getDBForYouFeed(more_count: string): Promise<{feed: Post[] , userFeed: Profile[] }> {
 
-async getDBForYouFeed(): Promise<{feed: Post[] , userFeed: Profile[] }> {
 
+  //have to change this to a post request so i can add in more_count
   try {
     const tweetResponse = await firstValueFrom(this.http.get<any>(environment.apiUrl + "/tweet"));
 

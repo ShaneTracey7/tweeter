@@ -46,6 +46,11 @@ export class HomePageComponent extends CoreComponent{
   DBFollowing: any [] = []; //raw array of User following from DB
   following: Profile [] = [] //array of Profile objs of following
 
+  //needed to limit foryou & following feeds
+  //[data]="[FEfeed, UserFeed, FEFollowfeed, FollowUserFeed]"
+   show_more_fy_count: number = 0; //for foryou
+   show_more_f_count: number = 0; // for following
+
 constructor(authService: AuthService, route: ActivatedRoute, service: CoreService,public http: HttpClient, public formBuilder: FormBuilder )
 {
   super(authService,route,service);
@@ -67,7 +72,7 @@ ngOnInit()
     {
       console.log("this.service.ForYouFeed == null");
 
-      this.service.getDBForYouFeed().then(({ feed, userFeed }) => {
+      this.service.getDBForYouFeed("0").then(({ feed, userFeed }) => {
 
         console.log('feed:', feed);
         this.FEfeed = feed;
@@ -76,7 +81,7 @@ ngOnInit()
         this.foryouLoadingFlag = false;
       });
         
-      this.service.getDBFollowFeed(this.service_acc_name).then(({ feed, userFeed }) => {
+      this.service.getDBFollowFeed(this.service_acc_name, "0").then(({ feed, userFeed }) => {
 
         console.log('feed:', feed);
         this.FEFollowfeed = feed;
@@ -218,7 +223,72 @@ tweetForm = this.formBuilder.group({
         console.log("this.getTweetsTest resultdata: " + resultData);
       });
   }
-  
+
+
+
+
+  //NOTE TESTED
+    //needed to limit foryou & following feeds
+  handleMoreForYouClick()
+  {
+    console.log("getting more for you");
+
+    if(this.FEfeed.length == (this.show_more_fy_count+1)*20)
+    {
+      this.show_more_fy_count++; //only increase if theres a mulitiple of 20
+      this.service.getDBForYouFeed(String(this.show_more_fy_count)).then(({ feed, userFeed }) => {
+        //update data[]
+        this.FEfeed = feed;
+        this.UserFeed = userFeed;
+        this.followLoadingFlag = false;
+      });
+    }
+    else
+    {
+      this.service.getDBForYouFeed(String(this.show_more_fy_count)).then(({ feed, userFeed }) => {
+        //update data[]
+        this.FEfeed = feed;
+        this.UserFeed = userFeed;
+        this.followLoadingFlag = false;
+      });
+    }   
+  }
+
+
+  //add up to 20 more tweets to thread
+  handleMoreFollowingClick()
+  {
+    console.log("getting more for you");
+
+    if(this.FEFollowfeed.length == (this.show_more_fy_count+1)*20)
+    {
+      this.show_more_fy_count++; //only increase if theres a mulitiple of 20
+      this.service.getDBFollowFeed(this.service_acc_name, String(this.show_more_f_count)).then(({ feed, userFeed }) => {
+        //update data[
+        this.FEFollowfeed = feed;
+        this.FollowUserFeed = userFeed;
+        this.followLoadingFlag = false;
+      });
+      
+    }
+    else
+    {
+      this.service.getDBFollowFeed(this.service_acc_name, String(this.show_more_f_count)).then(({ feed, userFeed }) => {
+        //update data[]
+        this.FEFollowfeed = feed;
+        this.FollowUserFeed = userFeed;
+        this.followLoadingFlag = false;
+      });
+    }   
+  }
+  /*
+      let requestMessage =
+      {
+        'word': 'getReplies',
+        'num': this.p_id, 
+        'word3': String(this.show_more_count),
+      };
+    */
 
 }
 
