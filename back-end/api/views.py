@@ -470,19 +470,19 @@ def tweetApi(request,id=id):
                 #get all tweets from users that are followed 
                 #do checks to see if this is a show more click or not
                 start = 0 #inclusive
-                end = 10 #exclusive
+                end = 20 #exclusive
                 if show_more_check == '0':
                     start = 0 
-                    end = 10
-                elif show_more_check == '1':
-                    start = 10 
                     end = 20
-                elif show_more_check == '2':
+                elif show_more_check == '1':
                     start = 20 
-                    end = 30
-                elif show_more_check == '3':
-                    start = 30 
                     end = 40
+                elif show_more_check == '2':
+                    start = 40 
+                    end = 60
+                elif show_more_check == '3':
+                    start = 60 
+                    end = 80
                 else: #all
                     start = 0 
                     end = 100
