@@ -1,41 +1,40 @@
 
 
-<div *ngIf="showep">
+<ng-container *ngIf="showep">
 
-<div id="p-modal" class="editProfileModal">
+    <div id="p-modal" class="editProfileModal">
 
-    <form [formGroup]="editProfileForm" (ngSubmit)="onSubmit()">
-        <div id="profile-t"class="toolbar">
-            <div id="profile-ut" class="upper-toolbar">
-            <!-- upper toolbar add here-->
-            <div id="epm-cross-container" class="title-icons">
-                <img id="epm-cross" (click)="hideModal()" class="toolbar-icon" [src]="service.setUrl('cross.svg')" alt="cross"/>
+        <form [formGroup]="editProfileForm" (ngSubmit)="onSubmit()">
+
+            <div id="profile-t"class="toolbar">
+                <div id="profile-ut" class="upper-toolbar">
+                <!-- upper toolbar add here-->
+                <div id="epm-cross-container" class="title-icons">
+                    <img id="epm-cross" (click)="hideModal()" class="toolbar-icon" [src]="service.setUrl('cross.svg')" alt="cross"/>
+                </div>
+                    <h1 class="page-title" id="epm-title"> Edit Profile </h1>
+                    <button type="submit" class="shortProfile-button">Save</button>
+                </div>
             </div>
-                <h1 class="page-title" id="epm-title"> Edit Profile </h1>
-                <button type="submit" class="shortProfile-button">Save</button>
-            </div>
-        </div>
-
-
         
-            <div id="edit-profile-row2">                  <!-- will be 'this.profile.header_pic'-->
-                <img id="edit-profile-bg-image" [src]="this.service.setHeaderUrl(this.profile.header_pic)" alt="background-image"/>
-                <div id="camera-image-container-header" class="camera-image-container">
-                    <label for="header-img-upload">
-                        <img id="edit-profile-camera-image" (click)="handleClick('header')" [src]="this.service.setUrl('camera.png')" alt="camera-image"/>
-                    </label>                <!-- (click)="handleClick('header')"-->
-                    <input formControlName="header_pic" type="file" id="header-img-upload"  accept="image/*">
+                <div id="edit-profile-row2">                  <!-- will be 'this.profile.header_pic'-->
+                    <img id="edit-profile-bg-image" [src]="this.service.setHeaderUrl(this.profile.header_pic)" alt="background-image"/>
+                    <div id="camera-image-container-header" class="camera-image-container">
+                        <label for="header-img-upload">
+                            <img id="edit-profile-camera-image" (click)="handleClick('header')" [src]="this.service.setUrl('camera.png')" alt="camera-image"/>
+                        </label>                <!-- (click)="handleClick('header')"-->
+                        <input formControlName="header_pic" type="file" id="header-img-upload"  accept="image/*">
+                    </div>
                 </div>
-            </div>
-            <div id="edit-profile-row1">
-                <img id="edit-profile-p-image" [src]="this.service.setProfileUrl(this.profile.pic)" alt="profile-image"/>
-                <div class="camera-image-container">
-                    <label for="profile-img-upload">
-                        <img id="edit-profile-camera-image" (click)="handleClick('profile')" [src]="this.service.setUrl('camera.png')" alt="camera-image"/>
-                    </label>
-                    <input formControlName="profile_pic" type="file" id="profile-img-upload" accept="image/*">
+                <div id="edit-profile-row1">
+                    <img id="edit-profile-p-image" [src]="this.service.setProfileUrl(this.profile.pic)" alt="profile-image"/>
+                    <div class="camera-image-container">
+                        <label for="profile-img-upload">
+                            <img id="edit-profile-camera-image" (click)="handleClick('profile')" [src]="this.service.setUrl('camera.png')" alt="camera-image"/>
+                        </label>
+                        <input formControlName="profile_pic" type="file" id="profile-img-upload" accept="image/*">
+                    </div>
                 </div>
-            </div>
 
             <div class="modal-content-area">
 
@@ -52,8 +51,8 @@
                     <div class="error-message" *ngIf="this.editProfileForm.controls['bio'].errors?.['maxlength']"> Bio must be less than 100 characters!</div>
                 <label>Bio</label>
                 </div>
-
             </div>
+
         </form>
     </div>
-</div>
+</ng-container>

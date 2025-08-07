@@ -10,6 +10,7 @@ import { environment } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import {shortenNum} from '../../core/data';
+import { elementsLocated } from 'selenium-webdriver/lib/until';
 
 @Component({
   selector: 'app-profile-page',
@@ -1042,9 +1043,20 @@ convertDBInfo(arr_type: string, DBFollow: any [])
      console.log('end of setBackUrl function');  
  }
 
+ //shows editProfile modal
  showEPModal()
  {
-  this.showep = true;
+  if(this.service.openmodal)
+  {
+    console.log("there already is a modal open")
+    //do nothing
+  }  
+  else
+  {
+    this.showep = true;
+    this.service.openmodal = true
+  } 
+  
   console.log('showing edit profile modal');
  }
 
