@@ -40,9 +40,9 @@ class User(models.Model):
     acc_name = models.CharField(max_length = 35)
     password = models.CharField(max_length = 35)
     #pic = models.CharField(max_length = 100)
-    pic = models.ForeignKey(Image, on_delete=models.CASCADE, null=True, blank=True, related_name='profile_pics')
+    pic = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, blank=True, related_name='profile_pics')
     #header_pic = models.CharField(max_length = 100, default="default-header-pic.png") #default is default-header.jpg
-    header_pic = models.ForeignKey(Image, on_delete=models.CASCADE, null=True, blank=True, related_name='header_pics')
+    header_pic = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, blank=True, related_name='header_pics')
     bio = models.CharField(max_length = 100, default="") #increase max-length
     follower_count = models.IntegerField(default=0)
     following_count = models.IntegerField(default=0)
@@ -76,7 +76,7 @@ class Tweet(models.Model):
     date_created = models.DateTimeField()
     text_content = models.CharField(max_length = 280)
     #image_content = models.CharField(max_length = 35) #url to image (can alos look into ImageField)
-    image_content = models.ForeignKey(Image, on_delete=models.CASCADE, null=True, blank=True)
+    image_content = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, blank=True)
     likes = models.IntegerField()
     comments = models.IntegerField() # may not need this one
     retweets = models.IntegerField()
