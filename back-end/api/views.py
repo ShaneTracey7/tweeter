@@ -499,12 +499,12 @@ def tweetApi(request,id=id):
                     print('after loop')
                     feed = Tweet.objects.filter(user__in=follow_list).order_by('-date_created')[start:end] #get all tweets from users that are followed
 
-                    if tweets.exists():
+                    if feed.exists():
                         user_arr = []
-                        for tweet in tweets:
+                        for tweet in feed:
                             user_arr.append(tweet.user)
 
-                        tweet_serializer = TweetSerializer(tweets,many=True)
+                        tweet_serializer = TweetSerializer(feed,many=True)
                         user_serializer = UserSerializer(user_arr,many=True)
                         return JsonResponse([tweet_serializer.data,user_serializer.data],safe=False) #this is new
 
