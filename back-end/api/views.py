@@ -40,7 +40,7 @@ def imageApi(request,id=id):
 
         if type_input == 'bio':
             print('in bio case')
-            bio_input = request.POST.get('bio')
+            bio_input = request.POST.get('bio') or ''
             user.bio = bio_input
             user.save()
             return JsonResponse('Saved Bio',safe=False)
@@ -77,7 +77,7 @@ def imageApi(request,id=id):
             #bio_check = type_input.find('bio')
             if type_input == 'header bio' or type_input == 'profile bio' or type_input == 'both bio':
                 print('include bio')
-                bio_input = request.POST.get('bio')
+                bio_input = request.POST.get('bio') or ''
                 user.bio = bio_input
             
                 #create and save image model

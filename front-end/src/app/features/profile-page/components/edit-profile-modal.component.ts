@@ -69,7 +69,7 @@ import { environment } from "../../../../environments/environment";
               if(this.updateBioFlag)
               {
                formData.append('bio',this.editProfileForm.value.bio);
-               console.log("bio: " + this.editProfileForm.value.bio);
+               //console.log("bio: " + this.editProfileForm.value.bio);
               }
  
               let newImage = fetch(imageEndpoint,{
