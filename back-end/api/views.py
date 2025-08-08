@@ -468,8 +468,8 @@ def tweetApi(request,id=id):
             elif check == 'getForYouFeed':
                 #get all tweets from users that are followed 
                 #do checks to see if this is a show more click or not
-                start = show_more_check*20# 0 #inclusive
-                end = 20 + show_more_check*20 #20 #exclusive
+                start = int(show_more_check)*20# 0 #inclusive
+                end = 20 + int(show_more_check)*20 #20 #exclusive
             
                 #if show_more_check == '0':
                  #   start = 0 
@@ -503,8 +503,8 @@ def tweetApi(request,id=id):
             elif check == 'getFollowFeed':
                 #get all tweets from users that are followed 
                 #do checks to see if this is a show more click or not
-                start = show_more_check*20# 0 #inclusive
-                end = 20 + show_more_check*20 #20 #exclusive
+                start = int(show_more_check)*20# 0 #inclusive
+                end = 20 + int(show_more_check)*20 #20 #exclusive
             
                 #if show_more_check == '0':
                  #   start = 0 
@@ -582,8 +582,8 @@ def tweetApi(request,id=id):
             elif check == 'getReplies':
                 #get all replies to tweet  
                 #do checks to see if this is a show more click or not
-                start = show_more_check*10# 0 #inclusive
-                end = 10 + show_more_check*10 #10 #exclusive
+                start = int(show_more_check)*10# 0 #inclusive
+                end = 10 + int(show_more_check)*10 #10 #exclusive
             
                 #if show_more_check == '0':
                  #   start = 0 
