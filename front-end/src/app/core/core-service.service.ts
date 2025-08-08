@@ -370,7 +370,7 @@ getAllDBUsers()
       }
   }
 }*/
-                           //made a bunch of changes and not tested                   //more_count is new
+
 async getDBFollowFeed(acc_name: string | null, more_count: string): Promise<{feed: Post[] , userFeed: Profile[] }> {
 
   try {
@@ -389,20 +389,6 @@ async getDBFollowFeed(acc_name: string | null, more_count: string): Promise<{fee
 
     let DBfeed = tweetResponse[0];
     let userResults = tweetResponse[1];
-    //clear existing feeds
-    this.FollowFeed = [];
-    this.FollowUserFeed = [];
-
-    /*
-    const users = DBfeed.map((tweet:any) => {
-      const requestBody2 = {
-        word: 'w',
-        num: tweet.user.id,
-      };
-      return firstValueFrom(this.http.put<any>(environment.apiUrl + "/tweet", requestBody2));
-    });*/
-
-    //const userResults = await Promise.all(users);
 
     userResults.forEach((userData: any, index: any) => {
 
@@ -420,13 +406,18 @@ async getDBFollowFeed(acc_name: string | null, more_count: string): Promise<{fee
     return { feed: [], userFeed: [] };
   }
 }
-          //more_count is new
+      
 async getDBForYouFeed(more_count: string): Promise<{feed: Post[] , userFeed: Profile[] }> {
 
 
   //have to change this to a post request so i can add in more_count
   try {
-    const tweetResponse = await firstValueFrom(this.http.get<any>(environment.apiUrl + "/tweet"));
+    const requestBody = {
+        "word": 'getForYouFeed',
+        //"word2": acc_name,
+        "word3": more_count,//new
+      };
+    const tweetResponse = await firstValueFrom(this.http.put<any>(environment.apiUrl + "/tweet", requestBody));
 
     if (tweetResponse === "No tweets") {
       this.ForYouFeed = [];
@@ -434,22 +425,10 @@ async getDBForYouFeed(more_count: string): Promise<{feed: Post[] , userFeed: Pro
       return { feed: [], userFeed: [] };
     }
 
-    let DBfeed = tweetResponse;
-    //clear existing feeds
-    this.ForYouFeed = [];
-    this.ForYouUserFeed = [];
+    let DBfeed = tweetResponse[0];
+    let userResults = tweetResponse[1];
 
-    const users = DBfeed.map((tweet:any) => {
-      const requestBody = {
-        word: 'w',
-        num: tweet.user.id,
-      };
-      return firstValueFrom(this.http.put<any>(environment.apiUrl + "/tweet", requestBody));
-    });
-
-    const userResults = await Promise.all(users);
-
-    userResults.forEach((userData, index) => {
+    userResults.forEach((userData: any, index: any) => {
 
       const u = new Profile(userData.pic?.image_url,userData.header_pic?.image_url,userData.username,userData.acc_name,userData.bio,userData.following_count,userData.follower_count);
       this.ForYouUserFeed.push(u);

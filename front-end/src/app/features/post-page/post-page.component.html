@@ -4,7 +4,7 @@
               <div id="profile-ut" class="upper-toolbar">
                 <!-- upper toolbar add here-->
                 <div id="profile-arrow-container" class="title-icons">
-                  <img id="profile-arrow"  (click)="service.setCurrentPage('Home')" routerLink="/tweeter/Home" class="toolbar-icon" [src]="service.setUrl('back-arrow.svg')" alt="back-arrow"/>
+                  <img id="profile-arrow" (click)="service.setCurrentPage('Home')" routerLink="/tweeter/Home" class="toolbar-icon" [src]="service.setUrl('back-arrow.svg')" alt="back-arrow"/>
                 </div>
                   <h1 class="page-title"> Post </h1>
                   <button class="profile-page-button" id="reply-button">Reply</button>
@@ -17,6 +17,7 @@
           
           <ng-template #loaded>
 
+            <!-- the focused post -->
             <app-post 
             *ngFor="let p of testArr"
             [focused]=true [post]="post" [user]="user" [upc]="this">
@@ -66,7 +67,7 @@
               [(fp)]="this.post" [(fpuser)]="this.user" [(fparr)]="this.testArr" [(comments)]="arrs[0]" [(commentsusers)]="arrs[1]" [post]="p" [user]="arrs[1][i]" [upc]="this" [inThread]="true">
             </app-post>
             <ng-container *ngIf="arrs[0].length == (this.show_more_count+1)*10 && !noRepliesFlag;">
-              <div id="feed-more" class="feed-container">
+              <div class="feed-container">
                 <a (click)="handleMoreRepliesClick()" class="feed-more">Show more</a>
               </div>
             </ng-container>

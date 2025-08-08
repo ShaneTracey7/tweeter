@@ -709,16 +709,21 @@ $cancel-red: #f51616;
     }
 
     .feed-more {
-      display:inline;
+      display: block;
       width: fit-content;
-      height: fit-content;
-      color: $twitter-blue;
+      height: 100%;
+      color: #1DA1F2;
       font-size: 0.9rem;
       margin: auto;
       text-decoration: none;
+      line-height: 50px;
     }
     .feed-more:hover {
       color: $twitter-blue; //doesn't change
+    }
+    .feed-container:hover {
+      background-color: $bg-color-hover-main;
+      border-radius: 0 0 17px 17px;
     }
     #feed-more:hover {
       background-color: $bg-color-hover-main;
@@ -1486,6 +1491,29 @@ border: 1px solid lightgray;
     top: 0;
     background-color: white;
   }
+
+  .profile-empty-list{
+    display: flex;
+    flex-direction: column;
+    color: $gray;
+    font-size: 1rem;
+    width:fit-content;
+    max-width: 70%;
+    margin-top: 50px;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.profile-empty-list-title{
+    font-size: 2rem;
+    font-weight: bold;
+    color: black;
+    text-align: center;
+}
+.profile-empty-list-body{
+    margin: auto;
+}
 
     /* always keep media conditional css at bottom, otherwise, css won't work properly */
     @media only screen and (max-width: 700px) {

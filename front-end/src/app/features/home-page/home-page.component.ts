@@ -232,6 +232,7 @@ tweetForm = this.formBuilder.group({
   handleMoreForYouClick()
   {
     console.log("getting more for you");
+    this.foryouLoadingFlag = true;
 
     if(this.FEfeed.length == (this.show_more_fy_count+1)*20)
     {
@@ -240,7 +241,7 @@ tweetForm = this.formBuilder.group({
         //update data[]
         this.FEfeed = feed;
         this.UserFeed = userFeed;
-        this.followLoadingFlag = false;
+        this.foryouLoadingFlag = false;
       });
     }
     else
@@ -249,7 +250,7 @@ tweetForm = this.formBuilder.group({
         //update data[]
         this.FEfeed = feed;
         this.UserFeed = userFeed;
-        this.followLoadingFlag = false;
+        this.foryouLoadingFlag = false;
       });
     }   
   }
@@ -258,11 +259,12 @@ tweetForm = this.formBuilder.group({
   //add up to 20 more tweets to thread
   handleMoreFollowingClick()
   {
-    console.log("getting more for you");
+    console.log("getting more following");
+    this.followLoadingFlag = true;
 
-    if(this.FEFollowfeed.length == (this.show_more_fy_count+1)*20)
+    if(this.FEFollowfeed.length == (this.show_more_f_count+1)*20)
     {
-      this.show_more_fy_count++; //only increase if theres a mulitiple of 20
+      this.show_more_f_count++; //only increase if theres a mulitiple of 20
       this.service.getDBFollowFeed(this.service_acc_name, String(this.show_more_f_count)).then(({ feed, userFeed }) => {
         //update data[
         this.FEFollowfeed = feed;

@@ -465,7 +465,40 @@ def tweetApi(request,id=id):
                     return JsonResponse([tweet_serializer.data,user_serializer.data],safe=False)
                 else:
                     return JsonResponse("No retweets",safe=False)
-                
+            elif check == 'getForYouFeed':
+                #get all tweets from users that are followed 
+                #do checks to see if this is a show more click or not
+                start = 0 #inclusive
+                end = 20 #exclusive
+                if show_more_check == '0':
+                    start = 0 
+                    end = 20
+                elif show_more_check == '1':
+                    start = 20 
+                    end = 40
+                elif show_more_check == '2':
+                    start = 40 
+                    end = 60
+                elif show_more_check == '3':
+                    start = 60 
+                    end = 80
+                else: #all
+                    start = 0 
+                    end = 100
+
+                feed = Tweet.objects.all().order_by('-date_created')[start:end] #get all tweets from users that are followed '-' denotes descending order
+           
+                if feed.exists():
+                    user_arr = []
+                    for tweet in feed:
+                        user_arr.append(tweet.user)
+                    tweet_serializer = TweetSerializer(feed,many=True)
+                    user_serializer = UserSerializer(user_arr,many=True)
+                    return JsonResponse([tweet_serializer.data,user_serializer.data],safe=False) #this is new
+                else:
+                    print('1')
+                    return JsonResponse("No tweets",safe=False)
+                    
             elif check == 'getFollowFeed':
                 #get all tweets from users that are followed 
                 #do checks to see if this is a show more click or not

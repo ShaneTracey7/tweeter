@@ -18,8 +18,8 @@
         </div>
       </div>
 
-      <div class="title-icons">       <!-- temp for testing -->
-        <img class="toolbar-icon" (click)="this.getTweetsTest()" [src]="service.setUrl('cog.svg')" alt="cog"/>
+      <div class="title-icons">       <!-- temp for testing (click)="this.getTweetsTest()"-->
+        <img class="toolbar-icon" [src]="service.setUrl('cog.svg')" alt="cog"/>
       </div>
 
     </div>
@@ -102,7 +102,7 @@ only for testing image api (google)-->
           [post]="post" [user]="FollowUserFeed[i]" [upc]="this">
           </app-post>
           <ng-container *ngIf="FEFollowfeed.length == (this.show_more_f_count+1)*20;">
-              <div id="feed-more" class="feed-container">
+              <div class="feed-container">
                 <a (click)="handleMoreFollowingClick()" class="feed-more">Show more</a>
               </div>
           </ng-container>
@@ -124,7 +124,7 @@ only for testing image api (google)-->
             [post]="post" [user]="UserFeed[i]" [upc]="this">
           </app-post>
           <ng-container *ngIf="FEfeed.length == (this.show_more_fy_count+1)*20;">
-              <div id="feed-more" class="feed-container">
+              <div class="feed-container">
                 <a (click)="handleMoreForYouClick()" class="feed-more">Show more</a>
               </div>
           </ng-container>
