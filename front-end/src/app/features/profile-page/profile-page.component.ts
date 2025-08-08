@@ -394,6 +394,11 @@ export class ProfilePageComponent extends CoreComponent{
           this.service.ProfilePostsFeed = []; 
           this.service.ProfilePostsUserFeed = []; 
         }
+        if(this.show_more_p_count == 0)
+        {
+          this.arrs[0] = [];
+          this.arrs[1] = [];
+        }
       }
       else
       {
@@ -455,8 +460,11 @@ export class ProfilePageComponent extends CoreComponent{
           this.service.ProfileLikesFeed = []; 
           this.service.ProfileLikesUserFeed = []; 
         }
-       // this.arrs[4] = [];
-       // this.arrs[5] = [];
+        if(this.show_more_l_count == 0)
+        {
+          this.arrs[4] = [];
+          this.arrs[5] = [];
+        }
       }
       else
       {
@@ -514,8 +522,11 @@ export class ProfilePageComponent extends CoreComponent{
             this.service.ProfileRetweetsFeed = []; 
             this.service.ProfileRetweetsUserFeed = []; 
           }
-           // this.arrs[2] = [];
-           // this.arrs[3] = [];
+          if(this.show_more_r_count == 0)
+          {
+            this.arrs[2] = [];
+            this.arrs[3] = [];
+          }
         }
       else
         {

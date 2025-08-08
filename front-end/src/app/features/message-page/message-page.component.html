@@ -29,10 +29,19 @@
         <spinner></spinner>
     </ng-container>
     <ng-template #loaded>
-        <app-message [mpc]="this"
-          *ngFor="let convo of arr[0]"
-          [convo]="convo" [selectedM]="selected" [selectedAcc]="selectedConvo.otherUser.acc_name">
-        </app-message>
+        <ng-container *ngIf="arr[0]?.length > 0; else emptyList">
+            <app-message [mpc]="this"
+            *ngFor="let convo of arr[0]"
+            [convo]="convo" [selectedM]="selected" [selectedAcc]="selectedConvo.otherUser.acc_name">
+            </app-message>
+        </ng-container>
+        <ng-template #emptyList>
+          <div class="profile-empty-list">
+            <p class="profile-empty-list-title"> You have no direct messages</p>
+            <p class="profile-empty-list-body">Once you do, those messages will show up here.</p>
+         </div>
+      </ng-template>
+
     </ng-template>
       <!--
     <main-content [data]=arr [mpc]='this' [page]=service.current_page></main-content>
