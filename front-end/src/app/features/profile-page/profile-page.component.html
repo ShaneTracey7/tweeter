@@ -166,7 +166,84 @@
         </ng-container>
         <ng-template #loaded>
                 <!-- main content add here-->
-          <main-content class="main-content-component" [upc]=this [user]=user [data]=arrs [page]=service_page [tab]=service_tab></main-content>
+          <!-- <main-content class="main-content-component" [upc]=this [user]=user [data]=arrs [page]=service_page [tab]=service_tab></main-content> -->
+
+          <ng-container [ngSwitch]="service_tab">
+
+            <ng-container *ngSwitchCase="'retweets'">
+              <div class="profile-empty-list" *ngIf="arrs[2] == ''; else notEmpty">
+                <p class="profile-empty-list-title"> &commat;{{user.acc_name}} hasn't retweeted any posts</p>
+                <p class="profile-empty-list-body">Once they do, those posts will show up here.</p>
+              </div>
+              <ng-template #notEmpty>
+                <app-post class="post" [style.borderRadius]="0"
+                *ngFor="let post of arrs[2]; index as i"
+                [post]="post" [user]="arrs[3][i]" [upc]="this"> <!-- add input variable for like_ids-->
+                </app-post>
+                <ng-container *ngIf="arrs[2].length == (this.show_more_r_count+1)*10;">
+                  <div class="feed-container">
+                    <a (click)="handleMoreClick('retweets')" class="feed-more">Show more</a>
+                  </div>
+                </ng-container>
+              </ng-template>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'media'">
+              <div class="profile-empty-list" *ngIf="arrs[6] == ''; else notEmpty2">
+                <p class="profile-empty-list-title"> &commat;{{user.acc_name}} hasn't posted media</p>
+                <p class="profile-empty-list-body">Once they do, those posts will show up here.</p>
+              </div>
+              <ng-template #notEmpty2>
+                <app-post class="post" [style.borderRadius]="0"
+                *ngFor="let post of arrs[6]; index as i"
+                [post]="post" [user]="arrs[7][i]" [upc]="this">
+                </app-post>                         <!-- this.show_more_m_count+1-->
+                <ng-container *ngIf="arrs[6].length == (1)*10;">
+                  <div class="feed-container">
+                    <a (click)="handleMoreClick('media')" class="feed-more">Show more</a>
+                  </div>
+                </ng-container>
+              </ng-template>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'likes'">
+              <div class="profile-empty-list" *ngIf="arrs[4] == ''; else notEmpty3">
+                <p class="profile-empty-list-title"> &commat;{{user.acc_name}} hasn't liked any posts</p>
+                <p class="profile-empty-list-body">Once they do, those posts will show up here.</p>
+              </div>
+              <ng-template #notEmpty3>
+                <app-post class="post" [style.borderRadius]="0"
+                *ngFor="let post of arrs[4]; index as i"
+                [post]="post" [user]="arrs[5][i]" [upc]="this"> <!-- add input variable for like_ids-->
+                </app-post>
+                <ng-container *ngIf="arrs[4].length == (this.show_more_l_count+1)*10;">
+                  <div class="feed-container">
+                    <a (click)="handleMoreClick('likes')" class="feed-more">Show more</a>
+                  </div>
+                </ng-container>
+              </ng-template>
+            </ng-container>
+
+            <ng-container *ngSwitchDefault> <!-- posts-->
+              <div class="profile-empty-list" *ngIf="arrs[0] == ''; else notEmpty4">
+                <p class="profile-empty-list-title"> &commat;{{user.acc_name}} hasn't posted</p>
+                <p class="profile-empty-list-body">Once they do, those posts will show up here.</p>
+              </div>
+              <ng-template #notEmpty4>
+                <app-post class="post" [style.borderRadius]="0"
+                *ngFor="let post of arrs[0]; index as i"
+                [post]="post" [user]="arrs[1][i]"[upc]="this"> <!-- add input variable for like_ids-->
+                </app-post>
+                <ng-container *ngIf="arrs[0].length == (this.show_more_p_count+1)*10;">
+                  <div class="feed-container">
+                    <a (click)="handleMoreClick('posts')" class="feed-more">Show more</a>
+                  </div>
+                </ng-container>
+              </ng-template>
+            </ng-container>
+
+          </ng-container>
+
         </ng-template>
 
     </ng-container>

@@ -428,7 +428,11 @@ def tweetApi(request,id=id):
             elif check == 'getLikes':
                 #get all tweets that user tweeted
                 user = User.objects.get(acc_name=acc_name_input)
-                likes = Like.objects.filter(user=user)
+
+                start = int(show_more_check)*10# 0 #inclusive
+                end = 10 + int(show_more_check)*10 #10 #exclusive
+
+                likes = Like.objects.filter(user=user)[start:end]
                 if likes.exists():
                     #tweets = []
                     #for like in likes:
@@ -449,7 +453,11 @@ def tweetApi(request,id=id):
             elif check == 'getRetweets':
                 #get all tweets that user tweeted
                 user = User.objects.get(acc_name=acc_name_input)
-                retweets = Retweet.objects.filter(user=user)
+
+                start = int(show_more_check)*10# 0 #inclusive
+                end = 10 + int(show_more_check)*10 #10 #exclusive
+
+                retweets = Retweet.objects.filter(user=user)[start:end]
                 if retweets.exists():
                     #tweets = []
                     #for retweet in retweets:
@@ -457,6 +465,7 @@ def tweetApi(request,id=id):
                     #NEW
                     tweets = [retweet.tweet for retweet in retweets]
                     tweets = sorted(tweets, key=lambda tweet: tweet.date_created, reverse=True) # Sort tweets by created_at descending (newest first)
+
                     tweet_serializer = TweetSerializer(tweets,many=True)
                     users = []
                     for tweet in tweets:
@@ -558,7 +567,11 @@ def tweetApi(request,id=id):
             elif check == 'getPosts':
                 #get all tweets that user tweeted
                 user = User.objects.get(acc_name=acc_name_input)
-                tweets = Tweet.objects.filter(user=user).order_by('-date_created')
+
+                start = int(show_more_check)*10# 0 #inclusive
+                end = 10 + int(show_more_check)*10 #20 #exclusive
+
+                tweets = Tweet.objects.filter(user=user).order_by('-date_created')[start:end]
                 if tweets.exists():
                     users = []
                     for tweet in tweets:

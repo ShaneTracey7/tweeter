@@ -58,7 +58,7 @@ export class CoreService {
   //Home, Explore, Notification, Messages, and Profile
   UserFollowingList: string [] = []; //array of acc_names of accounts that the user is following
 
-  //Profile (non of these are set yet)
+  //Profile
   ProfilePostsFeed: Post [] | null= null; //array of Post objs of Profile Posts feed
   ProfilePostsUserFeed: Profile [] = []; //array of Profile objs of Profile Posts feed
   ProfileRetweetsFeed: Post [] = []; //array of Post objs of Profile Retweets feed

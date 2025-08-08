@@ -56,6 +56,12 @@ export class ProfilePageComponent extends CoreComponent{
   followerLoadingFlag: boolean = true;
   followingLoadingFlag: boolean = true;
 
+  //used to limit amount of tweets loaded into feeds
+  show_more_p_count: number = 0;
+  show_more_l_count: number = 0;
+  show_more_r_count: number = 0;
+  //show_more_m_count: number = 0;
+
   //needed to ensure when logging into a different account, correct data displays
   service_acc_name: string;
   service_username: string;
@@ -354,12 +360,13 @@ export class ProfilePageComponent extends CoreComponent{
     });
   }
 
-  getPosts(acc_name: string, otherProfile: boolean)
+  getPosts(acc_name: string, otherProfile: boolean, more_count: string)
   {
     let requestBody =
     {
       "word" : "getPosts",
       "word2" : acc_name, //this.acc_name
+      "word3" : more_count, //used to limit amount of tweets loaded into feed
     };
 
     console.log("getPosts acc_name: " + acc_name);
@@ -392,8 +399,8 @@ export class ProfilePageComponent extends CoreComponent{
       {
         console.log("good (getPosts)" );
         //clear arrs
-        this.posts = []; 
-        this.postsUsers = [];
+       // this.posts = []; 
+        //this.postsUsers = [];
         this.convertDBInfoPosts('posts', resultData[0], resultData[1]);
           if(!otherProfile)
           { 
@@ -414,13 +421,14 @@ export class ProfilePageComponent extends CoreComponent{
   }
 
   //get array of tweet objs from db that loggedin user liked
-  getLikes(acc_name: string, otherProfile: boolean)
+  getLikes(acc_name: string, otherProfile: boolean,more_count: string)
   {
     
     let requestBody =
     {
       "word" : "getLikes",
       "word2" : acc_name, //this.acc_name
+      "word3" : more_count, //used to limit amount of tweets loaded into feed
     };
 
     this.http.put(environment.apiUrl +"/tweet",requestBody).subscribe((resultData: any)=>
@@ -447,15 +455,15 @@ export class ProfilePageComponent extends CoreComponent{
           this.service.ProfileLikesFeed = []; 
           this.service.ProfileLikesUserFeed = []; 
         }
-        this.arrs[4] = [];
-        this.arrs[5] = [];
+       // this.arrs[4] = [];
+       // this.arrs[5] = [];
       }
       else
       {
         console.log("good (getLikes)" );
         //clear arrs
-        this.likes = []; 
-        this.likesUsers = [];
+        //this.likes = []; 
+        //this.likesUsers = [];
         this.convertDBInfoPosts('likes',resultData[0], resultData[1]);
         if(!otherProfile)
         { 
@@ -472,13 +480,14 @@ export class ProfilePageComponent extends CoreComponent{
   }
 
   //get array of tweet objs from db that loggedin user retweeted
-  getRetweets(acc_name: string, otherProfile:boolean)
+  getRetweets(acc_name: string, otherProfile:boolean, more_count: string)
   {
     
     let requestBody =
     {
       "word" : "getRetweets",
       "word2" : acc_name, //this.acc_name
+      "word3" : more_count, //used to limit amount of tweets loaded into feed
     };
 
     this.http.put(environment.apiUrl +"/tweet",requestBody).subscribe((resultData: any)=>
@@ -505,15 +514,15 @@ export class ProfilePageComponent extends CoreComponent{
             this.service.ProfileRetweetsFeed = []; 
             this.service.ProfileRetweetsUserFeed = []; 
           }
-            this.arrs[2] = [];
-            this.arrs[3] = [];
+           // this.arrs[2] = [];
+           // this.arrs[3] = [];
         }
       else
         {
           console.log("good (getRetweets)" );
           //clear arrs
-          this.retweets = []; 
-          this.retweetsUsers = [];
+          //this.retweets = []; 
+          //this.retweetsUsers = [];
 
           this.convertDBInfoPosts('retweets',resultData[0], resultData[1]);
           if(!otherProfile)
@@ -805,9 +814,9 @@ export class ProfilePageComponent extends CoreComponent{
         if(check) //user in DB
         {
         
-          this.getPosts(acc_name,otherProfile);
-          this.getLikes(acc_name,otherProfile);
-          this.getRetweets(acc_name,otherProfile);
+          this.getPosts(acc_name,otherProfile,"0");
+          this.getLikes(acc_name,otherProfile,"0");
+          this.getRetweets(acc_name,otherProfile,"0");
           //this.getMedia(otherProfile) (not made yet)
           this.getFollowers(acc_name,otherProfile); //isFollowing is called here
           this.getFollowing(acc_name,otherProfile); //i may only have to call this if in followlist
@@ -1066,5 +1075,79 @@ convertDBInfo(arr_type: string, DBFollow: any [])
     this.service_tab = tab;
     this.service.routeToChild(tab);
  }
+
+ //add up to 10 more tweets to thread
+ //need to change service funtion that is being used
+  handleMoreClick(tab:string)
+  {
+    console.log("inside handle more click func");
+
+    if(tab == 'posts')
+    {
+      this.postLoadingFlag = true;
+
+      if(this.posts.length == (this.show_more_p_count+1)*10)
+      {
+        this.show_more_p_count++; //only increase if theres a mulitiple of 20
+        //this.service_acc_name or last_url_section, see if otherprofile (bool) is set and stored somewhere
+        this.getPosts(this.acc_name,this.last_url_section == "Profile" ? false : true,String(this.show_more_p_count));
+      
+      }
+      else
+      {
+        //this.service_acc_name or last_url_section, see if otherprofile (bool) is set and stored somewhere
+        this.getPosts(this.acc_name,this.last_url_section == "Profile" ? false : true,String(this.show_more_p_count));
+      } 
+    }
+    else if(tab == 'retweets')
+    {
+      this.retweetLoadingFlag = true;
+
+      if(this.retweets.length == (this.show_more_r_count+1)*10)
+      {
+        this.show_more_r_count++; //only increase if theres a mulitiple of 20
+        this.getRetweets(this.acc_name,this.last_url_section == "Profile" ? false : true,String(this.show_more_r_count));
+      
+      }
+      else
+      {
+        this.getRetweets(this.acc_name,this.last_url_section == "Profile" ? false : true,String(this.show_more_r_count));
+      }   
+    }
+    else if(tab == 'likes')
+    {
+      this.likeLoadingFlag = true;
+
+      if(this.media.length == (this.show_more_l_count+1)*10)
+      {
+        this.show_more_l_count++; //only increase if theres a mulitiple of 20
+        this.getLikes(this.acc_name,this.last_url_section == "Profile" ? false : true,String(this.show_more_l_count));
+      
+      }
+      else
+      {
+        this.getLikes(this.acc_name,this.last_url_section == "Profile" ? false : true,String(this.show_more_l_count));
+      }   
+    }
+    else //(tab == 'media')
+    {/*
+      this.mediaLoadingFlag = true;
+      if(this.media.length == (this.show_more_m_count+1)*10)
+      {
+        this.show_more_m_count++; //only increase if theres a mulitiple of 20
+        this.getMedia(this.acc_name,this.last_url_section == "Profile" ? false : true,String(this.show_more_m_count));
+      
+      }
+      else
+      {
+        this.getMedia(this.acc_name,this.last_url_section == "Profile" ? false : true,String(this.show_more_m_count));
+      }   
+        */
+
+    }
+    
+
+    
+  }
 
 }
