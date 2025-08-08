@@ -468,23 +468,24 @@ def tweetApi(request,id=id):
             elif check == 'getForYouFeed':
                 #get all tweets from users that are followed 
                 #do checks to see if this is a show more click or not
-                start = 0 #inclusive
-                end = 20 #exclusive
-                if show_more_check == '0':
-                    start = 0 
-                    end = 20
-                elif show_more_check == '1':
-                    start = 20 
-                    end = 40
-                elif show_more_check == '2':
-                    start = 40 
-                    end = 60
-                elif show_more_check == '3':
-                    start = 60 
-                    end = 80
-                else: #all
-                    start = 0 
-                    end = 100
+                start = show_more_check*20# 0 #inclusive
+                end = 20 + show_more_check*20 #20 #exclusive
+            
+                #if show_more_check == '0':
+                 #   start = 0 
+                 #   end = 20
+                #elif show_more_check == '1':
+                #    start = 20 
+                #    end = 40
+                #elif show_more_check == '2':
+                #    start = 40 
+                #    end = 60
+                #elif show_more_check == '3':
+                #    start = 60 
+                #    end = 80
+                #else: #all
+                #    start = 0 
+                #    end = 100
 
                 feed = Tweet.objects.all().order_by('-date_created')[start:end] #get all tweets from users that are followed '-' denotes descending order
            
@@ -502,23 +503,24 @@ def tweetApi(request,id=id):
             elif check == 'getFollowFeed':
                 #get all tweets from users that are followed 
                 #do checks to see if this is a show more click or not
-                start = 0 #inclusive
-                end = 20 #exclusive
-                if show_more_check == '0':
-                    start = 0 
-                    end = 20
-                elif show_more_check == '1':
-                    start = 20 
-                    end = 40
-                elif show_more_check == '2':
-                    start = 40 
-                    end = 60
-                elif show_more_check == '3':
-                    start = 60 
-                    end = 80
-                else: #all
-                    start = 0 
-                    end = 100
+                start = show_more_check*20# 0 #inclusive
+                end = 20 + show_more_check*20 #20 #exclusive
+            
+                #if show_more_check == '0':
+                 #   start = 0 
+                 #   end = 20
+                #elif show_more_check == '1':
+                #    start = 20 
+                #    end = 40
+                #elif show_more_check == '2':
+                #    start = 40 
+                #    end = 60
+                #elif show_more_check == '3':
+                #    start = 60 
+                #    end = 80
+                #else: #all
+                #    start = 0 
+                #    end = 100
 
                 user = User.objects.get(acc_name=acc_name_input)
                 #print('user: ' + user)
@@ -580,26 +582,24 @@ def tweetApi(request,id=id):
             elif check == 'getReplies':
                 #get all replies to tweet  
                 #do checks to see if this is a show more click or not
-                start = 0 #inclusive
-                end = 10 #exclusive
-                if show_more_check == '0':
-                    start = 0 
-                    end = 10
-                elif show_more_check == '1':
-                    start = 10 
-                    end = 20
-                elif show_more_check == '2':
-                    start = 20 
-                    end = 30
-                elif show_more_check == '3':
-                    start = 30 
-                    end = 40
-                else: #all
-                    start = 0 
-                    end = 100
-
-                print("show_more_check: " + show_more_check)
-                print("start: " + str(start) + " end: " + str(end))
+                start = show_more_check*10# 0 #inclusive
+                end = 10 + show_more_check*10 #10 #exclusive
+            
+                #if show_more_check == '0':
+                 #   start = 0 
+                 #   end = 10
+                #elif show_more_check == '1':
+                #    start = 10 
+                #    end = 20
+                #elif show_more_check == '2':
+                #    start = 20 
+                #    end = 30
+                #elif show_more_check == '3':
+                #    start = 30 
+                #    end = 40
+                #else: #all
+                #    start = 0 
+                #    end = 100
 
                 tweets = Tweet.objects.filter(reply_id=user_id).order_by('-date_created')[start:end] # user_id is actually tweet id here (limitied to 10 rows)
                 if tweets.exists():

@@ -382,9 +382,17 @@ async getDBFollowFeed(acc_name: string | null, more_count: string): Promise<{fee
     const tweetResponse = await firstValueFrom(this.http.put<any>(environment.apiUrl + "/tweet", requestBody));//need to change
 
     if (tweetResponse === "No tweets") {
-      this.FollowFeed = [];
-      this.FollowUserFeed = [];
-      return { feed: [], userFeed: [] };
+
+      if(more_count == "0")
+      {
+        this.FollowFeed = [];
+        this.FollowUserFeed = [];
+        return { feed: [], userFeed: [] };
+      }
+      else //tweets in db are exactly a factor of 20, so no more tweets to load
+      {
+        return { feed: this.FollowFeed, userFeed: this.FollowUserFeed};
+      }
     }
 
     let DBfeed = tweetResponse[0];
@@ -409,8 +417,6 @@ async getDBFollowFeed(acc_name: string | null, more_count: string): Promise<{fee
       
 async getDBForYouFeed(more_count: string): Promise<{feed: Post[] , userFeed: Profile[] }> {
 
-
-  //have to change this to a post request so i can add in more_count
   try {
     const requestBody = {
         "word": 'getForYouFeed',
@@ -420,9 +426,18 @@ async getDBForYouFeed(more_count: string): Promise<{feed: Post[] , userFeed: Pro
     const tweetResponse = await firstValueFrom(this.http.put<any>(environment.apiUrl + "/tweet", requestBody));
 
     if (tweetResponse === "No tweets") {
-      this.ForYouFeed = [];
-      this.ForYouUserFeed = [];
-      return { feed: [], userFeed: [] };
+
+      if(more_count == "0")
+      {
+        this.ForYouFeed = [];
+        this.ForYouUserFeed = [];
+        return { feed: [], userFeed: [] };
+      }
+      else //tweets in db are exactly a factor of 20, so no more tweets to load
+      {
+        return { feed: this.ForYouFeed, userFeed: this.ForYouUserFeed};
+      }
+      
     }
 
     let DBfeed = tweetResponse[0];
