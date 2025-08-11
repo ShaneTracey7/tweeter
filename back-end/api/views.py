@@ -20,7 +20,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 #from django.core.files.base import File
 from django.core.files import File
 
-from security import hash_password, verify_password
+from .security import hash_password, verify_password
 
 @csrf_exempt
 def imageApi(request,id=id):
