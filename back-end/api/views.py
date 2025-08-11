@@ -20,6 +20,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 #from django.core.files.base import File
 from django.core.files import File
 
+from security import hash_password, verify_password
+
 @csrf_exempt
 def imageApi(request,id=id):
 
@@ -983,8 +985,8 @@ def userApi(request,id=id):
                 us = user_serializer.data
                 #acc_name = message_serializer.data['']
                 #user = User.create(us['username'],us['email'],us['acc_name'],us['password'],us['pic'],us['header_pic'],'',us['follower_count'],us['following_count'])
-                user = User.create(us['username'],us['email'],us['acc_name'],us['password'],None,None,'',us['follower_count'],us['following_count'])
-                user.save()
+                user = User.create(us['username'],us['email'],us['acc_name'],hash_password(us['password']),None,None,'',us['follower_count'],us['following_count'])
+                user.save()                                                   # ^ NEW ^
                 #user_serializer.save() #if user_serializer.is_valid():
                 return JsonResponse("Added Successfully",safe=False)
         else: 
@@ -1042,11 +1044,13 @@ def userApi(request,id=id):
                     return JsonResponse("Not Unique",safe=False)
                 else:
                     return JsonResponse("Unique",safe=False)
+                
             elif username_input == 'credentialsCheck': # check if password and account name correct
                 result = User.objects.filter(acc_name=acc_name_input)
                 if result.exists():
                     user = User.objects.get(acc_name=acc_name_input)
-                    if user.password == password_input:
+                    if verify_password(password_input, user.password):
+                    #if user.password == password_input:
                         user_serializer = UserSerializer(user,many=False) #NEW
 
                         # NEW

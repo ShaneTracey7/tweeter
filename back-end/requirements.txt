@@ -30,6 +30,8 @@ sqlparse==0.4.4
 typing_extensions==4.12.2
 urllib3==2.3.0
 whitenoise==6.8.2
+passlib[bcrypt]==1.7.4 #NEW
+bcrypt==4.3.0 #NEW
 # django-googledrive-storage==1.6.0
 # google-api-core==2.10.2
 # google-api-python-client==2.173.0
