@@ -38,7 +38,7 @@ class User(models.Model):
     username = models.CharField(max_length = 35)
     email= models.CharField(max_length = 35)
     acc_name = models.CharField(max_length = 35)
-    password = models.CharField(max_length = 35)
+    password = models.CharField(max_length = 128) #was 35 but when hash_password, it needs to be longer
     #pic = models.CharField(max_length = 100)
     pic = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, blank=True, related_name='profile_pics')
     #header_pic = models.CharField(max_length = 100, default="default-header-pic.png") #default is default-header.jpg
