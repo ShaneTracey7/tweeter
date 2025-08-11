@@ -985,8 +985,8 @@ def userApi(request,id=id):
                 us = user_serializer.data
                 #acc_name = message_serializer.data['']
                 #user = User.create(us['username'],us['email'],us['acc_name'],us['password'],us['pic'],us['header_pic'],'',us['follower_count'],us['following_count'])
-                user = User.create(us['username'],us['email'],us['acc_name'],hash_password(us['password']),None,None,'',us['follower_count'],us['following_count'])
-                user.save()                                                   # ^ NEW ^
+                user = User.create(us['username'],us['email'],us['acc_name'],us['password'],None,None,'',us['follower_count'],us['following_count'])
+                user.save()                                                   # hash_password(us['password']) ^ NEW ^ (issue here probs)
                 #user_serializer.save() #if user_serializer.is_valid():
                 return JsonResponse("Added Successfully",safe=False)
         else: 
