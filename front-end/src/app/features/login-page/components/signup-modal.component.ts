@@ -27,7 +27,7 @@ p_value = "password"; //needed to toggle password field visibility
 dayPlaceholderArray = new Array(31);
 yearPlaceholderArray = new Array(100);
 
-submit_flag: number  = 0; // 0: not pressed, 1: pressed but not submitted, 2: pressed and submitted
+submit_flag: number  = 0; // 0: not pressed, 1: pressed but not submitted, 2: pressed and submitted, 3: loading(waiting for response form api)
 unique_flag: number = 0; // 0: not pressed, 1: pressed but not submitted, 2: pressed and submitted
 password_flag: number = 0; // 0: not pressed, 1: pressed but not submitted, 2: pressed and submitted
 
@@ -72,6 +72,8 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) { }
    //checks db to makes sure acc_name is unique
   acc_nameUnique()
   {
+    this.submit_flag = 3; //set to loading
+
     let requestBody =
     {
       "username" : 'check',
