@@ -232,15 +232,15 @@ export class Profile {
 }
 
 export class Message {
-
+    id?: number; //id of message in db
     text?: string;
     post: Post | null;
     profile: Profile | null;
     isSender: boolean;
     date: Date;
 
-    constructor(t: string, p: Post | null,pr: Profile | null, is: boolean,d: Date ) {
-       
+    constructor(i: number,t: string, p: Post | null,pr: Profile | null, is: boolean,d: Date ) {
+        this.id = i;
         this.text = t;
         this.post = p;
         this.profile = pr;

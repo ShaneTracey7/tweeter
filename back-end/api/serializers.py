@@ -65,7 +65,7 @@ class UserMessageSerializer(serializers.ModelSerializer):
    #convo = ConvoSerializer(read_only=True)
     class Meta:
         model = UserMessage
-        fields = ['convo','text','date','sender']
+        fields = ['id','convo','text','date','sender']
         #fields = '__all__'
 
 class MessageSerializer(serializers.Serializer):

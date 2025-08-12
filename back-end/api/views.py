@@ -264,7 +264,6 @@ def messageApi(request,id=id):
                     
                     users = []
                     ids = []
-                    message_ids = []
                     for convo in convos:
                         ids.append(convo.id)
                         if convo.user1.acc_name == acc_name_input:
@@ -279,7 +278,6 @@ def messageApi(request,id=id):
                             tweet_messages_users = [] # array
                             tweetFlag = False
                             for mes in m:
-                                message_ids.append(mes.id) #get message ids' need for deletion
                                 if mes.text == '':
                                     tweet_serializer = TweetSerializer(mes.tweet,many=False)
                                     tweet_messages.append(tweet_serializer.data)
@@ -309,7 +307,7 @@ def messageApi(request,id=id):
                     user_serializer = UserSerializer(users,many=True)
                     #messages might not work when tweet is inside 
                     #might have to exclude tweet field from serializer
-                    return JsonResponse([ids,user_serializer.data,messages,tweets,tweetUsers,message_ids],safe=False)
+                    return JsonResponse([ids,user_serializer.data,messages,tweets,tweetUsers],safe=False)
                 else:
                     return JsonResponse("No convos",safe=False)
             elif check == 'addMessage':
@@ -318,7 +316,7 @@ def messageApi(request,id=id):
                 message = UserMessage.create(convo,text_input,'',datetime.datetime.now(),acc_name_input)
                 message.save() 
 
-                return JsonResponse("Added Successfully",safe=False)
+                return JsonResponse(message.id,safe=False)
             elif check == 'addTweetMessage':
 
                 print('in add tweet message')
@@ -335,7 +333,7 @@ def messageApi(request,id=id):
                 print('after message create')
                 message.save()   
                 print('after message save')
-                return JsonResponse([user_serializer.data,tweet_serializer.data],safe=False)
+                return JsonResponse([message.id,user_serializer.data,tweet_serializer.data],safe=False)
             elif check == 'deleteConvo':
 
                 convo = Convo.objects.get(id=convo_id)

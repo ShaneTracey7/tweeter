@@ -63,18 +63,18 @@ constructor(public formBuilder: FormBuilder, public authService: AuthService, pu
 
   //if messages are added /deleted to convo, update last message and date
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['convo']) {
+    if (changes['convos']) {
+      console.log('convos changed:', changes['convos'].currentValue);
       // Handle changes to selectedAcc input
-      console.log('Convo changed:', changes['convo'].currentValue);
-      if(changes['convo'].previousValue?.messages && changes['convo'].currentValue.messages)
+      for (let i = 0; i < this.convos.length; i++)
       {
-        if(changes['convo'].currentValue.messages.length != changes['convo'].previousValue.messages.length)
+        if(changes['convos'].previousValue && changes['convos'].currentValue)
         {
           this.lastMessage = this.convo.getLastMessage()!;
           this.lastDate = this.convo.getLastMessageDate();
         }
-      } 
       
+      }
     }
   }
 

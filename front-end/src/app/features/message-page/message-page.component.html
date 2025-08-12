@@ -76,7 +76,7 @@
                                 <p id="message-sender" class="message-in-convo" (mouseover)="showDelete(i)" (mouseout)="hideDelete()">{{message.text}}</p>
                                 <ng-container *ngIf="show_delete && showIndex == i">
                                     <div class="message-delete-img-container">
-                                        <img class="message-delete-img" (click)="handleDeleteMessage(i)" (mouseout)="show_delete = false" [src]="service.setUrl('trash-red.png')" alt="trash"/>
+                                        <img class="message-delete-img" (click)="handleDeleteMessage(i, message.id ?? -1)" (mouseout)="show_delete = false" [src]="service.setUrl('trash-red.png')" alt="trash"/>
                                     </div>
                                 </ng-container>
                             </div>

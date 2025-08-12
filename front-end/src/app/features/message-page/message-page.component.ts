@@ -29,7 +29,6 @@ DBUsers: any [] = [];
 DBMessages: any [] = [];
 DBTweets: any [] = []; //tweets in messages
 DBTweetUsers: any [] = []; //users of tweets in messages
-messageIds: number [] = []; //message ids for deletion
 convos: Convo [] = [];
 
 loadingFlag: boolean = true; //flag to show spinner while data is being fetched
@@ -155,8 +154,9 @@ createDBMessage(convo_id: number, sent_acc_name: string,text: string)
           }
         else
           {
-            let newMessage = new Message(text,null,null,true,new Date());
+            let newMessage = new Message(Number(resultData),text,null,null,true,new Date());
             this.selectedConvo.messages.push(newMessage);
+            this.convos = [...this.convos]; //update convos array to trigger change detection
             console.log("Successful Database Retrieval");
           }
       });
@@ -183,11 +183,13 @@ createDBTweetMessage(convo_id: number, sent_acc_name: string, post_id: number)
           }
         else
           {
-            let u = resultData[0]; //user
-            let p = resultData[1]; //post
+            let i = resultData[0]; //message id
+            let u = resultData[1]; //user
+            let p = resultData[2]; //post
             let post = new Post(p.id,u.pic?.image_url,u.username,u.acc_name,p.date_created,p.text_content,p.image_content == null ? '': p.image_content,p.comments,p.retweets,p.likes,p.engagements)
             let profile = new Profile(u.pic?.image_url,u.header_pic?.image_url,u.username,u.acc_name,u.bio,u.following_count,u.follower_count);
-            let newMessage = new Message('',post,profile, true,new Date());
+            /* need id to be returned form db*/
+            let newMessage = new Message(Number(i),'',post,profile, true,new Date());
             this.selectedConvo.messages.push(newMessage);
             console.log("Successful Database Retrieval");
           }
@@ -241,7 +243,6 @@ getConvos(check: boolean, sharedTweet: boolean, otherUser: string)
         this.DBMessages = [];
         this.DBTweets = [];
         this.DBTweetUsers = [];
-        this.messageIds = [];
         console.log("Unsuccessful Database Retrieval");
         this.loadingFlag = false; //hide spinner after data is loaded
       }
@@ -253,7 +254,6 @@ getConvos(check: boolean, sharedTweet: boolean, otherUser: string)
         this.DBMessages = resultData[2];
         this.DBTweets = resultData[3];
         this.DBTweetUsers = resultData[4];
-        this.messageIds = resultData[5];
         let bad_ids: number [] = this.getConvoIds();
         this.convertDBConvos(bad_ids, check, sharedTweet, otherUser);
       }
@@ -299,11 +299,11 @@ getConvos(check: boolean, sharedTweet: boolean, otherUser: string)
           let p = this.DBTweets[index][i];
           let post = new Post(p.id,u.pic?.image_url,u.username,u.acc_name,p.date_created,p.text_content,p.image_content == null ? '' : p.image_content,p.comments,p.retweets,p.likes,p.engagements)
           let profile = new Profile(u.pic?.image_url,u.header_pic?.image_url,u.username,u.acc_name,u.bio,u.following_count,u.follower_count);
-          message = new Message('', post,profile,isSender,new Date (m.date));
+          message = new Message(m.id,'', post,profile,isSender,new Date (m.date));
         }
         else // is a normal message
         {
-          message = new Message(m.text, null,null,isSender,new Date (m.date))
+          message = new Message(m.id,m.text, null,null,isSender,new Date (m.date))
         }
         messages.push(message);
         
@@ -371,33 +371,23 @@ getConvos(check: boolean, sharedTweet: boolean, otherUser: string)
     }
   }
 
-  handleDeleteMessage(index: number)
+  handleDeleteMessage(index: number, id: number)
   {
-    console.log("this.convoIndex: " + this.convoIndex);
-    //delete index
-    let count = 0;
-    for(let i = 0; i < this.convoIndex; i++)
-    {
-      count = count + this.convos[i].messages.length //add up all previous convo's messages
-    }
-    count = count + index; //index of message in selected convo
 
     //make change locally
     this.selectedConvo.messages.splice(index, 1);
     //to double check 
     this.convos[this.convoIndex].messages = this.selectedConvo.messages;
     this.convos = [...this.convos]; //update convos array to trigger change detection
-
+    //this.arr = [...this.convos]; //update arr to trigger change detection
     this.show_delete = false; //hide delete button
     //make change in db
-
-    console.log("this.messageIds: " + this.messageIds);
    let requestBody =
     { 
       "word" : "deleteMessage",
-      "word2" : "", // have to send or will not work
-      "word3" : "", // have to send or will not work
-      "num" : this.messageIds[count], //index of message in convo
+      "word2" : "a", // have to send or will not work
+      "word3" : "a", // have to send or will not work
+      "num" : id, //message id
     };
     
     this.service.http.put(environment.apiUrl +"/message",requestBody).subscribe((resultData: any)=>
