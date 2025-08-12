@@ -756,4 +756,16 @@ postTweet(acc_name: string, text_content: string, image_content: string | null, 
 }
 
 
+
+
+//just for testing purposes, of new api authentication
+testNewUser()
+    {
+      console.log("testNewUser called");
+        this.http.get(environment.apiUrl + "/api/tweet").subscribe((resultData: any)=>
+        {
+          console.log(JSON.stringify(resultData, null, 2));
+        });
+    }
+
 }

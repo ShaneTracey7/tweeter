@@ -15,6 +15,8 @@ import { SignupModalComponent } from './features/login-page/components/signup-mo
 
 import { PermissionsService } from './core/auth.guard'
 
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor } from './core/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,7 @@ import { PermissionsService } from './core/auth.guard'
     ReactiveFormsModule,
     
 ],
-  providers: [PermissionsService],
+  providers: [PermissionsService,  { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

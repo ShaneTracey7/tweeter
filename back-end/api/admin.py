@@ -1,9 +1,7 @@
 from django.contrib import admin
-from api.models import Convo, Image, Student, User, Tweet, Follow, Like, Retweet, Notification, UserMessage
+from api.models import Convo, Image, User, Tweet, Follow, Like, Retweet, Notification, UserMessage
 
 # Register your models here.
-admin.site.register(Student)
-
 
 class UserAdmin(admin.ModelAdmin):
   list_display = ("id","username", "email", "acc_name", "password","bio","follower_count", "following_count", "pic", "header_pic")

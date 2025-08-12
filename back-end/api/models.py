@@ -3,13 +3,9 @@ from typing import List, Optional
 import datetime
 import cloudinary
 
-class Student(models.Model):
-    name = models.CharField(max_length = 255)
-    address = models.CharField(max_length = 255)
-    fee = models.IntegerField()
 
-    def __str__(self):
-        return f"{self.name} {self.address} {self.fee}"
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.db import models
     
 class Image(models.Model):
     # naming scheme: ex: 'hanna_banna-profile.png' <acc_name>-<profile>/<header>/<post_id>
@@ -33,6 +29,47 @@ class Image(models.Model):
         # Then delete from DB
         super().delete(*args, **kwargs)
 
+
+
+class UserManager(BaseUserManager):
+    def create_user(self, username, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError("Users must have an email address")
+        email = self.normalize_email(email)
+        user = self.model(username=username, email=email, **extra_fields)
+        user.set_password(password)  # hashes password
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, username, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        return self.create_user(username, email, password, **extra_fields)
+
+class User(AbstractBaseUser, PermissionsMixin):
+    username = models.CharField(max_length=35, unique=True)
+    email = models.EmailField(max_length=255, unique=True)
+    acc_name = models.CharField(max_length=35)
+    pic = models.ForeignKey('Image', on_delete=models.SET_NULL, null=True, blank=True, related_name='profile_pics')
+    header_pic = models.ForeignKey('Image', on_delete=models.SET_NULL, null=True, blank=True, related_name='header_pics')
+    bio = models.CharField(max_length=100, blank=True, default="")
+    follower_count = models.IntegerField(default=0)
+    following_count = models.IntegerField(default=0)
+    
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+
+    objects = UserManager()
+
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email']
+
+    def __str__(self):
+        return self.username
+
+
+
+"""
 class User(models.Model):
     #name = models.CharField(max_length = 35)
     username = models.CharField(max_length = 35)
@@ -54,7 +91,7 @@ class User(models.Model):
     
     def __str__(self):
         return f"{self.id} {self.username} {self.email} {self.acc_name} {self.password} {self.pic}"
-    
+"""
 #keeps track of followers/following for entire web app
 class Follow(models.Model):
     follower = models.ForeignKey(User, related_name='follower_follow_set', on_delete=models.CASCADE)

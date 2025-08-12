@@ -37,7 +37,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config("SECRET_KEY", default="") #default=<secret key found in render environment variables> for local testing
+SECRET_KEY = config("SECRET_KEY", default="django-insecure-hi)-xtm@a*m8$@a8k!zy4dy2o+$z5x0v8y+8oamu4z6%&*et=y") #default=<secret key found in render environment variables> for local testing
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = False
 DEBUG = config("DEBUG", default=False, cast=bool)
@@ -113,7 +113,7 @@ CORS_ALLOWED_ORIGINS = [
 #
 #GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = PROJECT_ROOT + '/google/template.json'
 #GOOGLE_DRIVE_STORAGE_MEDIA_ROOT = '<base google drive path for file uploads>' # OPTIONAL
-
+AUTH_USER_MODEL = 'api.User'
 
 
 
@@ -144,7 +144,7 @@ WSGI_APPLICATION = 'tweeter.wsgi.application'
 load_dotenv()
 
 # Replace the DATABASES section of your settings.py with this
-tmpPostgres = urlparse(os.getenv("DATABASE_URL","")) #second param is defualt value for local testing
+tmpPostgres = urlparse(os.getenv("DATABASE_URL","postgresql://neondb_owner:npg_yVQzUaNEI7l1@ep-holy-morning-aegrkfcp-pooler.c-2.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require")) #second param is defualt value for local testing
 #tmpPostgres = urlparse(os.getenv("DATABASE_URL",< insert database url from neon >)) for local testing
 DATABASES = {
     'default': {
@@ -201,7 +201,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
