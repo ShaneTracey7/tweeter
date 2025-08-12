@@ -9,7 +9,7 @@ class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
         fields = '__all__'
-    
+"""    
 class UserSerializer(serializers.ModelSerializer):
     pic = ImageSerializer(read_only=True,allow_null=True)    #has caused some issues im pretty sure
     header_pic = ImageSerializer(read_only=True,allow_null=True)
@@ -17,6 +17,40 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
+"""
+#NEW
+class UserSerializer(serializers.ModelSerializer):
+    # Assuming you want to serialize the related Image objects by their ID or some fields
+    pic = serializers.PrimaryKeyRelatedField(queryset=Image.objects.all(), allow_null=True, required=False)
+    header_pic = serializers.PrimaryKeyRelatedField(queryset=Image.objects.all(), allow_null=True, required=False)
+    
+    password = serializers.CharField(write_only=True, required=True, min_length=8)
+
+    class Meta:
+        model = User
+        fields = [
+            'id', 'username', 'email', 'acc_name', 'pic', 'header_pic', 'bio',
+            'follower_count', 'following_count', 'is_active', 'is_staff', 'password',
+        ]
+        read_only_fields = ['follower_count', 'following_count', 'is_active', 'is_staff']
+
+    def create(self, validated_data):
+        password = validated_data.pop('password')
+        user = User(**validated_data)
+        user.set_password(password)
+        user.save()
+        return user
+
+    def update(self, instance, validated_data):
+        password = validated_data.pop('password', None)
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        if password:
+            instance.set_password(password)
+        instance.save()
+        return instance
+
 
 class TweetSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
