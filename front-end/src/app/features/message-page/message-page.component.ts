@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, SimpleChanges } from '@angular/core';
 import { CoreComponent } from '../../core/core.component';
 import { CoreService } from '../../core/core-service.service';
 import { ActivatedRoute } from '@angular/router';
@@ -17,6 +17,7 @@ export class MessagePageComponent extends CoreComponent{
 show: boolean = false; // show/hide new message modal
 convo_clicked: boolean = false; //true: shows seleected converstion, false: shows 'select a message blurb'
 selectedConvo: Convo = new Convo(0,new Profile('','','','','',0,0),[],new Date()); //selected convo
+convoIndex: number = -1; //index of selected convo
 selected: boolean = false; //only needed for message component
 service_acc_name: string;
 arr: any [] = [];
@@ -28,11 +29,15 @@ DBUsers: any [] = [];
 DBMessages: any [] = [];
 DBTweets: any [] = []; //tweets in messages
 DBTweetUsers: any [] = []; //users of tweets in messages
+messageIds: number [] = []; //message ids for deletion
 convos: Convo [] = [];
 
 loadingFlag: boolean = true; //flag to show spinner while data is being fetched
 
 //openmodal: boolean = false; //to ensure only one modal is visible at a time
+timer:any;
+show_delete: boolean = false; //only have one message have the option to delete at a time
+showIndex: number = -1; //index of message to show delete button for
 
 messageForm = this.formBuilder.group({
   message: ['', [Validators.required]],
@@ -58,6 +63,12 @@ ngOnInit()
   {
     this.getConvos(false,false,''); //test
   }
+}
+
+handleSelectedConvoChange(convo: Convo) {
+  this.selectedConvo = convo;
+  this.convoIndex = this.convos.findIndex(c => c.id === convo.id);
+  console.log('Selected convo changed:', this.selectedConvo);
 }
 
 setSCStyle()
@@ -114,10 +125,11 @@ createDBConvo(thisUser: string, otherUser: string, sharedTweet: boolean/*, text:
 //sets the selected convo 
 findConvo(otherUser: string)
 {
-  this.convos.forEach(convo => {
+  this.convos.forEach((convo,index) => {
       if(convo.otherUser.acc_name == otherUser)
       {
         this.selectedConvo = convo;
+        this.convoIndex = index; //set index of convo
       }  
   });
 }
@@ -202,6 +214,7 @@ convoIDCheck(bad_ids: number [])
       if(!bad_ids.includes(c.id))
       {
         this.selectedConvo = c;
+        this.convoIndex = index; //set index of convo
         this.convo_clicked = true;
         this.selected = true;
       }
@@ -228,6 +241,7 @@ getConvos(check: boolean, sharedTweet: boolean, otherUser: string)
         this.DBMessages = [];
         this.DBTweets = [];
         this.DBTweetUsers = [];
+        this.messageIds = [];
         console.log("Unsuccessful Database Retrieval");
         this.loadingFlag = false; //hide spinner after data is loaded
       }
@@ -239,6 +253,7 @@ getConvos(check: boolean, sharedTweet: boolean, otherUser: string)
         this.DBMessages = resultData[2];
         this.DBTweets = resultData[3];
         this.DBTweetUsers = resultData[4];
+        this.messageIds = resultData[5];
         let bad_ids: number [] = this.getConvoIds();
         this.convertDBConvos(bad_ids, check, sharedTweet, otherUser);
       }
@@ -347,12 +362,82 @@ getConvos(check: boolean, sharedTweet: boolean, otherUser: string)
     {
       //sent message to db
       this.createDBMessage(this.selectedConvo.id,this.service_acc_name,this.messageForm.value.message!);
+      this.messageForm.reset(); //reset form
       console.log('message sent');
     }
     else
     {
       console.log('message not sent');
     }
+  }
+
+  handleDeleteMessage(index: number)
+  {
+    console.log("this.convoIndex: " + this.convoIndex);
+    //delete index
+    let count = 0;
+    for(let i = 0; i < this.convoIndex; i++)
+    {
+      count = count + this.convos[i].messages.length //add up all previous convo's messages
+    }
+    count = count + index; //index of message in selected convo
+
+    //make change locally
+    this.selectedConvo.messages.splice(index, 1);
+    //to double check 
+    this.convos[this.convoIndex].messages = this.selectedConvo.messages;
+    this.convos = [...this.convos]; //update convos array to trigger change detection
+
+    this.show_delete = false; //hide delete button
+    //make change in db
+
+    console.log("this.messageIds: " + this.messageIds);
+   let requestBody =
+    { 
+      "word" : "deleteMessage",
+      "word2" : "", // have to send or will not work
+      "word3" : "", // have to send or will not work
+      "num" : this.messageIds[count], //index of message in convo
+    };
+    
+    this.service.http.put(environment.apiUrl +"/message",requestBody).subscribe((resultData: any)=>
+    {
+     
+      if(resultData != 'Deleted Successfully')
+      {
+        console.log('failed to delete message');
+      }
+      else
+      {
+        console.log('message deleted');
+      }
+    });
+    
+  }
+
+   //shows profile modal only if there are no other open modals
+  showDelete(index: number)
+  {
+    if(this.show_delete)
+    {
+      return; //pnly have option to delete one message at a time
+    }  
+    else
+    {
+      var obj = this;
+      obj.timer = setTimeout(function(){
+        obj.showIndex = index; //set index to show delete button for this message
+        obj.show_delete = true;
+      },1000);//delay for how long to be hovering over profile pic to show modal
+    }
+      
+  }
+  
+
+  //prevents modal from appearing if mouse isnt over profile pic long enough
+  hideDelete()
+  {
+    clearTimeout(this.timer);
   }
 
   /*changeOpenModal(newValue: boolean){

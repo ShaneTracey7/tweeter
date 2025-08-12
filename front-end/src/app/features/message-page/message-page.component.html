@@ -30,9 +30,9 @@
     </ng-container>
     <ng-template #loaded>
         <ng-container *ngIf="arr[0]?.length > 0; else emptyList">
-            <app-message [mpc]="this"
+            <app-message
             *ngFor="let convo of arr[0]"
-            [convo]="convo" [selectedM]="selected" [selectedAcc]="selectedConvo.otherUser.acc_name">
+            [convo]="convo" [selectedAcc]="selectedConvo.otherUser.acc_name" [(convo_clicked)]="convo_clicked" [(convoArr)]="arr" [(convos)]="convos" [selectedConvo]="selectedConvo" (selectedConvoChange)="handleSelectedConvoChange($event)">
             </app-message>
         </ng-container>
         <ng-template #emptyList>
@@ -64,7 +64,7 @@
         </div>
 
         <div class="sc-content">
-            <div *ngFor="let message of selectedConvo.messages">
+            <div *ngFor="let message of selectedConvo.messages; let i = index">
 
                 <div *ngIf="message.isSender; else isReciever">
                     <div id="message-date-pair-sender" class="message-date-pair">
@@ -72,10 +72,17 @@
                             <app-post class="post" [style.borderRadius]="0" [post]="message.post!" [user]="message.profile!" [inConvo]="true"></app-post> <!-- Where i need to insert a prop for inConvo-->
                         </div>
                         <ng-template #justText> 
-                            <p id="message-sender" class="message-in-convo">{{message.text}}</p>
+                            <div class="message-text-container">
+                                <p id="message-sender" class="message-in-convo" (mouseover)="showDelete(i)" (mouseout)="hideDelete()">{{message.text}}</p>
+                                <ng-container *ngIf="show_delete && showIndex == i">
+                                    <div class="message-delete-img-container">
+                                        <img class="message-delete-img" (click)="handleDeleteMessage(i)" (mouseout)="show_delete = false" [src]="service.setUrl('trash-red.png')" alt="trash"/>
+                                    </div>
+                                </ng-container>
+                            </div>
                         </ng-template> 
                         <p id="date-sender"class="message-in-convo-date">{{message.getDateTime()}}</p>
-                    </div>                    
+                    </div>           
                 </div>
             
                 <ng-template #isReciever> 

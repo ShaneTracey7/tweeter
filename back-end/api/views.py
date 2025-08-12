@@ -264,6 +264,7 @@ def messageApi(request,id=id):
                     
                     users = []
                     ids = []
+                    message_ids = []
                     for convo in convos:
                         ids.append(convo.id)
                         if convo.user1.acc_name == acc_name_input:
@@ -273,10 +274,12 @@ def messageApi(request,id=id):
                         #this part involvong messages doesn't work
                         m = UserMessage.objects.filter(convo_id=convo.id)
                         if m.exists():
+
                             tweet_messages = [] # array
                             tweet_messages_users = [] # array
                             tweetFlag = False
                             for mes in m:
+                                message_ids.append(mes.id) #get message ids' need for deletion
                                 if mes.text == '':
                                     tweet_serializer = TweetSerializer(mes.tweet,many=False)
                                     tweet_messages.append(tweet_serializer.data)
@@ -306,7 +309,7 @@ def messageApi(request,id=id):
                     user_serializer = UserSerializer(users,many=True)
                     #messages might not work when tweet is inside 
                     #might have to exclude tweet field from serializer
-                    return JsonResponse([ids,user_serializer.data,messages,tweets,tweetUsers],safe=False)
+                    return JsonResponse([ids,user_serializer.data,messages,tweets,tweetUsers,message_ids],safe=False)
                 else:
                     return JsonResponse("No convos",safe=False)
             elif check == 'addMessage':
@@ -343,12 +346,19 @@ def messageApi(request,id=id):
 
                 convo.delete()
                 return JsonResponse("Deleted Successfully",safe=False)
+            elif check == 'deleteMessage':
+
+                message = UserMessage.objects.get(id=convo_id)
+                message.delete()
+
+                return JsonResponse("Deleted Successfully",safe=False)
             else:
                 user = User.objects.get(id=convo_id)
                 #tweet = Tweet.objects.get(id=user_id)
                 #tweet_user = tweet.user
                 user_serializer = UserSerializer(user,many=False)
                 return JsonResponse(user_serializer.data,safe=False)
+
         else:
             return JsonResponse("Failed to Add",safe=False)
     elif request.method =='DELETE':

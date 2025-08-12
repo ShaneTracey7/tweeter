@@ -1231,7 +1231,7 @@ border: 1px solid lightgray;
   overflow-y: scroll;
   flex-direction: column;
   gap: 0px;
-  z-index: 3;//was commented out
+  z-index: 99;
   width: 70%;
   max-width: 700px;
   background-color: white;
@@ -1515,6 +1515,41 @@ border: 1px solid lightgray;
     margin: auto;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+.message-text-container{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-left: auto;
+  margin-right: 10px;
+  }
+ .message-delete-img{
+    width: 22px;
+    height: 22px;
+    margin: auto;
+    
+ } 
+  .message-delete-img-container{
+    display:flex;
+    width: 40px;
+    height: 40px;
+    margin: auto;
+    border-radius: 50%;
+ } 
+ .message-delete-img-container:hover{
+    background-color: $bg-color-hover-nav-tool-bar;
+ }
     /* always keep media conditional css at bottom, otherwise, css won't work properly */
     @media only screen and (max-width: 700px) {
   

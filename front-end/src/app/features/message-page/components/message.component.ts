@@ -6,6 +6,7 @@ import { FormBuilder } from '@angular/forms';
 import { AuthService } from '../../../core/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import {environment} from '../../../../environments/environment';
+import { CoreService } from '../../../core/core-service.service';
 
 
 @Component({
@@ -15,12 +16,29 @@ import {environment} from '../../../../environments/environment';
   styleUrl: '../message-page.component.scss',
 
 })
-export class MessageComponent extends MessagePageComponent{
+export class MessageComponent{
 @Input () message = new MessageCard('','','','','');
 @Input () convo = new Convo(0,new Profile('','','','','',0,0),[], new Date());
-@Input() mpc:MessagePageComponent = new MessagePageComponent(this.formBuilder, this.authService, this.route,this.service);
+//@Input() mpc!:MessagePageComponent //= new MessagePageComponent(this.formBuilder, this.authService, this.route,this.service);
+
+
+@Input () convo_clicked: boolean = false; //used to check if a convo is clicked
+@Output() convo_clickedChange = new EventEmitter<boolean>(); 
+
+@Input () selectedConvo: Convo = new Convo(0,new Profile('','','','','',0,0),[], new Date()); //used to store the selected convo
+@Output() selectedConvoChange = new EventEmitter<Convo>(); 
+
+@Input () convos: Convo [] = []
+@Output() convosChange = new EventEmitter<Convo[]>(); 
+//convos: Convo[] = []; //used to store the list of convos
+@Input () convoArr: any[] = []; //used to store the list of convos in an array
+@Output() convoArrChange = new EventEmitter<any[]>(); //NEW
+
+
+
+
 @Input () c_c: boolean = false;
-@Input () selectedM: boolean = false;
+//@Input () selectedM: boolean = false;
 
 @Input () selectedAcc: string = '';
 tabStyle: string = "backgroundColor: 'transparent'";
@@ -32,9 +50,32 @@ showElipModal: boolean = false;
 lastMessage: string = '';
 lastDate: string = '';
 
-  override ngOnInit(): void {
+emptyConvo = new Convo(0,new Profile('','','','','',0,0),[], new Date());
+
+constructor(public formBuilder: FormBuilder, public authService: AuthService, public route: ActivatedRoute, public service: CoreService )
+{
+}
+
+  ngOnInit(){
     this.lastMessage = this.convo.getLastMessage()!;
-    this.lastDate = this.convo.getLastMessageDate()
+    this.lastDate = this.convo.getLastMessageDate();
+  }
+
+  //if messages are added /deleted to convo, update last message and date
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['convo']) {
+      // Handle changes to selectedAcc input
+      console.log('Convo changed:', changes['convo'].currentValue);
+      if(changes['convo'].previousValue?.messages && changes['convo'].currentValue.messages)
+      {
+        if(changes['convo'].currentValue.messages.length != changes['convo'].previousValue.messages.length)
+        {
+          this.lastMessage = this.convo.getLastMessage()!;
+          this.lastDate = this.convo.getLastMessageDate();
+        }
+      } 
+      
+    }
   }
 
   showConvo()
@@ -44,23 +85,27 @@ lastDate: string = '';
       return;
     }
     //this.c_c = true;
-    if(this.mpc.convo_clicked)
+    if(this.convo_clicked)
       {
         if(this.isSelected)
           {
-            this.mpc.convo_clicked = false; //this doesn't change the message page component html ngif
+          //this.mpc.convo_clicked = false; //this doesn't change the message page component html ngif
+            this.convo_clickedChange.emit(false);
             console.log("convo clicked: " + this.c_c);
             this.isSelected = false;
-            this.mpc.selectedConvo = this.emptyConvo;
-            //this.tabStyle = "backgroundColor: 'transparent'";
+            //this.mpc.selectedConvo = this.emptyConvo;
+            this.selectedConvoChange.emit(this.emptyConvo);
+            
           }
         else
           {
             if(this.convo.otherUser.acc_name == this.selectedAcc)
             {
               this.isSelected = false;
-              this.mpc.convo_clicked = false;
-              this.mpc.selectedConvo = this.emptyConvo;
+              //this.mpc.convo_clicked = false;
+              this.convo_clickedChange.emit(false);
+              //this.mpc.selectedConvo = this.emptyConvo;
+              this.selectedConvoChange.emit(this.emptyConvo);
               //this.selectedMChange.emit(false);
               console.log('this.convo.otherUser.acc_name == this.selectedAcc');
             }
@@ -89,11 +134,13 @@ lastDate: string = '';
       }
     else
     {
-      this.mpc.convo_clicked = true; //this doesn't change the message page component html ngif
+      //this.mpc.convo_clicked = true; //this doesn't change the message page component html ngif
+      this.convo_clickedChange.emit(true);
       console.log("convo clicked: " + this.c_c);
       this.isSelected = true;
-      this.mpc.selectedConvo = this.convo;
-      //this.tabStyle = "backgroundColor: '#1DA1F2'";
+      //this.mpc.selectedConvo = this.convo;
+      this.selectedConvoChange.emit(this.convo);
+      
     }
   }
 //#1DA1F2
@@ -187,15 +234,16 @@ lastDate: string = '';
     //reset/refresh convo list
     let c = this.convo; 
     
-    console.log("convos b4: " + this.mpc.convos);
+    console.log("convos b4: " + this.convos);
 
-    this.mpc.convos = this.mpc.convos.filter(function(convo) {
+    this.convos = this.convos.filter(function(convo) {
       return convo !== c
   });
 
-    this.mpc.arr = [this.mpc.convos];
+    //this.mpc.arr = [this.mpc.convos];
+    this.convoArrChange.emit([this.convos]);
 
-  console.log("convos after: " + this.mpc.convos);
+  console.log("convos after: " + this.convos);
   }
 
   deleteDBConvo()

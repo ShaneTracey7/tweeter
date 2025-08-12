@@ -59,6 +59,7 @@ import { SpinnerComponent } from '../shared/components/spinner/spinner.component
     SpinnerComponent,
     
   ],
+  exports: [SpinnerComponent], // Exporting SpinnerComponent to be used in app modules
   imports: [
     RouterModule,
     CoreRoutingModule,

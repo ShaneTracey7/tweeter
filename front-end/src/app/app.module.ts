@@ -24,7 +24,6 @@ import { PermissionsService } from './core/auth.guard'
     LoginPageComponent,
     LoginModalComponent,
     SignupModalComponent,
-    
   ],
   imports: [
     RouterModule,
