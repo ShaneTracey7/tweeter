@@ -1011,6 +1011,36 @@ def userApi(request,id=id):
         try:
             if user_serializer.is_valid():
                 #serializer.save()
+                username_input = user_serializer.data['username']
+                acc_name_input = user_serializer.data['acc_name']   
+                password_input = user_serializer.data['bio']
+                if username_input == 'check':  #check uniqueness of acc_name
+                    result = User.objects.filter(acc_name=acc_name_input)
+                    if result.exists():
+                        return JsonResponse("Not Unique",safe=False)
+                    else:
+                        return JsonResponse("Unique",safe=False)
+                
+                elif username_input == 'credentialsCheck': # check if password and account name correct
+                    result = User.objects.filter(acc_name=acc_name_input)
+                    if result.exists():
+                        user = User.objects.get(acc_name=acc_name_input)
+                        if verify_password(password_input, user.password):
+                        #if user.password == password_input:
+                            user_serializer = UserSerializer(user,many=False) #NEW
+
+                            # NEW
+                            refresh = RefreshToken()
+                            refresh['user_id'] = user.id #required
+                            refresh['acc_name'] = user.acc_name  # Optional
+                            access = refresh.access_token
+                                                                                #new
+                            return JsonResponse([user_serializer.data,{'access': str(access),'refresh': str(refresh)}],safe=False)
+                            
+                        else:
+                            return JsonResponse("AC exists, P incorrect",safe=False)
+                    else:
+                        return JsonResponse("AC doesn't exist",safe=False)
                 return JsonResponse(user_serializer.data, status=201)
             else:
                 print("Validation Errors:", user_serializer.errors)

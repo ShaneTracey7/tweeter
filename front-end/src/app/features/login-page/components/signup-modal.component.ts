@@ -88,7 +88,7 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) { }
 
     this.http.put(environment.apiUrl +"/user",requestBody).subscribe((resultData: any)=>
     {
-      console.log("front end result: " + resultData);
+      console.log("front end result: " + JSON.stringify(resultData));
 
       if(resultData == "Unique")
       {
