@@ -24,7 +24,8 @@
     </div>
 
         <!-- ELIP MODAL-->
-        <ng-container *ngIf="showElipModal">
+     <!-- NEED to keep this a div for styling--> 
+      <div *ngIf="showElipModal">
             <div id="elip-modal">
                 <div class="elip-modal-container">
                     <img [src]="service.setUrl('pin.svg')">
@@ -38,7 +39,7 @@
                     <p (click)="handleDeleteClick()" id="delete-text" >Delete Conversation</p>
                 </div>
             </div>
-        </ng-container>
+        </div>
     
     <div id="tab" [style]="showTab()" ></div>
 </div>
