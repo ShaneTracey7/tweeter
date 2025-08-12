@@ -994,11 +994,10 @@ def userApi(request,id=id):
                 #acc_name = message_serializer.data['']
                 #user = User.create(us['username'],us['email'],us['acc_name'],us['password'],us['pic'],us['header_pic'],'',us['follower_count'],us['following_count'])
                 #user = User.create(us['username'],us['email'],us['acc_name'],us['password'],None,None,'',us['follower_count'],us['following_count'])
-                hashed_pw = hash_password(us['password'])
-                print("Hashed password:", hashed_pw)
-                user = User.create(us['username'],us['email'],us['acc_name'],hash_password(us['password']),None,None,'',us['follower_count'],us['following_count'])
-                user.save()                                                   # hash_password(us['password']) ^ NEW ^ (issue here probs)
-                #user_serializer.save() #if user_serializer.is_valid():
+
+                #create user
+                user = User.objects.create_user(username=us['username'],email=us['email'],password=us['password'],acc_name=us['acc_name'],bio='',pic=None,header_pic=None)
+                                   
                 return JsonResponse("Added Successfully",safe=False)
         else: 
             return JsonResponse("Failed to Add",safe=False)
@@ -1013,7 +1012,7 @@ def userApi(request,id=id):
                 #serializer.save()
                 username_input = user_serializer.data['username']
                 acc_name_input = user_serializer.data['acc_name']   
-                password_input = user_serializer.data['bio']
+                password_input = user_serializer.data['password']
                 if username_input == 'check':  #check uniqueness of acc_name
                     result = User.objects.filter(acc_name=acc_name_input)
                     if result.exists():
