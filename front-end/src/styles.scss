@@ -981,8 +981,8 @@ $cancel-red: #f51616;
     }
 
     /* from message page component*/
-    .message-post{
-  width: 65%;
+  .message-post{
+  width: 100%;
   border-radius: 25px;
   box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.200);
 }
@@ -1524,7 +1524,14 @@ border: 1px solid lightgray;
 
 
 
-
+.message-tweet-container{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 65%;
+  //border-radius: 25px;
+  //box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.200);
+  }
 
 
 .message-text-container{

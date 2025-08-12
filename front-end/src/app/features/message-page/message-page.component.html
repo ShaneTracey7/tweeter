@@ -52,7 +52,7 @@
 <div id="sc" class="secondary-content" [style]="setSCStyle()">
     <!-- secondary content add here-->
 
-    <div id="sc-container"*ngIf="this.convo_clicked; else notClicked">  
+    <ng-container id="sc-container"*ngIf="this.convo_clicked; else notClicked">  
         
         <div class="toolbar">
             <div class="upper-toolbar">
@@ -64,13 +64,22 @@
         </div>
 
         <div class="sc-content">
-            <div *ngFor="let message of selectedConvo.messages; let i = index">
+            <ng-container *ngFor="let message of selectedConvo.messages; let i = index">
 
-                <div *ngIf="message.isSender; else isReciever">
+                <ng-container *ngIf="message.isSender; else isReciever">
                     <div id="message-date-pair-sender" class="message-date-pair">
-                        <div *ngIf="message.text == ''; else justText" class="message-post" id="message-post-sender">
-                            <app-post class="post" [style.borderRadius]="0" [post]="message.post!" [user]="message.profile!" [inConvo]="true"></app-post> <!-- Where i need to insert a prop for inConvo-->
-                        </div>
+                        <ng-container *ngIf="message.text == ''; else justText">
+                            <div class="message-tweet-container" id="message-post-sender">
+                                <div class="message-post" >
+                                    <app-post class="post" [style.borderRadius]="0" [post]="message.post!" [user]="message.profile!" [inConvo]="true" (mouseover)="showDelete(i)" (mouseout)="hideDelete()"></app-post> <!-- Where i need to insert a prop for inConvo-->
+                                </div> 
+                                <ng-container *ngIf="show_delete && showIndex == i">
+                                    <div class="message-delete-img-container">
+                                        <img class="message-delete-img" (click)="handleDeleteMessage(i, message.id ?? -1)" (mouseout)="show_delete = false" [src]="service.setUrl('trash-red.png')" alt="trash"/>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </ng-container>
                         <ng-template #justText> 
                             <div class="message-text-container">
                                 <p id="message-sender" class="message-in-convo" (mouseover)="showDelete(i)" (mouseout)="hideDelete()">{{message.text}}</p>
@@ -83,7 +92,7 @@
                         </ng-template> 
                         <p id="date-sender"class="message-in-convo-date">{{message.getDateTime()}}</p>
                     </div>           
-                </div>
+                </ng-container>
             
                 <ng-template #isReciever> 
                     <div id="message-date-pair-reciever" class="message-date-pair">
@@ -97,7 +106,7 @@
                     </div>
                 </ng-template> 
 
-            </div>
+            </ng-container>
         </div>
 
         <div class="bottom-toolbar">
@@ -108,7 +117,7 @@
         </div>
 
 
-    </div>
+    </ng-container>
 
     <ng-template #notClicked> 
         <div id="message-blurb">

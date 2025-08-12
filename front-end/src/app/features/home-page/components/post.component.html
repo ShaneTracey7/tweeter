@@ -11,8 +11,8 @@
                 </ng-container>
                 
                 <ng-container *ngIf="inConvo; else notConvo">
-                    <div class="post-profile-container">
-                        <img id="post-profile-img" (mouseover)="showModal()" (mouseout)="hideModal()" class="post-profile" src="{{this.service.setProfileUrl(post.profile)}}" alt="profile"/>
+                    <div class="post-profile-container"> <!-- (mouseover)="showModal()" (mouseout)="hideModal()"-->
+                        <img id="post-profile-img" class="post-profile" src="{{this.service.setProfileUrl(post.profile)}}" alt="profile"/>
                         <profile-modal [inMain]="true" [(show)]='show_modal' [profile]='user'></profile-modal> <!--[profile]='modal_profile'-->
                     </div>
                 </ng-container>
