@@ -59,8 +59,8 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) { }
        "pic" :  null,//"default-profile-pic.jpg",
        "header_pic" : null,//"default-header-pic.png",
        "bio" : "b",
-       "follower_count": 0,
-       "following_count": 0,
+       //"follower_count": 0,
+       //"following_count": 0,
      };
 
      this.http.post(environment.apiUrl +"/user",userData).subscribe((resultData: any)=>
@@ -77,14 +77,13 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) { }
     let requestBody =
     {
       "username" : 'check',
-      "email" : 'e',
+      "email" :  "johndoe@example.com",
       "acc_name" : this.signupForm.value.acc_name,
-      "password" : 'p',
+      "password" : 'ppppppppppppppp',
       "pic" : null, //new
       "header_pic" : null,
       "bio" : "b",
-      "follower_count": 0,
-      "following_count": 0,
+
     };
 
     this.http.put(environment.apiUrl +"/user",requestBody).subscribe((resultData: any)=>

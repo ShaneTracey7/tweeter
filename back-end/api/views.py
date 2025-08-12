@@ -1004,6 +1004,28 @@ def userApi(request,id=id):
             return JsonResponse("Failed to Add",safe=False)
 
     elif request.method =='PUT':
+
+        user_data = JSONParser().parse(request)
+        user_serializer = UserSerializer(data=user_data)
+
+        try:
+            if user_serializer.is_valid():
+                #serializer.save()
+                return JsonResponse(user_serializer.data, status=201)
+            else:
+                print("Validation Errors:", user_serializer.errors)
+                return JsonResponse(user_serializer.errors, status=400)
+        except Exception as e:
+            import traceback
+            traceback.print_exc()  # logs full error stack
+            return JsonResponse({'error': str(e)}, status=500)
+
+
+
+
+
+
+
         user_data = JSONParser().parse(request)
         user_serializer = UserSerializer(data=user_data)
         if user_serializer.is_valid():
