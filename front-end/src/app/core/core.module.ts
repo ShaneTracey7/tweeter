@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 
 import { CoreRoutingModule } from './core-routing.module';
 import { CoreComponent } from './core.component';
-import { CrudComponent } from '../crud/crud.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 
@@ -38,7 +37,6 @@ import { SpinnerComponent } from '../shared/components/spinner/spinner.component
     CoreComponent,
     NavigationBarComponent,
     MainContentComponent,
-    CrudComponent,
     HomePageComponent,
     ExplorePageComponent,
     MessagePageComponent,

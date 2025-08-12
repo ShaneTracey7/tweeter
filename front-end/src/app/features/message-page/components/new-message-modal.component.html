@@ -1,4 +1,4 @@
-<div *ngIf="show">
+<ng-container *ngIf="show">
         
     <div id="new-message-modal">
         <form id="search-form" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
@@ -9,9 +9,9 @@
                         <img (click)="hideModal()" id="nmm-icon"[src]="service.setUrl('cross.svg')"/>
                     </div>
                     <p id="nmm-title">New Message</p>
-                    <div *ngIf="selectedUser != ''; else notSelected">
+                    <ng-container *ngIf="selectedUser != ''; else notSelected">
                         <button type='submit' class="nmm-button" id="nmm-button-selected" >Next</button>
-                    </div>
+                    </ng-container>
                     <ng-template #notSelected>
                         <button type='submit' class="nmm-button">Next</button>
                     </ng-template>
@@ -23,12 +23,12 @@
             </div>
 
             <div class="user-list-content">
-                <div *ngIf="searchForm.value.inquiry != ''; else emptyList">
+                <ng-container *ngIf="searchForm.value.inquiry != ''; else emptyList">
                     <short-profile
                     *ngFor="let profile of userList"
                     [profile]="profile" [inNewMessage]="true" [(selectedUser)]="selectedUser">
                     </short-profile>
-                </div>
+                </ng-container>
                 <ng-template #emptyList>
                     <short-profile
                     *ngFor="let profile of defaultList"
@@ -38,4 +38,4 @@
             </div>
         </form>
     </div>
-</div>
+</ng-container>

@@ -20,14 +20,14 @@ import { environment } from "../../../../environments/environment";
  @Input() inPost: boolean = false;
  @Input() show: boolean = false;
  @Output() showChange = new EventEmitter<boolean>(); //not in use rn
- @Input() mpc: MessagePageComponent = new MessagePageComponent(this.formBuilder, this.authService, this.route, this.service); //need for createDB function
+ @Input() mpc: MessagePageComponent = new MessagePageComponent(this.formBuilder, this.authService, this.route, this.service); //need for only createDB function
   selectedUser: string = ''; //account name of selected user
   
   DBUserFeed: any [] = [];
-  userList: Profile [] = [];
+  userList: Profile [] = []; //list of users to show in search
 
-  DBDefaultFeed: any [] = [];
-  defaultList: Profile []; 
+  DBDefaultFeed: any [] = []; 
+  defaultList: Profile []; //default list of users to show when no value in search input
 
   service_acc_name: string;
   
@@ -58,7 +58,7 @@ import { environment } from "../../../../environments/environment";
       }
     }
   }
-   
+   //when input value changes, get users from db
     onChanges(): void {
       this.searchForm.get('inquiry')?.valueChanges.subscribe(val => {
         if((val?.length?? 0 )> 1)
@@ -124,13 +124,15 @@ import { environment } from "../../../../environments/environment";
             else //Successful
             {
               this.DBDefaultFeed = resultData;
-              console.log(this.DBDefaultFeed);
+              //console.log(this.DBDefaultFeed);
               this.convertUserFeed(true);
               console.log('Successful data base retrieval');
             }
         });
   }
 
+  //get users from db based on search input
+  //if str is empty, it will return default list
   getDBUserFeed(str:string)
   {
     if(str != '')
@@ -147,13 +149,7 @@ import { environment } from "../../../../environments/environment";
             "follower_count" : 0,
             "following_count" : 0,
           };
-      /*
-      let requestMessage =
-      {
-        'word': 'getUserSearch',
-        'word2': str, //current value of input
-      };
-      */
+
         this.http.put(environment.apiUrl + "/user",requestBody).subscribe((resultData: any)=>
         {
           if(resultData == 'Failed to Add' || resultData == 'No users' || resultData == 'check is else')
@@ -166,7 +162,7 @@ import { environment } from "../../../../environments/environment";
             else //Successful
             {
               this.DBUserFeed = resultData;
-              console.log(this.DBUserFeed);
+              //console.log(this.DBUserFeed);
               this.convertUserFeed(false);
               console.log('Successful data base retrieval');
             }

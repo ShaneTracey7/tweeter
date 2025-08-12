@@ -20,7 +20,7 @@
             <!-- the focused post -->
             <app-post 
             *ngFor="let p of testArr"
-            [focused]=true [post]="post" [user]="user" [upc]="this">
+            [focused]=true [post]="post" [user]="user">
             </app-post>
 
             <div class="empty-post">
@@ -64,7 +64,7 @@
             <!-- main content add here-->
             <app-post class="post" [style.borderRadius]="0"
               *ngFor="let p of arrs[0]; index as i"
-              [(fp)]="this.post" [(fpuser)]="this.user" [(fparr)]="this.testArr" [(comments)]="arrs[0]" [(commentsusers)]="arrs[1]" [post]="p" [user]="arrs[1][i]" [upc]="this" [inThread]="true">
+              [(fp)]="this.post" [(fpuser)]="this.user" [(fparr)]="this.testArr" [(comments)]="arrs[0]" [(commentsusers)]="arrs[1]" [post]="p" [user]="arrs[1][i]" [inThread]="true">
             </app-post>
             <ng-container *ngIf="arrs[0].length == (this.show_more_count+1)*10 && !noRepliesFlag;">
               <div class="feed-container">

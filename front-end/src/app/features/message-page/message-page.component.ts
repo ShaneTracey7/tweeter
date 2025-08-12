@@ -33,8 +33,7 @@ convos: Convo [] = [];
 
 loadingFlag: boolean = true; //flag to show spinner while data is being fetched
 
-//openmodal: boolean = false; //to ensure only one modal is visible at a time
-timer:any;
+timer:any; //used to delay showing delete button
 show_delete: boolean = false; //only have one message have the option to delete at a time
 showIndex: number = -1; //index of message to show delete button for
 
@@ -51,6 +50,7 @@ constructor(public formBuilder: FormBuilder,authService: AuthService, route: Act
 ngOnInit()
 {
   this.service_acc_name = sessionStorage.getItem('acc_name') ?? "badToken";
+  this.service.setCurrentPage("Messages");
 
   if(this.service.shareID != 0)
     {
@@ -92,6 +92,7 @@ setSCStyle()
     }
 }
 
+//creates a convo in the db if it does not exist for when a tweet is DM'ed
 createDBConvo(thisUser: string, otherUser: string, sharedTweet: boolean/*, text: string*/)
 {
   let requestBody =

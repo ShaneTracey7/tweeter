@@ -41,11 +41,7 @@
             <p class="profile-empty-list-body">Once you do, those messages will show up here.</p>
          </div>
       </ng-template>
-
     </ng-template>
-      <!--
-    <main-content [data]=arr [mpc]='this' [page]=service.current_page></main-content>
-        -->
 </div>
 
 
@@ -71,7 +67,7 @@
                         <ng-container *ngIf="message.text == ''; else justText">
                             <div class="message-tweet-container" id="message-post-sender">
                                 <div class="message-post" >
-                                    <app-post class="post" [style.borderRadius]="0" [post]="message.post!" [user]="message.profile!" [inConvo]="true" (mouseover)="showDelete(i)" (mouseout)="hideDelete()"></app-post> <!-- Where i need to insert a prop for inConvo-->
+                                    <app-post class="post" id="message-tweet-spacer" [style.borderRadius]="0" [post]="message.post!" [user]="message.profile!" [inConvo]="true" (mouseover)="showDelete(i)" (mouseout)="hideDelete()"></app-post> <!-- Where i need to insert a prop for inConvo-->
                                 </div> 
                                 <ng-container *ngIf="show_delete && showIndex == i">
                                     <div class="message-delete-img-container">

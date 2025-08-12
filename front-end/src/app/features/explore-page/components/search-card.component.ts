@@ -48,7 +48,7 @@ export class SearchCardComponent /*extends ExplorePageComponent*/{
       let urlFriendlyStr = this.searchTopic.topic.replace(/ /g, '-');
       this.service.router.navigate(['tweeter/Explore/' + urlFriendlyStr]);
       //this.service.setCurrentPage('OtherExplore'); 
-      this.service.cp_style = "OtherExplore";
+      this.service.setCurrentPage('OtherExplore'); 
     }
 
   }

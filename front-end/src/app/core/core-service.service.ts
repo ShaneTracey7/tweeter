@@ -86,12 +86,10 @@ export class CoreService {
 
     this.username = sessionStorage.getItem('username') ?? "badToken"; 
     this.acc_name = sessionStorage.getItem('acc_name') ?? "badToken";
-    //this.createUserFeed(false, ""); NEW
 
     this.getFollowingList();
     this.SearchBarTopics = createSearchBarTopics();
     console.log("inside core service constructor");
-
   }
 
   //to ensure only one modal is visible at a time (global variable)
@@ -112,7 +110,6 @@ export class CoreService {
   this.username = ""; 
   this.acc_name = ""; 
   this.DBUsers = []; 
-  //this.UserFeed = [];
   this.WhoToFollowFeed = [];
   this.ForYouFeed = []; 
   this.ForYouUserFeed = []; 
@@ -123,7 +120,17 @@ export class CoreService {
   this.shareID = 0; 
   this.shareUser= ""; 
   this.UserFollowingList = [];
+  this.ProfilePostsFeed = null; 
+  this.ProfilePostsUserFeed = []; 
+  this.ProfileRetweetsFeed = []; 
+  this.ProfileRetweetsUserFeed = []; 
+  this.ProfileMediaFeed = []; 
+  this.ProfileMediaUserFeed = []; 
+  this.ProfileLikesFeed = []; 
+  this.ProfileLikesUserFeed = []; 
   this.setProfileDataFlag = false;
+  this.openmodal = false;
+  this.SearchBarTopics = [];
 }
   //don't think this is doing anything
   ngOnDestroy()
@@ -162,6 +169,7 @@ export class CoreService {
 
     this.setCpStyle(tmp)
     //this.cp_style = tmp;
+    this.setCpStyle(tmp);
     this.marker1= true; 
     this.marker2= false;
     this.marker3= false; 
@@ -190,7 +198,7 @@ export class CoreService {
     if (cp_style == check) {
       return this.setUrl(str + "-fill.svg");
     }
-    else if(this.cp_style == 'OtherExplore' && str == 'Explore')
+    else if(cp_style == 'OtherExplore' && str == 'Explore')
       {
         return this.setUrl(str + "-fill.svg");
       }

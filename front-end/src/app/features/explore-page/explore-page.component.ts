@@ -240,5 +240,6 @@ export class ExplorePageComponent extends CoreComponent {
       this.arr = [this.forYouSearchTopics,this.trendingSearchTopics, this.newsSearchTopics, this.sportsSearchTopics, this.entertainmentSearchTopics];
       this.router.navigate(['tweeter/Explore']);
       this.service.routeToChild('foryou');
+      this.service.setCurrentPage('Explore');
     }
 }

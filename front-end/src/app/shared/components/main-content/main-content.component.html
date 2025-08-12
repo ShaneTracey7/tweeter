@@ -1,10 +1,10 @@
 <!-- has been moved to homepage-->
-<ng-container *ngIf="page == 'Home'">
+<!-- <ng-container *ngIf="page == 'Home'">
   <ng-container [ngSwitch]="tab">
     
     <ng-container *ngSwitchCase="'following'">
 
-        <ng-container *ngIf="data[2]?.length > 0; else emptyList"> <!-- was data?.[2]?.length > 0 -->
+        <ng-container *ngIf="data[2]?.length > 0; else emptyList">  was data?.[2]?.length > 0 
           <app-post class="post" [style.borderRadius]="0"
           *ngFor="let post of data[2]; index as i"
           [post]="post" [user]="data[3][i]" [upc]="upc">
@@ -19,9 +19,9 @@
       
     </ng-container>
 
-    <ng-container *ngSwitchDefault> <!-- for you -->
+    <ng-container *ngSwitchDefault> for you 
       
-        <ng-container *ngIf="data[0]?.length > 0; else emptyList2"> <!-- was data?.[2]?.length > 0 -->
+        <ng-container *ngIf="data[0]?.length > 0; else emptyList2"> was data?.[2]?.length > 0
           <app-post class="post" [style.borderRadius]="0"
             *ngFor="let post of data[0]; index as i"
             [post]="post" [user]="data[1][i]" [upc]="upc">
@@ -39,16 +39,7 @@
 
   </ng-container>
 </ng-container>
-
-<!-- quite sure this isn't in use-->
-<ng-container *ngIf="page == 'Post'">
-
-  <app-post class="post" [style.borderRadius]="0"
-    *ngFor="let post of data[0]"
-    [post]="post" [upc]="upc" [inThread]="true">
-  </app-post>
-
-</ng-container>
+-->
 
 <ng-container *ngIf="page == 'Explore' || page == 'OtherExplore'">
   <ng-container [ngSwitch]="tab">
@@ -94,7 +85,7 @@
       <ng-template #notEmpty1>
         <app-post class="post" [style.borderRadius]="0"
         *ngFor="let post of data[0]; index as i"
-        [post]="post" [user]="data[1][i]" [upc]="upc">
+        [post]="post" [user]="data[1][i]">
         </app-post>
       </ng-template>
     </ng-container>
@@ -149,7 +140,7 @@
       <ng-template #notEmpty>
         <app-post class="post" [style.borderRadius]="0"
         *ngFor="let post of data[1]; index as i"
-        [post]="post" [user]="data[2][i]" [upc]="upc">
+        [post]="post" [user]="data[2][i]">
         </app-post>
       </ng-template>
     </ng-container>
@@ -171,7 +162,8 @@
   </ng-container>
 </ng-container>
 
-  <!-- moving to profile page-->
+  <!-- moved to profile page-->
+<!--   
 <ng-container *ngIf="page == 'Profile' || page == 'OtherProfile'">
   <ng-container [ngSwitch]="tab">
 
@@ -183,7 +175,7 @@
       <ng-template #notEmpty>
         <app-post class="post" [style.borderRadius]="0"
         *ngFor="let post of data[2]; index as i"
-        [post]="post" [user]="data[3][i]" [upc]="upc"> <!-- add input variable for like_ids-->
+        [post]="post" [user]="data[3][i]" [upc]="upc"> add input variable for like_ids
         </app-post>
       </ng-template>
     </ng-container>
@@ -209,12 +201,12 @@
       <ng-template #notEmpty3>
         <app-post class="post" [style.borderRadius]="0"
         *ngFor="let post of data[4]; index as i"
-        [post]="post" [user]="data[5][i]" [upc]="upc"> <!-- add input variable for like_ids-->
+        [post]="post" [user]="data[5][i]" [upc]="upc"> add input variable for like_ids
         </app-post>
       </ng-template>
     </ng-container>
 
-    <ng-container *ngSwitchDefault> <!-- posts-->
+    <ng-container *ngSwitchDefault> posts 
       <div class="profile-empty-list" *ngIf="data[0] == ''; else notEmpty4">
         <p class="profile-empty-list-title"> &commat;{{user.acc_name}} hasn't posted</p>
         <p class="profile-empty-list-body">Once they do, those posts will show up here.</p>
@@ -222,13 +214,14 @@
       <ng-template #notEmpty4>
         <app-post class="post" [style.borderRadius]="0"
         *ngFor="let post of data[0]; index as i"
-        [post]="post" [user]="data[1][i]"[upc]="upc"> <!-- add input variable for like_ids-->
+        [post]="post" [user]="data[1][i]"[upc]="upc"> add input variable for like_ids
         </app-post>
       </ng-template>
     </ng-container>
 
   </ng-container>
 </ng-container>
+-->
 
 <!--might need some more work to get going-->
 <ng-container *ngIf="page == 'ProfileFollow'">

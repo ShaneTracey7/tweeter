@@ -190,7 +190,7 @@
               <ng-template #notEmpty>
                 <app-post class="post" [style.borderRadius]="0"
                 *ngFor="let post of arrs[2]; index as i"
-                [post]="post" [user]="arrs[3][i]" [upc]="this"> <!-- add input variable for like_ids-->
+                [post]="post" [user]="arrs[3][i]" > <!-- add input variable for like_ids-->
                 </app-post>
                 <ng-container *ngIf="arrs[2].length == (this.show_more_r_count+1)*10;">
                   <div class="feed-container">
@@ -208,7 +208,7 @@
               <ng-template #notEmpty2>
                 <app-post class="post" [style.borderRadius]="0"
                 *ngFor="let post of arrs[6]; index as i"
-                [post]="post" [user]="arrs[7][i]" [upc]="this">
+                [post]="post" [user]="arrs[7][i]" >
                 </app-post>                         <!-- this.show_more_m_count+1-->
                 <ng-container *ngIf="arrs[6].length == (1)*10;">
                   <div class="feed-container">
@@ -226,7 +226,7 @@
               <ng-template #notEmpty3>
                 <app-post class="post" [style.borderRadius]="0"
                 *ngFor="let post of arrs[4]; index as i"
-                [post]="post" [user]="arrs[5][i]" [upc]="this"> <!-- add input variable for like_ids-->
+                [post]="post" [user]="arrs[5][i]" > <!-- add input variable for like_ids-->
                 </app-post>
                 <ng-container *ngIf="arrs[4].length == (this.show_more_l_count+1)*10;">
                   <div class="feed-container">
@@ -244,7 +244,7 @@
               <ng-template #notEmpty4>
                 <app-post class="post" [style.borderRadius]="0"
                 *ngFor="let post of arrs[0]; index as i"
-                [post]="post" [user]="arrs[1][i]"[upc]="this"> <!-- add input variable for like_ids-->
+                [post]="post" [user]="arrs[1][i]"> <!-- add input variable for like_ids-->
                 </app-post>
                 <ng-container *ngIf="arrs[0].length == (this.show_more_p_count+1)*10;">
                   <div class="feed-container">

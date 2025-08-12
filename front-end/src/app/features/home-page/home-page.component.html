@@ -99,7 +99,7 @@ only for testing image api (google)-->
         <ng-container *ngIf="FEFollowfeed.length > 0; else emptyList"> <!-- was data?.[2]?.length > 0 -->
           <app-post class="post" [style.borderRadius]="0"
           *ngFor="let post of FEFollowfeed; index as i"
-          [post]="post" [user]="FollowUserFeed[i]" [upc]="this">
+          [post]="post" [user]="FollowUserFeed[i]">
           </app-post>
           <ng-container *ngIf="FEFollowfeed.length == (this.show_more_f_count+1)*20;">
               <div class="feed-container">
@@ -121,7 +121,7 @@ only for testing image api (google)-->
         <ng-container *ngIf="FEfeed.length > 0; else emptyList2"> <!-- was data?.[2]?.length > 0 -->
           <app-post class="post" [style.borderRadius]="0"
             *ngFor="let post of FEfeed; index as i"
-            [post]="post" [user]="UserFeed[i]" [upc]="this">
+            [post]="post" [user]="UserFeed[i]">
           </app-post>
           <ng-container *ngIf="FEfeed.length == (this.show_more_fy_count+1)*20;">
               <div class="feed-container">

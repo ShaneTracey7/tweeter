@@ -29,6 +29,7 @@ export class NotificationPageComponent extends CoreComponent{
   ngOnInit()
   {
     this.service_acc_name = sessionStorage.getItem('acc_name') ?? "badToken";
+    this.service.setCurrentPage("Notifications");
     this.setNotificationFeed();
     console.log('inside notification page ngoninit');//testing
   }

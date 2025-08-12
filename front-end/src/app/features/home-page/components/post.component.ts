@@ -3,6 +3,11 @@ import { HomePageComponent } from '../home-page.component';
 import { Post, Profile, getProfile } from '../../../core/data';
 import { MainContentComponent } from '../../../shared/components/main-content/main-content.component';
 import { environment } from '../../../../environments/environment';
+import { AuthService } from '@auth0/auth0-angular';
+import { ActivatedRoute } from '@angular/router';
+import { CoreService } from '../../../core/core-service.service';
+import { HttpClient } from '@angular/common/http';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
 
@@ -11,7 +16,7 @@ import { environment } from '../../../../environments/environment';
   styleUrl: '../home-page.component.scss',
 
 })
-export class PostComponent extends HomePageComponent{ //probs shouldn't extend homepage
+export class PostComponent { //probs shouldn't extend homepage
 
 //new
 @Input() inConvo = false; 
@@ -39,7 +44,7 @@ DBPostfeed: any [] = [];
 @Input () inThread = false; // true if post is in thread within post-page-component
 //@Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService,this.service,this.authService,this.route);
 
-@Input() upc: any = '';
+//@Input() upc: any = '';
 show_modal: boolean = false;
 modal_profile = new Profile('','','','','',0,0);
 timer:any;
@@ -57,20 +62,22 @@ showShareModal: boolean = false;
 
 showNewMessageModal: boolean = false;
 
-//testArr: any [] = []; //needed to force profile modal to work right
+//NEW 
+reaction: string = "";
 
-override ngOnInit(): void {
-  //check if liked or retweeted
-  //console.log("**ngOnInit**");
+//testArr: any [] = []; //needed to force profile modal to work right
+constructor(/*public authService: AuthService,*/ public route: ActivatedRoute, public service: CoreService,public http: HttpClient, public formBuilder: FormBuilder )
+{
+  
+}
+
+ngOnInit(){
 
   if(!this.inConvo)
   {
     this.setPost();
   }
   this.modal_profile = this.user; //NEW
-
-  //console.log("POST: "+ this.post);
-  //console.log("USER: " + this.user);
 }
 
 ngOnChanges(changes: SimpleChanges){
@@ -80,16 +87,11 @@ ngOnChanges(changes: SimpleChanges){
     if (changes['post']) {
       console.log("**ngOnChanges**");
       this.setPost();
-      //console.log("POST: "+ this.post);
-    }
-    if (changes['user']){
-      //console.log("**ngOnChanges**");
-      ////this.testArr = [1];
-      //console.log("USER: "+ this.user);
     }
   }
 }
-  
+
+//sets post data and checks if liked or retweeted by logged in user
 setPost()
 {
   this.checkLiked()
@@ -98,22 +100,20 @@ setPost()
 
 checkLiked()
 {
- //if(this.upc.like_ids.includes(this.post.id))
-if(this.service.Likes.includes(this.post.id)) //result from DB check or check through list of users likes
- {
-  this.liked = true;
- }
- else
- {
-  this.liked = false;
- }
+  if(this.service.Likes.includes(this.post.id)) //result from DB check or check through list of users likes
+  {
+    this.liked = true;
+  }
+  else
+  {
+    this.liked = false;
+  }
   this.postLikeArr = this.service.Likes;
 }
 
 checkRetweeted()
-{
- // if(this.upc.retweet_ids.includes(this.post.id)) //result from DB check or check through list of users likes
- if(this.service.Retweets.includes(this.post.id))
+{ 
+ if(this.service.Retweets.includes(this.post.id))//result from DB check or check through list of users likes
  {
   this.retweeted = true;
  }
@@ -161,26 +161,23 @@ handleRetweet()
     //& add retweet notification to DB
     let requestBody =
     {
-      "word" : this.upc.service_acc_name, //user_from
+      "word" : sessionStorage.getItem('acc_name'),//this.upc.service_acc_name, //user_from
       "num" : this.post.id, //tweet id
-      //new 
       "word2" : this.post.acc_name, //user_to
     };
-    console.log("this.hpc.service_acc_name: " +this.upc.service_acc_name);
-    console.log("this.post.id: " + this.post.id);
+  
 
     this.http.post(environment.apiUrl + "/retweet",requestBody).subscribe((resultData: any)=>
     {
-        //console.log(resultData);
     
-        if(resultData == "Failed to Add")
-        {
-          console.log(resultData);
-        }
+      if(resultData == "Failed to Add")
+      {
+        console.log(resultData);
+      }
       else // "Added Successfully"
-        {
-          console.log(resultData);
-        }
+      {
+          //do nothing
+      }
     });
 
   }
@@ -216,24 +213,21 @@ handleRetweet()
     let requestBody =
     {
       "word" : 'delete',
-      "word2" : this.upc.service_acc_name, //user_from
+      "word2" : sessionStorage.getItem('acc_name'),//this.upc.service_acc_name, //user_from
       "num" : this.post.id, //tweet id (set to 0 if follow)
-      //new
       "word3" : this.post.acc_name, //user_to
     };
-    console.log("this.post.id: " + this.post.id);
 
     this.http.put(environment.apiUrl + "/retweet",requestBody).subscribe((resultData: any)=>
     {
-      //console.log(resultData);
 
       if(resultData == "Deleted Successfully")
       {
-        console.log(resultData);
+        //do nothing
       }
       else // "Failed to Add"
       {
-      console.log(resultData);
+        console.log(resultData);
       }
   });
   }
@@ -275,26 +269,21 @@ handleLike()
     //& add 'like' notification to DB
     let requestBody =
     {
-      "word" : this.upc.service_acc_name,
+      "word" : sessionStorage.getItem('acc_name'),//this.upc.service_acc_name,
       "num" : this.post.id, //tweet id
-      //new
       "word2" : this.post.acc_name, //user_to
     };
-    console.log("this.hpc.service_acc_name: " +this.upc.service_acc_name);
-    console.log("this.post.id: " + this.post.id);
 
     this.http.post(environment.apiUrl + "/like",requestBody).subscribe((resultData: any)=>
     {
-        //console.log(resultData);
-    
-        if(resultData == "Failed to Add")
-        {
-          console.log(resultData);
-        }
+      if(resultData == "Failed to Add")
+      {
+        console.log(resultData);
+      }
       else // "Added Successfully"
-        {
-          console.log(resultData);
-        }
+      {
+          //do nothing
+      }
     });
   }
   else //unlike
@@ -328,33 +317,29 @@ handleLike()
     let requestBody =
     {
       "word" : 'delete',
-      "word2" : this.upc.service_acc_name,
+      "word2" : sessionStorage.getItem('acc_name'),//this.upc.service_acc_name,
       "num" : this.post.id, //tweet id
-      //new
       "word3" : this.post.acc_name, //user_to
     };
     console.log("this.post.id: " + this.post.id);
 
     this.http.put(environment.apiUrl + "/like",requestBody).subscribe((resultData: any)=>
     {
-      //console.log(resultData);
-
       if(resultData == "Deleted Successfully")
       {
-        console.log(resultData);
+        //do nothing
       }
       else // "Failed to Add"
       {
         console.log(resultData);
       }
   });
-
   }
-
    //add 'like' notitication to DB
 
 }
 
+//returns formated elapsed time of post
 showTimeAndDate()
 {
   let date = new Date(this.post.e_time);
@@ -405,7 +390,6 @@ showTimeAndDate()
 
 showDeltaDate()
 {
-
   // Time Difference in Milliseconds
 
 let start = new Date(this.post.e_time).getTime();
@@ -448,7 +432,6 @@ else
     else
     {
       obj.timer = setTimeout(function(){
-
         obj.show_modal = true;
         obj.service.changeOpenModal(true);
       },1000);//delay for how long to be hovering over profile pic to show modal
@@ -525,7 +508,7 @@ grayReaction()
       console.log("switching focused post");
       this.inThread = false;
       //this.focused = true;
-      this.setNewPostPageData();
+      this.getDBCommentFeed(); //this.setNewPostPageData();
     }
     else
     {
@@ -549,7 +532,7 @@ grayReaction()
         console.log("switching focused post");
         this.inThread = false;
         //this.focused = true;
-        this.setNewPostPageData();
+        this.getDBCommentFeed(); //this.setNewPostPageData();
       }
       else
       {
@@ -579,52 +562,6 @@ grayReaction()
     this.showShareModal = !this.showShareModal;
   }
 
-
-  setNewPostPageData()
-  {
-    let globalObj = this;
-
-      const postPromise = new Promise<any>(function (resolve, reject) {
-        setTimeout(() => {
-          reject("We didn't get a response")
-        }, 5000) // 5 secs
-
-        setTimeout(() => {
-          //globalObj.setLiked();
-          globalObj.getDBCommentFeed();
-          resolve('we got a response');
-        }, 0) // 0 secs
-      })
-
-      const postPromise2 = new Promise<any>(function (resolve, reject) {
-        setTimeout(() => {
-          reject("We didn't check")
-        }, 10000) //8 secs
-
-        setTimeout(() => {
-          globalObj.commentsChange.emit(globalObj.newComments);
-          globalObj.commentsusersChange.emit(globalObj.newCommentUsers); //NEW
-          globalObj.fpChange.emit(globalObj.post);
-          globalObj.fpuserChange.emit(globalObj.user); //NEW
-          globalObj.fparrChange.emit([1]);
-          var route = '/tweeter/Post/' + globalObj.post.id;
-          globalObj.service.router.navigate([route]); 
-          resolve('we checked');
-        }, 1000) // 1 sec
-      })
-      
-      async function myAsync(){
-        //console.log("inside myAsync");
-        try{
-          postPromise;
-          postPromise2;
-        }
-        catch (error) {
-          console.error('Promise rejected with error: ' + error);
-        }
-      }
-      myAsync();
-  }
   //gets all replies(from DB) and adds them to DBfeed array
   getDBCommentFeed()
   {
@@ -680,6 +617,62 @@ grayReaction()
       var user = new Profile(u[index].pic?.image_url,u[index].header_pic?.image_url,u[index].username,u[index].acc_name,u[index].bio,u[index].following_count,u[index].follower_count);
         this.newCommentUsers.push(user);
       });
+
+      //NEW
+      this.commentsChange.emit(this.newComments);
+      this.commentsusersChange.emit(this.newCommentUsers); //NEW
+      this.fpChange.emit(this.post);
+      this.fpuserChange.emit(this.user); //NEW
+      this.fparrChange.emit([1]);
+      var route = '/tweeter/Post/' + this.post.id;
+      this.service.router.navigate([route]); 
+  }
+
+  //styles reaction bar icons based upon reaction
+  colorReactionBarText(str:string)
+  {
+    if (this.reaction == str) 
+    {
+      if( str == 'heart')
+      {
+        return { color: '#FF4086'}
+      }
+      else if ( str == 'retweet')
+      {
+        return { color: '#17BD69'}
+      }
+      else
+      {
+        return { color: '#1DA1F2'}
+      }
+    }
+    else
+    {
+      return {color: '#808080'}
+    }
+  }
+//styles reaction bar icons bgs based upon reaction
+  colorReactionBarBG(str:string)
+  {
+    if (this.reaction == str) 
+    {
+      if( str == 'heart')
+      {
+        return { backgroundColor: '#ff40862b'}
+      }
+      else if ( str == 'retweet')
+      {
+        return { backgroundColor: '#17bd6a29'}
+      }
+      else
+      {
+        return { backgroundColor: '#1da0f22f'}
+      }
+    }
+    else
+    {
+      return { backgroundColor: 'transparent'}
+    }
   }
 
 
