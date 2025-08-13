@@ -96,7 +96,7 @@ onSubmit()
       "bio" : "b",
     };
 
-    this.http.put(environment.apiUrl +"/user",requestBody).subscribe((resultData: any)=>
+    this.http.put(environment.apiUrl +"/api/login",requestBody).subscribe((resultData: any)=>
     {
         console.log(resultData);
     

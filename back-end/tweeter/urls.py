@@ -25,24 +25,25 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
     
-    re_path(r'^image$',views.imageApi),
-    re_path(r'^message$',views.messageApi),
+    re_path(r'^image$',views.imageApi.as_view()),
+    re_path(r'^message$',views.messageApi.as_view()),
     #re_path(r'^notification/(.*)$',views.likeApi),
-    re_path(r'^notification$',views.notificationApi),
+    re_path(r'^notification$',views.notificationApi.as_view()),
     #re_path(r'^notification/(.*)$',views.likeApi),
-    re_path(r'^retweet$',views.retweetApi),
+    re_path(r'^retweet$',views.retweetApi.as_view()),
     #re_path(r'^retweet/(.*)$',views.likeApi),
-    re_path(r'^like$',views.likeApi),
+    re_path(r'^like$',views.likeApi.as_view()),
     #re_path(r'^like/(.*)$',views.likeApi),
-    re_path(r'^follow$',views.followApi),
+    re_path(r'^follow$',views.followApi.as_view()),
     #re_path(r'^follow/(.*)$',views.followApi),
-    re_path(r'^user$',views.userApi),
+    re_path(r'^user$',views.userApi.as_view()),
     #re_path(r'^user/(.*)$',views.userApi),
-    re_path(r'^tweet$',views.tweetApi),
+    re_path(r'^tweet$',views.tweetApi.as_view()),
     #re_path(r'^tweet/(.*)$',views.tweetApi),
 
     #NEW
     path('api/tweet/', views.TweetAPI.as_view(), name='notification-detail'),
+    path('api/login/', views.loginAPI.as_view()),
 
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

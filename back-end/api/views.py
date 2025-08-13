@@ -22,16 +22,16 @@ from django.core.files import File
 
 from .security import hash_password, verify_password
 
-@csrf_exempt
-def imageApi(request,id=id):
 
-    print('in image api')
+class imageApi(APIView):
+
+    permission_classes = [IsAuthenticated]  # Require login
     
     #this is mainly for testing
-    if request.method =='GET':
+    def get(self, request):
         return JsonResponse('saved to google drive',safe=False)
 
-    elif request.method =='POST':
+    def post(self, request):
 
         type_input = request.POST.get('type') # header, profile, tweet, bio, both, header bio, profile bio, both bio
         acc_name_input = request.POST.get('acc_name') # account name of user
@@ -165,7 +165,7 @@ def imageApi(request,id=id):
 
             # figure out what put is for, maybe delete
             # i dont think there is ever a time when I would have to delete just an image (because images get deleted through account deletions and tweet deletions)
-    elif request.method =='PUT': 
+    def put(self, request, id=None): 
         #retrieve message from front end
         message_data = JSONParser().parse(request)
         # serialize message
@@ -198,20 +198,16 @@ def imageApi(request,id=id):
             
         return JsonResponse("Failed to Add",safe=False)
         
-    elif request.method =='DELETE':
-        return JsonResponse("Deleted Successfully",safe=False)
+class messageApi(APIView):
 
+    permission_classes = [IsAuthenticated]  # Ensure user is authenticated
 
-
-@csrf_exempt
-def messageApi(request,id=id):
-
-    if request.method =='GET':
+    def get(self, request):
         tweet = Tweet.objects.all()
         tweet_serializer = TweetSerializer(tweet,many=True)
         return JsonResponse(tweet_serializer.data,safe=False)
      
-    elif request.method =='POST':
+    def post(self, request):
 
         #retrieve message from front end
         message_data = JSONParser().parse(request)
@@ -242,7 +238,7 @@ def messageApi(request,id=id):
         else: 
             return JsonResponse("Failed to Add",safe=False)
 
-    elif request.method =='PUT': 
+    def put(self, request, id=None):
         message_data = JSONParser().parse(request)
 
         message_serializer = MessageSerializer(data=message_data)
@@ -359,16 +355,18 @@ def messageApi(request,id=id):
 
         else:
             return JsonResponse("Failed to Add",safe=False)
-    elif request.method =='DELETE':
+    def delete(self, request, id=None):
         tweet = Tweet.objects.get(id=id)
         tweet.delete()
         return JsonResponse("Deleted Successfully",safe=False)
 
 
-@csrf_exempt
-def tweetApi(request,id=id):
 
-    if request.method =='GET':
+class tweetApi(APIView):
+
+    permission_classes = [IsAuthenticated]  # Ensure user is authenticated
+
+    def get(self, request):
         tweet = Tweet.objects.all().order_by('-date_created') # '-' denotes descending order
 
        # tweet = Tweet.objects.get(id=1)
@@ -382,7 +380,7 @@ def tweetApi(request,id=id):
         tweet_serializer = TweetSerializer(tweet,many=True)
         return JsonResponse(tweet_serializer.data,safe=False)
 
-    elif request.method =='POST':
+    def post(self, request):
 
         #retrieve message from front end
         message_data = JSONParser().parse(request)
@@ -419,7 +417,7 @@ def tweetApi(request,id=id):
         else: 
             return JsonResponse("Failed to Add",safe=False)
 
-    elif request.method =='PUT': 
+    def put(self, request, id=None):
         message_data = JSONParser().parse(request)
 
         message_serializer = MessageSerializer(data=message_data)
@@ -658,20 +656,21 @@ def tweetApi(request,id=id):
         #else:
             #return JsonResponse("Failed to Add",safe=False)
 
-    elif request.method =='DELETE':
+    def delete(self, request, id=None):
         tweet = Tweet.objects.get(id=id)
         tweet.delete()
         return JsonResponse("Deleted Successfully",safe=False)
     
-@csrf_exempt
-def notificationApi(request,id=id):
+class notificationApi(APIView):
 
-    if request.method =='GET':
+    permission_classes = [IsAuthenticated]  # Ensure user is authenticated
+
+    def get(self, request):
         notification = Notification.objects.all()
         notification_serializer = NotificationSerializer(notification,many=True)
         return JsonResponse(notification_serializer.data,safe=False)
 
-    elif request.method =='POST':
+    def post(self, request):
 
         #NOT IN USE
                 
@@ -694,9 +693,8 @@ def notificationApi(request,id=id):
         else: 
             return JsonResponse("Failed to Add",safe=False)
 
-    elif request.method =='PUT': 
+    def put(self, request, id=None): 
         message_data = JSONParser().parse(request)
-
         message_serializer = MessageSerializer(data=message_data)
         if message_serializer.is_valid():
             check = message_serializer.data['word']
@@ -734,21 +732,22 @@ def notificationApi(request,id=id):
         else:
             return JsonResponse("Failed to Add",safe=False)
         
-    elif request.method =='DELETE':
+    def delete(self, request, id=None):
         tweet = Tweet.objects.get(id=id)
         tweet.delete()
         return JsonResponse("Deleted Successfully",safe=False)
 
 
-@csrf_exempt
-def retweetApi(request,id=id):
+class retweetApi(APIView):
 
-    if request.method =='GET':
+    permission_classes = [IsAuthenticated]  # Ensure user is authenticated
+
+    def get(self, request):
         retweet = Retweet.objects.all()
-        retweet_serializer = RetweetSerializer(like,many=True)
+        retweet_serializer = RetweetSerializer(retweet,many=True)
         return JsonResponse(retweet_serializer.data,safe=False)
 
-    elif request.method =='POST':
+    def post(self, request):
 
         #retrieve message from front end
         message_data = JSONParser().parse(request)
@@ -784,7 +783,7 @@ def retweetApi(request,id=id):
         else: 
             return JsonResponse("Failed to Add",safe=False)
 
-    elif request.method =='PUT': 
+    def put(self, request, id=None): 
         message_data = JSONParser().parse(request)
         message_serializer = MessageSerializer(data=message_data)
         if message_serializer.is_valid():
@@ -837,7 +836,7 @@ def retweetApi(request,id=id):
         else:
             return JsonResponse("Failed to Add",safe=False)
 
-    elif request.method =='DELETE':
+    def delete(self, request, id=None):
        #message_data = JSONParser().parse(request)
        # message_serializer = MessageSerializer(data=message_data)
         #if message_serializer.is_valid():
@@ -851,15 +850,16 @@ def retweetApi(request,id=id):
         
 
 
-@csrf_exempt
-def likeApi(request,id=id):
+class likeApi(APIView):
 
-    if request.method =='GET':
+    permission_classes = [IsAuthenticated]  # Ensure user is authenticated
+
+    def get(self, request):
         like = Like.objects.all()
         like_serializer = LikeSerializer(like,many=True)
         return JsonResponse(like_serializer.data,safe=False)
 
-    elif request.method =='POST':
+    def post(self, request):
 
         #retrieve message from front end
         message_data = JSONParser().parse(request)
@@ -893,7 +893,7 @@ def likeApi(request,id=id):
         else: 
             return JsonResponse("Failed to Add",safe=False)
 
-    elif request.method =='PUT': 
+    def put(self, request, id=None): 
         message_data = JSONParser().parse(request)
         message_serializer = MessageSerializer(data=message_data)
         if message_serializer.is_valid():
@@ -945,7 +945,7 @@ def likeApi(request,id=id):
         else:
             return JsonResponse("Failed to Add",safe=False)
 
-    elif request.method =='DELETE':
+    def delete(self, request, id=None):
        #message_data = JSONParser().parse(request)
        # message_serializer = MessageSerializer(data=message_data)
         #if message_serializer.is_valid():
@@ -959,17 +959,11 @@ def likeApi(request,id=id):
         #    return JsonResponse("Failed to Add",safe=False)
 
 
-@csrf_exempt
-def userApi(request,id=id):
+class loginApi(APIView):
 
-    if request.method =='GET':
-        #not implemented but should return top 10 users that current user doesn't follow (may have to move to a request type that has a body)
-        user = User.objects.all()[:10] #raw("SELECT * FROM api_user WHERE username = 'Shane'")
-        user_serializer = UserSerializer(user,many=True)
-        return JsonResponse(user_serializer.data,safe=False)
-    
-    elif request.method =='POST':
+    #only api that isn't authenticated
 
+    def post(self, request):
         #retrieve username from front end
         user_data = JSONParser().parse(request)
         # serialize username
@@ -978,37 +972,19 @@ def userApi(request,id=id):
         try:
             if user_serializer.is_valid():
        
-                check = user_serializer.data['username']
-                acc_name_input = user_serializer.data['acc_name']
-                password_input = user_serializer.validated_data['password']
-                if check == 'getWhoToFollow':
-                    #gets suggested users to follow that user doesn't already follow
-                    user = User.objects.get(acc_name=acc_name_input)
-                    #returns the the the people not following the user, not the other way around (need to fix)
-                    followed_users = Follow.objects.filter(following=user).values_list('follower', flat=True)
-                    non_followed_users = User.objects.exclude(id__in=followed_users).exclude(id=user.id)[:10]
-                    user_serializer = UserSerializer(non_followed_users,many=True)
-
-                    return JsonResponse(user_serializer.data,safe=False)
-                else:
-                    us = user_serializer.data
-                    #acc_name = message_serializer.data['']
-                    #user = User.create(us['username'],us['email'],us['acc_name'],us['password'],us['pic'],us['header_pic'],'',us['follower_count'],us['following_count'])
-                    #user = User.create(us['username'],us['email'],us['acc_name'],us['password'],None,None,'',us['follower_count'],us['following_count'])
-
-                    #create user
-                    user = User.objects.create_user(username=us['username'],email=us['email'],password=password_input,acc_name=us['acc_name'],bio='',pic=None,header_pic=None)
-                                    
-                    return JsonResponse("Added Successfully",safe=False)
+                password_input = user_serializer.validated_data['password'] 
+                us = user_serializer.data
+                #create user
+                user = User.objects.create_user(username=us['username'],email=us['email'],password=password_input,acc_name=us['acc_name'],bio='',pic=None,header_pic=None)                
+                return JsonResponse("Added Successfully",safe=False)
             else: 
                 return JsonResponse("Failed to Add",safe=False)
         except Exception as e:
              import traceback
              traceback.print_exc()  # logs full error stack
              return JsonResponse({'error': str(e)}, status=500)
-
-    elif request.method =='PUT':
-
+        
+    def put(self, request, id=None):
         user_data = JSONParser().parse(request)
         user_serializer = UserSerializer(data=user_data)
 
@@ -1018,13 +994,14 @@ def userApi(request,id=id):
                 username_input = user_serializer.data['username']
                 acc_name_input = user_serializer.data['acc_name']   
                 password_input = user_serializer.validated_data['password'] # need validated data to get password
+
                 if username_input == 'check':  #check uniqueness of acc_name
                     result = User.objects.filter(acc_name=acc_name_input)
                     if result.exists():
                         return JsonResponse("Not Unique",safe=False)
                     else:
                         return JsonResponse("Unique",safe=False)
-                
+                    
                 elif username_input == 'credentialsCheck': # check if password and account name correct
                     result = User.objects.filter(acc_name=acc_name_input)
                     if result.exists():
@@ -1046,128 +1023,185 @@ def userApi(request,id=id):
                             return JsonResponse("AC exists, P incorrect",safe=False)
                     else:
                         return JsonResponse("AC doesn't exist",safe=False)
-                return JsonResponse(user_serializer.data, status=201)
-            else:
-                print("Validation Errors:", user_serializer.errors)
-                return JsonResponse(user_serializer.errors, status=400)
+                    
+                else: 
+                    return JsonResponse("niether 'check' or 'credientialsCheck (this case should not happen)",safe=False)
+            else: 
+                return JsonResponse("Failed to Add",safe=False)
         except Exception as e:
             import traceback
             traceback.print_exc()  # logs full error stack
             return JsonResponse({'error': str(e)}, status=500)
 
-        """
+class userApi(APIView):
 
+    permission_classes = [IsAuthenticated]  # Ensure user is authenticated
 
+    def get(self, request):
+        #not implemented but should return top 10 users that current user doesn't follow (may have to move to a request type that has a body)
+        user = User.objects.all()[:10] #raw("SELECT * FROM api_user WHERE username = 'Shane'")
+        user_serializer = UserSerializer(user,many=True)
+        return JsonResponse(user_serializer.data,safe=False)
+    
+    def post(self, request):
+        #retrieve username from front end
+        user_data = JSONParser().parse(request)
+        # serialize username
+        user_serializer = UserSerializer(data=user_data)
+        # compare to all usernames in db
+        try:
+            if user_serializer.is_valid():
+       
+                check = user_serializer.data['username']
+                acc_name_input = user_serializer.data['acc_name']
+                password_input = user_serializer.validated_data['password']
+                if check == 'getWhoToFollow':
+                    #gets suggested users to follow that user doesn't already follow
+                    user = User.objects.get(acc_name=acc_name_input)
+                    #returns the the the people not following the user, not the other way around (need to fix)
+                    followed_users = Follow.objects.filter(following=user).values_list('follower', flat=True)
+                    non_followed_users = User.objects.exclude(id__in=followed_users).exclude(id=user.id)[:10]
+                    user_serializer = UserSerializer(non_followed_users,many=True)
 
+                    return JsonResponse(user_serializer.data,safe=False)
+                else: # shouldn't happen anymore (moved to loginApi)
+                    us = user_serializer.data
+                    #acc_name = message_serializer.data['']
+                    #user = User.create(us['username'],us['email'],us['acc_name'],us['password'],us['pic'],us['header_pic'],'',us['follower_count'],us['following_count'])
+                    #user = User.create(us['username'],us['email'],us['acc_name'],us['password'],None,None,'',us['follower_count'],us['following_count'])
 
+                    #create user
+                    user = User.objects.create_user(username=us['username'],email=us['email'],password=password_input,acc_name=us['acc_name'],bio='',pic=None,header_pic=None)
+                                    
+                    return JsonResponse("Added Successfully",safe=False)
+            else: 
+                return JsonResponse("Failed to Add",safe=False)
+        except Exception as e:
+             import traceback
+             traceback.print_exc()  # logs full error stack
+             return JsonResponse({'error': str(e)}, status=500)
 
+    def put(self, request, id=None):
         user_data = JSONParser().parse(request)
         user_serializer = UserSerializer(data=user_data)
-        if user_serializer.is_valid():
-            username_input = user_serializer.data['username']
-            acc_name_input = user_serializer.data['acc_name']   
-            password_input = user_serializer.data['password']
-            if username_input == 'getUserSearch':  #getting users to populate search modal
-                str_input = password_input # text input from search bar
-                #get all users excluding logged in user
-                all_users = User.objects.exclude(acc_name=acc_name_input)
-                #print('all users: ' + all_users) # new
-                user_arr = []
-                count = 0
-                for user in all_users:
-                    print('in loop ') # new
-                    print('count: ' + str(count)) # new
-                    print('str_input: ' + str_input)
-                    lowerAccname = user.acc_name.lower()
-                    lowerUsername = user.username.lower()
-                    if lowerAccname.startswith(str_input) or lowerUsername.startswith(str_input):
-                        user_arr.append(user)
-                        count = count + 1
-                        
-                        if count == 10:
-                            break
-                if count == 0:
-                    return JsonResponse("No users",safe=False)
-                else:
-                    user_serializer = UserSerializer(user_arr,many=True) #NEW
-                    return JsonResponse(user_serializer.data,safe=False)
-            elif username_input == 'getPostSearch':  #getting post data as a search result
-                str_input = password_input # text input from search bar
-                #get all users excluding logged in user
-                posts = Tweet.objects.filter(text_content__contains=str_input).order_by('-date_created')
-                if posts.exists():
 
-                    users = []
-                    for post in posts:
-                        users.append(post.user)
-
-                    tweet_serializer = TweetSerializer(posts,many=True) 
-                    user_serializer = UserSerializer(users,many=True) 
-                    return JsonResponse([tweet_serializer.data,user_serializer.data],safe=False)
-                else:
-                    return JsonResponse("No posts",safe=False)
-            elif username_input == 'check':  #check uniqueness of acc_name
-                result = User.objects.filter(acc_name=acc_name_input)
-                if result.exists():
-                    return JsonResponse("Not Unique",safe=False)
-                else:
-                    return JsonResponse("Unique",safe=False)
-                
-            elif username_input == 'credentialsCheck': # check if password and account name correct
-                result = User.objects.filter(acc_name=acc_name_input)
-                if result.exists():
-                    user = User.objects.get(acc_name=acc_name_input)
-                    if verify_password(password_input, user.password):
-                    #if user.password == password_input:
-                        user_serializer = UserSerializer(user,many=False) #NEW
-
-                        # NEW
-                        refresh = RefreshToken()
-                        refresh['user_id'] = user.id #required
-                        refresh['acc_name'] = user.acc_name  # Optional
-                        access = refresh.access_token
-                                                                            #new
-                        return JsonResponse([user_serializer.data,{'access': str(access),'refresh': str(refresh)}],safe=False)
-                        
+        try:
+            if user_serializer.is_valid():
+                #serializer.save()
+                username_input = user_serializer.data['username']
+                acc_name_input = user_serializer.data['acc_name']   
+                password_input = user_serializer.validated_data['password'] # need validated data to get password
+            
+                if username_input == 'getUserSearch':  #getting users to populate search modal
+                    str_input = password_input # text input from search bar
+                    #get all users excluding logged in user
+                    all_users = User.objects.exclude(acc_name=acc_name_input)
+                    #print('all users: ' + all_users) # new
+                    user_arr = []
+                    count = 0
+                    for user in all_users:
+                        print('in loop ') # new
+                        print('count: ' + str(count)) # new
+                        print('str_input: ' + str_input)
+                        lowerAccname = user.acc_name.lower()
+                        lowerUsername = user.username.lower()
+                        if lowerAccname.startswith(str_input) or lowerUsername.startswith(str_input):
+                            user_arr.append(user)
+                            count = count + 1
+                            
+                            if count == 10:
+                                break
+                    if count == 0:
+                        return JsonResponse("No users",safe=False)
                     else:
-                        return JsonResponse("AC exists, P incorrect",safe=False)
-                else:
-                    return JsonResponse("AC doesn't exist",safe=False)
-            elif username_input == 'getUser': # check if password and account name correct
-                result = User.objects.filter(acc_name=acc_name_input)
-                if result.exists():
-                    user = User.objects.get(acc_name=acc_name_input)
-                    user_serializer = UserSerializer(user,many=False)
-                #id_input = user_serializer.data['id']  
-                #result = User.objects.filter(id=id_input)
-                #if result.exists():
-                    #user = User.objects.get(id=id_input)
-                    return JsonResponse(user_serializer.data,safe=False)
-                else:
-                    return JsonResponse("User doesn't exist",safe=False)
-            elif username_input == 'updateProfile':
-                user = User.objects.get(acc_name=acc_name_input)
-                user.bio = password_input
-                user.save()
-                return JsonResponse("Successful Update",safe=False)
+                        user_serializer = UserSerializer(user_arr,many=True) #NEW
+                        return JsonResponse(user_serializer.data,safe=False)
+                elif username_input == 'getPostSearch':  #getting post data as a search result
+                    str_input = password_input # text input from search bar
+                    #get all users excluding logged in user
+                    posts = Tweet.objects.filter(text_content__contains=str_input).order_by('-date_created')
+                    if posts.exists():
 
-        else: 
-            return JsonResponse("Failed to Add",safe=False)
-            """
-    elif request.method =='DELETE':
+                        users = []
+                        for post in posts:
+                            users.append(post.user)
+
+                        tweet_serializer = TweetSerializer(posts,many=True) 
+                        user_serializer = UserSerializer(users,many=True) 
+                        return JsonResponse([tweet_serializer.data,user_serializer.data],safe=False)
+                    else:
+                        return JsonResponse("No posts",safe=False)
+                elif username_input == 'check':  #check uniqueness of acc_name
+                    result = User.objects.filter(acc_name=acc_name_input)
+                    if result.exists():
+                        return JsonResponse("Not Unique",safe=False)
+                    else:
+                        return JsonResponse("Unique",safe=False)
+                    
+                elif username_input == 'credentialsCheck': # check if password and account name correct
+                    result = User.objects.filter(acc_name=acc_name_input)
+                    if result.exists():
+                        user = User.objects.get(acc_name=acc_name_input)
+                        #if verify_password(password_input, user.password):
+                        if user.check_password(password_input):
+                        #if user.password == password_input:
+                            user_serializer = UserSerializer(user,many=False) #NEW
+
+                            # ✅ Create JWT tokens for authenticated user
+                            refresh = RefreshToken.for_user(user)
+                            refresh['user_id'] = user.id #required
+                            refresh['acc_name'] = user.acc_name  # optional custom claim
+                            access = refresh.access_token
+                                                                                #new
+                            return JsonResponse([user_serializer.data,{'access': str(access),'refresh': str(refresh)}],safe=False)
+                            
+                        else:
+                            return JsonResponse("AC exists, P incorrect",safe=False)
+                    else:
+                        return JsonResponse("AC doesn't exist",safe=False)
+                elif username_input == 'getUser': # check if password and account name correct
+                    result = User.objects.filter(acc_name=acc_name_input)
+                    if result.exists():
+                        user = User.objects.get(acc_name=acc_name_input)
+                        user_serializer = UserSerializer(user,many=False)
+                    #id_input = user_serializer.data['id']  
+                    #result = User.objects.filter(id=id_input)
+                    #if result.exists():
+                        #user = User.objects.get(id=id_input)
+                        return JsonResponse(user_serializer.data,safe=False)
+                    else:
+                        return JsonResponse("User doesn't exist",safe=False)
+                elif username_input == 'updateProfile':
+                    user = User.objects.get(acc_name=acc_name_input)
+                    user.bio = password_input
+                    user.save()
+                    return JsonResponse("Successful Update",safe=False)
+
+            else:
+                print("Validation Errors:", user_serializer.errors)
+                return JsonResponse(user_serializer.errors, status=400)
+
+        except Exception as e:
+            import traceback
+            traceback.print_exc()  # logs full error stack
+            return JsonResponse({'error': str(e)}, status=500)
+
+    def delete(self, request, id=None):
         user = User.objects.get(id=id)
         user.delete()
         return JsonResponse("Deleted Successfully",safe=False)
 
-@csrf_exempt
-def followApi(request,id=id):
+#@csrf_exempt
+class followApi(APIView):
+
+    permission_classes = [IsAuthenticated]  # Require login
     
-    if request.method =='GET':
+    def get(self, request):
         follow = Follow.objects.all()
         follow_serializer = FollowSerializer(follow,many=True)
         return JsonResponse(follow_serializer.data,safe=False)
 
-    elif request.method =='POST':
+    def post(self, request):
         message_data = JSONParser().parse(request)
         message_serializer = MessageSerializer(data=message_data)
         if message_serializer.is_valid():
@@ -1203,7 +1237,7 @@ def followApi(request,id=id):
         else:
             return JsonResponse("Failed to Add",safe=False)
     
-    elif request.method =='PUT':
+    def put(self, request):
         message_data = JSONParser().parse(request)
         message_serializer = MessageSerializer(data=message_data)
         if message_serializer.is_valid():

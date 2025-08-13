@@ -63,7 +63,7 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) { }
        //"following_count": 0,
      };
 
-     this.http.post(environment.apiUrl +"/user",userData).subscribe((resultData: any)=>
+     this.http.post(environment.apiUrl +"/api/login",userData).subscribe((resultData: any)=>
      {
          console.log(resultData);
      });
@@ -86,7 +86,7 @@ constructor(private formBuilder: FormBuilder, private http: HttpClient ) { }
 
     };
 
-    this.http.put(environment.apiUrl +"/user",requestBody).subscribe((resultData: any)=>
+    this.http.put(environment.apiUrl +"/api/login",requestBody).subscribe((resultData: any)=>
     {
       console.log("front end result: " + JSON.stringify(resultData));
 
