@@ -21,6 +21,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.core.files import File
 
 from .security import hash_password, verify_password
+from rest_framework.permissions import AllowAny
+
 
 
 class imageApi(APIView):
