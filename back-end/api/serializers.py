@@ -24,7 +24,7 @@ class UserSerializer(serializers.ModelSerializer):
     pic = serializers.PrimaryKeyRelatedField(queryset=Image.objects.all(), allow_null=True, required=False)
     header_pic = serializers.PrimaryKeyRelatedField(queryset=Image.objects.all(), allow_null=True, required=False)
     
-    password = serializers.CharField(write_only=True, required=True, min_length=8)
+    password = serializers.CharField(write_only=True, required=True)
 
     class Meta:
         model = User

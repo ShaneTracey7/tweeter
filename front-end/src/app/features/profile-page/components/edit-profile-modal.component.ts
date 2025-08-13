@@ -72,11 +72,16 @@ import { environment } from "../../../../environments/environment";
                //console.log("bio: " + this.editProfileForm.value.bio);
               }
  
-              let newImage = fetch(imageEndpoint,{
-               method: 'POST',
-               body: formData
-               
-              }).then(response => response.json())
+            const token = sessionStorage.getItem('access');
+
+             let newImage = fetch(imageEndpoint,{
+              method: 'POST',
+              body: formData,
+              headers: token ? {
+                'Authorization': `Bearer ${token}`
+              } : {}
+              
+             }).then(response => response.json())
               .then(data => {
                 console.log(JSON.stringify(data));
                 //add in logic
@@ -106,10 +111,14 @@ import { environment } from "../../../../environments/environment";
               formData.append('bio',this.editProfileForm.value.bio);
               //console.log("bio: " + this.editProfileForm.value.bio);
              }
+             const token = sessionStorage.getItem('access');
 
              let newImage = fetch(imageEndpoint,{
               method: 'POST',
-              body: formData
+              body: formData,
+              headers: token ? {
+                'Authorization': `Bearer ${token}`
+              } : {}
               
              }).then(response => response.json())
               .then(data => {
@@ -142,11 +151,16 @@ import { environment } from "../../../../environments/environment";
                //console.log("bio: " + this.editProfileForm.value.bio);
               }
 
+             const token = sessionStorage.getItem('access');
+
              let newImage = fetch(imageEndpoint,{
-             method: 'POST',
-             body: formData
-             
-            })
+              method: 'POST',
+              body: formData,
+              headers: token ? {
+                'Authorization': `Bearer ${token}`
+              } : {}
+              
+             })
           }
            else // just bio updating
            {
@@ -159,9 +173,14 @@ import { environment } from "../../../../environments/environment";
             formData.append('bio',this.editProfileForm.value.bio);
             //console.log("bio: " + this.editProfileForm.value.bio);
 
-            let newImage = fetch(imageEndpoint,{
+            const token = sessionStorage.getItem('access');
+
+             let newImage = fetch(imageEndpoint,{
               method: 'POST',
-              body: formData
+              body: formData,
+              headers: token ? {
+                'Authorization': `Bearer ${token}`
+              } : {}
               
              })
            }
