@@ -962,6 +962,7 @@ class likeApi(APIView):
 class loginApi(APIView):
 
     #only api that isn't authenticated
+    permission_classes = [AllowAny]
 
     def post(self, request):
         #retrieve username from front end
