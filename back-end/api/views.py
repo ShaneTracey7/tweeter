@@ -1034,10 +1034,10 @@ def userApi(request,id=id):
                         #if user.password == password_input:
                             user_serializer = UserSerializer(user,many=False) #NEW
 
-                            # NEW
-                            refresh = RefreshToken()
+                            # ✅ Create JWT tokens for authenticated user
+                            refresh = RefreshToken.for_user(user)
                             refresh['user_id'] = user.id #required
-                            refresh['acc_name'] = user.acc_name  # Optional
+                            refresh['acc_name'] = user.acc_name  # optional custom claim
                             access = refresh.access_token
                                                                                 #new
                             return JsonResponse([user_serializer.data,{'access': str(access),'refresh': str(refresh)}],safe=False)
@@ -1283,11 +1283,11 @@ class TweetAPI(APIView):
     
     permission_classes = [IsAuthenticated]  # Require login
 
-def get(self, request, id=None):
-    print("Authenticated user:", request.user, type(request.user))
-    tweet = Tweet.objects.all().order_by('-date_created') # '-' denotes descending order
-    tweet_serializer = TweetSerializer(tweet,many=True)
-    return JsonResponse(tweet_serializer.data,safe=False)
+    def get(self, request, id=None):
+        print("Authenticated user:", request.user, type(request.user))
+        tweet = Tweet.objects.all().order_by('-date_created') # '-' denotes descending order
+        tweet_serializer = TweetSerializer(tweet,many=True)
+        return JsonResponse(tweet_serializer.data,safe=False)
 
 """
         message_serializer = MessageSerializer(data=message_data)
