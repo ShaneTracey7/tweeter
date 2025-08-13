@@ -1012,7 +1012,7 @@ def userApi(request,id=id):
                 #serializer.save()
                 username_input = user_serializer.data['username']
                 acc_name_input = user_serializer.data['acc_name']   
-                password_input = user_serializer.data['password']
+                password_input = user_serializer.validated_data['password'] # need validated data to get password
                 if username_input == 'check':  #check uniqueness of acc_name
                     result = User.objects.filter(acc_name=acc_name_input)
                     if result.exists():
