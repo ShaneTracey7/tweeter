@@ -1029,7 +1029,8 @@ def userApi(request,id=id):
                     result = User.objects.filter(acc_name=acc_name_input)
                     if result.exists():
                         user = User.objects.get(acc_name=acc_name_input)
-                        if verify_password(password_input, user.password):
+                        #if verify_password(password_input, user.password):
+                        if user.check_password(password_input):
                         #if user.password == password_input:
                             user_serializer = UserSerializer(user,many=False) #NEW
 

@@ -88,14 +88,12 @@ onSubmit()
     let requestBody =
     {
       "username" : 'credentialsCheck',
-      "email" : 'e',
+      "email" : 'email@gmail.com',
       "acc_name" : this.loginForm.value.acc_name,
       "password" : this.loginForm.value.password,
       "pic" : null, //new 
       "header_pic" : null,
       "bio" : "b",
-      "follower_count" : 0,
-      "following_count" : 0,
     };
 
     this.http.put(environment.apiUrl +"/user",requestBody).subscribe((resultData: any)=>
