@@ -43,7 +43,7 @@ urlpatterns = [
 
     #NEW
     path('api/tweet/', views.TweetAPI.as_view(), name='notification-detail'),
-    path('api/login/', views.loginAPI.as_view()),
+    path('api/login/', views.loginApi.as_view()),
 
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
