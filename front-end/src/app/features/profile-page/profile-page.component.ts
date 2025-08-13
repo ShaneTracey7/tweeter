@@ -208,9 +208,9 @@ export class ProfilePageComponent extends CoreComponent{
     let requestBody =
     {
       "username" : 'getUser',
-      "email" : 'e',
+      "email" : 'email@gmail.com',
       "acc_name" : acc_name,
-      "password" : 'p',
+      "password" : 'password',
       "pic" : null, 
     };
 

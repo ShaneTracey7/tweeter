@@ -329,14 +329,12 @@ import { environment } from "../../../../environments/environment";
           let requestBody =
           {
             "username" : 'updateProfile',
-            "email" : 'e',
+            "email" : 'email@gmail.com',
             "acc_name" : this.profile.acc_name,
-            "password" : this.editProfileForm.value.bio,
+            "password" : this.editProfileForm.value.bio, //current value of input  /* need to change this (backend needs min 8 char for password*/ 
             "pic" : null, //new 
             "header_pic" : null,
             "bio" : "b",
-            "follower_count" : 0,
-            "following_count" : 0,
           };
 
             this.http.put(environment.apiUrl +"/user",requestBody).subscribe((resultData: any)=>

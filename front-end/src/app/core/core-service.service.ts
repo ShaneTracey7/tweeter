@@ -474,14 +474,13 @@ createWhoToFollowFeed(acc_name: string): Observable<any[]>
   let requestBody =
     {
       "username" : 'getWhoToFollow',
-      "email" : 'e',
+      "email" : 'email@gmail.com',
       "acc_name" : acc_name,
-      "password" : 'p',
+      "password" : 'password',
       "pic" : null, //new
       "header_pic" : null,
       "bio" : "b",
-      "follower_count": 0,
-      "following_count": 0,
+
     };
 
   //return this.http.get<any[]>(environment.apiUrl + "/user").pipe(

@@ -204,14 +204,12 @@ searchForm = this.formBuilder.group({inquiry:[''],});
       let requestBody =
           {
             "username" : 'getUserSearch',
-            "email" : 'e',
+            "email" : 'email@gmail.com',
             "acc_name" : this.service_acc_name, //logged in user's acc_name to exclude
-            "password" : str.toLowerCase(),//current value of input
+            "password" : str.toLowerCase(),//current value of input /* backend needs this to be min 8 chars */
             "pic" : null, //new 
             "header_pic" : null,
             "bio" : "b",
-            "follower_count" : 0,
-            "following_count" : 0,
           };
 
         this.http.put(environment.apiUrl +"/user",requestBody).subscribe((resultData: any)=>
@@ -254,14 +252,12 @@ async prepExplorePage(str:string): Promise<{posts: Post[] , postUsers: Profile[]
   try {
      const requestBody1 = {
         "username" : 'getUserSearch',
-        "email" : 'e',
+        "email" : 'email@gmail.com',
         "acc_name" : this.service_acc_name, //logged in user's acc_name to exclude
-        "password" : str.toLowerCase(),//current value of input
+        "password" : str.toLowerCase(),//current value of input  /* backend needs this to be min 8 chars */
         "pic" : null, //new 
         "header_pic" : null,
         "bio" : "b",
-        "follower_count" : 0,
-        "following_count" : 0,    
       };
 
     const userResponse = await firstValueFrom(this.http.put<any>(environment.apiUrl + "/user", requestBody1));
@@ -282,14 +278,12 @@ async prepExplorePage(str:string): Promise<{posts: Post[] , postUsers: Profile[]
 
     const requestBody2 = {
         "username" : 'getPostSearch',
-        "email" : 'e',
+        "email" : 'email@gmail.com',
         "acc_name" : this.service_acc_name, //idk if this is needed anymore
-        "password" : str,//current value of input
+        "password" : str,//current value of input  /* backend needs this to be min 8 chars */
         "pic" : null, //new 
         "header_pic" : null,
         "bio" : "b",
-        "follower_count" : 0,
-        "following_count" : 0,
       };
 
     const postResponse = await firstValueFrom(this.http.put<any>(environment.apiUrl + "/user", requestBody2));

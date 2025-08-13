@@ -127,14 +127,12 @@ export class ExplorePageComponent extends CoreComponent {
           let requestBody =
               {
                 "username" : 'getUserSearch',
-                "email" : 'e',
+                "email" : 'email@gmail.com',
                 "acc_name" : this.service_acc_name, //logged in user's acc_name to exclude
-                "password" : str,//current value of input
+                "password" : str,//current value of input  /* need to change this (backend needs min 8 char for password*/  
                 "pic" : null, //new 
                 "header_pic" : null,
                 "bio" : "b",
-                "follower_count" : 0,
-                "following_count" : 0,
               };
 
             this.http.put(environment.apiUrl + "/user",requestBody).subscribe((resultData: any)=>
@@ -178,14 +176,12 @@ export class ExplorePageComponent extends CoreComponent {
           let requestBody =
               {
                 "username" : 'getPostSearch',
-                "email" : 'e',
+                "email" : 'email@gmail.com',
                 "acc_name" : this.service_acc_name, //idk if this is needed anymore
-                "password" : str,//current value of input
+                "password" : str,//current value of input  /* need to change this (backend needs min 8 char for password*/  
                 "pic" : null, //new 
                 "header_pic" : null,
                 "bio" : "b",
-                "follower_count" : 0,
-                "following_count" : 0,
               };
 
             this.http.put(environment.apiUrl + "/user",requestBody).subscribe((resultData: any)=>
