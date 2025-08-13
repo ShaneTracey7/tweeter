@@ -997,7 +997,7 @@ def userApi(request,id=id):
                     #user = User.create(us['username'],us['email'],us['acc_name'],us['password'],None,None,'',us['follower_count'],us['following_count'])
 
                     #create user
-                    user = User.objects.create_user(username=us['username'],email=us['email'],password=us['password'],acc_name=us['acc_name'],bio='',pic=None,header_pic=None)
+                    user = User.objects.create_user(username=us['username'],email=us['email'],password=password_input,acc_name=us['acc_name'],bio='',pic=None,header_pic=None)
                                     
                     return JsonResponse("Added Successfully",safe=False)
             else: 
