@@ -1049,7 +1049,7 @@ def userApi(request,id=id):
             traceback.print_exc()  # logs full error stack
             return JsonResponse({'error': str(e)}, status=500)
 
-
+        """
 
 
 
@@ -1147,7 +1147,7 @@ def userApi(request,id=id):
 
         else: 
             return JsonResponse("Failed to Add",safe=False)
-            
+            """
     elif request.method =='DELETE':
         user = User.objects.get(id=id)
         user.delete()
