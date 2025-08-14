@@ -88,7 +88,6 @@ $cancel-red: #f51616;
   margin-right: auto;
 }
 
-
 #messageb-button {
     display: block;
     background-color: $twitter-blue;
@@ -125,27 +124,6 @@ $cancel-red: #f51616;
   height: 100%;
 }
 
-#nm-modal-input{
-  width: 80%;
-  margin-right: auto;
-  background-image: unset;
-  background-position: unset;
-  background-size: unset;
-  padding: 12px 20px 12px 10px;
-  background-repeat: unset;
-  background-color: unset;
-  color: black;
-  border: 0px;
-  border-radius: unset;
-}
-
-#nm-modal-input:focus {
-  outline: 0px;
-  outline-offset: unset;
-  border: unset;
-  background-color: unset;
-  caret-color: black;
-}
 .user-list-content{
   overflow-y: scroll;
   width: 100%;
@@ -153,32 +131,6 @@ $cancel-red: #f51616;
 }
 #new-message-modal::-webkit-scrollbar {
   display: none;
-}
-
-#nmm-button-selected{
-  background-color: black;
-}
-
-.nmm-button{
-  border: 0;
-  background-color: $gray-font;
-  color: white;
-  font-weight: bold;
-  font-size: 0.85rem;
-  border-radius: 15px;
-  width: fit-content;
-  height:fit-content;
-  padding: 5px 15px;
-  margin-right: 20px;
-}
-#nmm-title{
-  padding: 0;
-  margin:0;
-  margin-left: 30px;
-  margin-right: auto;
-  font-weight: bold;
-  color: black;
-  font-size: 1.3rem;
 }
 
 /* whole page */

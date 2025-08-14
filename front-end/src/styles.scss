@@ -1216,6 +1216,54 @@ border: 1px solid lightgray;
     background-color: #1a8cd3;
   }
 
+  #nmm-button-selected{
+  background-color: black;
+}
+
+.nmm-button{
+  border: 0;
+  background-color: $gray-font;
+  color: white;
+  font-weight: bold;
+  font-size: 0.85rem;
+  border-radius: 15px;
+  width: fit-content;
+  height:fit-content;
+  padding: 5px 15px;
+  margin-right: 20px;
+}
+#nmm-title{
+  padding: 0;
+  margin:0;
+  margin-left: 30px;
+  margin-right: auto;
+  font-weight: bold;
+  color: black;
+  font-size: 1.3rem;
+}
+
+#nm-modal-input{
+  width: 80%;
+  margin-right: auto;
+  background-image: unset;
+  background-position: unset;
+  background-size: unset;
+  padding: 12px 20px 12px 10px;
+  background-repeat: unset;
+  background-color: unset;
+  color: black;
+  border: 0px;
+  border-radius: unset;
+}
+
+#nm-modal-input:focus {
+  outline: 0px;
+  outline-offset: unset;
+  border: unset;
+  background-color: unset;
+  caret-color: black;
+}
+
 /******************************* New Message Modal ***********************************/
 #mp-new-message-modal{
   position: absolute;
@@ -1515,15 +1563,6 @@ border: 1px solid lightgray;
 .profile-empty-list-body{
     margin: auto;
 }
-
-
-
-
-
-
-
-
-
 
 .message-tweet-container{
   display: flex;
