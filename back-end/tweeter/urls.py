@@ -19,44 +19,20 @@ from django.urls import include, path, re_path
 from django.contrib import admin
 from django.views.generic.base import TemplateView
 from api import views
-#NEW
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 
 urlpatterns = [
-    
     re_path(r'^image$',views.imageApi.as_view()),
     re_path(r'^message$',views.messageApi.as_view()),
-    #re_path(r'^notification/(.*)$',views.likeApi),
     re_path(r'^notification$',views.notificationApi.as_view()),
-    #re_path(r'^notification/(.*)$',views.likeApi),
     re_path(r'^retweet$',views.retweetApi.as_view()),
-    #re_path(r'^retweet/(.*)$',views.likeApi),
     re_path(r'^like$',views.likeApi.as_view()),
-    #re_path(r'^like/(.*)$',views.likeApi),
     re_path(r'^follow$',views.followApi.as_view()),
-    #re_path(r'^follow/(.*)$',views.followApi),
     re_path(r'^user$',views.userApi.as_view()),
-    #re_path(r'^user/(.*)$',views.userApi),
     re_path(r'^tweet$',views.tweetApi.as_view()),
-    #re_path(r'^tweet/(.*)$',views.tweetApi),
-
-    #NEW
-    path('api/tweet/', views.TweetAPI.as_view(), name='notification-detail'),
     path('api/login/', views.loginApi.as_view()),
-
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('admin/', admin.site.urls),
-    #path('', include('content.urls')),
 ]
-
-    #re_path(r'^admin/', admin.site.urls),
-    #re_path(r'^getData/', get_data),
-    #re_path(r'^.*', TemplateView.as_view(template_name="home.html"), name="home")
-    #path('', include('content.urls')),
-    #path('getData/', get_data),
-    #path('.*', TemplateView.as_view(template_name="home.html"), name="home")
-    #path('', TemplateView.as_view(template_name="home.html"), name="home"),
-    #path('studentg/',views.getData),
-    #path('studentp/',views.addItem),

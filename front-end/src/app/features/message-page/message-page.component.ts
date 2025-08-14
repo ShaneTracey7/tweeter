@@ -70,6 +70,8 @@ handleSelectedConvoChange(convo: Convo) {
   console.log('Selected convo changed:', this.selectedConvo);
 }
 
+//have this return a class instead
+//reword this to be a concise if statement detemrining class
 setSCStyle()
 {
   if(this.convo_clicked)

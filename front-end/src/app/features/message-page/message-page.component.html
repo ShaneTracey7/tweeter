@@ -44,8 +44,8 @@
     </ng-template>
 </div>
 
-
-<div id="sc" class="secondary-content" [style]="setSCStyle()">
+                                    <!-- class="secondary-content" [style]="setSCStyle()" [ngClass]="this.convo_clicked ? 'clicked-sc' : 'unclicked-sc'" -->
+<div class="secondary-content" [attr.id]="convo_clicked ? 'clicked-sc' : 'unclicked-sc'">
     <!-- secondary content add here-->
 
     <ng-container id="sc-container"*ngIf="this.convo_clicked; else notClicked">  

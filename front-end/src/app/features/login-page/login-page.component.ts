@@ -23,6 +23,8 @@ setUrl(str: string)
 //show modals (hide modal functions are within modals)
 showLoginModal()
   {
+   sessionStorage.clear(); //to be extra careful that there isn't sessionstorage before login attempt (won't work if there is)
+   //this.service.reset(); //clear core service data
    this.show_login_modal = true;
   }
 

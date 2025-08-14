@@ -11,7 +11,7 @@ export class SecondaryContentComponent {
   @Input() tab: string = ""; //what tab is being displayed
   @Input() page: string = ""; //what current_page is being displayed
   @Input() pane: number = 0; //what pane is being displayed
-  profiles: any []; //who to follow profile arr
+  profiles: any []; //who to follow profile arr(max 3)
   service_acc_name: string;
 
   loadingFlag: boolean = true; //flags to show spinner while data is being fetched
@@ -32,7 +32,6 @@ export class SecondaryContentComponent {
     if (this.service.WhoToFollowFeed == null || this.service.WhoToFollowFeed.length < 1)
       {
         this.service.createWhoToFollowFeed(this.service_acc_name).subscribe(feed => {
-          //console.log("WhoToFollowFeed", feed);
           if(feed.length >= 3)
           {
             this.profiles = [feed[0],feed[1],feed[2]];
@@ -62,12 +61,13 @@ export class SecondaryContentComponent {
   }
 
   //only for testing purposes
+  /*
   ngOnChanges(changes: SimpleChanges)
   {
     console.log(changes);
     console.log("a change in secondary component");
     console.log("tab:" + this.tab)
     console.log("page:" + this.page)
-  }
+  }*/
 
 }

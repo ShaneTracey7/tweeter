@@ -6,7 +6,6 @@ import { environment } from "../../environments/environment";
 import { map } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { firstValueFrom } from 'rxjs';
-import { AuthService } from "./auth.service";
 
 //@Injectable()
 @Injectable({
@@ -14,10 +13,6 @@ import { AuthService } from "./auth.service";
 })
 export class CoreService {
 
-  /*
-  -Not having Notifications or Messages globally stored
-  -need to store 4 profile feeds
-  */
      //used for toolbar tabs
   marker1= true; //foryou/all/latest
   marker2= false; //following/trending/verified/people
@@ -38,6 +33,10 @@ export class CoreService {
 
   shareID: number = 0; //post id of tweet to send
   shareUser: string = ''; //acc_name of user to send tweet to
+
+  //needed to make sure navbar styling updates properly
+  private cpStyleSubject = new BehaviorSubject<string>('');
+  cp_style$ = this.cpStyleSubject.asObservable();
 
   /* * * *Global cache* * * */
   loggedInUser: Profile = new Profile(null,null,'','','',0,0);
@@ -74,15 +73,9 @@ export class CoreService {
 
   //SearchBar
   SearchBarTopics: SearchTopic [] = []
-  private cpStyleSubject = new BehaviorSubject<string>('');
-  cp_style$ = this.cpStyleSubject.asObservable();
+
   //runs only once until a page refresh
   constructor(public route: ActivatedRoute, public router: Router,public http: HttpClient,/*, private auth: AuthService*/) { 
-  
-    //for clearing global variables upon access token expiry
-    /*this.auth.logout$.subscribe(() => {
-      this.reset();
-    });*/
 
     this.username = sessionStorage.getItem('username') ?? "badToken"; 
     this.acc_name = sessionStorage.getItem('acc_name') ?? "badToken";
@@ -152,7 +145,7 @@ export class CoreService {
     return getHeaderImgUrl(str);
   }
 
-
+  //needed so navbar styling updates properly
   setCpStyle(style: string): void {
     this.cpStyleSubject.next(style);
   }
@@ -166,24 +159,19 @@ export class CoreService {
   {
     const tmp = str;
     this.current_page = tmp;//new
-
     this.setCpStyle(tmp)
-    //this.cp_style = tmp;
     this.setCpStyle(tmp);
     this.marker1= true; 
     this.marker2= false;
     this.marker3= false; 
     this.marker4= false; 
     this.marker5= false; 
-
     console.log("logging page: " + this.current_page);
   }
-
 
   //sets correct image (bold or normal) for navbar buttons
   boldNavbarIcon(str: string) {
     var check;
-
     switch(str)
     {
       case "house": check="Home";break;
@@ -195,14 +183,16 @@ export class CoreService {
 
     //console.log("Check inside boldNavbarIcon cp_style: " + this.cp_style)
     let cp_style = this.getCpStyle();
-    if (cp_style == check) {
+    if (cp_style == check) 
+    {
       return this.setUrl(str + "-fill.svg");
     }
     else if(cp_style == 'OtherExplore' && str == 'Explore')
-      {
-        return this.setUrl(str + "-fill.svg");
-      }
-    else{
+    {
+       return this.setUrl(str + "-fill.svg");
+    }
+    else
+    {
       return this.setUrl(str + ".svg");
     }
   }
@@ -210,21 +200,17 @@ export class CoreService {
   //sets correct font styling (bold or normal) for navbar buttons
   boldNavbarItem(str: string) {
     let cp_style = this.getCpStyle();
-    if (cp_style == str) {
-      return {
-        fontWeight: 'bold',
-      };
+    if (cp_style == str) 
+    {
+      return {fontWeight: 'bold'};
     }
     else if(cp_style == 'OtherExplore' && str == 'Explore')
-      {
-        return {
-          fontWeight: 'bold',
-        };
-      }
-    else{
-      return{
-        fontWeight: 'normal'
-      }
+    {
+      return { fontWeight: 'bold'};
+    }
+    else
+    {
+      return{fontWeight: 'normal'};
     }
   }
 
@@ -281,7 +267,6 @@ routeToChild(str: string){
         this.marker4= false; 
         this.marker5= false; 
       }
-      
   }
 
   //styles tab text when selected
@@ -326,58 +311,15 @@ routeToChild(str: string){
       case 5: marker = this.marker5;break;
     }
 
-    if (marker) {
-      return {
-        display: 'block',
-      };
-    }
-    else{
-      return{
-        display: 'none',
-      }
-    }
-  }
-
-//gets all users(from DB) and adds them to DBUsers array
-/* * * * * * * Not in use inside this service * * * * * * */
-getAllDBUsers()
-{
-    this.http.get(environment.apiUrl + "/user").subscribe((resultData: any)=>
+    if (marker) 
     {
-        //console.log(resultData);
-        this.DBUsers = resultData;
-    });
-}
-
-//creates Profile objects using data from DBUsers and adds them to UserFeed array
-/* * * * * * * Not in use inside this service * * * * * * */
-/*convertUserFeed(current_user_acc_name: string)
-{   
-  //current_user_acc_name
-
-  //clear UserFeed
-  this.UserFeed = [];
-
-  //reverse order
-  this.DBUsers.reverse();
-
-  let counter = 0;
-
-  for (let i = 0; i < this.DBUsers.length;i++) {
-    let user = this.DBUsers[i];
-    
-    if(user.acc_name != current_user_acc_name) //this is issue current_user_acc_name =this.acc_name
-      {
-        var u = new Profile(user.pic?.image_url,user.header_pic?.image_url, user.username, user.acc_name, user.bio, user.following_count, user.follower_count);
-        this.UserFeed.push(u);
-        counter++;
-      }
-    if (counter == 3)
-      {
-        i = this.DBUsers.length; //breaks loop
-      }
+      return {display: 'block'};
+    }
+    else
+    {
+      return{display: 'none'}
+    }
   }
-}*/
 
 async getDBFollowFeed(acc_name: string | null, more_count: string): Promise<{feed: Post[] , userFeed: Profile[] }> {
 
@@ -428,8 +370,7 @@ async getDBForYouFeed(more_count: string): Promise<{feed: Post[] , userFeed: Pro
   try {
     const requestBody = {
         "word": 'getForYouFeed',
-        //"word2": acc_name,
-        "word3": more_count,//new
+        "word3": more_count,
       };
     const tweetResponse = await firstValueFrom(this.http.put<any>(environment.apiUrl + "/tweet", requestBody));
 
@@ -445,7 +386,6 @@ async getDBForYouFeed(more_count: string): Promise<{feed: Post[] , userFeed: Pro
       {
         return { feed: this.ForYouFeed, userFeed: this.ForYouUserFeed};
       }
-      
     }
 
     let DBfeed = tweetResponse[0];
@@ -480,10 +420,8 @@ createWhoToFollowFeed(acc_name: string): Observable<any[]>
       "pic" : null, //new
       "header_pic" : null,
       "bio" : "b",
-
     };
 
-  //return this.http.get<any[]>(environment.apiUrl + "/user").pipe(
   return this.http.post<any[]>(environment.apiUrl + "/user", requestBody).pipe(
     map(resultData => {
       if (!resultData) {
@@ -494,7 +432,6 @@ createWhoToFollowFeed(acc_name: string): Observable<any[]>
       this.WhoToFollowFeed = [];
       this.DBUsers.reverse();
 
-     // let counter = 0; //move only 3 options to somewhere else
       for (let user of this.DBUsers) {
         if (user.acc_name !== acc_name) {
           const u = new Profile(
@@ -507,9 +444,7 @@ createWhoToFollowFeed(acc_name: string): Observable<any[]>
             user.follower_count
           );
           this.WhoToFollowFeed.push(u);
-          //counter++;
         }
-        //if (counter === 3) break;
       }
 
       return this.WhoToFollowFeed;
@@ -517,7 +452,7 @@ createWhoToFollowFeed(acc_name: string): Observable<any[]>
   );
 }
 
-
+//sets array of tweet ids of liked tweets by logged in user
 getDBLikes(acc_name: string): Observable<any[]> {
 
   let requestMessage =
@@ -546,6 +481,7 @@ getDBLikes(acc_name: string): Observable<any[]> {
   );
 }
 
+//sets array of tweet ids of retweeted tweets by logged in user
 getDBRetweets(acc_name: string): Observable<any[]> {
 
   let requestMessage =
@@ -574,61 +510,6 @@ getDBRetweets(acc_name: string): Observable<any[]> {
   );
 }
 
-//gets data for 'ForYou'feed, calls the 3 above functions using delays to ensure all the data is available, when accessed
-/*
-createUserFeed(outsideOfService: boolean, acc_name: string)
-  {
-    var ac = "";
-    if(outsideOfService)
-    {
-      ac = acc_name;
-    }
-    else
-    {
-      ac = this.acc_name;
-    }
-    if(ac == "" || ac == "badToken" || ac == null)
-    {
-        return; //if acc_name is not set, do not proceed
-    }
-
-    let globalObj = this;
-
-        const postPromise = new Promise<any>(function (resolve, reject) {
-          setTimeout(() => {
-            reject("We didn't get a response")
-          }, 5000) // 5 secs
-
-          setTimeout(() => {
-            globalObj.getAllDBUsers();
-            resolve('we got a response');
-          }, 0) // 0 secs
-        })
-
-        const checkPromise = new Promise<any>(function (resolve, reject) {
-          setTimeout(() => {
-            reject("We didn't get a response")
-          }, 8000) // 5 secs
-
-          setTimeout(() => {
-            globalObj.convertUserFeed(ac);
-            resolve('we got a response');
-          }, 500) // 0 secs
-        })
-
-        async function myAsync(){
-          try{
-            postPromise;
-            await checkPromise;
-          }
-          catch (error) {
-            console.error('Promise rejected with error: ' + error);
-          }
-        }
-        
-        myAsync();
-  }
-*/
   //gets array of accounts the user follows and create a list of their account names 
   getFollowingList()
   {
@@ -658,7 +539,7 @@ createUserFeed(outsideOfService: boolean, acc_name: string)
               this.UserFollowingList.push(user.acc_name)
             });
           
-          console.log("this.UserFollowingList: " + this.UserFollowingList)
+          //console.log("this.UserFollowingList: " + this.UserFollowingList)
         }
       });
     }
@@ -681,18 +562,6 @@ isFollower(acc_name: string)
   }
   return false;
 }
-
-//gets all users from database (not in use, brought from signup modal)
-  getAllUser()
-  {
-    this.http.get(environment.apiUrl + "/user")
-    .subscribe((resultData: any)=>
-    {
-        console.log(resultData);
-        //this.UserArray = resultData;
-    });
-  }
-
 
 /* * * * * * * * * * * * * *functions from tweet service * * * + * * * * * * * * * * */
 
@@ -730,13 +599,10 @@ tweetValidated(text_content:string,image_content: string | null)
 //adds tweet to database (in use on home page, post page)
 postTweet(acc_name: string, text_content: string, image_content: string | null, reply_id: number)
 {
-
   if (image_content == "")
     {
       image_content = null
     }
-  console.log(text_content);
-
 
   let requestMessage =
     {
@@ -744,27 +610,11 @@ postTweet(acc_name: string, text_content: string, image_content: string | null, 
       "word2": text_content,
       "word3": image_content,
       "num": reply_id,
-      //"date": Date(),    //date_created
     }
-    console.log(requestMessage)
   
   this.http.post(environment.apiUrl +"/tweet",requestMessage).subscribe((resultData: any)=>
     {
         console.log(resultData);
     });
 }
-
-
-
-
-//just for testing purposes, of new api authentication
-testNewUser()
-    {
-      console.log("testNewUser called");
-        this.http.get(environment.apiUrl + "/api/tweet").subscribe((resultData: any)=>
-        {
-          console.log(JSON.stringify(resultData, null, 2));
-        });
-    }
-
 }

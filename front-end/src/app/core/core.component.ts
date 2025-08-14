@@ -1,9 +1,7 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { getImgUrl } from './data';
+import { Component} from '@angular/core';
+import { ActivatedRoute} from '@angular/router';
 import { CoreService } from './core-service.service';
 import { AuthService } from './auth.service';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
 

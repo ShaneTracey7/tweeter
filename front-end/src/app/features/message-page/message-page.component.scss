@@ -233,7 +233,9 @@ $cancel-red: #f51616;
   }
 
 .main-content {
-    min-width: 325px
+    //min-width: 325px
+    width: calc(95% - 70px); //70 px is approx min width of navbar
+    min-width: 150px;
   }
 
 .secondary-content {
@@ -244,10 +246,38 @@ $cancel-red: #f51616;
     border-right: 1px solid lightgray;
   }
 
+#clicked-sc{
+  display: inline;
+  overflow: scroll;
+  height: 100vh;
+}
+
+#unclicked-sc{
+  display: flex;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+@media only screen and (max-width: 700px) {
+
+  #clicked-sc {
+      display: none;
+  }
+  #unclicked-sc {
+      display: none;
+  }
+}
 @media only screen and (min-width: 701px) and (max-width: 975px) {
 
   #pm-new-message-modal{
     left: 18%;
+  }
+  #clicked-sc {
+      display: none;
+  }
+  #unclicked-sc {
+      display: none;
   }
 }
 @media only screen and (min-width: 976px) and (max-width: 1079px) {
@@ -269,7 +299,7 @@ $cancel-red: #f51616;
       max-width: 80px;
     }
   
-  .secondary-content {
+   .secondary-content {
       width: 58.5%;
       visibility: visible;
     }

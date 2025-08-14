@@ -11,35 +11,22 @@ import datetime
 from django.db.models import Q
 import cloudinary.uploader
 from django.db import models
-
-#NEW
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
-
-#from django.core.files.base import File
 from django.core.files import File
-
-from .security import hash_password, verify_password
 from rest_framework.permissions import AllowAny
-
-
+#from .security import hash_password, verify_password
 
 class imageApi(APIView):
 
     permission_classes = [IsAuthenticated]  # Require login
-    
-    #this is mainly for testing
-    def get(self, request):
-        return JsonResponse('saved to google drive',safe=False)
+    #print("Authenticated user:", request.user, type(request.user))
 
     def post(self, request):
-
         type_input = request.POST.get('type') # header, profile, tweet, bio, both, header bio, profile bio, both bio
         acc_name_input = request.POST.get('acc_name') # account name of user
         user = User.objects.get(acc_name = acc_name_input)
-
-        print('type_input: ' + type_input)
         tweet_id_input = ''
 
         if type_input == 'bio':
@@ -88,9 +75,6 @@ class imageApi(APIView):
             if type_input.find('header') != -1:
                 print('include header')
                 if user.header_pic: #if user already has a header pic on cloudinary (delete it)
-                    #old_public_id = user.header_pic.image_public_id
-                    #result = cloudinary.uploader.destroy(old_public_id)
-                    #print('deletion status:' + result)
                     old_header_pic = user.header_pic
                     old_header_pic.delete() #delete old header pic from django database
                     user.header_pic = i1
@@ -103,9 +87,6 @@ class imageApi(APIView):
             elif type_input.find('profile') != -1:
                 print('include profile')
                 if user.pic: #if user already has a profile pic on cloudinary(delete it)
-                    #old_public_id = user.pic.image_public_id
-                    #result = cloudinary.uploader.destroy(old_public_id)
-                    #print('deletion status:' + result)
                     old_pic = user.pic
                     old_pic.delete() #delete old header pic from django database
                     user.pic = i1
@@ -126,16 +107,10 @@ class imageApi(APIView):
                 image_serializer2 = ImageSerializer(i2,many=False)
                 
                 if user.pic: #if user already has a profile pic on cloudinary(delete it)
-                    #old_public_id = user.pic.image_public_id
-                    #result = cloudinary.uploader.destroy(old_public_id)
-                    #print('deletion status:' + result)
                     old_pic = user.pic
                     old_pic.delete() #delete old header pic from django database
                     user.pic = i1
                     if user.header_pic: #if user already has a header pic on cloudinary (delete it)
-                        #old_public_id = user.header_pic.image_public_id
-                        #result = cloudinary.uploader.destroy(old_public_id)
-                        #print('deletion status:' + result)
                         old_header_pic = user.header_pic
                         old_header_pic.delete() #delete old header pic from django database
                         user.header_pic = i2
@@ -146,9 +121,6 @@ class imageApi(APIView):
                 else:
                     user.pic = i1
                     if user.header_pic: #if user already has a header pic on cloudinary (delete it)
-                        #old_public_id = user.header_pic.image_public_id
-                        #result = cloudinary.uploader.destroy(old_public_id)
-                        #print('deletion status:' + result)
                         old_header_pic = user.header_pic
                         old_header_pic.delete() #delete old header pic from django database
                         user.header_pic = i2
@@ -162,9 +134,6 @@ class imageApi(APIView):
             else:    
                 return JsonResponse('Image Api POST Error',safe=False)
             
-
-
-
             # figure out what put is for, maybe delete
             # i dont think there is ever a time when I would have to delete just an image (because images get deleted through account deletions and tweet deletions)
     def put(self, request, id=None): 
@@ -219,7 +188,6 @@ class messageApi(APIView):
 
             acc_name_input1 = message_serializer.data['word']
             acc_name_input2 = message_serializer.data['word2']
-            #text_input = message_serializer.data['word3']
             user1 = User.objects.get(acc_name=acc_name_input1)
             user2 = User.objects.get(acc_name=acc_name_input2)
 
@@ -252,7 +220,6 @@ class messageApi(APIView):
             if check == 'getConvos':
                 #get all tweets that user tweeted
                 user = User.objects.get(acc_name =acc_name_input)
-                #convos = Convo.objects.filter(user1=user)
                 convos = Convo.objects.filter(Q(user1=user) | Q(user2=user),)
                 
                 if convos.exists():
@@ -297,11 +264,8 @@ class messageApi(APIView):
                             message_serializer1 = UserMessageSerializer(m,many=True)
                             messages.append(message_serializer1.data) #array of messages
 
-
                         else:
                             messages.append([0])
-                    #message_serializer = UserMessageSerializer(messages,many=True)
-                    #convo_serializer = ConvoSerializer(convos,many=True)
                     user_serializer = UserSerializer(users,many=True)
                     #messages might not work when tweet is inside 
                     #might have to exclude tweet field from serializer
@@ -317,20 +281,14 @@ class messageApi(APIView):
                 return JsonResponse(message.id,safe=False)
             elif check == 'addTweetMessage':
 
-                print('in add tweet message')
                 convo = Convo.objects.get(id=convo_id)
                 tweet_id = int(text_input)
-                print('text_input: ' + text_input)
-                print('after it got convo')
                 tweet = Tweet.objects.get(id=tweet_id) #text_input is tweet id in string form
-                print('after it got tweet')
                 tweet_serializer = TweetSerializer(tweet,many=False)
                 user_serializer = UserSerializer(tweet.user,many=False)
-                print('after both serializers')
                 message = UserMessage.create(convo,'',tweet,datetime.datetime.now(),acc_name_input)
-                print('after message create')
                 message.save()   
-                print('after message save')
+
                 return JsonResponse([message.id,user_serializer.data,tweet_serializer.data],safe=False)
             elif check == 'deleteConvo':
 
@@ -350,8 +308,6 @@ class messageApi(APIView):
                 return JsonResponse("Deleted Successfully",safe=False)
             else:
                 user = User.objects.get(id=convo_id)
-                #tweet = Tweet.objects.get(id=user_id)
-                #tweet_user = tweet.user
                 user_serializer = UserSerializer(user,many=False)
                 return JsonResponse(user_serializer.data,safe=False)
 
@@ -370,15 +326,6 @@ class tweetApi(APIView):
 
     def get(self, request):
         tweet = Tweet.objects.all().order_by('-date_created') # '-' denotes descending order
-
-       # tweet = Tweet.objects.get(id=1)
-        #tweet_user = tweet.user
-
-
-        #tweet = Tweet.objects.get(id=1) #raw("SELECT * FROM api_user WHERE username = 'Shane'")
-        #user = User.objects.get(acc_name=acc_name_input)
-        #tweet_user = tweet.user_set.all()
-        #user_serializer = UserSerializer(tweet_user,many=False)
         tweet_serializer = TweetSerializer(tweet,many=True)
         return JsonResponse(tweet_serializer.data,safe=False)
 
@@ -399,12 +346,6 @@ class tweetApi(APIView):
 
             #get anothet input from message serializer
             tweet = Tweet.create(user,date,text_content,image_content,0,0,0,0,reply_id)
-            
-            print(tweet)
-            
-            #tweet.create()
-            #tweet_serializer = TweetSerializer(data=tweet)
-            #print(tweet_serializer)
             tweet.save()
 
             if reply_id != 0:
@@ -414,7 +355,6 @@ class tweetApi(APIView):
                 tweet2.comments = (tweet2.comments + 1)
                 tweet2.save()
 
-            #tweet_serializer.save() #if user_serializer.is_valid():
             return JsonResponse("Added Successfully",safe=False)
         else: 
             return JsonResponse("Failed to Add",safe=False)
@@ -426,7 +366,6 @@ class tweetApi(APIView):
         if message_serializer.is_valid():
             check = message_serializer.data['word']
             acc_name_input = message_serializer.data['word2']
-            #return JsonResponse("ok",safe=False)
             user_id = message_serializer.data['num']
             show_more_check = message_serializer.data['word3']
             if check == 'incrementPostView':
@@ -444,10 +383,7 @@ class tweetApi(APIView):
 
                 likes = Like.objects.filter(user=user)[start:end]
                 if likes.exists():
-                    #tweets = []
-                    #for like in likes:
-                        #tweets.append(like.tweet)
-                    #NEW
+
                     tweets = [like.tweet for like in likes]
                     tweets = sorted(tweets, key=lambda tweet: tweet.date_created, reverse=True) # Sort tweets by created_at descending (newest first)
         
@@ -469,10 +405,7 @@ class tweetApi(APIView):
 
                 retweets = Retweet.objects.filter(user=user)[start:end]
                 if retweets.exists():
-                    #tweets = []
-                    #for retweet in retweets:
-                        #tweets.append(retweet.tweet)
-                    #NEW
+
                     tweets = [retweet.tweet for retweet in retweets]
                     tweets = sorted(tweets, key=lambda tweet: tweet.date_created, reverse=True) # Sort tweets by created_at descending (newest first)
 
@@ -489,22 +422,6 @@ class tweetApi(APIView):
                 #do checks to see if this is a show more click or not
                 start = int(show_more_check)*20# 0 #inclusive
                 end = 20 + int(show_more_check)*20 #20 #exclusive
-            
-                #if show_more_check == '0':
-                 #   start = 0 
-                 #   end = 20
-                #elif show_more_check == '1':
-                #    start = 20 
-                #    end = 40
-                #elif show_more_check == '2':
-                #    start = 40 
-                #    end = 60
-                #elif show_more_check == '3':
-                #    start = 60 
-                #    end = 80
-                #else: #all
-                #    start = 0 
-                #    end = 100
 
                 feed = Tweet.objects.all().order_by('-date_created')[start:end] #get all tweets from users that are followed '-' denotes descending order
            
@@ -524,22 +441,6 @@ class tweetApi(APIView):
                 #do checks to see if this is a show more click or not
                 start = int(show_more_check)*20# 0 #inclusive
                 end = 20 + int(show_more_check)*20 #20 #exclusive
-            
-                #if show_more_check == '0':
-                 #   start = 0 
-                 #   end = 20
-                #elif show_more_check == '1':
-                #    start = 20 
-                #    end = 40
-                #elif show_more_check == '2':
-                #    start = 40 
-                #    end = 60
-                #elif show_more_check == '3':
-                #    start = 60 
-                #    end = 80
-                #else: #all
-                #    start = 0 
-                #    end = 100
 
                 user = User.objects.get(acc_name=acc_name_input)
                 #print('user: ' + user)
@@ -561,11 +462,6 @@ class tweetApi(APIView):
                         tweet_serializer = TweetSerializer(feed,many=True)
                         user_serializer = UserSerializer(user_arr,many=True)
                         return JsonResponse([tweet_serializer.data,user_serializer.data],safe=False) #this is new
-
-                    #if feed.exists():
-                        #print('feed exists')
-                        #tweet_serializer = TweetSerializer(feed,many=True) #this line may not work
-                        #return JsonResponse(tweet_serializer.data,safe=False)
                     else:
                         print('1')
                         return JsonResponse("No tweets",safe=False)
@@ -597,7 +493,6 @@ class tweetApi(APIView):
                     tweet = Tweet.objects.get(id=user_id) # user_id is actually tweet id here
                     tweet_serializer = TweetSerializer(tweet,many=False)
                     print(tweet.user)
-                    #user = User.objects.get(id=tweet.user)
                     user_serializer = UserSerializer(tweet.user,many=False)
                     return JsonResponse([tweet_serializer.data,user_serializer.data],safe=False)
                 except Tweet.DoesNotExist:
@@ -607,22 +502,6 @@ class tweetApi(APIView):
                 #do checks to see if this is a show more click or not
                 start = int(show_more_check)*10# 0 #inclusive
                 end = 10 + int(show_more_check)*10 #10 #exclusive
-            
-                #if show_more_check == '0':
-                 #   start = 0 
-                 #   end = 10
-                #elif show_more_check == '1':
-                #    start = 10 
-                #    end = 20
-                #elif show_more_check == '2':
-                #    start = 20 
-                #    end = 30
-                #elif show_more_check == '3':
-                #    start = 30 
-                #    end = 40
-                #else: #all
-                #    start = 0 
-                #    end = 100
 
                 tweets = Tweet.objects.filter(reply_id=user_id).order_by('-date_created')[start:end] # user_id is actually tweet id here (limitied to 10 rows)
                 if tweets.exists():
@@ -644,20 +523,6 @@ class tweetApi(APIView):
         else:
             return JsonResponse("Failed to Add",safe=False)
 
-    #elif request.method =='PUT': 
-        #tweet_data = JSONParser().parse(request)
-        
-        #tweet_serializer = TweetSerializer(data=tweet_data)
-        #if tweet_serializer.is_valid():
-            #return JsonResponse("ok",safe=False)
-            #likes_input = tweet_serializer.data['likes']
-            #tweet = Tweet.objects.get(id=likes_input)
-            #tweet_user = tweet.user
-            #user_serializer = UserSerializer(tweet_user,many=False)
-            #return JsonResponse(user_serializer.data,safe=False)
-        #else:
-            #return JsonResponse("Failed to Add",safe=False)
-
     def delete(self, request, id=None):
         tweet = Tweet.objects.get(id=id)
         tweet.delete()
@@ -675,7 +540,6 @@ class notificationApi(APIView):
     def post(self, request):
 
         #NOT IN USE
-                
         #retrieve message from front end
         message_data = JSONParser().parse(request)
         # serialize message
@@ -701,7 +565,6 @@ class notificationApi(APIView):
         if message_serializer.is_valid():
             check = message_serializer.data['word']
             acc_name_input = message_serializer.data['word2']
-            #return JsonResponse("ok",safe=False)
             notification_id = message_serializer.data['num']            
             if check == 'getNotifications':
                 #get all tweets that user tweeted
@@ -814,7 +677,6 @@ class retweetApi(APIView):
                     tweet_ids.append(retweet.tweet.id)
                 if retweets.exists():
                     #return only an array of tweets
-                    #tweet_serializer = TweetSerializer(tweets,many=True)
                     return JsonResponse(tweet_ids,safe=False)
                 else:
                     return JsonResponse("No retweet ids",safe=False)
@@ -839,12 +701,6 @@ class retweetApi(APIView):
             return JsonResponse("Failed to Add",safe=False)
 
     def delete(self, request, id=None):
-       #message_data = JSONParser().parse(request)
-       # message_serializer = MessageSerializer(data=message_data)
-        #if message_serializer.is_valid():
-           # check = message_serializer.data['word']
-            #like_id = message_serializer.data['num']
-            #if check == 'delete':
         like = Like.objects.get(id=id)
         like.delete()
         return JsonResponse("Deleted Successfully",safe=False)
@@ -891,7 +747,6 @@ class likeApi(APIView):
             db_like = Like.objects.get(tweet=tweet, user=user_from) #NEW
             like_serializer = LikeSerializer(db_like,many=False) #NEW
             return JsonResponse(like_serializer.data,safe=False) #NEW
-            #return JsonResponse("Added Successfully",safe=False) #NEW
         else: 
             return JsonResponse("Failed to Add",safe=False)
 
@@ -924,7 +779,6 @@ class likeApi(APIView):
                     tweet_ids.append(like.tweet.id)
                 if likes.exists():
                     #return only an array of tweets
-                    #tweet_serializer = TweetSerializer(tweets,many=True)
                     return JsonResponse(tweet_ids,safe=False)
                 else:
                     return JsonResponse("No like ids",safe=False)
@@ -948,17 +802,9 @@ class likeApi(APIView):
             return JsonResponse("Failed to Add",safe=False)
 
     def delete(self, request, id=None):
-       #message_data = JSONParser().parse(request)
-       # message_serializer = MessageSerializer(data=message_data)
-        #if message_serializer.is_valid():
-           # check = message_serializer.data['word']
-            #like_id = message_serializer.data['num']
-            #if check == 'delete':
         like = Like.objects.get(id=id)
         like.delete()
         return JsonResponse("Deleted Successfully",safe=False)
-        #else:
-        #    return JsonResponse("Failed to Add",safe=False)
 
 
 class loginApi(APIView):
@@ -993,7 +839,6 @@ class loginApi(APIView):
 
         try:
             if user_serializer.is_valid():
-                #serializer.save()
                 username_input = user_serializer.data['username']
                 acc_name_input = user_serializer.data['acc_name']   
                 password_input = user_serializer.validated_data['password'] # need validated data to get password
@@ -1009,9 +854,8 @@ class loginApi(APIView):
                     result = User.objects.filter(acc_name=acc_name_input)
                     if result.exists():
                         user = User.objects.get(acc_name=acc_name_input)
-                        #if verify_password(password_input, user.password):
+                        #if verify_password(password_input, user.password): (old way b4 api call authentication)
                         if user.check_password(password_input):
-                        #if user.password == password_input:
                             user_serializer = UserSerializer(user,many=False) #NEW
 
                             # ✅ Create JWT tokens for authenticated user
@@ -1042,7 +886,7 @@ class userApi(APIView):
 
     def get(self, request):
         #not implemented but should return top 10 users that current user doesn't follow (may have to move to a request type that has a body)
-        user = User.objects.all()[:10] #raw("SELECT * FROM api_user WHERE username = 'Shane'")
+        user = User.objects.all()[:10]
         user_serializer = UserSerializer(user,many=True)
         return JsonResponse(user_serializer.data,safe=False)
     
@@ -1061,7 +905,6 @@ class userApi(APIView):
                 if check == 'getWhoToFollow':
                     #gets suggested users to follow that user doesn't already follow
                     user = User.objects.get(acc_name=acc_name_input)
-                    #returns the the the people not following the user, not the other way around (need to fix)
                     followed_users = Follow.objects.filter(following=user).values_list('follower', flat=True)
                     non_followed_users = User.objects.exclude(id__in=followed_users).exclude(id=user.id)[:10]
                     user_serializer = UserSerializer(non_followed_users,many=True)
@@ -1069,10 +912,6 @@ class userApi(APIView):
                     return JsonResponse(user_serializer.data,safe=False)
                 else: # shouldn't happen anymore (moved to loginApi)
                     us = user_serializer.data
-                    #acc_name = message_serializer.data['']
-                    #user = User.create(us['username'],us['email'],us['acc_name'],us['password'],us['pic'],us['header_pic'],'',us['follower_count'],us['following_count'])
-                    #user = User.create(us['username'],us['email'],us['acc_name'],us['password'],None,None,'',us['follower_count'],us['following_count'])
-
                     #create user
                     user = User.objects.create_user(username=us['username'],email=us['email'],password=password_input,acc_name=us['acc_name'],bio='',pic=None,header_pic=None)
                                     
@@ -1090,7 +929,6 @@ class userApi(APIView):
 
         try:
             if user_serializer.is_valid():
-                #serializer.save()
                 username_input = user_serializer.data['username']
                 acc_name_input = user_serializer.data['acc_name']   
                 password_input = user_serializer.validated_data['password'] # need validated data to get password
@@ -1099,13 +937,9 @@ class userApi(APIView):
                     str_input = password_input # text input from search bar
                     #get all users excluding logged in user
                     all_users = User.objects.exclude(acc_name=acc_name_input)
-                    #print('all users: ' + all_users) # new
                     user_arr = []
                     count = 0
                     for user in all_users:
-                        print('in loop ') # new
-                        print('count: ' + str(count)) # new
-                        print('str_input: ' + str_input)
                         lowerAccname = user.acc_name.lower()
                         lowerUsername = user.username.lower()
                         if lowerAccname.startswith(str_input) or lowerUsername.startswith(str_input):
@@ -1134,43 +968,11 @@ class userApi(APIView):
                         return JsonResponse([tweet_serializer.data,user_serializer.data],safe=False)
                     else:
                         return JsonResponse("No posts",safe=False)
-                elif username_input == 'check':  #check uniqueness of acc_name
-                    result = User.objects.filter(acc_name=acc_name_input)
-                    if result.exists():
-                        return JsonResponse("Not Unique",safe=False)
-                    else:
-                        return JsonResponse("Unique",safe=False)
-                    
-                elif username_input == 'credentialsCheck': # check if password and account name correct
-                    result = User.objects.filter(acc_name=acc_name_input)
-                    if result.exists():
-                        user = User.objects.get(acc_name=acc_name_input)
-                        #if verify_password(password_input, user.password):
-                        if user.check_password(password_input):
-                        #if user.password == password_input:
-                            user_serializer = UserSerializer(user,many=False) #NEW
-
-                            # ✅ Create JWT tokens for authenticated user
-                            refresh = RefreshToken.for_user(user)
-                            refresh['user_id'] = user.id #required
-                            refresh['acc_name'] = user.acc_name  # optional custom claim
-                            access = refresh.access_token
-                                                                                #new
-                            return JsonResponse([user_serializer.data,{'access': str(access),'refresh': str(refresh)}],safe=False)
-                            
-                        else:
-                            return JsonResponse("AC exists, P incorrect",safe=False)
-                    else:
-                        return JsonResponse("AC doesn't exist",safe=False)
-                elif username_input == 'getUser': # check if password and account name correct
+                elif username_input == 'getUser':
                     result = User.objects.filter(acc_name=acc_name_input)
                     if result.exists():
                         user = User.objects.get(acc_name=acc_name_input)
                         user_serializer = UserSerializer(user,many=False)
-                    #id_input = user_serializer.data['id']  
-                    #result = User.objects.filter(id=id_input)
-                    #if result.exists():
-                        #user = User.objects.get(id=id_input)
                         return JsonResponse(user_serializer.data,safe=False)
                     else:
                         return JsonResponse("User doesn't exist",safe=False)
@@ -1194,7 +996,6 @@ class userApi(APIView):
         user.delete()
         return JsonResponse("Deleted Successfully",safe=False)
 
-#@csrf_exempt
 class followApi(APIView):
 
     permission_classes = [IsAuthenticated]  # Require login
@@ -1221,22 +1022,12 @@ class followApi(APIView):
             follow_object = Follow.create(user1,user2)
             follow_object.save()
 
-
-            #******** NEW ********
             #increment follower_count and following_count of user1 and user2
             user1.follower_count = (user1.follower_count + 1)
             user1.save()
             user2.following_count = (user2.following_count + 1)
             user2.save()
-
-
             return JsonResponse("Added Successfully",safe=False)
-        #follow_data = JSONParser().parse(request)
-        #follow_serializer = FollowSerializer(data=follow_data)
-        #if follow_serializer.is_valid():
-        #    follow_serializer.save()
-        #    return JsonResponse("Added Successfully",safe=False)
-        #return JsonResponse("Failed to Add",safe=False)
         else:
             return JsonResponse("Failed to Add",safe=False)
     
@@ -1248,7 +1039,6 @@ class followApi(APIView):
             acc_name_input = message_serializer.data['word2']
             acc_name_input2 = message_serializer.data['word3']
             if check == 'getFollowers':
-                #return JsonResponse("inside getFollowers if",safe=False)
                 user = User.objects.get(acc_name=acc_name_input)
                 followers = Follow.objects.filter(follower=user)
                 following = []
@@ -1258,12 +1048,9 @@ class followApi(APIView):
                 if followers.exists():
                     user_serializer = UserSerializer(following,many=True)
                     return JsonResponse(user_serializer.data,safe=False)
-                    #follow_serializer = FollowSerializer(followers,many=True)
-                    #return JsonResponse(follow_serializer.data,safe=False)
                 else:
                     return JsonResponse("No followers",safe=False)
             elif check == 'getFollowing':
-                #return JsonResponse("inside getFollowing if",safe=False)
                 user = User.objects.get(acc_name=acc_name_input)
                 following = Follow.objects.filter(following=user)
                 followers = []
@@ -1273,12 +1060,9 @@ class followApi(APIView):
                 if following.exists():
                     user_serializer = UserSerializer(followers,many=True)
                     return JsonResponse(user_serializer.data,safe=False)
-                    #follow_serializer = FollowSerializer(following,many=True)
-                    #return JsonResponse(follow_serializer.data,safe=False)
                 else:
                     return JsonResponse("No following",safe=False)
             elif check == 'getDefaultList':
-                #return JsonResponse("inside getFollowing if",safe=False)
                 user = User.objects.get(acc_name=acc_name_input)
                 following = Follow.objects.filter(following=user)
                 if following.exists():
@@ -1314,72 +1098,3 @@ class followApi(APIView):
 
         else:
             return JsonResponse("Failed to Add",safe=False)
-
-#testing 
-class TweetAPI(APIView):
-    
-    permission_classes = [IsAuthenticated]  # Require login
-
-    def get(self, request, id=None):
-        print("Authenticated user:", request.user, type(request.user))
-        tweet = Tweet.objects.all().order_by('-date_created') # '-' denotes descending order
-        tweet_serializer = TweetSerializer(tweet,many=True)
-        return JsonResponse(tweet_serializer.data,safe=False)
-
-"""
-        message_serializer = MessageSerializer(data=message_data)
-       if message_serializer.is_valid():
-            
-            check = message_serializer.data['word']
-            acc_name_input = message_serializer.data['word2']
-            if check == 'getFollowers':
-                return JsonResponse("inside getFollowers if") 
-                user = User.objects.get(acc_name=acc_name_input)
-                followers = Follow.objects.filter(follower=user)
-                if result.exists():
-                    follow_serializer = FollowSerializer(followers,many=True)
-                    return JsonResponse(follow_serializer.data,safe=False)
-                else:
-                    JsonResponse("No followers")
-            elif check == 'getFollowing':
-                return JsonResponse("inside getFollowing if") 
-                user = User.objects.get(acc_name=acc_name_input)
-                following = Follow.objects.filter(following=user)
-                if result.exists():
-                    follow_serializer = FollowSerializer(following,many=True)
-                    return JsonResponse(follow_serializer.data,safe=False)
-                else:
-                    JsonResponse("No following")
-        else:
-            return JsonResponse("Failed to Add") 
- 
-    elif request.method =='DELETE':
-        follow = Follow.objects.get(id=id)
-        follow.delete()
-        return JsonResponse("Deleted Successfully",safe=False)
-
-    elif request.method =='POST':
-        #retrieve username from front end
-        user_data = JSONParser().parse(request)
-        # serialize username
-        user_serializer = UserSerializer(data=user_data)
-        # compare to all usernames in db
-        if user_serializer.is_valid():
-            name_input = user_serializer.data['name']
-            username_input = user_serializer.data['username']
-        else: 
-            return JsonResponse("Failed to Add",safe=False)
-
-        if name_input == 'check':  #check uniqueness of username
-            result = User.objects.filter(username=username_input)
-
-            if result.exists():
-                return JsonResponse("Not Unique",safe=False)
-            else:
-                return JsonResponse("Unique",safe=False)
-        else:
-            user_serializer.save() #if user_serializer.is_valid():
-            return JsonResponse("Added Successfully",safe=False)
-            #return JsonResponse("Failed to Add",safe=False)
-    
-"""
