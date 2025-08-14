@@ -24,7 +24,8 @@
             </app-post>
 
             <div class="empty-post">
-               
+              
+               <div id="form-status-message-bad" *ngIf="this.submit_flag == 3">You've hit your post limit! (10 posts)</div>
                 <div id="form-status-message-good" *ngIf="this.submit_flag == 2"> Reply Added!</div>
                 <div id="form-status-message-bad" *ngIf="this.submit_flag == 1">Invalid Reply!</div>
                 

@@ -155,8 +155,21 @@ tweetForm = this.formBuilder.group({
     
     if(this.service.tweetValidated(this.tweetForm.value.text_content?? '',image_content))
       {
-        this.submit_flag = 2;
-        this.service.postTweet(this.service_acc_name,this.tweetForm.value.text_content ?? '',image_content, reply_id);
+        this.service.postTweet(this.service_acc_name,this.tweetForm.value.text_content ?? '',image_content, reply_id).subscribe(result => {
+          //console.log("postClick result: " + result);
+          if(result == "Too many tweets")
+          {
+            this.submit_flag = 3;
+          }
+          else if(result == "error")
+          {
+            this.submit_flag = 1;
+          }
+          else
+          {
+            this.submit_flag = 2;
+          } 
+        });
         this.tweetForm.reset();
         console.log("submit flag: " +this.submit_flag)
       }
@@ -208,7 +221,6 @@ tweetForm = this.formBuilder.group({
     }   
   }
 
-
   //add up to 20 more tweets to thread
   handleMoreFollowingClick()
   {
@@ -224,7 +236,6 @@ tweetForm = this.formBuilder.group({
         this.FollowUserFeed = userFeed;
         this.followLoadingFlag = false;
       });
-      
     }
     else
     {
@@ -236,14 +247,6 @@ tweetForm = this.formBuilder.group({
       });
     }   
   }
-  /*
-      let requestMessage =
-      {
-        'word': 'getReplies',
-        'num': this.p_id, 
-        'word3': String(this.show_more_count),
-      };
-    */
 
 }
 

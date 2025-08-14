@@ -597,8 +597,14 @@ tweetValidated(text_content:string,image_content: string | null)
 }
 
 //adds tweet to database (in use on home page, post page)
-postTweet(acc_name: string, text_content: string, image_content: string | null, reply_id: number)
+postTweet2(acc_name: string, text_content: string, image_content: string | null, reply_id: number)
 {
+
+
+/* IN BACKEND I NEED TO MAKE A RESTRICTION THAT A USER CANNOT HAVE MORE THAN 10 TWEETS */
+
+
+
   if (image_content == "")
     {
       image_content = null
@@ -617,4 +623,41 @@ postTweet(acc_name: string, text_content: string, image_content: string | null, 
         console.log(resultData);
     });
 }
+
+postTweet(acc_name: string, text_content: string, image_content: string | null, reply_id: number): Observable<string> {
+
+  if (image_content == "")
+  {
+    image_content = null
+  }
+
+  let requestMessage =
+    {
+      "word": acc_name,
+      "word2": text_content,
+      "word3": image_content,
+      "num": reply_id,
+    }
+
+  return this.http.post<any>(environment.apiUrl + "/tweet", requestMessage).pipe(
+    map(resultData => {
+      if (!resultData ) {
+        return 'error';
+      }
+      else if (resultData == 'Failed to Add') {
+        return 'error';
+      }
+      else if (resultData == 'Too many tweets') {
+        return 'Too many tweets';
+      } 
+      else
+      {
+        return 'good';
+      }
+    })
+  );
+}
+
+
+
 }

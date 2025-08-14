@@ -336,9 +336,16 @@ class tweetApi(APIView):
         # serialize message
         message_serializer = MessageSerializer(data=message_data)
         if message_serializer.is_valid():
+
             acc_name_input = message_serializer.data['word']
             user = User.objects.get(acc_name=acc_name_input)
 
+            #make sure a user can only tweet a certain amount
+            maxTweetPerUser = 5 #will change to 10 after testing
+            tweetCount = Tweet.objects.filter(user=user).count()
+            if tweetCount >= maxTweetPerUser:
+                return JsonResponse("Too many tweets",safe=False)
+            
             text_content = message_serializer.data['word2']
             image_content = message_serializer.data['word3']
             reply_id = message_serializer.data['num']
@@ -354,7 +361,7 @@ class tweetApi(APIView):
                 #update comment/reply count
                 tweet2.comments = (tweet2.comments + 1)
                 tweet2.save()
-
+            
             return JsonResponse("Added Successfully",safe=False)
         else: 
             return JsonResponse("Failed to Add",safe=False)

@@ -177,20 +177,34 @@ convertPost(DBpost: any, DBuser: any)
     console.log("in convertPost: post: " + this.post + " user: " + this.user);
 }
 
-//called upon 'reply' button click performs a form validation and sends tweet to backend, if it passes
-postClick(reply_id: number)
+  postClick(reply_id: number) //reply_id is always 0 to my knowledge
   {
     let image_content = "";
     
     if(this.service.tweetValidated(this.tweetForm.value.text_content?? '',image_content))
       {
-        this.submit_flag = 2;
-        this.service.postTweet(this.service_acc_name,this.tweetForm.value.text_content?? '',image_content,reply_id);
+        this.service.postTweet(this.service_acc_name,this.tweetForm.value.text_content ?? '',image_content, reply_id).subscribe(result => {
+          //console.log("postClick result: " + result);
+          if(result == "Too many tweets")
+          {
+            this.submit_flag = 3;
+          }
+          else if(result == "error")
+          {
+            this.submit_flag = 1;
+          }
+          else
+          {
+            this.submit_flag = 2;
+          } 
+        });
         this.tweetForm.reset();
+        
       }
     else
       {
         this.submit_flag = 1;
+        console.log("submit flag: " +this.submit_flag)
       }
   }
 
