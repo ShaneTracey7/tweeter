@@ -50,7 +50,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=35, unique=True)
     email = models.EmailField(max_length=255, unique=True)
     acc_name = models.CharField(max_length=35)
+    #may need to remove quotes around 'Image'
     pic = models.ForeignKey('Image', on_delete=models.SET_NULL, null=True, blank=True, related_name='profile_pics')
+    #may need to remove quotes around 'Image'
     header_pic = models.ForeignKey('Image', on_delete=models.SET_NULL, null=True, blank=True, related_name='header_pics')
     bio = models.CharField(max_length=100, blank=True, default="")
     follower_count = models.IntegerField(default=0)

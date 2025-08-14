@@ -110,6 +110,7 @@ onSubmit()
       {
         this.goodLogin = true;
         this.userDB = resultData[0];
+        console.log("this.userDB: " + JSON.stringify(resultData[0]))
 
         //NEW
         sessionStorage.setItem("access", resultData[1].access);

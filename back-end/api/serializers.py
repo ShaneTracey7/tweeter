@@ -21,8 +21,10 @@ class UserSerializer(serializers.ModelSerializer):
 #NEW
 class UserSerializer(serializers.ModelSerializer):
     # Assuming you want to serialize the related Image objects by their ID or some fields
-    pic = serializers.PrimaryKeyRelatedField(queryset=Image.objects.all(), allow_null=True, required=False)
-    header_pic = serializers.PrimaryKeyRelatedField(queryset=Image.objects.all(), allow_null=True, required=False)
+    #pic = serializers.PrimaryKeyRelatedField(queryset=Image.objects.all(), allow_null=True, required=False)
+    #header_pic = serializers.PrimaryKeyRelatedField(queryset=Image.objects.all(), allow_null=True, required=False)
+    pic = ImageSerializer(read_only=True,allow_null=True)  
+    header_pic = ImageSerializer(read_only=True,allow_null=True)
     
     password = serializers.CharField(write_only=True, required=True)
 
