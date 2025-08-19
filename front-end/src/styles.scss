@@ -959,7 +959,7 @@ $cancel-red: #f51616;
       flex-direction: column;
 
       overflow-y: scroll;
-      height: 100vh; 
+      height: 100dvh; 
       min-width: 500px;
       max-width: 600px;
       border-left: 1px solid lightgray;
@@ -977,7 +977,7 @@ $cancel-red: #f51616;
   .secondary-content {
       display: inline; /* was block */
       overflow: scroll;
-      height: 100vh;
+      height: 100dvh;
       float:left; /* used to be right */
       z-index: 1;
     }
@@ -1631,6 +1631,21 @@ border: 1px solid lightgray;
       }
       .editProfileModal {
         margin-left: 18%;
+      }
+      .post-profile-container{
+        margin-left: 8px;
+      }
+      .post-content{
+        margin-left: 0;
+      }
+      .reactiongroup{
+        width: 17%;
+      }
+      .reactionbarvalues{
+        font-size: 0.75rem;
+      }
+      #last-rc{
+        width: 12%;
       }
   }
   
