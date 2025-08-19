@@ -279,4 +279,15 @@ $gray-font: rgb(97, 110, 124);
     }
   }
 }
+@media only screen and (max-width: 700px){
 
+  .modal-content-area{
+
+    #modal-title{
+      font-size: 1.5rem;
+    }
+  }
+  #dob-selectors{
+    gap:0px;
+  }
+}
