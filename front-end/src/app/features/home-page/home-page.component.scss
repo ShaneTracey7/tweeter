@@ -239,14 +239,40 @@ img.reactionbaricons{
     }
     .post-heading{
       margin-left: 7px;
+
+      #post-username{
+        font-size: 0.9rem;
+      }
+      .post-accountname{
+        font-size: 0.85rem;
+      }
+      #post-etime{
+       font-size: 0.85rem;
+      }
     }
     .empty-post{
       gap: 4px;
+      #e-post-input{
+      font-size: 1rem;
+      }
+    #e-post-button{
+      font-size: 0.85rem;
+      padding: 5px 10px;
     }
     .selection-bar-icons{
       width:14px;
       height:14px;
     }
+    .e-icon-container{
+      padding: 4px;
+      width: 28px;
+      height: 28px;
+    }
+  }
+  .main-content{
+    display:flex;
+  }
+    
 }
 @media only screen and (min-width: 701px) and (max-width: 975px) {
     #post-new-message-modal{

@@ -1620,7 +1620,7 @@ border: 1px solid lightgray;
   
       .main-content {
         display: block;
-        width: 75%;
+        width: 80%;
         min-width: 0px;
       }
   
@@ -1646,6 +1646,12 @@ border: 1px solid lightgray;
       }
       #last-rc{
         width: 12%;
+      }
+      .post-text{
+        font-size:0.9rem;
+      }
+      #tab-text{
+        font-size: 0.9rem;
       }
   }
   
