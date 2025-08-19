@@ -341,7 +341,7 @@ class tweetApi(APIView):
             user = User.objects.get(acc_name=acc_name_input)
 
             #make sure a user can only tweet a certain amount
-            maxTweetPerUser = 5 #will change to 10 after testing
+            maxTweetPerUser = 10 #will change to 10 after testing
             tweetCount = Tweet.objects.filter(user=user).count()
             if tweetCount >= maxTweetPerUser:
                 return JsonResponse("Too many tweets",safe=False)

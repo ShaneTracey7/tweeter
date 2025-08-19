@@ -1,9 +1,6 @@
 import { Component, EventEmitter, Input, Output, SimpleChanges} from '@angular/core';
-import { HomePageComponent } from '../home-page.component';
-import { Post, Profile, getProfile } from '../../../core/data';
-import { MainContentComponent } from '../../../shared/components/main-content/main-content.component';
+import { Post, Profile} from '../../../core/data';
 import { environment } from '../../../../environments/environment';
-import { AuthService } from '@auth0/auth0-angular';
 import { ActivatedRoute } from '@angular/router';
 import { CoreService } from '../../../core/core-service.service';
 import { HttpClient } from '@angular/common/http';
@@ -20,10 +17,8 @@ export class PostComponent { //probs shouldn't extend homepage
 
 //new
 @Input() inConvo = false; 
-
 @Input () fparr = [0];
 @Output() fparrChange = new EventEmitter<any[]>();
-
 @Input () fp = new Post(0,'','','',new Date,'','',0,0,0,0); //focused post of post page component(only for reply thread posts)
 @Output() fpChange = new EventEmitter<Post>();
 @Input () fpuser = new Profile('','','','','',0,0); //NEW
@@ -32,44 +27,35 @@ export class PostComponent { //probs shouldn't extend homepage
 @Output() commentsChange = new EventEmitter<Post[]>();
 @Input () commentsusers: Profile [] = []; //NEW
 @Output() commentsusersChange = new EventEmitter<Profile[]>(); //NEW
+
 newComments: Post [] = [];
 newCommentUsers: Profile [] = [];
 DBUserfeed: any [] = [];
 DBPostfeed: any [] = [];
 
 @Input () user = new Profile(null,null,'','','',0,0);
-
 @Input () post = new Post(0,'','','',new Date,'','',0,0,0,0);
 @Input () focused = false; // true if post is being focused within post-page-component
 @Input () inThread = false; // true if post is in thread within post-page-component
-//@Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService,this.service,this.authService,this.route);
 
-//@Input() upc: any = '';
 show_modal: boolean = false;
 modal_profile = new Profile('','','','','',0,0);
 timer:any;
 liked: boolean = false; // true: if post is liked, false: if post isn't liked
 postLikeArr: number [] = [];
-
 retweeted: boolean = false;
 postRetweetArr: number [] = [];
-
 like_count: number = 0; //test 
-
 fromRefresh: boolean = false;
-
 showShareModal: boolean = false;
-
 showNewMessageModal: boolean = false;
 
 //NEW 
 reaction: string = "";
 
 //testArr: any [] = []; //needed to force profile modal to work right
-constructor(/*public authService: AuthService,*/ public route: ActivatedRoute, public service: CoreService,public http: HttpClient, public formBuilder: FormBuilder )
-{
-  
-}
+constructor(public route: ActivatedRoute, public service: CoreService,public http: HttpClient, public formBuilder: FormBuilder )
+{}
 
 ngOnInit(){
 
@@ -100,7 +86,7 @@ setPost()
 
 checkLiked()
 {
-  if(this.service.Likes.includes(this.post.id)) //result from DB check or check through list of users likes
+  if(this.service.Likes && this.service.Likes.includes(this.post.id)) //result from DB check or check through list of users likes
   {
     this.liked = true;
   }
@@ -113,7 +99,7 @@ checkLiked()
 
 checkRetweeted()
 { 
- if(this.service.Retweets.includes(this.post.id))//result from DB check or check through list of users likes
+ if( this.service.Retweets && this.service.Retweets.includes(this.post.id))//result from DB check or check through list of users likes
  {
   this.retweeted = true;
  }
@@ -124,7 +110,6 @@ checkRetweeted()
 
  this.postRetweetArr = this.service.Retweets
 }
-
 
 //called upon hitting retweet button
 handleRetweet()

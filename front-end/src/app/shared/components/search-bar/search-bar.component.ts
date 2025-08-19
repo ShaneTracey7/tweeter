@@ -1,13 +1,12 @@
 import { Component, EventEmitter, Input, Output, SimpleChanges } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
-import { createNewsSearchTopics, createSearchBarTopics, Post, Profile, SearchTopic } from "../../../core/data";
+import { Post, Profile, SearchTopic } from "../../../core/data";
 import { CoreService } from "../../../core/core-service.service";
 import { HttpClient } from "@angular/common/http";
 import { ProfilePageComponent } from "../../../features/profile-page/profile-page.component";
 import { ActivatedRoute, Router } from "@angular/router";
-import { AuthService } from "../../../core/auth.service";
 import { environment } from "../../../../environments/environment";
-import { firstValueFrom, map, Observable } from "rxjs";
+import { firstValueFrom } from "rxjs";
 
 @Component({
 
@@ -47,7 +46,7 @@ on submit,
 @Input() postFlag: boolean = false;
 @Output() postFlagChange = new EventEmitter<boolean>(); //needing for loading spinner in explore page
 
-@Input() ppg = new ProfilePageComponent(this.router,this.http,this.authService,this.route,this.service)
+@Input() ppg = new ProfilePageComponent(this.router,this.http,this.route,this.service)
 
 focus:boolean = false;
 blur: boolean = true;
@@ -64,7 +63,7 @@ service_acc_name: string = '';
 
 searchForm = this.formBuilder.group({inquiry:[''],});
   
-  constructor(private formBuilder: FormBuilder, public service: CoreService, public http: HttpClient, public router: Router, public authService: AuthService, public route: ActivatedRoute) 
+  constructor(private formBuilder: FormBuilder, public service: CoreService, public http: HttpClient, public router: Router, public route: ActivatedRoute) 
   {}
   
   ngOnInit()

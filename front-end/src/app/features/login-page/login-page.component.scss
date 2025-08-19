@@ -78,6 +78,7 @@ background-color: #1da0f222;
     font-weight: bold;
     color: black;
     width: fit-content;
+    max-width: 50vw
   }
   #sub-title{
     margin-top: 60px;
@@ -125,26 +126,33 @@ background-color: #1da0f222;
   
   #login{
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: left;
+    width: fit-content;
+    display: flex;
+    margin: auto;
   }
 
   #logo-container{
     margin-left: 0;
     margin-right: 0;
     display: flex;
-    width: 400px;
+    width: 50vw;
+    max-width: 50vw;
     img{
       height: 75px;
       width: 75px;
     }
   
   }
+  .l-container{
+    min-width: max-content;
+  }
 
   #content-container{
     margin-right: 0;
-    max-width: 400px;
+    max-width: 60vw;
     min-width: unset;
+    width:unset;
   
     #sub-title{
       margin-top: 40px;

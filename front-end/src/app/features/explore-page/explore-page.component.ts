@@ -3,7 +3,6 @@ import { AppComponent } from '../../app.component';
 import { CoreComponent } from '../../core/core.component';
 import { CoreService } from '../../core/core-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../../core/auth.service'; 
 import { HttpClient } from '@angular/common/http';
 import { createEntertainmentSearchTopics, createForYouSearchTopics, createNewsSearchTopics, createSportsSearchTopics, createTrendingSearchTopics, Post, Profile } from '../../core/data';
 import { environment } from '../../../environments/environment';
@@ -41,8 +40,8 @@ export class ExplorePageComponent extends CoreComponent {
   sportsSearchTopics = createSportsSearchTopics();
   entertainmentSearchTopics = createEntertainmentSearchTopics();
 
-  constructor(public router: Router,public http: HttpClient,authService: AuthService, route: ActivatedRoute, service2: CoreService) {
-      super(authService,route,service2);
+  constructor(public router: Router,public http: HttpClient, route: ActivatedRoute, service2: CoreService) {
+      super(route,service2);
   
       this.service_acc_name = "";
       this.last_url_section = "";

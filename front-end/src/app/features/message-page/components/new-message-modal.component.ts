@@ -4,7 +4,6 @@ import { FormBuilder, Validators } from "@angular/forms";
 import { CoreService } from "../../../core/core-service.service";
 import { HttpClient } from "@angular/common/http";
 import { MessagePageComponent } from "../message-page.component";
-import { AuthService } from "../../../core/auth.service";
 import { ActivatedRoute } from "@angular/router";
 import { environment } from "../../../../environments/environment";
 
@@ -20,7 +19,7 @@ import { environment } from "../../../../environments/environment";
  @Input() inPost: boolean = false;
  @Input() show: boolean = false;
  @Output() showChange = new EventEmitter<boolean>(); //not in use rn
- @Input() mpc: MessagePageComponent = new MessagePageComponent(this.formBuilder, this.authService, this.route, this.service); //need for only createDB function
+ @Input() mpc: MessagePageComponent = new MessagePageComponent(this.formBuilder, this.route, this.service); //need for only createDB function
   selectedUser: string = ''; //account name of selected user
   
   DBUserFeed: any [] = [];
@@ -35,7 +34,7 @@ import { environment } from "../../../../environments/environment";
     inquiry: ['', [Validators.required]],
     });
     
-    constructor(private formBuilder: FormBuilder, public service: CoreService, public http: HttpClient, public authService: AuthService, public route: ActivatedRoute) 
+    constructor(private formBuilder: FormBuilder, public service: CoreService, public http: HttpClient, public route: ActivatedRoute) 
     {
         this.service_acc_name = '';
         this.defaultList = [];

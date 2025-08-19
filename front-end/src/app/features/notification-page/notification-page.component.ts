@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { CoreComponent } from '../../core/core.component';
 import { CoreService } from '../../core/core-service.service';
 import { ActivatedRoute } from '@angular/router';
-import { AuthService } from '../../core/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Notification, Post, Profile } from '../../core/data';
 import { environment } from '../../../environments/environment';
@@ -20,9 +19,9 @@ export class NotificationPageComponent extends CoreComponent{
 
   loadingFlag: boolean = true; //flag to show spinner while data is being fetched
 
-  constructor(authService: AuthService, route: ActivatedRoute, service: CoreService,public http: HttpClient)
+  constructor(route: ActivatedRoute, service: CoreService,public http: HttpClient)
   {
-    super(authService,route,service);
+    super(route,service);
     this.service_acc_name = "";
   }
 

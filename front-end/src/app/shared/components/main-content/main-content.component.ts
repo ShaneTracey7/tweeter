@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Profile } from '../../../core/data';
 import { CoreService } from '../../../core/core-service.service';
-import { AuthService } from '../../../core/auth.service';
 import { ActivatedRoute } from '@angular/router';
 @Component({
 
@@ -23,7 +22,7 @@ export class MainContentComponent {
 
   @Input () c_c: boolean = false;
 
-  constructor(public service: CoreService, public authService: AuthService, public route: ActivatedRoute)
+  constructor(public service: CoreService, public route: ActivatedRoute)
   { }
 
   ngOnChanges(changes: SimpleChanges)

@@ -1,17 +1,10 @@
 import { Component, EventEmitter, Input, Output, SimpleChanges} from '@angular/core';
-import { HomePageComponent } from '../../../features/home-page/home-page.component';
-import { ProfileModalComponent } from '../profile-modal/profile-modal.component';
-import { Profile, getImgUrl} from '../../../core/data';
-import { SecondaryContentComponent } from '../secondary-content/secondary-content.component';
+import { Profile} from '../../../core/data';
 import { CoreService } from '../../../core/core-service.service';
-import { MainContentComponent } from '../main-content/main-content.component';
-import { AuthService } from '../../../core/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProfilePageComponent } from '../../../features/profile-page/profile-page.component';
 import { HttpClient } from '@angular/common/http';
-import { SearchBarComponent } from '../search-bar/search-bar.component';
-import { MessagePageComponent } from '../../../features/message-page/message-page.component';
-import { FormBuilder } from '@angular/forms';
+
 @Component({
 
   selector: 'short-profile',
@@ -25,7 +18,7 @@ export class ShortProfileComponent{
   @Input () mshow: boolean = false; //show search bar modal
   @Output() mshowChange = new EventEmitter<boolean>();
   @Input () inSearch: boolean = false; //in search bar modal
-  @Input() ppg = new ProfilePageComponent(this.router,this.http,this.authService,this.route,this.service)
+  @Input() ppg = new ProfilePageComponent(this.router,this.http,this.route,this.service)
   @Input() profile = new Profile('','','','','',0,0);
   @Input() page: string = ""; //what current_page is being displayed
   
@@ -37,7 +30,7 @@ export class ShortProfileComponent{
   f_check: string = "Follow";
   isSelected: boolean = false;
 
-  constructor(public service: CoreService, public authService: AuthService, public route: ActivatedRoute,public http: HttpClient, public router: Router){
+  constructor(public service: CoreService, public route: ActivatedRoute,public http: HttpClient, public router: Router){
     this.service_acc_name = sessionStorage.getItem('acc_name') ?? "badToken";
   }
 

@@ -3,7 +3,6 @@ import { CoreComponent } from '../../core/core.component';
 import { CoreService } from '../../core/core-service.service';
 import { ActivatedRoute } from '@angular/router';
 import { Convo ,Message, Post, Profile } from '../../core/data';
-import { AuthService } from '../../core/auth.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { environment } from '../../../environments/environment';
 
@@ -41,9 +40,9 @@ messageForm = this.formBuilder.group({
   message: ['', [Validators.required]],
   });
 
-constructor(public formBuilder: FormBuilder,authService: AuthService, route: ActivatedRoute, service: CoreService )
+constructor(public formBuilder: FormBuilder, route: ActivatedRoute, service: CoreService )
 {
-  super(authService,route,service);
+  super(route,service);
   this.service_acc_name = "";
 }
 

@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { CoreComponent } from '../../core/core.component';
 import { CoreService } from '../../core/core-service.service';
 import { ActivatedRoute } from '@angular/router';
-import { AuthService } from '../../core/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Notification, Post, Profile } from '../../core/data';
 import { FormBuilder,Validators } from '@angular/forms';
@@ -40,9 +39,9 @@ export class PostPageComponent extends CoreComponent{
     text_content: ['', [Validators.maxLength(181)]],
     });
   
-  constructor(authService: AuthService, route: ActivatedRoute, service: CoreService,public http: HttpClient, public formBuilder: FormBuilder )
+  constructor(route: ActivatedRoute, service: CoreService,public http: HttpClient, public formBuilder: FormBuilder )
   {
-    super(authService,route,service);
+    super(route,service);
     this.service_acc_name = "";
     this.p_id = 0;
     this.pic = "";

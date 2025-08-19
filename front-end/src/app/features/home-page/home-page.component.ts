@@ -2,7 +2,6 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CoreComponent } from '../../core/core.component';
 import { CoreService } from '../../core/core-service.service';
-import { AuthService } from '../../core/auth.service'; 
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Post, Profile } from '../../core/data';
@@ -51,9 +50,9 @@ export class HomePageComponent extends CoreComponent{
    show_more_fy_count: number = 0; //for foryou
    show_more_f_count: number = 0; // for following
 
-constructor(authService: AuthService, route: ActivatedRoute, service: CoreService,public http: HttpClient, public formBuilder: FormBuilder )
+constructor(route: ActivatedRoute, service: CoreService,public http: HttpClient, public formBuilder: FormBuilder )
 {
-  super(authService,route,service);
+  super(route,service);
   this.pic = "";
   this.service_acc_name = "";
   this.like_ids = [];

@@ -1,9 +1,6 @@
 import { Component, Input} from '@angular/core';
-import { Notification, Post, Profile, getProfile } from '../../../core/data';
-import { NotificationPageComponent } from '../notification-page.component';
-import { MainContentComponent } from '../../../shared/components/main-content/main-content.component';
-import { PostComponent } from '../../home-page/components/post.component';
-
+import { Notification, Post, Profile } from '../../../core/data';
+import { CoreService } from '../../../core/core-service.service';
 
 @Component({
 
@@ -12,14 +9,15 @@ import { PostComponent } from '../../home-page/components/post.component';
   styleUrl: '../notification-page.component.scss',
 
 })
-export class NotificationComponent extends NotificationPageComponent{
+export class NotificationComponent {
 @Input () notification = new Notification('',new Profile('','','','','',0,0), new Post(0,'','','', new Date(),'','',0,0,0,0) );
-//@Input() mcc:MainContentComponent = new MainContentComponent(this.tweetService,this.service,this.authService,this.route);
 
 show_modal: boolean = false;
 modal_profile = new Profile('','','','','',0,0);
 timer:any;
 
+constructor(public service: CoreService)
+{}
   //shows profile modal if there aren't any modals already open
   showModal()
   {

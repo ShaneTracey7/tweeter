@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output, SimpleChanges} from '@angular/core';
 import { Convo, Message, MessageCard, Profile } from '../../../core/data';
 import { FormBuilder } from '@angular/forms';
-import { AuthService } from '../../../core/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import {environment} from '../../../../environments/environment';
 import { CoreService } from '../../../core/core-service.service';
@@ -39,7 +38,7 @@ lastDate: string = '';
 
 emptyConvo = new Convo(0,new Profile('','','','','',0,0),[], new Date());
 
-constructor(public formBuilder: FormBuilder, public authService: AuthService, public route: ActivatedRoute, public service: CoreService )
+constructor(public formBuilder: FormBuilder, public route: ActivatedRoute, public service: CoreService )
 {
 }
 

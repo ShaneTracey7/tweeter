@@ -1610,7 +1610,8 @@ border: 1px solid lightgray;
   
       .main-content {
         display: block;
-        width: 87%;
+        width: 75%;
+        min-width: 0px;
       }
   
       .secondary-content {

@@ -3,7 +3,6 @@ import { getImgUrl } from '../../../core/data';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../core/auth.service'
 import { CoreService } from '../../../core/core-service.service';
 import { environment } from '../../../../environments/environment';
 @Component({

@@ -1,18 +1,14 @@
 import { Component } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
-import { CoreComponent } from '../../../core/core.component';
-import { getImgUrl } from '../../../core/data';
+import { Router } from '@angular/router';
 import { CoreService } from '../../../core/core-service.service';
-import { AuthService } from '../../../core/auth.service';
 @Component({
 
   selector: 'app-navigation-bar',
   templateUrl: './navigation-bar.component.html',
   styleUrl: './navigation-bar.component.scss',
-
 })
-export class NavigationBarComponent{
 
+export class NavigationBarComponent{
 
   //******* need to find a getUser (from db) function to user to get user.pic for profile at bottom of navbar */
   show:boolean = false;
@@ -34,8 +30,6 @@ export class NavigationBarComponent{
     console.log("username is: " + this.username);  
 
   } 
-
-
 
   handleNavigation(page: string, tab: string)
   {

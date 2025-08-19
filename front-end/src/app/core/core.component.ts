@@ -1,7 +1,6 @@
 import { Component} from '@angular/core';
 import { ActivatedRoute} from '@angular/router';
 import { CoreService } from './core-service.service';
-import { AuthService } from './auth.service';
 
 @Component({
 
@@ -12,7 +11,7 @@ import { AuthService } from './auth.service';
 export class CoreComponent{
   title = 'front-end';
 
-  constructor(public authService: AuthService, public route: ActivatedRoute, public service: CoreService) {
+  constructor(public route: ActivatedRoute, public service: CoreService) {
     
     var arr = window.location.pathname.split("/");
     let last_url_section = arr.pop() ??"error";
