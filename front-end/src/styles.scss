@@ -675,7 +675,8 @@ $cancel-red: #f51616;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 600px;
+  max-width: 600px;
+  width: 60%;
   height: 90%;
   max-height: 800px;
   min-height: 400px;
@@ -690,7 +691,8 @@ $cancel-red: #f51616;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 600px;
+  max-width: 600px;
+  width: 60%;
   height: 90%;
   max-height: 600px;
   min-height: 400px;
@@ -1513,9 +1515,11 @@ border: 1px solid lightgray;
   }
   #password-input1{
     padding-right: 40px;
+    width: 100%;
   }
   #password-input2{
     padding-right: 40px;
+    width: 100%;
   }
   .close-button-container:hover{
     background-color: $bg-color-hover-nav-tool-bar;
