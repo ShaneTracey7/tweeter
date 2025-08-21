@@ -1610,7 +1610,35 @@ border: 1px solid lightgray;
   width: 100%;
  }
     /* always keep media conditional css at bottom, otherwise, css won't work properly */
+    //this is for mobile devices
     @media only screen and (max-width: 700px) {
+      #edit-profile-bg-image{
+        height:100%;
+      }
+      #epm-form{
+        height: 100%;
+      }
+      #camera-image-container-header{
+        margin-top: 15%;
+      }
+      .editProfileModal{
+        margin-left: 2%;
+        margin-right: 2%;
+        margin-top: calc(50px + 2%); //50px is height of toolbar
+        width: 96%;
+        height: 80%;
+
+        min-width: unset;
+      }
+      #edit-profile-row2{
+        height:30%;
+      }
+      #edit-profile-p-image{
+        top: -60px;
+        height: 120px;
+        width: 120px;
+      }
+
        .navbar-line{
         display: block;
         height: 1px;
@@ -1664,9 +1692,6 @@ border: 1px solid lightgray;
         /*visibility: hidden;*/
   
       }
-      .editProfileModal {
-        margin-left: 18%;
-      }
       .post-profile-container{
         margin-left: 8px;
       }
@@ -1687,7 +1712,10 @@ border: 1px solid lightgray;
         font-size:0.9rem;
       }
       #tab-text{
-        font-size: 0.9rem;
+        font-size: 0.85rem;
+      }
+      #marker{
+        min-width: none;
       }
   }
   

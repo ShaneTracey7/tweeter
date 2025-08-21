@@ -267,7 +267,23 @@ input[type=file]
   }
 
   @media only screen and (max-width: 700px) {
-    
+    #profile-bg-image{
+        height: 20dvh;
+    }
+    #profile-row1{
+        #profile-p-image{
+            top: -7.5dvh;
+            height: 15dvh;
+            width: 15dvh;
+        }
+        .profile-page-button{
+            font-size: 0.9rem;
+            height:30px;
+        }
+    }
+    .profile-page-username {
+        font-size: 1.2rem;
+    }
 }
 
   @media only screen and (min-width: 1250px) {
