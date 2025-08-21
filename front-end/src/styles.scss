@@ -946,7 +946,7 @@ $cancel-red: #f51616;
       flex-direction: column;
       float: left;
       min-width: min-content;
-      height: 100vh;
+      height: 100dvh;
       min-height: 585px;
       margin-right: 10px;
       z-index: 1;
@@ -1605,11 +1605,45 @@ border: 1px solid lightgray;
  .message-delete-img-container:hover{
     background-color: $bg-color-hover-nav-tool-bar;
  }
+ .navbar-line{
+  display: none;
+  width: 100%;
+ }
     /* always keep media conditional css at bottom, otherwise, css won't work properly */
     @media only screen and (max-width: 700px) {
-  
+       .navbar-line{
+        display: block;
+        height: 1px;
+        background-color: gray;
+        z-index: 2;
+        border: none;
+        margin: 0;
+        position: fixed;
+        bottom: 10dvh;
+       }
+      .core-component{
+        display:flex;
+        flex-direction: column-reverse;
+      }
+      #logout-button{
+        font-size: 0.9rem;
+        padding:5px;
+      }
+      .logoutModal{
+        margin-top: -10dvh;
+        margin-left: -35vw;
+
+      }
       #navbar {
-        width: 11%;
+        width: 100%;
+        flex-direction: row;
+        height: 10dvh;
+        min-height: unset;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        background-color: white;
+
       }
       #login-page-modal{
         width: 90%;
@@ -1620,8 +1654,9 @@ border: 1px solid lightgray;
   
       .main-content {
         display: block;
-        width: 80%;
+        width: 100%; //80%
         min-width: 0px;
+        max-width: none;
       }
   
       .secondary-content {
@@ -1639,7 +1674,8 @@ border: 1px solid lightgray;
         margin-left: 0;
       }
       .reactiongroup{
-        width: 17%;
+        width: fit-content;
+        margin-right: auto;
       }
       .reactionbarvalues{
         font-size: 0.75rem;
