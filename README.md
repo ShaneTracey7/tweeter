@@ -1,9 +1,7 @@
 
-Watch the video demo of my Twitter clone, Tweeter: https://youtu.be/7Zml1f_6K6A
-
 Purpose:
 
-This was made to expand and apply my Django and Angular knowledge. I researched and went through several tutorials online to gain a basic understanding before starting this project. As well as hone my styling skills with SCSS, as I tried to replicate Twitter's UI within the project. 
+This was made to expand and apply my Django and Angular knowledge. I researched and went through several tutorials online to gain a basic understanding before starting this project. I also hone my styling skills with SCSS, as I tried to replicate Twitter's UI within the project. 
 
 What it does:
 
@@ -43,7 +41,19 @@ Tools:
 
 -ran front-end and back-end from my laptop's terminal during development
 
-Video Demo:
+
+Hosting:
+
+- image hosting: Cloudinary
+
+- database: Neon
+
+- front-end: Netlify
+
+- back-end: Render
+
+
+Video Demo (hosted but not sharing link to public):
 
 https://youtu.be/7Zml1f_6K6A
 
