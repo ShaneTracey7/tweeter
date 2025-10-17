@@ -9,7 +9,7 @@
         <div class="toolbar">
             <div class="upper-toolbar">
             <!-- upper toolbar add here-->
-            <div id="profile-arrow-container" class="title-icons">
+            <div id="profile-arrow-container" class="title-icons" style="margin: 0;">
                 <img id="profile-arrow" (click)="convo_clicked = false;" class="toolbar-icon" [src]="service.setUrl('back-arrow.svg')" alt="back-arrow"/>
             </div>
             <img class="message-img" id="convo-toolbar-pic"[src]="this.service.setProfileUrl(selectedConvo.otherUser.pic)" />
@@ -64,7 +64,7 @@
             </ng-container>
         </div>
 
-        <div class="bottom-toolbar">
+        <div class="bottom-toolbar-mobile">
             <form id="send-message-form" [formGroup]="messageForm">
                 <input id="message-input" formControlName="message" placeholder="Start a new message" maxlength="99" required>
                 <img (click)="handleSentMessage()" id="send-message-button" [src]="service.setUrl('send-arrow.png')"/>
