@@ -1,4 +1,4 @@
-import { Component, SimpleChanges } from '@angular/core';
+import { Component, SimpleChanges, HostListener } from '@angular/core';
 import { CoreComponent } from '../../core/core.component';
 import { CoreService } from '../../core/core-service.service';
 import { ActivatedRoute } from '@angular/router';
@@ -13,6 +13,7 @@ import { environment } from '../../../environments/environment';
 })
 export class MessagePageComponent extends CoreComponent{
 
+isMobile: boolean = false; //checks if window is less than 700px (needed for message page layout)
 show: boolean = false; // show/hide new message modal
 convo_clicked: boolean = false; //true: shows seleected converstion, false: shows 'select a message blurb'
 selectedConvo: Convo = new Convo(0,new Profile('','','','','',0,0),[],new Date()); //selected convo
@@ -50,6 +51,7 @@ ngOnInit()
 {
   this.service_acc_name = sessionStorage.getItem('acc_name') ?? "badToken";
   this.service.setCurrentPage("Messages");
+  this.checkScreenSize();
 
   if(this.service.shareID != 0)
     {
@@ -62,6 +64,14 @@ ngOnInit()
     this.getConvos(false,false,''); //test
   }
 }
+  @HostListener('window:resize', [])
+  onResize() {
+    this.checkScreenSize();
+  }
+
+  checkScreenSize() {
+    this.isMobile = window.innerWidth <= 700;
+  }
 
 handleSelectedConvoChange(convo: Convo) {
   this.selectedConvo = convo;

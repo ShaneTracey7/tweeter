@@ -2,45 +2,120 @@
 
 <div id="mc" class="main-content">
 
-    <div class="toolbar">
-      <div class="upper-toolbar">
-      <!-- upper toolbar add here-->
+    <ng-container *ngIf="convo_clicked && isMobile; else normal">
 
-      <h1 class="page-title"> Messages </h1>
-      <div class="title-icons">
-        <img class="toolbar-icon" [src]="service.setUrl('cog.svg')" alt="cog"/>
-        <img id="eplus-icon" (click)="handleNewMessageClick()" [src]="service.setUrl('envelope-plus.svg')"alt="plus"/>
-      </div>
+        <ng-container id="sc-container">  
         
-      </div>
-      <div class="lower-toolbar">
-<!-- lower toolbar add here-->
-      </div>
-    </div>
+        <div class="toolbar">
+            <div class="upper-toolbar">
+            <!-- upper toolbar add here-->
+            <div id="profile-arrow-container" class="title-icons">
+                <img id="profile-arrow" (click)="convo_clicked = false;" class="toolbar-icon" [src]="service.setUrl('back-arrow.svg')" alt="back-arrow"/>
+            </div>
+            <img class="message-img" id="convo-toolbar-pic"[src]="this.service.setProfileUrl(selectedConvo.otherUser.pic)" />
+                <h1 class="page-title"> {{selectedConvo.otherUser.username}} </h1>
+              
+            </div>
+        </div>
 
-<!-- main content add here-->
-  
-    <form id="message-form">
-        <input id="message-searchbar" type="text" placeholder="Search Direct Messages">
-    </form>
+        <div class="sc-content">
+            <ng-container *ngFor="let message of selectedConvo.messages; let i = index">
 
-    <!-- inspect element in browser, it says reflect home page-->
-    <ng-container *ngIf="loadingFlag; else loaded">
-        <spinner></spinner>
+                <ng-container *ngIf="message.isSender; else isReciever">
+                    <div id="message-date-pair-sender" class="message-date-pair">
+                        <ng-container *ngIf="message.text == ''; else justText">
+                            <div class="message-tweet-container" id="message-post-sender">
+                                <div class="message-post" >
+                                    <app-post class="post" id="message-tweet-spacer" [style.borderRadius]="0" [post]="message.post!" [user]="message.profile!" [inConvo]="true" (mouseover)="showDelete(i)" (mouseout)="hideDelete()"></app-post> <!-- Where i need to insert a prop for inConvo-->
+                                </div> 
+                                <ng-container *ngIf="show_delete && showIndex == i">
+                                    <div class="message-delete-img-container">
+                                        <img class="message-delete-img" (click)="handleDeleteMessage(i, message.id ?? -1)" (mouseout)="show_delete = false" [src]="service.setUrl('trash-red.png')" alt="trash"/>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </ng-container>
+                        <ng-template #justText> 
+                            <div class="message-text-container">
+                                <p id="message-sender" class="message-in-convo" (mouseover)="showDelete(i)" (mouseout)="hideDelete()">{{message.text}}</p>
+                                <ng-container *ngIf="show_delete && showIndex == i">
+                                    <div class="message-delete-img-container">
+                                        <img class="message-delete-img" (click)="handleDeleteMessage(i, message.id ?? -1)" (mouseout)="show_delete = false" [src]="service.setUrl('trash-red.png')" alt="trash"/>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </ng-template> 
+                        <p id="date-sender"class="message-in-convo-date">{{message.getDateTime()}}</p>
+                    </div>           
+                </ng-container>
+            
+                <ng-template #isReciever> 
+                    <div id="message-date-pair-reciever" class="message-date-pair">
+                        <div *ngIf="message.text == ''; else justText2" class="message-post" id="message-post-reciever">
+                            <app-post class="post" [style.borderRadius]="0" [post]="message.post!" [user]="message.profile!" [inConvo]="true"></app-post> <!-- Where i need to insert a prop for inConvo-->
+                        </div>
+                        <ng-template #justText2>
+                            <p id="message-reciever" class="message-in-convo">{{message.text}}</p>
+                        </ng-template>
+                        <p id="date-reciever" class="message-in-convo-date">{{message.getDateTime()}}</p>
+                    </div>
+                </ng-template> 
+
+            </ng-container>
+        </div>
+
+        <div class="bottom-toolbar">
+            <form id="send-message-form" [formGroup]="messageForm">
+                <input id="message-input" formControlName="message" placeholder="Start a new message" maxlength="99" required>
+                <img (click)="handleSentMessage()" id="send-message-button" [src]="service.setUrl('send-arrow.png')"/>
+            </form>
+        </div>
+
+
     </ng-container>
-    <ng-template #loaded>
-        <ng-container *ngIf="arr[0]?.length > 0; else emptyList">
-            <app-message
-            *ngFor="let convo of arr[0]"
-            [convo]="convo" [selectedAcc]="selectedConvo.otherUser.acc_name" [(convo_clicked)]="convo_clicked" [(convoArr)]="arr" [(convos)]="convos" [selectedConvo]="selectedConvo" (selectedConvoChange)="handleSelectedConvoChange($event)">
-            </app-message>
+
+    </ng-container>
+    <ng-template #normal>
+        <div class="toolbar">
+        <div class="upper-toolbar">
+        <!-- upper toolbar add here-->
+
+        <h1 class="page-title"> Messages </h1>
+        <div class="title-icons">
+            <img class="toolbar-icon" [src]="service.setUrl('cog.svg')" alt="cog"/>
+            <img id="eplus-icon" (click)="handleNewMessageClick()" [src]="service.setUrl('envelope-plus.svg')"alt="plus"/>
+        </div>
+            
+        </div>
+        <div class="lower-toolbar">
+    <!-- lower toolbar add here-->
+        </div>
+        </div>
+
+    <!-- main content add here-->
+    
+        <form id="message-form">
+            <input id="message-searchbar" type="text" placeholder="Search Direct Messages">
+        </form>
+
+        <!-- inspect element in browser, it says reflect home page-->
+        <ng-container *ngIf="loadingFlag; else loaded">
+            <spinner></spinner>
         </ng-container>
-        <ng-template #emptyList>
-          <div class="profile-empty-list">
-            <p class="profile-empty-list-title"> You have no direct messages</p>
-            <p class="profile-empty-list-body">Once you do, those messages will show up here.</p>
-         </div>
-      </ng-template>
+        <ng-template #loaded>
+            <ng-container *ngIf="arr[0]?.length > 0; else emptyList">
+                <app-message
+                *ngFor="let convo of arr[0]"
+                [convo]="convo" [selectedAcc]="selectedConvo.otherUser.acc_name" [(convo_clicked)]="convo_clicked" [(convoArr)]="arr" [(convos)]="convos" [selectedConvo]="selectedConvo" (selectedConvoChange)="handleSelectedConvoChange($event)">
+                </app-message>
+            </ng-container>
+            <ng-template #emptyList>
+            <div class="profile-empty-list">
+                <p class="profile-empty-list-title"> You have no direct messages</p>
+                <p class="profile-empty-list-body">Once you do, those messages will show up here.</p>
+            </div>
+        </ng-template>
+        </ng-template>
     </ng-template>
 </div>
 
