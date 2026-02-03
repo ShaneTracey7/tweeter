@@ -53,7 +53,5 @@ Hosting:
 - back-end: Render
 
 
-Video Demo (hosted but not sharing link to public):
-
-https://youtu.be/7Zml1f_6K6A
+Video Demo (hosted but not sharing link to public)
 
